@@ -1,0 +1,110 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>B · Scope · gill james direction v2</title>
+<link rel="stylesheet" href="base.css">
+<style>
+:root{--mh:calc(100vw / 2.39);--bar:calc((100vh - var(--mh)) / 2)}
+body{overflow:hidden;height:100vh}
+.top,.bot{position:fixed;left:0;right:0;height:var(--bar);z-index:5;display:flex;align-items:center;padding:0 30px}
+.top{top:0;justify-content:space-between}
+.bot{bottom:0;flex-direction:column;justify-content:center;align-items:stretch;gap:12px}
+.top .wm{font-size:17px;display:flex;gap:.45em}.top .wm span{display:inline}
+.tc{font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.14em;color:#8d9693;display:flex;gap:18px;align-items:center}
+.tc b{font-weight:400;color:#e9efed}.rec{width:7px;height:7px;border-radius:50%;background:#fe0101;box-shadow:0 0 8px #fe0101;display:inline-block;margin-right:6px}
+nav{display:flex;gap:10px}
+.matte{position:fixed;left:0;right:0;top:var(--bar);height:var(--mh);overflow:hidden;z-index:2;background:#000}
+.matte img.shot{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.05)}
+.matte .halation{position:absolute;inset:0;background:radial-gradient(ellipse at 34% 40%,rgba(255,180,120,.10),transparent 55%);mix-blend-mode:screen}
+.card{position:absolute;right:6%;top:50%;transform:translateY(-50%);text-align:right}
+.card .n{font-weight:200;font-size:56px;letter-spacing:.12em;line-height:1;color:#f3f3f3}
+.card .n i{font-style:normal;color:#9a9a9a}
+.card .s{font-size:40px;margin-top:18px;color:#fff}
+.lower{position:absolute;left:0;bottom:0;padding:60px 3.2% 4.2%;margin:0;width:52%;background:linear-gradient(transparent,rgba(0,0,0,.62) 65%);-webkit-mask-image:linear-gradient(90deg,#000 55%,transparent);mask-image:linear-gradient(90deg,#000 55%,transparent);font-size:12px;letter-spacing:.08em;color:#e8e8e8;text-shadow:0 1px 8px rgba(0,0,0,.8)}
+.lower small{display:block;color:#a8b0ae;font-size:10px;letter-spacing:.2em;margin-top:5px;text-transform:lowercase}
+.snd{position:absolute;right:2.4%;bottom:7%;font-size:10px;letter-spacing:.16em;color:#cfd5d3;display:flex;gap:8px;align-items:center;text-transform:lowercase}
+.snd i{width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,.45);box-shadow:inset 0 0 0 1px rgba(255,255,255,.35);display:grid;place-items:center;font-style:normal}
+/* chapter rail */
+.rail{position:relative;height:30px}
+.rail .line{position:absolute;left:0;right:0;top:14px;height:1px;background:#2a2d2e}
+.seg{position:absolute;top:0;height:30px}
+.seg .t{position:absolute;inset:8px 0 auto 0;height:13px;background:repeating-linear-gradient(90deg,#3b3f40 0 1px,transparent 1px var(--g,6px))}
+.seg.film .t{--g:4px}.seg.film .t{background:repeating-linear-gradient(90deg,#55DAA1 0 1px,transparent 1px 3px,#55DAA1 3px 4px,transparent 4px 9px,#55DAA1 9px 10px,transparent 10px 12px,#55DAA1 12px 13px,transparent 13px 24px)}
+.seg.past .t{opacity:1}
+.head{position:absolute;top:-2px;width:2px;height:34px;background:#fff;box-shadow:0 0 10px rgba(255,255,255,.7)}
+.labs{position:relative;height:14px;font-size:10px;letter-spacing:.2em;color:#727a78;text-transform:lowercase}
+.labs span{position:absolute}
+.labs span.on{color:#fff}
+.labs span em{font-style:normal;color:#55DAA1;margin-right:6px;font-family:ui-monospace,monospace;font-size:9px}
+.strip{display:flex;gap:4px;align-items:center}
+.strip img{height:30px;width:72px;object-fit:cover;opacity:.55;filter:grayscale(.3)}
+.strip img.on{opacity:1;outline:1px solid #fff;outline-offset:2px;filter:none}
+.strip .hint{margin-left:auto;font-size:10px;letter-spacing:.22em;color:#7d8583;text-transform:lowercase}
+.lab{position:fixed;right:30px;top:calc(var(--bar) - 22px);z-index:6}
+.m-only{display:none}
+@media (max-width:600px){
+ body{overflow:hidden}
+ .top{height:60px;padding:0 16px}.top .wm{font-size:15px}.top nav{display:none}
+ .tc{font-size:9.5px;gap:10px}
+ .matte,.d-only{display:none}
+ .m-only{display:block}
+ .stack{position:fixed;top:60px;left:0;right:0;bottom:118px;overflow:hidden;display:flex;flex-direction:column;gap:5px}
+ .band{position:relative;width:100%;aspect-ratio:2.39;flex:none;overflow:hidden;background:#000}
+ .band img{width:100%;height:100%;object-fit:cover;display:block}
+ .band .k{position:absolute;left:0;right:30%;bottom:0;padding:18px 10px 7px;background:linear-gradient(transparent,rgba(0,0,0,.7));font-size:9px;letter-spacing:.1em;color:#e8e8e8;text-shadow:0 1px 6px #000}
+ .band .k b{font-family:ui-monospace,monospace;font-weight:400;color:#55DAA1;margin-right:6px}
+ .band.big{aspect-ratio:2.39}
+ .band.namecard{display:grid;place-items:center;background:#000;aspect-ratio:2.39}
+ .band.namecard .n{font-weight:200;font-size:30px;letter-spacing:.12em;text-align:center}
+ .band.namecard .n i{font-style:normal;color:#9a9a9a}
+ .band.namecard .s{font-size:26px;text-align:center;margin-top:6px}
+ .bot{height:118px;padding:0 16px 14px;background:#000;gap:10px}
+ .labs{font-size:8px;letter-spacing:.04em}
+ .labs span em{display:none}
+ .strip img{height:22px;width:52px}
+ .strip .hint{display:none}
+ .lab{display:none}
+ .mnav{display:flex;justify-content:space-between}
+}
+</style></head><body>
+<header class="top">
+ <a class="wm" href="#"><span class="a">gill</span><span class="b">james</span></a>
+ <div class="tc"><span><span class="rec"></span><b>01 film</b></span><span class="d-only">blk 02 / 09</span><span>00:00:12:16</span></div>
+ <nav aria-label="main" class="d-only">
+  <a class="ib on" href="#film"><i><svg viewBox="0 0 16 16"><rect x="1.5" y="4" width="9" height="8" rx="1.5"/><path d="M10.5 7l4-2v6l-4-2"/></svg></i></a>
+  <a class="ib" href="#photo"><i><svg viewBox="0 0 16 16"><rect x="1.5" y="3.5" width="13" height="10" rx="1.5"/><circle cx="8" cy="8.5" r="2.6"/></svg></i></a>
+  <a class="ib" href="#art"><i>bio</i></a>
+  <a class="ib" href="#music"><i><svg viewBox="0 0 16 16"><path d="M6 12V3.5l7-1.5V10"/><circle cx="4.5" cy="12" r="1.8"/><circle cx="11.5" cy="10.2" r="1.8"/></svg></i></a>
+  <a class="ib" href="#joio"><i><svg viewBox="0 0 16 16"><path d="M10.5 2.5a6 6 0 1 0 3 9.5 5 5 0 1 1-3-9.5z"/></svg></i></a>
+  <a class="ib" href="#spatial"><i><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2"/><path d="M1.8 8h12.4M8 1.8c2.4 2.6 2.4 9.8 0 12.4M8 1.8c-2.4 2.6-2.4 9.8 0 12.4"/></svg></i></a>
+ </nav>
+</header>
+<main class="matte" aria-label="reel">
+ <img class="shot" src="assets/s-window.jpg" alt="A figure walks into a backlit hall, from Old Man Canyon, Phantoms & Friends">
+ <div class="halation"></div>
+ <div class="card"><div class="n wm">gill <i>james</i></div><div class="s sig breathe" lang="cr">ᑕᐣᓯ</div></div>
+ <p class="lower">Old Man Canyon · Phantoms &amp; Friends<small>music video · cinematography</small></p>
+ <span class="snd"><i>♪</i>sound on</span>
+</main>
+<div class="stack m-only" aria-label="reel, scroll to cut">
+ <div class="band namecard"><div><div class="n">gill <i>james</i></div><div class="s sig breathe" lang="cr">ᑕᐣᓯ</div></div></div>
+ <div class="band"><img src="assets/s-window.jpg" alt=""><span class="k"><b>12:16</b>Old Man Canyon · Phantoms &amp; Friends</span></div>
+ <div class="band"><img src="assets/s-boxer.jpg" alt=""><span class="k"><b>01:12</b>AXE · Stay Gold</span></div>
+ <div class="band"><img src="assets/s-candles.jpg" alt=""><span class="k"><b>01:28</b>Allan Rayman · Verona’s Obsession</span></div>
+ <div class="band"><img src="assets/s-fire.jpg" alt=""><span class="k"><b>01:24</b>Allan Rayman · Repeat</span></div>
+ <div class="band"><img src="assets/s-bmw.jpg" alt=""><span class="k"><b>01:07</b>BMW · Drift</span></div>
+</div>
+<footer class="bot">
+ <div class="rail" aria-hidden="true"><div class="line"></div>
+  <div class="seg film" style="left:0;width:34%"><div class="t"></div></div>
+  <div class="seg" style="left:35%;width:16%;--g:7px"><div class="t"></div></div>
+  <div class="seg" style="left:52%;width:13%;--g:14px"><div class="t"></div></div>
+  <div class="seg" style="left:66%;width:10%;--g:22px"><div class="t"></div></div>
+  <div class="seg" style="left:77%;width:11%;--g:10px"><div class="t"></div></div>
+  <div class="seg" style="left:89%;width:11%;--g:16px"><div class="t"></div></div>
+  <div class="head" style="left:9.5%"></div>
+ </div>
+ <div class="labs"><span class="on" style="left:0"><em>01</em>film</span><span style="left:35%"><em>02</em>photo</span><span style="left:52%"><em>03</em>art</span><span style="left:66%"><em>04</em>music</span><span style="left:77%"><em>05</em>joio.co</span><span style="left:89%"><em>06</em>spatial</span></div>
+ <div class="strip"><img src="assets/s-eyes.jpg" alt=""><img class="on" src="assets/s-window.jpg" alt=""><img src="assets/s-omc.jpg" alt=""><img src="assets/s-bluesil.jpg" alt=""><img src="assets/s-braun.jpg" alt=""><img src="assets/s-boxer.jpg" alt=""><img src="assets/s-candles.jpg" alt=""><img src="assets/s-fire.jpg" alt="" class="d-only"><img src="assets/s-beach.jpg" alt="" class="d-only"><span class="hint">scroll = next cut · hold = long take · ← → keys</span></div>
+</footer>
+<span class="tag lab">concept B · scope 2.39</span>
+<div class="vig"></div><div class="grain"></div>
+</body></html>
