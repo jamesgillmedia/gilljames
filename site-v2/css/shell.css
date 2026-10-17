@@ -1,7 +1,7 @@
 /* The persistent shell: one fixed scene (the sky, with the water surface over it) that never reloads; page content
    scrolls over it in sheets. html.m-surface | m-sky | m-section is the scene mode (set by the page, then by js/shell.js).
    Without JS (no html.js) every page is a plain document: the hero on home, the map on /sky/, plain content elsewhere. */
-html,body{overscroll-behavior:none;background:#000}
+html,body{background:#000} /* native scroll everywhere: no overscroll-behavior on html/body, only on overlays */
 a,button,.hero,.cl .hit{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 /* ---- scene */
 .scene{position:relative}
@@ -10,6 +10,10 @@ a,button,.hero,.cl .hit{touch-action:manipulation;-webkit-tap-highlight-color:tr
 .js .scene .hero{position:absolute;inset:0;height:auto;min-height:0;z-index:2;transition:opacity .6s ease,visibility 0s linear 0s}
 .js:not(.m-surface) .scene .hero{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .6s ease,visibility 0s linear .6s}
 .js.m-surface .scene .vp{pointer-events:none}
+/* section pages: the scene is only a backdrop. No pointer events, default touch-action: every touch is a native page scroll */
+.js.m-section .scene,.js.m-section .scene *{pointer-events:none!important;touch-action:auto!important}
+.js.m-section .scene *{animation-play-state:paused!important}
+html.scrolling .scene *{animation-play-state:paused!important}
 .js .scene .hero.rising{animation:riseIn .85s cubic-bezier(.3,.7,.2,1) both}
 @keyframes riseIn{from{clip-path:circle(0 at 50% 0);opacity:1}to{clip-path:circle(150% at 50% 0);opacity:1}}
 .js .scene .world.falling{animation:fallIn 1s cubic-bezier(.2,.7,.2,1) both}
@@ -79,3 +83,71 @@ html.busy body{pointer-events:none}
 @media (max-height:500px) and (orientation:landscape){.cname{font-size:calc(10px * var(--inv));letter-spacing:.14em;padding:calc(3px * var(--inv)) calc(6px * var(--inv))}[data-lod="0"] .cname small{display:none}
  [data-lod="0"] .cname{white-space:normal;width:calc(80px * var(--inv));line-height:1.15}
  .js .top{padding-top:max(8px,env(safe-area-inset-top))}.ib i{width:40px;height:40px}}
+
+/* ---- home is one screen: nothing to scroll, nothing to get stuck. Swipe up or tap the water to dive.
+   (The full list stays in the HTML for screen readers and no-JS; /sky/#list and /about/#poem carry it visibly.) */
+.js.m-surface .surface-list{position:absolute!important;top:0!important;left:0!important;padding:0!important;margin:0!important;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.js.m-surface .foot{display:none}
+.js.m-surface .scene .hero{touch-action:pinch-zoom}
+.js .hero .dive{bottom:calc(70px + env(safe-area-inset-bottom))}
+/* ---- the dock: moon (surface), the sections, ✦ (sky), at thumb height on every page */
+.dock{position:fixed;left:50%;bottom:calc(10px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:40;display:flex;align-items:center;gap:0;padding:0 4px;border-radius:99px;
+ background:rgba(8,10,14,.74);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);max-width:calc(100vw - 12px);overflow-x:auto;scrollbar-width:none}
+.dock::-webkit-scrollbar{display:none}
+.dk{flex:none;min-height:44px;min-width:38px;display:grid;place-items:center;padding:0 7px;font-size:10px;letter-spacing:.1em;color:#c3cccb;text-transform:lowercase;white-space:nowrap}
+.dk[aria-current=page]{color:var(--mint)}
+.dk i{font-style:normal;font-size:14px;color:#e8f2ff}
+.dk.dkmoon i{width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 34% 44%,transparent 0 52%,#e8eef2 54%);filter:drop-shadow(1px 1px 0 rgba(10,189,240,.6)) drop-shadow(-1px -1px 0 rgba(254,1,1,.5))}
+@media (min-width:700px){.dk{padding:0 12px;font-size:11px}}
+html:not(.js) .dock{position:static;transform:none;margin:20px auto;width:max-content}
+.js body{padding-bottom:calc(66px + env(safe-area-inset-bottom))}
+.js.m-surface body{padding-bottom:0}
+/* /sky/ controls sit above the dock */
+.sp-full .zctl{bottom:calc(68px + env(safe-area-inset-bottom))}
+.sp-full .listbtn{bottom:calc(68px + env(safe-area-inset-bottom))}
+.sp-full .zhint{bottom:calc(124px + env(safe-area-inset-bottom));left:16px;right:16px;font-size:11px;letter-spacing:.12em;color:#c9d3d1}
+@media (min-width:700px){.sp-full .zhint{left:16px;right:16px}}
+.zhint.gone{display:none}
+/* ---- controls appear in context: the shell sets html.ui-idle after ~2.5 s without input, while scrolling down, or while
+   the sky flies; any touch, tap, key, scroll-up or mouse move brings them back. Keyboard focus always keeps them. */
+.top,.dock,.sp .zctl,.sp .listbtn,.scope .ctrl,.scope .rail,.scope .strip{transition:opacity .45s ease,transform .45s ease}
+html.ui-idle .top,html.ui-idle .dock,html.ui-idle .sp .zctl,html.ui-idle .sp .listbtn{opacity:0;pointer-events:none}
+html.ui-idle .dock{transform:translateX(-50%) translateY(12px)}
+html.ui-idle .scope:not(.paused) .ctrl,html.ui-idle .scope:not(.paused) .rail,html.ui-idle .scope:not(.paused) .strip{opacity:.0;pointer-events:none}
+html.ui-idle .top:focus-within,html.ui-idle .dock:focus-within,html.ui-idle .sp .zctl:focus-within,html.ui-idle .sp .listbtn:focus,html.ui-idle .scope .ctrl:focus-within{opacity:1;pointer-events:auto;transform:none}
+html.ui-idle .dock:focus-within{transform:translateX(-50%)}
+.player-open .scope .ctrl,.player-open .scope .bar{opacity:1!important;pointer-events:auto!important}
+@media (prefers-reduced-motion:reduce){.top,.dock,.sp .zctl,.sp .listbtn{transition:opacity .2s linear}html.ui-idle .dock{transform:translateX(-50%)}}
+/* ---- reveal as you arrive, fade as you leave (motion only) */
+.motion main .rv{filter:none;opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+.motion main .rv.in{opacity:1;transform:none}
+/* ---- sky labels: names are faint at the overview; a cluster you're near shows its name, subtitle and star titles */
+.cl:not(.near) .cname{opacity:.5}
+.cl:not(.near) .cname small{opacity:0}
+.cname,.cname small{transition:opacity .4s}
+[data-lod] .cl:not(.near) .st .nm{opacity:0!important}
+[data-lod="1"] .cl.near .st.d .nm,[data-lod="2"] .cl.near .st .nm{opacity:1}
+html.flying:not(.ui-hold) .top,html.flying:not(.ui-hold) .dock{opacity:0;pointer-events:none}
+.vhint{color:#8d9a98}
+/* ---- QA re-test (c08-retest) */
+/* BLOCKER: the player overlay must beat `.js .sheet{position:relative}` */
+.js.player-open .scope.sheet{position:fixed;inset:0;z-index:45;margin:0;overflow-y:auto;overscroll-behavior:contain;touch-action:pinch-zoom}
+.js.player-open .scope.sheet .strip{touch-action:pan-x pinch-zoom}
+.js.player-open .dock{opacity:0;pointer-events:none}
+/* pull-down to close works on the dim area in every engine: pinch-zoom only, so one-finger drags reach the pointer handler */
+.viewer{touch-action:pinch-zoom}
+/* 44px targets */
+.rc{min-height:44px;display:inline-flex;align-items:center;box-sizing:border-box}
+.strip button{height:44px!important;width:78px!important}
+.lower a{display:inline-flex!important;align-items:center;min-height:44px;padding:0 6px!important;margin:-12px 0!important}
+/* section stars of the current cluster are tappable (tap opens the work); drags still scroll the page natively */
+.js.m-section .scene .cl.here .st{pointer-events:auto!important;touch-action:pan-y pinch-zoom!important}
+/* list text never reads through the wordmark: a soft backing once the page has scrolled */
+html.scrolled.js .top{background:linear-gradient(#000 0,rgba(0,0,0,.85) 55%,transparent)}
+/* landscape phones: the reflection stays right of the poem and above the dive link */
+@media (max-height:500px) and (orientation:landscape){
+ .refl{inset:0 0 20% 0}
+ .hero .poem span:nth-child(n+5){display:none}
+ .js .hero .dive{bottom:calc(58px + env(safe-area-inset-bottom))}
+}
+[tabindex="-1"]:focus{outline:none}
