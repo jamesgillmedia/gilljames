@@ -1,0 +1,58 @@
+/* home: Moonwater hero + constellation index */
+.hero{position:relative;height:100svh;min-height:600px;overflow:hidden}
+.hero #poster,.hero #gl{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero #poster{filter:brightness(.55) contrast(1.1) saturate(.8)}
+.hero #gl{opacity:0;transition:opacity .8s}.hero #gl.on{opacity:1}
+/* static crescent drawn in CSS so the moon (and the cyan/red split) is there with WebGL off */
+.moon{position:absolute;left:70%;top:27%;width:22vmin;height:22vmin;max-width:150px;max-height:150px;transform:translate(-50%,-50%);border-radius:50%;
+ background:radial-gradient(circle at 32% 44%,transparent 0 47%,#eef4f8 48%);-webkit-mask:radial-gradient(circle,#000 69%,transparent 70%);mask:radial-gradient(circle,#000 69%,transparent 70%);
+ filter:drop-shadow(3px 3px 0 rgba(10,189,240,.5)) drop-shadow(-3px -3px 0 rgba(254,1,1,.45)) drop-shadow(0 0 18px rgba(170,210,230,.35))}
+.hero.gl .moon{visibility:hidden}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.35),transparent 22%,transparent 55%,#000 100%)}
+.h-in{position:absolute;inset:0;z-index:2}
+.name{position:absolute;right:18px;top:13vh;margin:0;font-family:var(--d);font-size:27px;color:var(--mint);letter-spacing:.06em;transform:rotate(8.27deg);text-transform:uppercase;font-weight:400}
+.mark{position:absolute;left:24px;top:40svh;margin:0;font-size:52px}
+.roles{position:absolute;left:24px;top:calc(40svh + 84px);margin:0;font-size:9.5px;letter-spacing:.24em}
+.poem{position:absolute;left:24px;right:24px;top:calc(40svh + 116px);margin:0;font-family:var(--d);font-size:12.5px;letter-spacing:.09em;line-height:1.75;text-transform:uppercase}
+.poem span{display:block}
+.poem span:nth-child(n+5){opacity:.5}.poem span:nth-child(n+6){opacity:.32;filter:blur(.5px)}.poem span:nth-child(n+7){opacity:.18;filter:blur(1.2px)}
+.motion .poem span{opacity:0;transform:translateY(14px);transition:opacity 1.2s ease,transform 1.2s ease,filter 1.2s}
+.motion .poem.go span{opacity:1;transform:none}
+.motion .poem.go span:nth-child(n+5){opacity:.5}.motion .poem.go span:nth-child(n+6){opacity:.32}.motion .poem.go span:nth-child(n+7){opacity:.18}
+.cue{position:absolute;right:20px;bottom:calc(var(--bar-h) + 18px);z-index:2;font-size:9.5px;letter-spacing:.22em;color:#8f9897;text-transform:lowercase}
+.poem-rest{padding:12px 24px 0;margin:0;font-family:var(--d);font-size:12.5px;letter-spacing:.09em;line-height:1.75;text-transform:uppercase}
+.poem-rest span{display:block}
+.poem-rest .sig{font-size:22px;margin-top:12px}
+/* constellation index */
+.sky{position:relative;padding:56px 24px 10px}
+.sky h2{margin:0 0 22px}
+.sky svg{display:none}
+.sky ul{list-style:none;margin:0;padding:0}
+.sky li a{display:flex;align-items:center;gap:16px;padding:16px 4px;border-bottom:1px solid #141616}
+.sky .pt{width:9px;height:9px;flex:none;border-radius:50%;background:#e8f2ff;box-shadow:0 0 8px 2px rgba(200,230,255,.55)}
+.sky .nm{font-family:var(--d);font-size:15px;letter-spacing:.28em;text-transform:uppercase}
+.sky .t{display:flex;flex-direction:column;gap:3px}
+.sky small{font-weight:200;font-size:10px;letter-spacing:.18em;color:#8e9b99}
+.sky .chev{margin-left:auto;color:#5d6664}
+.sky li a.flare::before{left:-6px;right:auto;top:50%;margin-top:-11px}
+@media (min-width:900px){
+ .moon{left:66.5%;top:40%}
+ .name{right:auto;left:35vw;top:27vh;font-size:38px}
+ .mark{left:7.5vw;top:58vh;font-size:64px}
+ .roles{left:7.5vw;top:22vh;font-size:11px;letter-spacing:.32em}
+ .poem{left:7.5vw;right:auto;top:28vh;font-size:14.5px}
+ .cue{right:26px}
+ .poem-rest{display:none}
+ .sky{height:640px;max-width:1200px;margin:0 auto;padding:60px 6vw}
+ .sky svg{display:block;position:absolute;inset:0;width:100%;height:100%}
+ .sky svg line{stroke:rgba(200,225,235,.22);stroke-width:1}
+ .sky svg circle{fill:none;stroke:rgba(200,225,235,.09);stroke-dasharray:2 5}
+ .sky .pole{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);font-size:62px;filter:drop-shadow(0 0 22px rgba(160,210,255,.4))}
+ .sky li{position:absolute;left:var(--x);top:var(--y);transform:translate(-14px,-50%)}
+ .sky li a{border:0;flex-direction:row;padding:6px}
+ .sky .pt{width:12px;height:12px;transition:box-shadow .3s}
+ .sky li a:hover .pt{box-shadow:0 0 14px 5px rgba(200,230,255,.8)}
+ .sky li a span.t{display:flex;flex-direction:column;gap:4px}
+ .sky .chev{display:none}
+}
+@media (max-width:899px){.sky .pole{display:none}}

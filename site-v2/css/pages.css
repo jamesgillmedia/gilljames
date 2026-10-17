@@ -1,0 +1,50 @@
+/* photo · objects · sound · about */
+.ptitle{padding:0 22px;margin:0 0 6px;font-size:14px}
+.lede{padding:0 22px;margin:0 0 22px}
+.mint{color:var(--mint);font-family:var(--d);text-transform:uppercase;letter-spacing:.06em;transform:rotate(8.27deg);display:inline-block;font-size:24px;margin:8px 0 18px 22px}
+/* photo: the crescent loop stays sticky behind a floating gallery */
+.loopbg{position:fixed;inset:0;z-index:-1;display:grid;place-items:center;background:#000}
+.loopbg video,.loopbg img{width:min(92vw,720px);aspect-ratio:1;object-fit:cover;opacity:.55}
+.gal{columns:2;column-gap:8px;padding:0 8px}
+.gal figure{margin:0 0 8px;break-inside:avoid;background:#0a0b0c}
+.gal img{width:100%;height:auto}
+.gal figure:nth-child(7n+3){transform:translateY(18px)}
+/* sections */
+.sec{padding:40px 22px 10px}
+.sec h2{margin:0 0 14px;font-size:13px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.grid figure{margin:0;position:relative}
+.grid img{width:100%;aspect-ratio:1;object-fit:cover}
+.grid .wide{grid-column:span 2}.grid .wide img{aspect-ratio:2.39}
+.warm img{filter:sepia(.12) saturate(1.05)}
+.round img{border-radius:50%}
+.cap{font-size:10px;letter-spacing:.14em;color:#8a9290;text-transform:lowercase;margin-top:6px}
+.peri{background:var(--peri);color:#0a0f1c;margin-top:30px;padding-bottom:30px}
+.peri .label{color:#16213a}
+.btn{display:inline-block;margin-top:14px;padding:11px 18px;border-radius:99px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.3);font-size:11px;letter-spacing:.14em;text-transform:lowercase}
+.peri .btn{box-shadow:inset 0 0 0 1px rgba(10,15,28,.4)}
+/* sound */
+.field{background:#000 url(../img/sound/purple.webp) center/cover;padding:110px 22px 40px}
+.act{padding:30px 22px 6px;border-bottom:1px solid #151717}
+.act h2{margin:0 0 4px;font-size:16px}
+.lite{display:flex;align-items:center;gap:12px;width:100%;margin:14px 0 8px;padding:12px 14px;border-radius:12px;background:rgba(153,153,153,.12);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1);font-size:12px;letter-spacing:.08em;text-align:left}
+.lite i{width:34px;height:34px;border-radius:50%;background:var(--btn);display:grid;place-items:center;font-style:normal}
+.lite-frame{width:100%;border:0;border-radius:12px;margin:12px 0 8px;background:#111}
+.links{display:flex;gap:16px;flex-wrap:wrap;font-size:11px;letter-spacing:.14em;color:#aab2b0}
+.links a{border-bottom:1px solid #333}
+/* about */
+.diamond{width:150px;height:150px;margin:30px auto 40px;transform:rotate(-45deg);overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.2)}
+.diamond img{width:100%;height:100%;object-fit:cover;transform:rotate(45deg) scale(1.42)}
+.bio{padding:0 22px}
+.poemfull{padding:0 22px;font-family:var(--d);font-size:13px;letter-spacing:.09em;line-height:1.8;text-transform:uppercase}
+.poemfull span{display:block}
+.contact{padding:30px 22px;font-size:14px;letter-spacing:.06em}
+.contact a{border-bottom:1px solid #444}
+@media (min-width:900px){
+ .ptitle,.lede,.sec,.bio,.poemfull,.contact,.act{padding-left:8vw;padding-right:8vw}
+ .mint{margin-left:8vw;font-size:34px}
+ .gal{columns:4;column-gap:14px;padding:0 6vw}.gal figure{margin-bottom:14px}
+ .grid{grid-template-columns:repeat(4,1fr);gap:14px}
+ .field{padding:140px 8vw 60px}
+ .about-wrap{display:grid;grid-template-columns:1fr 1fr;align-items:center}
+}

@@ -1,0 +1,81 @@
+/* gill james v2 · base: tokens, type, header, moon-phase doors, star motif, footer.
+   Values from Gill's original Wix site (see sketches/gilljames-site/direction-v2.md §1). */
+@font-face{font-family:"Poppins";font-weight:200;font-display:swap;src:url(../fonts/poppins-200.woff2) format("woff2")}
+@font-face{font-family:"Poppins";font-weight:300;font-display:swap;src:url(../fonts/poppins-300.woff2) format("woff2")}
+@font-face{font-family:"Julius Sans One";font-weight:400;font-display:swap;src:url(../fonts/julius-sans-one.woff2) format("woff2")}
+@font-face{font-family:"Syl";font-weight:700;font-display:block;src:url(../fonts/noto-canadian-aboriginal-subset.woff2) format("woff2");unicode-range:U+1400-167F}
+:root{--mint:#55DAA1;--peri:#7C9EDB;--btn:rgba(153,153,153,.21);--btn-on:rgba(153,153,153,.43);--lab:#8a8a8a;
+ --cy:rgba(10,189,240,.30);--rd:rgba(254,1,1,.30);--o:3px;--bar-h:86px;
+ --f:"Poppins","Syl",system-ui,sans-serif;--d:"Julius Sans One","Syl","Poppins",sans-serif}
+*{box-sizing:border-box}
+html{background:#000;color-scheme:dark}
+body{margin:0;background:#000;color:#fff;font-family:var(--f);font-weight:300;-webkit-font-smoothing:antialiased;min-height:100svh;padding-bottom:calc(var(--bar-h) + env(safe-area-inset-bottom))}
+a{color:inherit;text-decoration:none}
+img,video{max-width:100%;display:block}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;left:-999px;top:8px;z-index:99;background:#000;padding:8px 12px}.skip:focus{left:8px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* Gill's chromatic offset: reserved for Gill's own words and the mark */
+.off{text-shadow:var(--o) var(--o) 0 var(--cy),calc(var(--o)*-1) calc(var(--o)*-1) 0 var(--rd)}
+.sig{font-family:"Syl",sans-serif;font-weight:700;line-height:1}
+.placeholder{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#7e8a84;letter-spacing:.04em;border:1px dashed #3a403e;border-radius:6px;padding:8px 12px;display:inline-block}
+.label{font-weight:200;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#b9c2c0}
+.disp{font-family:var(--d);text-transform:uppercase;letter-spacing:.1em;font-weight:400}
+
+/* header */
+.top{position:fixed;inset:0 0 auto;z-index:20;display:grid;grid-template-columns:52px 1fr 52px;align-items:start;padding:14px 14px 0;pointer-events:none}
+.top>*{pointer-events:auto}
+.wm{justify-self:center;text-align:center;font-weight:200;letter-spacing:.14em;line-height:1.02;text-transform:lowercase;font-size:19px}
+.wm span{display:block}.wm .a{color:#c4c4c4}.wm .b{color:#7d7d7d}
+.ib{display:inline-flex;flex-direction:column;align-items:center;gap:5px}
+.ib i{width:40px;height:40px;border-radius:50%;background:var(--btn);display:grid;place-items:center;font-style:normal;color:#bbb;font-size:11px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.ib i svg{width:16px;height:16px;fill:none;stroke:#b0b0b0;stroke-width:1.4}
+.ib[aria-pressed=true] i{background:var(--btn-on);box-shadow:0 0 0 1px rgba(255,255,255,.35)}
+.ib b{font-weight:300;font-size:9.5px;letter-spacing:.12em;color:var(--lab);text-transform:lowercase}
+.top .snd{justify-self:end}
+.page-top{padding-top:84px}
+
+/* moon-phase doors: the bottom bar (phone), centred row (desktop) */
+.doors{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px 8px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(transparent,rgba(0,0,0,.86) 38%)}
+.doors ul{list-style:none;margin:0 auto;padding:0;display:flex;justify-content:space-around;align-items:flex-end;max-width:560px}
+.door{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:10px;letter-spacing:.16em;color:#a9b1af;text-transform:lowercase;min-width:56px}
+.ph{width:40px;height:40px;border-radius:50%;background:#0b0d10;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2);position:relative;overflow:hidden;transition:transform .35s,box-shadow .35s}
+.ph::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at var(--x,50%) 50%,transparent 0 var(--r,0%),#b9c1c4 calc(var(--r,0%) + 1px))}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s;filter:grayscale(.2) brightness(.9)}
+.door:hover .ph img,.door:focus-visible .ph img,.door[aria-current] .ph img{opacity:1}
+.door:hover .ph::after,.door:focus-visible .ph::after,.door[aria-current] .ph::after{background:radial-gradient(circle at 30% 50%,transparent 0 58%,rgba(0,0,0,.7) 59%)}
+.door[aria-current]{color:#fff}
+.door[aria-current] .ph{box-shadow:0 0 0 1px rgba(255,255,255,.55),0 0 26px rgba(170,210,230,.25)}
+.door{position:relative}
+/* star-point hover/tap: small cross flare, white with a soft glow */
+.flare{position:relative}
+.flare::before{content:"";position:absolute;width:22px;height:22px;right:-8px;top:-8px;pointer-events:none;opacity:0;transform:scale(.4) rotate(0);transition:opacity .25s,transform .35s;
+ background:linear-gradient(90deg,transparent,#fff 50%,transparent) center/100% 1px no-repeat,linear-gradient(transparent,#fff 50%,transparent) center/1px 100% no-repeat,radial-gradient(circle,rgba(255,255,255,.9) 0 1.5px,rgba(200,230,255,.35) 2.5px,transparent 7px);z-index:3}
+.flare:hover::before,.flare:focus-visible::before,.flare.lit::before,.flare[aria-current]::before{opacity:1;transform:scale(1) rotate(45deg)}
+/* four-point star motif behind ᑕᐣᓯ (pure CSS, no image) */
+.star4{position:relative;display:inline-block}
+.star4::before{content:"";position:absolute;left:50%;top:50%;width:2.6em;height:2.6em;transform:translate(-50%,-50%);z-index:-1;pointer-events:none;opacity:.55;
+ background:linear-gradient(90deg,transparent 10%,rgba(220,240,255,.7) 50%,transparent 90%) center/100% 1px no-repeat,linear-gradient(transparent 10%,rgba(220,240,255,.7) 50%,transparent 90%) center/1px 100% no-repeat,radial-gradient(circle,rgba(170,215,255,.28),transparent 45%)}
+
+.foot{padding:40px 22px 28px;display:flex;flex-wrap:wrap;gap:10px 22px;justify-content:space-between;font-size:11px;letter-spacing:.12em;color:#8a8a8a;border-top:1px solid #151717;margin-top:40px}
+.foot a:hover{color:#fff}
+.grain{position:fixed;inset:-50%;pointer-events:none;opacity:.07;z-index:30;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1.1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* motion: only when html.motion (set by js/motion.js if no reduced-motion) */
+.motion .breathe{animation:br 4s ease-in-out infinite}
+@keyframes br{0%,100%{text-shadow:.6px .6px 0 rgba(10,189,240,.22),-.6px -.6px 0 rgba(254,1,1,.22)}50%{text-shadow:5px 5px 0 rgba(10,189,240,.36),-5px -5px 0 rgba(254,1,1,.36)}}
+.motion .rv{opacity:0;filter:blur(6px);transform:translateY(10px);transition:opacity 1.4s ease,filter 2s ease,transform 1.4s ease}
+.motion .rv.in{opacity:1;filter:none;transform:none}
+@media (prefers-reduced-motion:no-preference){@view-transition{navigation:auto}}
+.door[aria-current] .ph{view-transition-name:door-on}
+
+@media (min-width:900px){
+ :root{--bar-h:100px}
+ .top{padding:22px 26px 0;grid-template-columns:60px 1fr 60px}.wm{font-size:22px}
+ .doors{background:linear-gradient(transparent,rgba(0,0,0,.7) 50%);padding-bottom:22px}
+ .doors ul{gap:30px;justify-content:center}
+ .ph{width:46px;height:46px}
+ .door:hover .ph,.door[aria-current] .ph{transform:scale(1.35) translateY(-6px)}
+ .foot{padding:48px 6vw 34px}
+}
