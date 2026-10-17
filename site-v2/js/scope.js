@@ -6,7 +6,7 @@
   var root=document.querySelector('.scope');if(!root)return;
   var frame=root.querySelector('.frame'),big=root.querySelector('.big'),tc=root.querySelector('.tc'),ttl=root.querySelector('.ttl'),
       rail=root.querySelector('.rail'),head=root.querySelector('.head'),strip=root.querySelector('.strip'),lower=root.querySelector('.lower'),
-      bPlay=root.querySelector('[data-a=play]'),bSnd=root.querySelector('[data-a=snd]'),bFull=root.querySelector('[data-a=full]'),bBack=root.querySelector('[data-a=back]');
+      bPlay=root.querySelector('[data-a=play]'),bSnd=root.querySelector('[data-a=snd]'),bFull=root.querySelector('[data-a=full]'),bBack=root.querySelector('[data-a=back]'),bX=root.querySelector('[data-a=close]'),D=document.documentElement,pushed=false;
   var vid=null,dur=99.76,cur=-1;
   function pad(n){return(n<10?'0':'')+n}
   function tcode(s){var f=Math.floor((s%1)*FPS);s=Math.floor(s);return'00:'+pad(Math.floor(s/60))+':'+pad(s%60)+':'+pad(f)}
@@ -25,15 +25,15 @@
       vid.src=root.dataset[innerWidth<900?'src720':'src1080'];
       frame.insertBefore(vid,big);
       vid.addEventListener('timeupdate',tick);
-      vid.addEventListener('play',function(){frame.classList.add('playing');root.classList.remove('paused');bPlay.textContent='❚❚';bPlay.setAttribute('aria-label','pause')});
-      vid.addEventListener('pause',function(){root.classList.add('paused');bPlay.textContent='▶';bPlay.setAttribute('aria-label','play')});
+      vid.addEventListener('play',function(){D.classList.add('frozen');frame.classList.add('playing');root.classList.remove('paused');bPlay.textContent='❚❚';bPlay.setAttribute('aria-label','pause')});
+      vid.addEventListener('pause',function(){if(!D.classList.contains('player-open'))D.classList.remove('frozen');root.classList.add('paused');bPlay.textContent='▶';bPlay.setAttribute('aria-label','play')});
       vid.addEventListener('loadedmetadata',function(){dur=vid.duration;
         var hasA=vid.mozHasAudio||(vid.audioTracks&&vid.audioTracks.length);bSnd.hidden=!hasA});
       (function raf(){tick();requestAnimationFrame(raf)})()}
     if(at!=null){vid.currentTime=at}
     vid.play().catch(function(){})}
   function reel(){ /* back from an external film to the reel */
-    var f=frame.querySelector('iframe');if(f)f.remove();frame.classList.remove('ext');ttl.textContent='film · reel 2026';
+    var f=frame.querySelector('iframe');if(f)f.remove();frame.classList.remove('ext');D.classList.remove('player-open','modal');bX.hidden=true;if(!vid||vid.paused)D.classList.remove('frozen');ttl.textContent='film · reel 2026';
     bBack.hidden=true;bPlay.hidden=false;bFull.hidden=false;rail.hidden=false;strip.hidden=false;
     document.querySelectorAll('.row.lit').forEach(function(r){r.classList.remove('lit')});
     if(location.hash)history.replaceState(null,'',location.pathname+location.search)}
@@ -41,7 +41,7 @@
   bPlay.addEventListener('click',function(){if(!vid||vid.paused)load();else vid.pause()});
   bSnd.addEventListener('click',function(){if(!vid)return;vid.muted=!vid.muted;bSnd.setAttribute('aria-pressed',String(!vid.muted));bSnd.textContent=vid.muted?'♪̸':'♪'});
   bFull.addEventListener('click',function(){load();var el=vid;if(el.requestFullscreen)el.requestFullscreen();else if(el.webkitEnterFullscreen)el.webkitEnterFullscreen()});
-  bBack.addEventListener('click',reel);
+  
   strip.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;reel();load(S[+b.dataset.i].t+.05)});
   function scrub(e){var r=rail.getBoundingClientRect();var x=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));load(x*(vid&&vid.duration||dur))}
   rail.addEventListener('pointerdown',function(e){rail.setPointerCapture(e.pointerId);scrub(e);rail.onpointermove=scrub});
@@ -53,13 +53,17 @@
   function playFilm(n,scroll){var f=F[n];if(!f)return;if(vid)vid.pause();
     var old=frame.querySelector('iframe');if(old)old.remove();
     var ifr=document.createElement('iframe');ifr.src=f.embed;ifr.allow='autoplay; fullscreen; picture-in-picture';ifr.title=f.title;
-    frame.appendChild(ifr);frame.classList.add('ext');frame.classList.remove('playing');
+    frame.appendChild(ifr);frame.classList.add('ext');D.classList.add('player-open','frozen','modal');bX.hidden=false;bX.focus({preventScroll:true});frame.classList.remove('playing');
     ttl.textContent=f.title;tc.textContent=f.dur||'';lower.innerHTML='<span>'+esc(f.title)+'</span><small>'+esc(f.cat||'film')+'</small> <a href="'+f.url+'" target="_blank" rel="noopener">open ↗</a>';
     bBack.hidden=false;bPlay.hidden=true;bFull.hidden=true;rail.hidden=true;strip.hidden=true;bSnd.hidden=true;
     document.querySelectorAll('.row').forEach(function(r){r.classList.toggle('lit',r.dataset.n==n)});
-    if(scroll)root.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})}
-  function fromHash(scroll){var m=location.hash.match(/play=(\d+)/);if(m)playFilm(+m[1],scroll)}
-  addEventListener('hashchange',function(){fromHash(true)});fromHash(false);
+    }
+  function fromHash(){var m=location.hash.match(/play=(\d+)/);if(m)playFilm(+m[1]);else if(frame.classList.contains('ext'))reel()}
+  addEventListener('hashchange',function(){if(/play=/.test(location.hash))pushed=true;fromHash()});fromHash();
+  function shut(){if(pushed){pushed=false;history.back()}else reel()}
+  bX.addEventListener('click',shut);bBack.addEventListener('click',shut);
+  addEventListener('keydown',function(e){if(e.key==='Escape'&&D.classList.contains('player-open'))shut()});
+  var sy0=null;root.addEventListener('pointerdown',function(e){sy0=e.target.closest('.rail,.strip')?null:e.clientY});root.addEventListener('pointerup',function(e){if(sy0!=null&&e.clientY-sy0>90&&D.classList.contains('player-open'))shut();sy0=null});
   /* filters (v1 categories, draft until Gill confirms) */
   var chips=document.querySelectorAll('.chip');
   chips.forEach(function(c){c.addEventListener('click',function(){chips.forEach(function(x){x.setAttribute('aria-pressed',String(x===c))});
