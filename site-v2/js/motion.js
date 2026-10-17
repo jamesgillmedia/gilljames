@@ -4,13 +4,14 @@
   var d=document.documentElement,rm=matchMedia('(prefers-reduced-motion: reduce)');
   if(rm.matches||!('IntersectionObserver' in window))return;
   d.classList.add('motion');
-  function go(){
+  /* reveal + poem stagger; the shell calls GJ.reveal(main) again for every page it swaps in */
+  function go(root){root=root&&root.querySelectorAll?root:document;
     var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in','go');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});
-    var i=0;document.querySelectorAll('.rv,.poem').forEach(function(el){io.observe(el)});
-    /* stagger poem lines (45 ms steps on long poems, slower on the hero) */
-    document.querySelectorAll('.poem').forEach(function(p){[].forEach.call(p.children,function(s,k){s.style.transitionDelay=(0.25+k*0.32)+'s'})});
+    root.querySelectorAll('.rv,.poem').forEach(function(el){io.observe(el)});
+    root.querySelectorAll('.poem').forEach(function(p){[].forEach.call(p.children,function(s,k){s.style.transitionDelay=(0.25+k*0.32)+'s'})});
   }
-  document.readyState==='loading'?document.addEventListener('DOMContentLoaded',go):go();
+  (window.GJ=window.GJ||{}).reveal=go;
+  document.readyState==='loading'?document.addEventListener('DOMContentLoaded',function(){go()}):go();
 })();
 /* star-point tap state: tapped links flare briefly before navigating */
 document.addEventListener('pointerdown',function(e){var a=e.target.closest&&e.target.closest('.flare');if(!a)return;

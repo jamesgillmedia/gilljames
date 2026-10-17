@@ -9,7 +9,14 @@
   if(con.saveData||/(^|-)2g/.test(con.effectiveType||'')){c.remove();return}
   var g=null;try{g=c.getContext('webgl',{antialias:false,powerPreference:'low-power',preserveDrawingBuffer:true})}catch(e){}
   if(!g){c.remove();return}
-  var mob=innerWidth<900,dpr=Math.min(devicePixelRatio||1,mob?1:1.5);
+  /* GPU context lost (iOS does this when backgrounded or under memory pressure): fall back to the still poster */
+  /* GPU context lost (iOS does this when backgrounded or under memory pressure): show the still poster, and bring the water
+     back when the context is restored */
+  var lost=false;
+  c.addEventListener('webglcontextlost',function(e){e.preventDefault();lost=true;run=false;cancelAnimationFrame(raf);c.classList.remove('on');hero.classList.remove('gl','gl-stars')},false);
+  c.addEventListener('webglcontextrestored',function(){if(!lost||dead)return;lost=false;if(!prog()){dead=true;return}
+    if(im.complete&&im.naturalWidth)tex();size();base();frame(performance.now());c.classList.add('on');hero.classList.add('gl');document.dispatchEvent(new Event('water:on'));play()},false);
+  var mob=innerWidth<900,dpr=Math.min(devicePixelRatio||1,2);
   var MOON=mob?[0.72,0.21]:[0.665,0.30],MOUSE=mob?[0.40,0.56]:[0.55,0.63];
   var vs='attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
   var fs='precision highp float;uniform sampler2D T;uniform vec2 R,M,MO,I;uniform float t,mb,sw;uniform vec3 S[48];uniform vec3 H;'+
@@ -31,32 +38,41 @@
   'if(H.z>0.){vec2 sp2=q*vec2(asp,1.)*R.y/7.;vec2 g=floor(sp2);float h=hs(g);vec2 jt=vec2(hs(g+1.7),hs(g+4.1))*.6+.2;float sf=step(.975,h)*smoothstep(.22,0.,length(fract(sp2)-jt))*(.55+.45*hs(g+3.));vec3 sky=mix(vec3(.04,.07,.13),vec3(.01,.015,.03),clamp(hd*1.5,0.,1.))+vec3(.9,.95,1.)*sf;float m=smoothstep(H.z,H.z-.01,hd);col=mix(col,sky,m)+vec3(.75,.85,.95)*exp(-abs(hd-H.z)*90.)*.7;}'+
   'float v=smoothstep(1.25,.25,length((q-.5)*vec2(asp*.8,1.)));col*=mix(.45,1.,v);gl_FragColor=vec4(col,1.);}';
   function sh(t,s){var o=g.createShader(t);g.shaderSource(o,s);g.compileShader(o);return g.getShaderParameter(o,g.COMPILE_STATUS)?o:null}
-  var v=sh(g.VERTEX_SHADER,vs),f=sh(g.FRAGMENT_SHADER,fs);if(!v||!f){c.remove();return}
-  var pr=g.createProgram();g.attachShader(pr,v);g.attachShader(pr,f);g.linkProgram(pr);if(!g.getProgramParameter(pr,g.LINK_STATUS)){c.remove();return}
-  g.useProgram(pr);
-  var b=g.createBuffer();g.bindBuffer(g.ARRAY_BUFFER,b);g.bufferData(g.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),g.STATIC_DRAW);
-  var l=g.getAttribLocation(pr,'p');g.enableVertexAttribArray(l);g.vertexAttribPointer(l,2,g.FLOAT,false,0,0);
-  var U={};['T','R','M','MO','I','t','mb','sw','H'].forEach(function(n){U[n]=g.getUniformLocation(pr,n)});U.S=g.getUniformLocation(pr,'S');
+  var pr,U={};
+  /* compile + bind; run again after a lost GPU context is restored */
+  function prog(){var v=sh(g.VERTEX_SHADER,vs),f=sh(g.FRAGMENT_SHADER,fs);if(!v||!f)return false;
+    pr=g.createProgram();g.attachShader(pr,v);g.attachShader(pr,f);g.linkProgram(pr);if(!g.getProgramParameter(pr,g.LINK_STATUS))return false;
+    g.useProgram(pr);
+    var b=g.createBuffer();g.bindBuffer(g.ARRAY_BUFFER,b);g.bufferData(g.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),g.STATIC_DRAW);
+    var l=g.getAttribLocation(pr,'p');g.enableVertexAttribArray(l);g.vertexAttribPointer(l,2,g.FLOAT,false,0,0);
+    ['T','R','M','MO','I','t','mb','sw','H'].forEach(function(n){U[n]=g.getUniformLocation(pr,n)});U.S=g.getUniformLocation(pr,'S');return true}
+  if(!prog()){c.remove();return}
   var SA=new Float32Array(48*3),hole=null;
   window.__water={stars:function(a){SA.fill(0);a.slice(0,48).forEach(function(p,i){SA[i*3]=p[0];SA[i*3+1]=p[1];SA[i*3+2]=p[2]});g.uniform3fv(U.S,SA);if(!run)frame(performance.now())},
-    hole:function(x,y){if(dead||!c.classList.contains('on'))return false;hole={x:x,y:y,t:performance.now()};g.uniform2f(U.M,x,y);reduce=false;play();return true},live:function(){return !dead&&c.classList.contains('on')},reset:function(){hole=null;reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;frame(performance.now())}};
-  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,run=false,vis=true,dead=false,t0=performance.now(),raf=0,swell=1,lastY=scrollY;
+    hole:function(x,y){if(dead||lost||!c.classList.contains('on'))return false;act=true;hole={x:x,y:y,t:performance.now()};g.uniform2f(U.M,x,y);reduce=false;play();return true},live:function(){return !dead&&!lost&&c.classList.contains('on')},
+    /* the shell turns the water off while the surface is hidden (sky / sections) and back on when you rise */
+    active:function(on){act=!!on;act&&vis&&!document.hidden?play():stop()},reset:function(){hole=null;reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;frame(performance.now())}};
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,run=false,vis=true,act=document.documentElement.classList.contains('m-surface')||!document.documentElement.classList.contains('js'),dead=false,t0=performance.now(),raf=0,swell=1,lastY=scrollY;
   var im=new Image();im.decoding='async';
-  im.onload=function(){var tx=g.createTexture();g.bindTexture(g.TEXTURE_2D,tx);
+  function tex(){var tx=g.createTexture();g.bindTexture(g.TEXTURE_2D,tx);
     g.texParameteri(g.TEXTURE_2D,g.TEXTURE_MIN_FILTER,g.LINEAR);g.texParameteri(g.TEXTURE_2D,g.TEXTURE_WRAP_S,g.CLAMP_TO_EDGE);g.texParameteri(g.TEXTURE_2D,g.TEXTURE_WRAP_T,g.CLAMP_TO_EDGE);
-    g.texImage2D(g.TEXTURE_2D,0,g.RGB,g.RGB,g.UNSIGNED_BYTE,im);g.uniform2f(U.I,im.width,im.height);start()};
+    g.texImage2D(g.TEXTURE_2D,0,g.RGB,g.RGB,g.UNSIGNED_BYTE,im);g.uniform2f(U.I,im.width,im.height)}
+  function base(){g.uniform2f(U.M,MOUSE[0],MOUSE[1]);g.uniform2f(U.MO,MOON[0],MOON[1]);g.uniform1f(U.mb,mob?.058:.072);g.uniform1f(U.sw,1);g.uniform3fv(U.S,SA)}
+  im.onload=function(){tex();start()};
   im.src=poster.currentSrc||poster.src; /* same file as the poster: no extra download */
   function size(){var r=hero.getBoundingClientRect();c.width=Math.round(r.width*dpr);c.height=Math.round(r.height*dpr);g.viewport(0,0,c.width,c.height);g.uniform2f(U.R,c.width,c.height)}
   function frame(now){var hr=0;if(hole){hr=Math.min(1.6,Math.pow((now-hole.t)/620,2.2)*1.5)}g.uniform3f(U.H,hole?hole.x:0,hole?hole.y:0,hr);g.uniform1f(U.t,reduce?2.:2.+(now-t0)/1000);swell+=(1-swell)*.04;g.uniform1f(U.sw,swell);g.drawArrays(g.TRIANGLES,0,3)}
   function loop(now){if(!run||dead)return;frame(now);probe(now);raf=requestAnimationFrame(loop)}
-  function play(){if((reduce&&!hole)||dead||run||!vis)return;run=true;raf=requestAnimationFrame(loop)}
+  function play(){if((reduce&&!hole)||dead||lost||run||!vis||!act)return;run=true;raf=requestAnimationFrame(loop)}
   function stop(){run=false;cancelAnimationFrame(raf)}
   /* FPS probe (before3d pattern): first 1.5 s of running; under 30 fps -> keep the still poster */
   var pStart=0,pN=0,probed=/[?&]probe=0/.test(location.search); /* ?probe=0: test hook to keep WebGL on in slow headless renderers */
-  function probe(now){if(probed)return;if(!pStart){pStart=now;return}pN++;if(now-pStart>1500){probed=true;if(pN/((now-pStart)/1000)<30)slow()}}
+  function probe(now){if(probed)return;if(!pStart){pStart=now;return}pN++;if(now-pStart>1500){var fps=pN/((now-pStart)/1000);
+    if(fps<45&&dpr>1){dpr=1;size();pStart=0;pN=0;return} /* sharp first; if it can't hold, render at 1x and probe again */
+    probed=true;if(fps<24)slow()}}
   function slow(){if(hole)return;dead=true;hero.classList.remove('gl-stars');stop();c.classList.remove('on');hero.classList.remove('gl');setTimeout(function(){c.remove()},900)}
   function start(){size();addEventListener('resize',size);
-    g.uniform2f(U.M,MOUSE[0],MOUSE[1]);g.uniform2f(U.MO,MOON[0],MOON[1]);g.uniform1f(U.mb,mob?.058:.072);g.uniform1f(U.sw,1);
+    base();
     frame(performance.now());c.classList.add('on');hero.classList.add('gl');document.dispatchEvent(new Event('water:on'));
     if(reduce)return; /* one still frame */
     hero.addEventListener('pointermove',function(e){var r=hero.getBoundingClientRect();g.uniform2f(U.M,(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height)},{passive:true});

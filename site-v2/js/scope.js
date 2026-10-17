@@ -1,12 +1,15 @@
 /* Scope player: 2.39 frame, controls in the black bars, timecode, cut rail + filmstrip (one thumb per cut).
    The reel loads only on tap (720p on phones, 1080p on wide screens). Film rows open in the same frame
    (Vimeo / YouTube) and set #play=NN so v1 links keep working. */
-(function(){
-  var S=window.GJ_SHOTS||[],F=window.GJ_FILMS||{},FPS=23.976;
-  var root=document.querySelector('.scope');if(!root)return;
+(window.GJ=window.GJ||{}).mods=GJ.mods||{};
+/* mounted by js/shell.js for each film page it shows; every listener is tied to SIG so leaving the page removes it */
+GJ.mods.scope=function(main,SIG){
+  var root=main.querySelector('.scope');if(!root)return;
+  var S=window.GJ_SHOTS||[],F={},FPS=23.976;try{F=JSON.parse((main.querySelector('#gj-films')||{}).textContent||'{}')}catch(e){}
+  var O={signal:SIG};
   var frame=root.querySelector('.frame'),big=root.querySelector('.big'),tc=root.querySelector('.tc'),ttl=root.querySelector('.ttl'),
       rail=root.querySelector('.rail'),head=root.querySelector('.head'),strip=root.querySelector('.strip'),lower=root.querySelector('.lower'),
-      bPlay=root.querySelector('[data-a=play]'),bSnd=root.querySelector('[data-a=snd]'),bFull=root.querySelector('[data-a=full]'),bBack=root.querySelector('[data-a=back]'),bX=root.querySelector('[data-a=close]'),D=document.documentElement,pushed=false;
+      bPlay=root.querySelector('[data-a=play]'),bSnd=root.querySelector('[data-a=snd]'),bFull=root.querySelector('[data-a=full]'),bBack=root.querySelector('[data-a=back]'),bX=root.querySelector('[data-a=close]'),D=document.documentElement,pushed=false,back2=null;
   var vid=null,dur=99.76,cur=-1;
   function pad(n){return(n<10?'0':'')+n}
   function tcode(s){var f=Math.floor((s%1)*FPS);s=Math.floor(s);return'00:'+pad(Math.floor(s/60))+':'+pad(s%60)+':'+pad(f)}
@@ -25,50 +28,72 @@
       vid.src=root.dataset[innerWidth<900?'src720':'src1080'];
       frame.insertBefore(vid,big);
       vid.addEventListener('timeupdate',tick);
-      vid.addEventListener('play',function(){D.classList.add('frozen');frame.classList.add('playing');root.classList.remove('paused');bPlay.textContent='❚❚';bPlay.setAttribute('aria-label','pause')});
-      vid.addEventListener('pause',function(){if(!D.classList.contains('player-open'))D.classList.remove('frozen');root.classList.add('paused');bPlay.textContent='▶';bPlay.setAttribute('aria-label','play')});
+      vid.addEventListener('play',function(){frame.classList.add('playing');root.classList.remove('paused');bPlay.textContent='❚❚';bPlay.setAttribute('aria-label','pause')});
+      vid.addEventListener('pause',function(){root.classList.add('paused');bPlay.textContent='▶';bPlay.setAttribute('aria-label','play')});
       vid.addEventListener('loadedmetadata',function(){dur=vid.duration;
         var hasA=vid.mozHasAudio||(vid.audioTracks&&vid.audioTracks.length);bSnd.hidden=!hasA});
-      (function raf(){tick();requestAnimationFrame(raf)})()}
+      (function raf(){if(SIG.aborted)return;tick();requestAnimationFrame(raf)})()}
     if(at!=null){vid.currentTime=at}
     vid.play().catch(function(){})}
   function reel(){ /* back from an external film to the reel */
-    var f=frame.querySelector('iframe');if(f)f.remove();frame.classList.remove('ext');D.classList.remove('player-open','modal');bX.hidden=true;if(!vid||vid.paused)D.classList.remove('frozen');ttl.textContent='film · reel 2026';
+    var f=frame.querySelector('iframe');if(f)f.remove();frame.classList.remove('ext');D.classList.remove('player-open','modal');bX.hidden=true;D.classList.remove('frozen'); /* the sky only freezes while the full-screen overlay is open, never for the inline reel */ttl.textContent='film · reel 2026';
     bBack.hidden=true;bPlay.hidden=false;bFull.hidden=false;rail.hidden=false;strip.hidden=false;
     document.querySelectorAll('.row.lit').forEach(function(r){r.classList.remove('lit')});
-    if(location.hash)history.replaceState(null,'',location.pathname+location.search)}
+    if(location.hash)history.replaceState(null,'',location.pathname+location.search);
+    if(back2&&document.contains(back2)){try{back2.focus({preventScroll:true})}catch(_){}}back2=null}
   big.addEventListener('click',function(){load()});
   bPlay.addEventListener('click',function(){if(!vid||vid.paused)load();else vid.pause()});
   bSnd.addEventListener('click',function(){if(!vid)return;vid.muted=!vid.muted;bSnd.setAttribute('aria-pressed',String(!vid.muted));bSnd.textContent=vid.muted?'♪̸':'♪'});
-  bFull.addEventListener('click',function(){load();var el=vid;if(el.requestFullscreen)el.requestFullscreen();else if(el.webkitEnterFullscreen)el.webkitEnterFullscreen()});
+  bFull.addEventListener('click',function(){load();var el=vid;
+    if(el.requestFullscreen){var q=el.requestFullscreen();q&&q.catch&&q.catch(function(){});return}
+    /* iPhone: the native player can only go full screen once the metadata is in */
+    function ios(){try{el.webkitEnterFullscreen()}catch(e){}}
+    if(el.webkitEnterFullscreen){if(el.readyState>=1)ios();else el.addEventListener('loadedmetadata',ios,{once:true})}});
   
   strip.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;reel();load(S[+b.dataset.i].t+.05)});
   function scrub(e){var r=rail.getBoundingClientRect();var x=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));load(x*(vid&&vid.duration||dur))}
   rail.addEventListener('pointerdown',function(e){rail.setPointerCapture(e.pointerId);scrub(e);rail.onpointermove=scrub});
   rail.addEventListener('pointerup',function(){rail.onpointermove=null});
   addEventListener('keydown',function(e){if(e.target.closest('input,textarea'))return;
-    if(e.key==='ArrowRight'||e.key==='ArrowLeft'){var i=Math.max(0,Math.min(S.length-1,(cur<0?0:cur)+(e.key==='ArrowRight'?1:-1)));load(S[i].t+.05)}});
+    if(e.key==='ArrowRight'||e.key==='ArrowLeft'){var i=Math.max(0,Math.min(S.length-1,(cur<0?0:cur)+(e.key==='ArrowRight'?1:-1)));load(S[i].t+.05)}},O);
   setShot(1);tc.textContent=tcode(S[1]?S[1].t:0);head.style.left=((S[1]?S[1].t:0)/dur*100)+'%';
   /* film rows -> play in the frame, #play=NN */
   function playFilm(n,scroll){var f=F[n];if(!f)return;if(vid)vid.pause();
     var old=frame.querySelector('iframe');if(old)old.remove();
     var ifr=document.createElement('iframe');ifr.src=f.embed;ifr.allow='autoplay; fullscreen; picture-in-picture';ifr.title=f.title;
+    if(!D.classList.contains('player-open')){var ae=document.activeElement;back2=ae&&ae!==document.body&&!root.contains(ae)?ae:null}
     frame.appendChild(ifr);frame.classList.add('ext');D.classList.add('player-open','frozen','modal');bX.hidden=false;bX.focus({preventScroll:true});frame.classList.remove('playing');
     ttl.textContent=f.title;tc.textContent=f.dur||'';lower.innerHTML='<span>'+esc(f.title)+'</span><small>'+esc(f.cat||'film')+'</small> <a href="'+f.url+'" target="_blank" rel="noopener">open ↗</a>';
     bBack.hidden=false;bPlay.hidden=true;bFull.hidden=true;rail.hidden=true;strip.hidden=true;bSnd.hidden=true;
     document.querySelectorAll('.row').forEach(function(r){r.classList.toggle('lit',r.dataset.n==n)});
     }
-  function fromHash(){var m=location.hash.match(/play=(\d+)/);if(m)playFilm(+m[1]);else if(frame.classList.contains('ext'))reel()}
-  addEventListener('hashchange',function(){if(/play=/.test(location.hash))pushed=true;fromHash()});fromHash();
+  function fromHash(){var m=location.hash.match(/play=(\d+)/);
+    if(m&&!F[+m[1]]){pushed=false;history.replaceState(null,'',location.pathname+location.search);m=null} /* dead or invalid #play= -> clean URL */
+    if(m)playFilm(+m[1]);else if(frame.classList.contains('ext'))reel()}
+  window.__scopeSwap=function(n){if(!F[n])return false;history.replaceState(null,'','#play='+n);playFilm(+n);return true};
+  addEventListener('hashchange',function(){if(/play=/.test(location.hash))pushed=true;fromHash()},O);fromHash();
   function shut(){if(pushed){pushed=false;history.back()}else reel()}
   bX.addEventListener('click',shut);bBack.addEventListener('click',shut);
-  addEventListener('keydown',function(e){if(e.key==='Escape'&&D.classList.contains('player-open'))shut()});
+  addEventListener('keydown',function(e){if(!D.classList.contains('player-open'))return;if(e.key==='Escape')shut();else trapTab(root,e)},O);
+  /* ctrl/pinch-wheel over the player would zoom the browser page: block it */
+  root.addEventListener('wheel',function(e){if(e.ctrlKey||D.classList.contains('player-open'))e.preventDefault()},{passive:false});
+  function trapTab(box,e){if(e.key!=='Tab')return;var f=Array.from(box.querySelectorAll('a[href],button:not([hidden]),iframe,video[controls],[tabindex]:not([tabindex="-1"])')).filter(function(x){return !x.closest('[hidden]')&&x.getClientRects().length});
+  if(!f.length)return;var a=f[0],z=f[f.length-1],c=document.activeElement;if(!box.contains(c)){e.preventDefault();a.focus();return}
+  if(e.shiftKey&&c===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&c===z){e.preventDefault();a.focus()}}
+
   var sy0=null;root.addEventListener('pointerdown',function(e){sy0=e.target.closest('.rail,.strip')?null:e.clientY});root.addEventListener('pointerup',function(e){if(sy0!=null&&e.clientY-sy0>90&&D.classList.contains('player-open'))shut();sy0=null});
   /* filters (v1 categories, draft until Gill confirms) */
   var chips=document.querySelectorAll('.chip');
   chips.forEach(function(c){c.addEventListener('click',function(){chips.forEach(function(x){x.setAttribute('aria-pressed',String(x===c))});
     var k=c.dataset.f;document.querySelectorAll('.row').forEach(function(r){r.hidden=!(k==='all'||r.dataset.cat===k)})})});
-})();
 /* rows are real links to the film (work without JS); with JS they play in the Scope frame */
-document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('.row a');if(!a||e.metaKey||e.ctrlKey)return;
-  e.preventDefault();var n=a.parentNode.dataset.n;if(location.hash==='#play='+n)dispatchEvent(new HashChangeEvent('hashchange'));else location.hash='play='+n});
+main.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('.row a');if(!a||e.metaKey||e.ctrlKey)return;
+  e.preventDefault();var n=a.parentNode.dataset.n;
+  if(document.documentElement.classList.contains('player-open')&&window.__scopeSwap&&window.__scopeSwap(n))return; /* another film while one is open: replace, so ✕ doesn't reopen the first */
+  if(location.hash==='#play='+n)dispatchEvent(new HashChangeEvent('hashchange'));else location.hash='play='+n},O);
+/* any other same-page #play= link (sky band stars) while a film is open: replace too */
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href*="#play="]');if(!a||a.closest('.row')||e.metaKey||e.ctrlKey||e.defaultPrevented)return;
+  var u=new URL(a.href,location.href);if(u.pathname!==location.pathname||!document.documentElement.classList.contains('player-open'))return;
+  var n=(u.hash.match(/play=(\d+)/)||[])[1];if(n&&window.__scopeSwap&&window.__scopeSwap(n))e.preventDefault()},O);
+  SIG.addEventListener('abort',function(){if(vid){vid.pause();vid.removeAttribute('src');vid.load()}D.classList.remove('player-open','frozen','modal')});
+};
