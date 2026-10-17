@@ -1,0 +1,81 @@
+/* The persistent shell: one fixed scene (the sky, with the water surface over it) that never reloads; page content
+   scrolls over it in sheets. html.m-surface | m-sky | m-section is the scene mode (set by the page, then by js/shell.js).
+   Without JS (no html.js) every page is a plain document: the hero on home, the map on /sky/, plain content elsewhere. */
+html,body{overscroll-behavior:none;background:#000}
+a,button,.hero,.cl .hit{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+/* ---- scene */
+.scene{position:relative}
+.js .scene{position:fixed;inset:0;z-index:0;overflow:hidden;background:#02040a}
+.js .scene .vp{position:absolute;inset:0;height:auto;min-height:0}
+.js .scene .hero{position:absolute;inset:0;height:auto;min-height:0;z-index:2;transition:opacity .6s ease,visibility 0s linear 0s}
+.js:not(.m-surface) .scene .hero{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .6s ease,visibility 0s linear .6s}
+.js.m-surface .scene .vp{pointer-events:none}
+.js .scene .hero.rising{animation:riseIn .85s cubic-bezier(.3,.7,.2,1) both}
+@keyframes riseIn{from{clip-path:circle(0 at 50% 0);opacity:1}to{clip-path:circle(150% at 50% 0);opacity:1}}
+.js .scene .world.falling{animation:fallIn 1s cubic-bezier(.2,.7,.2,1) both}
+/* no JS: hero only on home, the map only on /sky/ (list first), plain pages elsewhere */
+html:not(.js) body:not(.p-home) .scene .hero{display:none}
+html:not(.js) body:not(.p-sky) .scene .vp{display:none}
+html:not(.js) .p-sky .scene .vp{height:100vh;height:100svh}
+html:not(.js) body.p-sky{display:flex;flex-direction:column}
+html:not(.js) .p-sky #main{order:-1;padding-top:70px}
+html:not(.js) .sp{display:none}
+/* ---- content sheets over the scene */
+.js main{position:relative;pointer-events:none;transition:opacity .28s ease,transform .32s ease}
+.js main>*{pointer-events:auto}
+.js main>.sp,.js main>.sp-wrap{pointer-events:none}
+.js main .sp *{pointer-events:auto}
+.js main .sp .zhint{pointer-events:none}
+.sp{position:relative}
+.sp-full{height:100vh;height:100svh}
+.sp-band{height:58vh;height:58svh;min-height:380px}
+@media (min-width:900px){.sp-band{height:64vh}}
+.js .sp-wrap.page-top{padding-top:84px}
+.js .sheet{position:relative;background:#000}
+.js .sheet::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:36px;background:linear-gradient(transparent,#000);pointer-events:none}
+.js .scope.sheet::before{display:none}
+.js .foot{position:relative;background:#000;margin-top:0}
+/* mode swaps: the shell fades the old sheet out and the new one in */
+.js main.out{opacity:0;transform:translateY(4vh)}
+.js main.enter{opacity:0;transform:translateY(6vh);transition:none}
+html.busy body{pointer-events:none}
+/* controls live in the spacer, so they scroll with the page and never cover content */
+.sp .zctl{position:absolute;left:max(12px,env(safe-area-inset-left));bottom:12px;z-index:6;display:flex;gap:8px}
+.sp .zctl button,.sp .zctl a{width:44px;height:44px;border-radius:50%;background:rgba(20,24,30,.7);box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);display:grid;place-items:center;color:#d5dcdb;font-size:16px;border:0;padding:0;cursor:pointer}
+.sp .zhint{position:absolute;right:max(12px,env(safe-area-inset-right));bottom:20px;max-width:calc(100% - 190px);margin:0;z-index:6;font-size:9.5px;letter-spacing:.16em;color:#8d9a98;text-transform:lowercase;text-align:right;transition:opacity .8s}
+.sp-full .zctl{bottom:calc(14px + env(safe-area-inset-bottom))}
+.sp-full .zhint{bottom:calc(16px + env(safe-area-inset-bottom));left:170px;right:120px;max-width:none;text-align:center}
+@media (min-width:700px){.sp-full .zhint{left:200px;right:160px}}
+.sp-full .listbtn{position:absolute;right:max(12px,env(safe-area-inset-right));bottom:calc(14px + env(safe-area-inset-bottom));z-index:6;font-size:11px;letter-spacing:.2em;padding:13px 18px;border-radius:99px;background:rgba(16,20,26,.75);box-shadow:inset 0 0 0 1px rgba(255,255,255,.2);color:#e3eae9;text-transform:lowercase}
+.zhint.off{opacity:0}
+/* fixed UI clears the notch / home indicator; 44px hit targets */
+.top{padding-top:max(14px,env(safe-area-inset-top));padding-left:max(14px,env(safe-area-inset-left));padding-right:max(14px,env(safe-area-inset-right))}
+.ib{min-width:44px;min-height:44px;justify-content:center}
+.ib i{width:44px;height:44px}
+.scope .x{min-width:44px;min-height:44px}
+.viewer .vx{top:max(12px,env(safe-area-inset-top))!important;right:max(12px,env(safe-area-inset-right))!important}
+.viewer,.player-open .scope{overscroll-behavior:contain}
+.modal,.modal body{overflow:hidden}
+.hero .dive{bottom:calc(16px + env(safe-area-inset-bottom))}
+@media (min-width:900px){.top{padding-top:max(22px,env(safe-area-inset-top))}}
+.loopwrap .loopbg{height:100vh;height:100svh;margin-bottom:-100vh;margin-bottom:-100svh}
+.cl .hit{cursor:pointer}
+/* the sky holds still visually while it moves: no twinkle/breathe work during flights and drags */
+.vp.moving *{animation-play-state:paused!important}
+/* header: a soft fade so content never reads through it; only its buttons catch taps */
+.js .top{background:linear-gradient(rgba(0,0,0,.72),rgba(0,0,0,.35) 60%,transparent);padding-bottom:16px}
+.js.m-surface .top,.js.m-sky .top{background:none}
+.top>*{pointer-events:none}.top>a,.top>button{pointer-events:auto}
+.page-top{padding-top:calc(84px + env(safe-area-inset-top))}
+/* 44px targets in the player and the film list */
+.ctrl button,.ctrl a{width:44px;height:44px}
+.rail{height:44px;margin-top:0}
+.rail .tk{top:16px}
+.rail .head{top:11px}
+.lower a{display:inline-block;padding:12px 0;margin:-12px 0}
+.chip{min-height:44px;padding:12px 16px}
+.scope .x{width:44px;height:44px}
+/* phones in landscape: smaller labels at the overview so they don't collide */
+@media (max-height:500px) and (orientation:landscape){.cname{font-size:calc(10px * var(--inv));letter-spacing:.14em;padding:calc(3px * var(--inv)) calc(6px * var(--inv))}[data-lod="0"] .cname small{display:none}
+ [data-lod="0"] .cname{white-space:normal;width:calc(80px * var(--inv));line-height:1.15}
+ .js .top{padding-top:max(8px,env(safe-area-inset-top))}.ib i{width:40px;height:40px}}

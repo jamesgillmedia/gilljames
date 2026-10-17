@@ -48,8 +48,6 @@
 /* one thing moves at a time: while the player / viewer is open the sky is frozen and dimmed */
 .frozen .vp{pointer-events:none}
 .frozen .vp .world{filter:brightness(.35);transition:filter .4s}
-/* arriving from the dive: a short fall into the sky (works without view transitions) */
-.motion.dived .vp .world{animation:fallIn 1s cubic-bezier(.2,.7,.2,1) both}
 @keyframes fallIn{from{opacity:0;filter:blur(8px)}to{opacity:1;filter:none}}
 /* /sky/ page */
 .p-sky .vp{height:100svh}

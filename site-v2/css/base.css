@@ -14,6 +14,7 @@ a{color:inherit;text-decoration:none}
 img,video{max-width:100%;display:block}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
 :focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:4px}
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
 .skip{position:absolute;left:-999px;top:8px;z-index:99;background:#000;padding:8px 12px}.skip:focus{left:8px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 /* Gill's chromatic offset: reserved for Gill's own words and the mark */
@@ -69,11 +70,15 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .vt-rise::view-transition-new(root){animation-name:riseNew}
 .vt-in::view-transition-old(root){animation-name:vtZoomInOld;transform-origin:var(--zx,50%) var(--zy,50%)}
 .vt-in::view-transition-new(root){animation-name:vtZoomInNew;transform-origin:var(--zx,50%) var(--zy,50%)}
+/* the reverse of zoom-in: section -> sky (Back from a section, or the sky button) */
+.vt-out::view-transition-old(root){animation-name:vtZoomOutOld;transform-origin:var(--zx,50%) var(--zy,45%)}
+.vt-out::view-transition-new(root){animation-name:vtZoomOutNew;transform-origin:var(--zx,50%) var(--zy,45%)}
 @keyframes diveOld{to{transform:scale(1.5) translateY(-18%);opacity:0;filter:blur(6px)}}
 @keyframes diveNew{from{clip-path:circle(0 at var(--zx,50%) var(--zy,60%))}to{clip-path:circle(150% at var(--zx,50%) var(--zy,60%))}}
 @keyframes riseOld{to{transform:scale(.6) translateY(30%);opacity:0}}
 @keyframes riseNew{from{clip-path:circle(0 at 50% 0);transform:translateY(-6%)}to{clip-path:circle(150% at 50% 0);transform:none}}
 @keyframes vtZoomInOld{to{transform:scale(2.6);opacity:0}}@keyframes vtZoomInNew{from{transform:scale(.4);opacity:0}}
+@keyframes vtZoomOutOld{to{transform:scale(.35);opacity:0;filter:blur(4px)}}@keyframes vtZoomOutNew{from{transform:scale(2.4);opacity:0}}
 @media (prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation:none!important}}
 .foot{padding-bottom:40px}
 @media (min-width:900px){
