@@ -23,9 +23,11 @@ function wait(ms){return new Promise(function(r){setTimeout(r,RM?0:ms)})}
 function frame(){return new Promise(function(r){requestAnimationFrame(function(){requestAnimationFrame(r)})})}
 var cur={page:pageOf(location.href),path:location.pathname};
 /* the scene outlives the page it was born in: make its links absolute so they stay right after pushState */
-if(scene)scene.querySelectorAll('[href],[src],[data-src],[srcset]').forEach(function(el){
+var dock=document.querySelector('.dock');
+[scene,dock].forEach(function(box){if(box)box.querySelectorAll('[href],[src],[data-src],[srcset]').forEach(function(el){
   ['href','src','data-src'].forEach(function(a){var v=el.getAttribute(a);if(v&&v.charAt(0)!=='#'&&!/^[a-z]+:/i.test(v))el.setAttribute(a,new URL(v,location.href).href)});
-  var ss=el.getAttribute('srcset');if(ss)el.setAttribute('srcset',ss.split(',').map(function(p){p=p.trim().split(/\s+/);p[0]=new URL(p[0],location.href).href;return p.join(' ')}).join(', '))});
+  var ss=el.getAttribute('srcset');if(ss)el.setAttribute('srcset',ss.split(',').map(function(p){p=p.trim().split(/\s+/);p[0]=new URL(p[0],location.href).href;return p.join(' ')}).join(', '))})});
+function dockNow(){if(dock)dock.querySelectorAll('a').forEach(function(a){if(pageOf(a.href)===cur.page)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')})}
 /* head icons too: browsers re-resolve them against the new URL after pushState */
 document.querySelectorAll('link[rel~="icon"],link[rel="apple-touch-icon"]').forEach(function(l){l.setAttribute('href',l.href)});
 /* ---- per-page modules */
@@ -35,6 +37,19 @@ function mount(main){ac=window.AbortController?new AbortController():{signal:{ad
   Object.keys(mods).forEach(function(k){try{mods[k](main,ac.signal)}catch(e){setTimeout(function(){throw e})}});visited()}
 function unmount(main){main.querySelectorAll('video,audio').forEach(function(m){try{m.pause()}catch(e){}});ac&&ac.abort();d.classList.remove('player-open','frozen','modal')}
 mount(document.getElementById('main'));
+/* ---- controls appear in context: visible on arrival, on any touch / tap / key / mouse move / scroll up, and while a
+   finger is down; they fade after ~2.5 s idle, while scrolling down, or while the sky flies. Focus keeps them. */
+var idleT=0,held=false,lastY=scrollY,scrT=0;
+function wake(){d.classList.remove('ui-idle');clearTimeout(idleT);if(!held)idleT=setTimeout(function(){if(!held&&!(document.activeElement&&document.activeElement.closest&&document.activeElement.closest('.top,.dock,.zctl,.listbtn,.scope')))d.classList.add('ui-idle')},2500)}
+GJ.wake=wake;
+document.addEventListener('pointerdown',function(){held=true;d.classList.add('ui-hold');wake()},{passive:true});
+document.addEventListener('pointerup',function(){held=false;d.classList.remove('ui-hold');wake()},{passive:true});
+document.addEventListener('pointercancel',function(){held=false;d.classList.remove('ui-hold');wake()},{passive:true});
+document.addEventListener('keydown',wake);document.addEventListener('focusin',wake);
+document.addEventListener('mousemove',function(e){if(e.movementX||e.movementY)wake()},{passive:true});
+addEventListener('scroll',function(){var y=scrollY;d.classList.toggle('scrolled',y>8);if(!d.classList.contains('scrolling'))d.classList.add('scrolling');clearTimeout(scrT);scrT=setTimeout(function(){d.classList.remove('scrolling')},140);
+  if(y>lastY+4&&y>80&&!held){clearTimeout(idleT);d.classList.add('ui-idle')}else if(y<lastY-4)wake();lastY=y},{passive:true});
+wake();
 var CAN=!!(window.fetch&&window.DOMParser&&history.pushState&&window.Promise&&scene&&window.__sky);
 GJ.nav=function(href,o){if(!CAN||pageOf(href)==null){location.href=href;return}
   try{history.replaceState(Object.assign({},history.state,{gj:1,y:scrollY}),'')}catch(e){}
@@ -54,11 +69,12 @@ document.addEventListener('click',function(e){
   if(pageOf(a.href)==null)return;
   var u=new URL(a.href);if(u.pathname===location.pathname)return; /* same page: a hash, handled natively / by the page */
   e.preventDefault();GJ.nav(a.href)});
+var svT=0;addEventListener('scroll',function(){clearTimeout(svT);svT=setTimeout(function(){try{history.replaceState(Object.assign({},history.state,{gj:1,y:scrollY}),'')}catch(e){}},200)},{passive:true});
 addEventListener('popstate',function(){if(location.pathname===cur.path)return; /* a hash step inside the page */
   go(location.href,{pop:true})});
 /* ---- the moves */
 async function go(href,o){
-  var my=++seq,to=pageOf(href),from=cur.page;if(to==null){location.reload();return}
+  clearTimeout(svT);  var my=++seq,to=pageOf(href),from=cur.page;if(to==null){location.reload();return}
   var docP=get(href),main=document.getElementById('main'),fr=rank(from),tr=rank(to);
   d.classList.add('busy');window.__sky.stop&&window.__sky.stop();
   try{
@@ -73,10 +89,13 @@ async function go(href,o){
     document.title=doc.title;document.body.className=doc.body.className;document.body.dataset.k=doc.body.dataset.k||'';
     var mode=modeOf(to);d.classList.remove('m-surface','m-sky','m-section');d.classList.add('m-'+mode);
     var nvp=doc.querySelector('#scene .vp'),keys=nvp?nvp.dataset.focus||'':'';window.__sky.here(keys);
-    cur={page:to,path:location.pathname};
+    cur={page:to,path:location.pathname};dockNow();wake();
     /* scroll: back/forward restores, a #section target scrolls to it, otherwise the top */
     var h=location.hash.slice(1),tgt=h&&!/=/.test(h)&&document.getElementById(h);
-    window.scrollTo(0,o.pop&&history.state&&history.state.y||0);
+    var want=o.pop&&history.state&&history.state.y||0;window.scrollTo(0,want);
+    /* Back: images above may still be loading and shorten the page; keep restoring until the user scrolls */
+    if(want){var userMoved=false,um=function(){userMoved=true};addEventListener('touchstart',um,{passive:true,once:true});addEventListener('wheel',um,{passive:true,once:true});
+      [120,400,900].forEach(function(t){setTimeout(function(){if(!userMoved&&my===seq&&Math.abs(scrollY-want)>2)window.scrollTo(0,want)},t)})}
     /* 3. arrive */
     if(mode==='surface'){window.__sky.mode('off');window.__sky.whole(0);GJ.surface.reset();window.__water&&window.__water.active(true);
       if(!RM&&hero){hero.classList.remove('rising');void hero.offsetWidth;hero.classList.add('rising');setTimeout(function(){hero.classList.remove('rising')},900)}}
@@ -87,7 +106,8 @@ async function go(href,o){
     await frame();main.classList.remove('enter');
     if(tgt&&!o.pop)setTimeout(function(){tgt.scrollIntoView({block:'start'})},RM?0:420);
     if(mode!=='surface'&&hero)setTimeout(function(){if(my===seq&&!d.classList.contains('m-surface'))hero.classList.remove('melt','open-css')},700);
-    var f=main.querySelector('h1,h2');if(f&&!o.pop&&document.activeElement&&document.activeElement!==document.body&&!document.activeElement.isConnected){f.setAttribute('tabindex','-1');f.focus({preventScroll:true})}
+    /* focus moves to the new page's heading after every swap, Back/Forward included (screen readers hear where they are) */
+    var f=main.querySelector('h1')||main.querySelector('h2');if(f){f.setAttribute('tabindex','-1');try{f.focus({preventScroll:true})}catch(_){}}
   }catch(err){location.href=href;return}
   finally{if(my===seq)d.classList.remove('busy')}
 }

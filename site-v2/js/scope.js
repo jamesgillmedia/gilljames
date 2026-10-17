@@ -32,7 +32,9 @@ GJ.mods.scope=function(main,SIG){
       vid.addEventListener('pause',function(){root.classList.add('paused');bPlay.textContent='▶';bPlay.setAttribute('aria-label','play')});
       vid.addEventListener('loadedmetadata',function(){dur=vid.duration;
         var hasA=vid.mozHasAudio||(vid.audioTracks&&vid.audioTracks.length);bSnd.hidden=!hasA});
-      (function raf(){if(SIG.aborted)return;tick();requestAnimationFrame(raf)})()}
+      /* timecode loop only while the reel actually plays (and not while the page scrolls) */
+      var rq=0;function raf(){rq=0;if(SIG.aborted||vid.paused)return;if(!D.classList.contains('scrolling'))tick();rq=requestAnimationFrame(raf)}
+      vid.addEventListener('play',function(){if(!rq)rq=requestAnimationFrame(raf)});vid.addEventListener('seeked',tick)}
     if(at!=null){vid.currentTime=at}
     vid.play().catch(function(){})}
   function reel(){ /* back from an external film to the reel */

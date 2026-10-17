@@ -7,12 +7,13 @@ GJ.mods.viewer=function(main,SIG){
   var A=Array.from(main.querySelectorAll('a[data-w]')),img=V.querySelector('img'),cap=V.querySelector('figcaption'),d=document.documentElement,cur=0,pushed=false,back2=null;
   function show(n){var a=A[n-1];if(!a){if(/^#w=/.test(location.hash)){pushed=false;history.replaceState(null,'',location.pathname+location.search)}return close(true)}
     if(!cur){var ae=document.activeElement;back2=ae&&ae!==document.body&&!V.contains(ae)?ae:null}cur=n;var im=a.querySelector('img');
-    img.src=a.getAttribute('href');img.alt=im.alt;cap.textContent=im.alt;V.hidden=false;d.classList.add('frozen','modal');V.querySelector('.vx').focus({preventScroll:true});
+    img.src=a.getAttribute('href');img.alt=im.alt;cap.textContent=im.alt;if(!vSeen())cap.innerHTML+='<span class="vhint"> · swipe for the next one, pull down to close</span>';V.hidden=false;d.classList.add('frozen','modal');V.querySelector('.vx').focus({preventScroll:true});
     A.forEach(function(x){x.classList.toggle('lit',x===a)})}
   function close(silent){var was=cur;V.hidden=true;d.classList.remove('frozen','modal');img.removeAttribute('src');var a=back2||A[was-1];cur=0;back2=null;if(was&&a&&!silent&&document.contains(a))a.focus({preventScroll:true})}
   function fromHash(){var m=location.hash.match(/^#w=(\d+)/);if(m)show(+m[1]);else if(cur)close()}
-  function go(n){n=(n-1+A.length)%A.length+1;history.replaceState(null,'','#w='+n);show(n)}
-  function shut(){if(pushed){pushed=false;history.back()}else{history.replaceState(null,'',location.pathname+location.search);close()}}
+  function vSeen(){try{return localStorage.getItem('gj-hint-viewer')==='1'}catch(e){return true}}function vDone(){try{localStorage.setItem('gj-hint-viewer','1')}catch(e){}}
+  function go(n){vDone();n=(n-1+A.length)%A.length+1;history.replaceState(null,'','#w='+n);show(n)}
+  function shut(){vDone();if(pushed){pushed=false;history.back()}else{history.replaceState(null,'',location.pathname+location.search);close()}}
   A.forEach(function(a){a.addEventListener('click',function(e){if(e.metaKey||e.ctrlKey)return;e.preventDefault();pushed=true;location.hash='w='+a.dataset.w})});
   addEventListener('hashchange',function(){if(/^#w=/.test(location.hash)&&!cur)pushed=true;fromHash()},O);
   V.querySelector('.vx').addEventListener('click',shut);

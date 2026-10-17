@@ -31,6 +31,15 @@
     if(!e.clientX&&!e.clientY){x=null;y=null}
     if(GJ.nav){GJ.nav(href,{at:[x,y]});return}
     dive(x,y).then(function(){location.href=href})});
+  /* home is one screen: a swipe up (or a scroll / wheel down on desktop) also dives, from where the finger started.
+     Passive listeners on the hero only; nothing on window/document/body. */
+  function go(x,y){if(going||!document.documentElement.classList.contains('m-surface'))return;going=true;var u=new URL((document.documentElement.dataset.up||'./')+'sky/',location.href).href;
+    if(GJ.nav){GJ.nav(u,{at:[x,y]});return}dive(x,y).then(function(){location.href=u})}
+  var t0=null;
+  hero.addEventListener('touchstart',function(e){if(e.touches.length!==1){t0=null;return}var t=e.touches[0],b=hero.getBoundingClientRect();t0={x:t.clientX-b.left,y:t.clientY-b.top,cy:t.clientY,cx:t.clientX,t:Date.now()}},{passive:true});
+  hero.addEventListener('touchend',function(e){if(!t0)return;var t=e.changedTouches[0],dy=t.clientY-t0.cy,dx=t.clientX-t0.cx,o=t0;t0=null;
+    if(dy<-60&&Math.abs(dx)<Math.abs(dy)*.8){dive.swiped=true;go(o.x,o.y)}},{passive:true});
+  var wsum=0,wT=0;hero.addEventListener('wheel',function(e){if(e.ctrlKey)return;wsum+=e.deltaY;clearTimeout(wT);wT=setTimeout(function(){wsum=0},400);if(wsum>120){wsum=0;var b=hero.getBoundingClientRect();go(e.clientX-b.left,e.clientY-b.top)}},{passive:true});
   /* bfcache restore on a full-load fallback: undo the melt */
   addEventListener('pageshow',function(e){if(e.persisted&&document.documentElement.classList.contains('m-surface'))reset()});
 })();

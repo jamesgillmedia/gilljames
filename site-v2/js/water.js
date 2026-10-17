@@ -52,7 +52,7 @@
     hole:function(x,y){if(dead||lost||!c.classList.contains('on'))return false;act=true;hole={x:x,y:y,t:performance.now()};g.uniform2f(U.M,x,y);reduce=false;play();return true},live:function(){return !dead&&!lost&&c.classList.contains('on')},
     /* the shell turns the water off while the surface is hidden (sky / sections) and back on when you rise */
     active:function(on){act=!!on;act&&vis&&!document.hidden?play():stop()},reset:function(){hole=null;reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;frame(performance.now())}};
-  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,run=false,vis=true,act=document.documentElement.classList.contains('m-surface')||!document.documentElement.classList.contains('js'),dead=false,t0=performance.now(),raf=0,swell=1,lastY=scrollY;
+  var scr=false,scrT=0,reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,run=false,vis=true,act=document.documentElement.classList.contains('m-surface')||!document.documentElement.classList.contains('js'),dead=false,t0=performance.now(),raf=0,swell=1,lastY=scrollY;
   var im=new Image();im.decoding='async';
   function tex(){var tx=g.createTexture();g.bindTexture(g.TEXTURE_2D,tx);
     g.texParameteri(g.TEXTURE_2D,g.TEXTURE_MIN_FILTER,g.LINEAR);g.texParameteri(g.TEXTURE_2D,g.TEXTURE_WRAP_S,g.CLAMP_TO_EDGE);g.texParameteri(g.TEXTURE_2D,g.TEXTURE_WRAP_T,g.CLAMP_TO_EDGE);
@@ -63,7 +63,7 @@
   function size(){var r=hero.getBoundingClientRect();c.width=Math.round(r.width*dpr);c.height=Math.round(r.height*dpr);g.viewport(0,0,c.width,c.height);g.uniform2f(U.R,c.width,c.height)}
   function frame(now){var hr=0;if(hole){hr=Math.min(1.6,Math.pow((now-hole.t)/620,2.2)*1.5)}g.uniform3f(U.H,hole?hole.x:0,hole?hole.y:0,hr);g.uniform1f(U.t,reduce?2.:2.+(now-t0)/1000);swell+=(1-swell)*.04;g.uniform1f(U.sw,swell);g.drawArrays(g.TRIANGLES,0,3)}
   function loop(now){if(!run||dead)return;frame(now);probe(now);raf=requestAnimationFrame(loop)}
-  function play(){if((reduce&&!hole)||dead||lost||run||!vis||!act)return;run=true;raf=requestAnimationFrame(loop)}
+  function play(){if((reduce&&!hole)||dead||lost||run||!vis||!act||scr)return;run=true;raf=requestAnimationFrame(loop)}
   function stop(){run=false;cancelAnimationFrame(raf)}
   /* FPS probe (before3d pattern): first 1.5 s of running; under 30 fps -> keep the still poster */
   var pStart=0,pN=0,probed=/[?&]probe=0/.test(location.search); /* ?probe=0: test hook to keep WebGL on in slow headless renderers */
@@ -77,7 +77,8 @@
     if(reduce)return; /* one still frame */
     hero.addEventListener('pointermove',function(e){var r=hero.getBoundingClientRect();g.uniform2f(U.M,(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height)},{passive:true});
     hero.addEventListener('pointerdown',function(e){var r=hero.getBoundingClientRect();g.uniform2f(U.M,(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height)},{passive:true});
-    addEventListener('scroll',function(){swell=Math.min(3,swell+Math.abs(scrollY-lastY)*.01);lastY=scrollY},{passive:true});
+    /* never draw while the document scrolls: stop, and pick up again 160 ms after the last scroll */
+    addEventListener('scroll',function(){swell=Math.min(3,swell+Math.abs(scrollY-lastY)*.01);lastY=scrollY;if(!scr&&run)stop();scr=true;clearTimeout(scrT);scrT=setTimeout(function(){scr=false;vis&&!document.hidden&&play()},160)},{passive:true});
     new IntersectionObserver(function(es){vis=es[0].isIntersecting;vis&&!document.hidden?play():stop()}).observe(hero);
     document.addEventListener('visibilitychange',function(){document.hidden?stop():play()});
     play()}
