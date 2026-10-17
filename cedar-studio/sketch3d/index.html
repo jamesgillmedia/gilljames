@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Yellow cedar studio: 3D sketches</title>
+<style>
+  html,body{margin:0;height:100%;background:#f7f4ec;color:#2a2018;font:15px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden;-webkit-tap-highlight-color:transparent}
+  #c{position:fixed;inset:0;width:100%;height:100%;touch-action:none;display:block}
+  header{position:fixed;top:0;left:0;right:0;padding:calc(10px + env(safe-area-inset-top)) 14px 6px;pointer-events:none}
+  h1{margin:0;font-size:17px;font-weight:700;letter-spacing:.2px}
+  #info{margin:3px 0 0;font-size:13px;color:#5a4a3a;max-width:34em}
+  .note{font-size:11px;color:#8a7a68;margin-top:3px}
+  nav{position:fixed;left:0;right:0;bottom:0;padding:8px 10px calc(10px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:linear-gradient(transparent,#f7f4ecee 30%)}
+  button{font:inherit;border:2px solid #2a2018;background:#fffdf7;color:#2a2018;border-radius:12px;min-height:58px;padding:6px 4px;font-weight:600;font-size:14px;line-height:1.15;box-shadow:2px 2px 0 #2a2018;cursor:pointer}
+  button.on{background:#e2b97f}
+  button:active{transform:translate(1px,1px);box-shadow:1px 1px 0 #2a2018}
+  #wall{grid-column:1/-1;min-height:52px;background:#2a2018;color:#fffdf7}
+  #wall.closed{background:#fffdf7;color:#2a2018}
+  button small{display:block;font-weight:400;font-size:11px;opacity:.75}
+</style>
+<script type="importmap">{"imports":{"three":"./vendor/three.module.min.js"}}</script>
+</head>
+<body>
+<canvas id="c"></canvas>
+<header>
+  <h1 id="title">Yellow cedar studio · sketch</h1>
+  <p id="info"></p>
+  <div class="note">Rough 3D sketch, not engineered. Drag to orbit, pinch to zoom.</div>
+</header>
+<nav>
+  <button id="wall" type="button">Close wall</button>
+  <button data-c="1" type="button">1 Plank House<small>Bent</small></button>
+  <button data-c="2" type="button">2 Panel Box<small>600 mm kit</small></button>
+  <button data-c="3" type="button">3 Pavilion<small>+ Pod</small></button>
+</nav>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from './vendor/OrbitControls.js';
+
+const P = new URLSearchParams(location.search);
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({canvas, antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+const scene = new THREE.Scene();
+scene.background = new THREE.Color('#f7f4ec');
+const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 200);
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true; controls.enablePan = true;
+controls.minDistance = 2.5; controls.maxDistance = 45;
+controls.maxPolarAngle = Math.PI*0.49;
+
+scene.add(new THREE.HemisphereLight('#fffaf0', '#b8a888', 1.6));
+const sun = new THREE.DirectionalLight('#ffffff', 1.5); sun.position.set(6, 10, 7); scene.add(sun);
+
+// ---------- sketch helpers ----------
+let seed = 7; const rnd = () => (seed = (seed*16807) % 2147483647) / 2147483647;
+const INK = new THREE.LineBasicMaterial({color:'#2a2018'});
+const INK2 = new THREE.LineBasicMaterial({color:'#2a2018', transparent:true, opacity:.35});
+const matCache = {};
+function mat(col){
+  return matCache[col] ||= new THREE.MeshLambertMaterial({color:col, flatShading:true, polygonOffset:true, polygonOffsetFactor:1, polygonOffsetUnits:1});
+}
+const CEDAR = ['#e9c792','#e3bc84','#dcb37a','#e6c18a'];
+const cedar = () => CEDAR[Math.floor(rnd()*CEDAR.length)];
+// a mesh + inked edges + a faint second "pencil" stroke, slightly offset
+function inked(geom, col){
+  const g = new THREE.Group();
+  g.add(new THREE.Mesh(geom, mat(col)));
+  const e = new THREE.EdgesGeometry(geom, 25);
+  g.add(new THREE.LineSegments(e, INK));
+  const e2 = new THREE.LineSegments(e, INK2);
+  e2.position.set((rnd()-.5)*.02, (rnd()-.5)*.02, (rnd()-.5)*.02); e2.scale.setScalar(1 + (rnd()-.5)*.006);
+  g.add(e2);
+  return g;
+}
+// box by min/max corners (metres, y up)
+function B(parent, x0,y0,z0, x1,y1,z1, col=cedar()){
+  const m = inked(new THREE.BoxGeometry(Math.abs(x1-x0), Math.abs(y1-y0), Math.abs(z1-z0)), col);
+  m.position.set((x0+x1)/2, (y0+y1)/2, (z0+z1)/2); parent.add(m); return m;
+}
+// a beam from point a to point b with section w x h (h is vertical-ish)
+function beam(parent, a, b, w, h, col=cedar()){
+  const A = new THREE.Vector3(...a), Bv = new THREE.Vector3(...b);
+  const len = A.distanceTo(Bv);
+  const m = inked(new THREE.BoxGeometry(w, h, len), col);
+  m.position.copy(A).add(Bv).multiplyScalar(.5); m.lookAt(Bv); parent.add(m); return m;
+}
+const GLASS = '#cfe3e6', STONE = '#c9c4ba', STEEL = '#d9d9d6', MEMB='#b98f5c';
+function pad(parent, x, z, s=.36){ B(parent, x-s/2, 0, z-s/2, x+s/2, .1, z+s/2, STONE); }
+
+function label(text, x, y, z, parent){
+  const c = document.createElement('canvas'), ctx = c.getContext('2d'); const f = 44;
+  ctx.font = `600 ${f}px system-ui,sans-serif`; const w = ctx.measureText(text).width + 24;
+  c.width = w; c.height = f + 20; ctx.font = `600 ${f}px system-ui,sans-serif`;
+  ctx.fillStyle = '#fffdf7e8'; ctx.strokeStyle = '#2a2018'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.roundRect(2,2,w-4,c.height-4,12); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#2a2018'; ctx.textBaseline='middle'; ctx.fillText(text, 12, c.height/2+2);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
+  const s = new THREE.Sprite(new THREE.SpriteMaterial({map:t, depthTest:false, sizeAttenuation:false}));
+  const h = .024; s.scale.set(h*w/c.height, h, 1); s.position.set(x,y,z); s.renderOrder = 10; parent.add(s); return s;
+}
+
+// 1.75 m person: simple extruded silhouette
+function person(parent, x, z, rotY=0){
+  const g = new THREE.Group(); const sh = new THREE.Shape();
+  const pts = [[-.09,0],[-.05,0],[0,.62],[.05,0],[.09,0],[.13,.9],[.19,.93],[.25,1.32],[.21,1.48],[.08,1.5],[.05,1.53],
+               [-.05,1.53],[-.08,1.5],[-.21,1.48],[-.25,1.32],[-.19,.93],[-.13,.9]];
+  sh.moveTo(...pts[0]); pts.slice(1).forEach(p=>sh.lineTo(...p)); sh.closePath();
+  const body = inked(new THREE.ExtrudeGeometry(sh,{depth:.16, bevelEnabled:false}), '#6b6258'); body.position.z = -.08; g.add(body);
+  const head = inked(new THREE.SphereGeometry(.11, 10, 7), '#6b6258'); head.position.y = 1.64; g.add(head);
+  g.position.set(x, 0, z); g.rotation.y = rotY; parent.add(g);
+  label('1.75 m', x, 2.05, z, parent);
+  return g;
+}
+function kiln(parent, x, z){
+  B(parent, x-.6, 0, z-.6, x+.6, .06, z+.6, STONE);           // non-combustible paver pad
+  B(parent, x-.3, .06, z-.3, x+.3, .36, z+.3, '#9a958c');      // stand
+  B(parent, x-.28, .36, z-.28, x+.28, .86, z+.28, STEEL);      // kiln body (simple box)
+  label('kiln', x, 1.25, z, parent);
+}
+
+// ---------- concepts ----------
+// each returns {group, ops:[fn(t)], target, cam, info}
+function concept1(){
+  const g = new THREE.Group(); const ops = [];
+  // room 3.2 m (x, between the two bents) x 3.0 m (z, bent span). Shed roof: back z=-1.5 high 3.4, front z=+1.5 low 2.6
+  const X = 1.6, Z = 1.5, hi = 3.4, lo = 2.6, fl = .25;
+  const roofY = z => lo + (Z - z)/(2*Z)*(hi-lo);
+  for (const x of [-X, X]) for (const z of [-Z, Z]) pad(g, x, z, .4);
+  for (const x of [-X, X]){
+    // bent: 2 posts 200x200 + tie beam 150x300 + sloped rafter
+    B(g, x-.1, .1, -Z-.1, x+.1, hi, -Z+.1);
+    B(g, x-.1, .1, Z-.1, x+.1, lo, Z+.1);
+    B(g, x-.075, lo-.3, -Z-.1, x+.075, lo, Z+.1);               // tie beam
+    beam(g, [x, roofY(Z+.2)+.05, Z+.2], [x, roofY(-Z-.2)+.05, -Z-.2], .15, .2); // rafter
+  }
+  // floor on sleepers
+  B(g, -X-.1, .1, -Z, X+.1, .2, Z, '#cfa66d'); B(g, -X+.1, .2, -Z+.1, X-.1, fl, Z-.1, '#e7c590');
+  // purlins 100x200 @ ~600 along x
+  for (let z = -Z-.1; z <= Z+.15; z += .6){ const y = roofY(z)+.18; B(g, -X-.35, y-.1, z-.05, X+.35, y+.1, z+.05); }
+  // roof: stressed-skin panels + membrane, sloped
+  const ang = Math.atan2(hi-lo, 2*Z), L = (2*Z+.6)/Math.cos(ang);
+  for (let i = 0; i < 6; i++){
+    const w = (2*X+.7)/6, px = -X-.35 + w*(i+.5);
+    const r = inked(new THREE.BoxGeometry(w, .12, L), i%2? '#c69a63':'#cba06a');
+    r.position.set(px, (hi+lo)/2+.34, 0); r.rotation.x = ang; g.add(r);
+  }
+  // back wall: 50x300 planks slid into grooved posts, then clerestory strip
+  for (let y = fl; y < lo - .01; y += .3) B(g, -X+.1, y, -Z-.04, X-.1, Math.min(y+.3, lo), -Z+.04);
+  B(g, -X+.1, lo, -Z-.02, X-.1, hi-.12, -Z+.02, GLASS);
+  for (let x=-X+.1+.8; x < X-.1; x += .8) B(g, x-.03, lo, -Z-.03, x+.03, hi-.12, -Z+.03); // glazing mullions
+  // end walls: stacked planks, stepped under the slope
+  for (const x of [-X, X]) for (let y = fl; y < hi - .3; y += .3){
+    const top = y + .3; let z1 = Z - .1;
+    if (top > lo) z1 = Z - (top - lo)/(hi - lo)*2*Z;
+    if (z1 < -Z+.3) break;
+    B(g, x-.03, y, -Z+.1, x+.03, top, z1);
+  }
+  // front (low) side: header plank + operable wall: two 1.0 m pivots + 1.2 m sliding plank panel
+  B(g, -X+.1, lo-.35, Z-.04, X-.1, lo-.3+.0, Z+.04);
+  const ph = lo-.35-fl-.02;
+  const pivot = (x0) => { const h = new THREE.Group(); h.position.set(x0+.5, fl, Z);
+    B(h, -.48, 0, -.03, .48, ph, .03); for (let k=1;k<4;k++) B(h,-.48,k*ph/4-.01,.03,.48,k*ph/4+.01,.045); g.add(h);
+    ops.push(t => h.rotation.y = t*Math.PI/2*0.92); };
+  pivot(-1.5); pivot(-.5);
+  // sliding panel on exterior top track; slides past the +x end
+  B(g, .4, lo-.33, Z+.08, 3.0, lo-.29, Z+.13, '#7a6a58');
+  const sl = new THREE.Group(); g.add(sl);
+  for (let y=0; y<ph-.01; y+=ph/8) B(sl, .5, fl+y, Z+.09, 1.7, fl+Math.min(y+ph/8,ph), Z+.15);
+  ops.push(t => sl.position.x = t*1.25);
+  // separate free-standing lean-to 2.4 x 3.0 (roof only), on the -x side, for the kiln
+  const lx0 = -X-1.4, lx1 = lx0-2.4;
+  for (const x of [lx0, lx1]) for (const z of [-1.5, 1.5]) { pad(g,x,z,.3); B(g, x-.08,.1,z-.08, x+.08, x===lx0?2.6:2.3, z+.08); }
+  for (const x of [lx0, lx1]) B(g, x-.08, (x===lx0?2.6:2.3), -1.65, x+.08, (x===lx0?2.6:2.3)+.18, 1.65);
+  const la = Math.atan2(.3, 2.4); const lr = inked(new THREE.BoxGeometry(2.4/Math.cos(la)+.4, .08, 3.5), '#cba06a');
+  lr.position.set((lx0+lx1)/2, 2.45+.18+.04, 0); lr.rotation.z = la; g.add(lr);
+  kiln(g, (lx0+lx1)/2, 0);
+  label('lean-to', (lx0+lx1)/2, 3.0, 0, g);
+  person(g, .2, Z+1.4, .3);
+  label('operable wall', -.4, lo+.95, Z+.3, g);
+  return {group:g, ops, target:[-1.3,1.3,.3], cam:[3.2,3.6,9.6],
+    info:'<b>1 · Plank House Bent</b> 3.0 × 3.2 m room (9.6 m²), 2 pegged bents, shed roof 3.4 → 2.6 m, slide-in plank walls, clerestory; 2 pivots + 1.2 m slider ≈ 3 m opening; separate 2.4 × 3.0 m kiln lean-to.'};
+}
+
+function panelWall(parent, x0, z0, x1, z1, y0, h, t=.178){
+  // run of 600 mm stressed-skin panels between two points (axis aligned)
+  const along = Math.abs(x1-x0) > Math.abs(z1-z0), L = along? Math.abs(x1-x0): Math.abs(z1-z0), n = Math.round(L/.6);
+  for (let i=0;i<n;i++){
+    const a = i*L/n+.004, b = (i+1)*L/n-.004;
+    if (along){ const s = Math.min(x0,x1); B(parent, s+a, y0, z0-t/2, s+b, y0+h, z0+t/2); }
+    else { const s = Math.min(z0,z1); B(parent, x0-t/2, y0, s+a, x0+t/2, y0+h, s+b); }
+  }
+}
+// bi-fold pair hinged at hx, folding outward (+z) toward dir (+1 = panels extend +x)
+function bifold(parent, ops, hx, z, y0, w, h, dir){
+  const h1 = new THREE.Group(); h1.position.set(hx, y0, z); parent.add(h1);
+  B(h1, dir>0? .005: -w+.005, 0, -.03, dir>0? w-.005: -.005, h, .03);
+  const h2 = new THREE.Group(); h2.position.set(dir*w, 0, 0); h1.add(h2);
+  B(h2, dir>0? .005: -w+.005, 0, -.03, dir>0? w-.005: -.005, h, .03);
+  for (const hh of [h1,h2]) B(hh, dir>0? .08:-w+.08, h*.45, .03, dir>0? w-.08:-.08, h*.45+.03, .05, '#c49a62');
+  const A = 80*Math.PI/180;
+  ops.push(t => { h1.rotation.y = -dir*t*A; h2.rotation.y = dir*2*t*A; });
+}
+function concept2(){
+  const g = new THREE.Group(); const ops = [];
+  // 3.6 m (x) x 2.4 m (z); floor panels on pedestals; 2.7 m interior; overall ~3.1 m
+  const X = 1.8, Z = 1.2, fl = .25, H = 2.7;
+  for (let x=-X+.3; x<X; x+=1.2) for (const z of [-Z+.3, 0, Z-.3]) B(g, x-.1, 0, z-.1, x+.1, fl-.06, z+.1, STONE); // pedestals
+  for (let x=-X; x<X-.01; x+=.6) B(g, x+.004, fl-.06, -Z, x+.596, fl, Z, '#e2bd86');                  // floor panels
+  panelWall(g, -X, -Z, X, -Z, fl, H);                              // back
+  panelWall(g, -X, -Z, -X, Z, fl, H); panelWall(g, X, -Z, X, Z, fl, H); // ends
+  // roof: 600 mm panels spanning the 2.4 m direction, slight fall to the back
+  for (let x=-X-.3; x<X+.29; x+=.6){
+    const r = inked(new THREE.BoxGeometry(.592, .18, 2*Z+.5), '#c79c64'); r.position.set(x+.3, fl+H+.09, 0); r.rotation.x = -.03; g.add(r);
+  }
+  B(g, -X, fl+H-.12, Z-.09, X, fl+H, Z+.09);                        // front header
+  // operable wall: four 900 mm bi-fold panels on the 3.6 m long side
+  bifold(g, ops, -X, Z, fl, .9, H-.14, +1); bifold(g, ops, X, Z, fl, .9, H-.14, -1);
+  // 2.4 m deep canopy on two cedar posts, full 3.6 m length
+  const cz = Z + 2.4;
+  for (const x of [-X+.1, X-.1]) { pad(g, x, cz-.1, .3); B(g, x-.1, .1, cz-.2, x+.1, 2.45, cz); }
+  B(g, -X-.1, 2.4, cz-.2, X+.1, 2.6, cz);                          // canopy beam
+  const cy0 = 2.86, cy1 = 2.64, ca = Math.atan2(cy0-cy1, cz+.15-Z);
+  for (let x=-X+.2; x<X; x+=.6) beam(g, [x, cy0, Z+.09], [x, cy1, cz+.15], .08, .14);
+  const cr = inked(new THREE.BoxGeometry(2*X+.3, .06, (cz+.25-Z)/Math.cos(ca)), '#cba06a');
+  cr.position.set(0, (cy0+cy1)/2+.1, (Z+cz)/2+.1); cr.rotation.x = ca; g.add(cr);
+  kiln(g, 1.0, cz-.55);                                             // at the far, open edge
+  person(g, -1.0, Z+1.5, -.2);
+  label('4 × 900 bi-fold wall', 0, fl+H+.75, Z+.2, g);
+  return {group:g, ops, target:[0,1.3,1.6], cam:[6.0,4.6,9.4],
+    info:'<b>2 · Panel Box</b> 2.4 × 3.6 m (8.64 m²) kit of 600 mm stressed-skin panels on pedestals, 2.7 m inside / ~3.1 m overall; 4 × 900 mm bi-folds open onto a 2.4 m canopy with the kiln at its open edge.'};
+}
+
+function concept3(){
+  const g = new THREE.Group(); const ops = [];
+  // pavilion 4.8 x 4.8, 2 bays of 2.4 (along x); shed roof: eave 2.7 (z=+2.4) up to 3.9 (z=-2.4)
+  const S = 2.4, eave = 2.7, high = 3.9;
+  const ry = z => eave+.35 + (S - z)/(2*S)*(high - eave - .35);
+  for (const x of [-S, 0, S]){
+    for (const z of [-S, S]){ pad(g, x, z, .45); B(g, x-.11, .1, z-.11, x+.11, z<0? high: eave, z+.11); }
+    // tie beam 200x350 in two scarfed halves
+    B(g, x-.1, eave, -S-.15, x+.1, eave+.35, -.01); B(g, x-.1, eave, .01, x+.1, eave+.35, S+.15);
+    B(g, x-.11, eave+.12, -.15, x+.11, eave+.23, .15, '#c9a06b');  // scarf splice plate
+    beam(g, [x, ry(S+.3)+.08, S+.3], [x, ry(-S-.3)+.08, -S-.3], .15, .25); // rafter
+    beam(g, [x, eave+.35, 0], [x, ry(0), 0], .15, .15);             // king strut
+    for (const z of [-S, S]) beam(g, [x, eave-.7, z - Math.sign(z)*0], [x, eave, z - Math.sign(z)*.7], .1, .12); // knee braces
+  }
+  for (let z=-S-.2; z<=S+.3; z+=.8){ const y = ry(z)+.28; B(g, -S-.4, y-.1, z-.05, S+.4, y+.1, z+.05); } // purlins
+  const ang = Math.atan2(high-eave-.35, 2*S), L = (2*S+.9)/Math.cos(ang);
+  for (let i=0;i<8;i++){ const w = (2*S+.8)/8;
+    const r = inked(new THREE.BoxGeometry(w-.01, .1, L), i%2?'#c69a63':'#cba06a');
+    r.position.set(-S-.4 + w*(i+.5), (ry(0))+.43, 0); r.rotation.x = ang; g.add(r); }
+  // 2.4 x 2.4 pod of Concept-2 panels inside the -x bay; operable wall faces +x (kiln bay)
+  const px0 = -2.2, px1 = .2, pz0 = -2.2, pz1 = .2, fl = .22, H = 2.28;
+  for (const x of [px0+.3, px1-.3]) for (const z of [pz0+.3, pz1-.3]) B(g, x-.1, 0, z-.1, x+.1, fl-.06, z+.1, STONE);
+  for (let x=px0; x<px1-.01; x+=.6) B(g, x+.004, fl-.06, pz0, x+.596, fl, pz1, '#e2bd86');
+  panelWall(g, px0, pz0, px1, pz0, fl, H); panelWall(g, px0, pz1, px1, pz1, fl, H); panelWall(g, px0, pz0, px0, pz1, fl, H);
+  for (let z=pz0-.15; z<pz1+.1; z+=.6) B(g, px0-.15, fl+H, z+.004, px1+.15, fl+H+.15, z+.596, '#c79c64');
+  // bi-fold on x = px1: two pairs of 600 mm panels (rotated version of concept 2)
+  const ow = new THREE.Group(); ow.position.set(px1, 0, (pz0+pz1)/2); ow.rotation.y = Math.PI/2; g.add(ow);
+  bifold(ow, ops, -1.2, 0, fl, .6, H-.02, +1); bifold(ow, ops, 1.2, 0, fl, .6, H-.02, -1);
+  kiln(g, 1.6, 1.3);
+  person(g, 1.0, -.4, .5);
+  label('2.4 m pod', (px0+px1)/2, fl+H+.5, (pz0+pz1)/2, g);
+  return {group:g, ops, target:[0,1.6,0], cam:[9.6,5.6,7.6],
+    info:'<b>3 · Pavilion + Pod</b> open pegged frame 4.8 × 4.8 m (2 bays of 2.4 m, scarfed 200×350 tie beams), shed roof 2.7 → 3.9 m, ~23 m² roof; 2.4 × 2.4 m panel pod with bi-fold wall facing the covered kiln bay.'};
+}
+
+// ground: paper disc + faint grid
+const ground = new THREE.Mesh(new THREE.CircleGeometry(14, 48), new THREE.MeshBasicMaterial({color:'#efe9dc'}));
+ground.rotation.x = -Math.PI/2; ground.position.y = -.002; scene.add(ground);
+const grid = new THREE.GridHelper(24, 24, '#d8cfbd', '#e2dacb'); grid.position.y = 0; scene.add(grid);
+
+const builders = {1:concept1, 2:concept2, 3:concept3};
+const built = {};
+let cur = null, wallT = P.get('wall') === 'closed' ? 0 : 1, wallGoal = wallT;
+const wallBtn = document.getElementById('wall');
+function setWallBtn(){ wallBtn.textContent = wallGoal ? 'Close the operable wall' : 'Open the operable wall'; wallBtn.classList.toggle('closed', !wallGoal); }
+function show(n){
+  for (const k in built) built[k].group.visible = false;
+  const c = built[n] ||= (seed = 7*n, builders[n]());
+  if (!c.group.parent) scene.add(c.group);
+  c.group.visible = true; cur = c;
+  c.group.updateMatrixWorld(true); fit(); frame(c); controls.update();
+  document.getElementById('info').innerHTML = c.info;
+  document.querySelectorAll('nav [data-c]').forEach(b => b.classList.toggle('on', b.dataset.c == n));
+  c.ops.forEach(f => f(wallT));
+  if (history.replaceState){ const u = new URL(location); u.searchParams.set('c', n); history.replaceState(null,'',u); }
+}
+document.querySelectorAll('nav [data-c]').forEach(b => b.onclick = () => show(+b.dataset.c));
+wallBtn.onclick = () => { wallGoal = wallGoal ? 0 : 1; setWallBtn(); };
+
+function fit(){
+  const w = innerWidth, h = innerHeight;
+  renderer.setSize(w, h, false); camera.aspect = w/h;
+  // portrait phones: widen the FOV so the whole studio stays in frame
+  camera.fov = w < h ? 52 : 38; camera.updateProjectionMatrix();
+}
+addEventListener('resize', () => { fit(); if (cur) frame(cur); });
+// 3/4 view: fit the concept's bounding sphere into the space between header and buttons
+function frame(c){
+  const box = new THREE.Box3();
+  c.group.traverse(o => { if (o.isMesh) { o.geometry.computeBoundingBox(); box.union(o.geometry.boundingBox.clone().applyMatrix4(o.matrixWorld)); } });
+  const sph = box.getBoundingSphere(new THREE.Sphere());
+  const tgt = sph.center.clone(); tgt.y = Math.min(tgt.y, 1.4);
+  const dir = new THREE.Vector3(...c.cam).sub(new THREE.Vector3(...c.target)).normalize();
+  const v = THREE.MathUtils.degToRad(camera.fov)/2, h = Math.atan(Math.tan(v)*camera.aspect);
+  const usable = Math.max(.45, 1 - (document.querySelector('header').offsetHeight + document.querySelector('nav').offsetHeight)/innerHeight);
+  const vv = Math.atan(Math.tan(v)*usable);
+  const dist = sph.radius*1.12 / Math.sin(Math.min(h, vv));
+  controls.target.copy(tgt); camera.position.copy(tgt).addScaledVector(dir, dist);
+  // nudge the picture up so it sits between the header and the button bar
+  const off = (document.querySelector('header').offsetHeight - document.querySelector('nav').offsetHeight)/2;
+  camera.setViewOffset(innerWidth, innerHeight, 0, off, innerWidth, innerHeight); camera.updateProjectionMatrix();
+}
+
+const clock = new THREE.Clock();
+renderer.setAnimationLoop(() => {
+  const dt = Math.min(clock.getDelta(), .05);
+  if (wallT !== wallGoal && cur){
+    wallT = P.get('anim') === '0' ? wallGoal : THREE.MathUtils.clamp(wallT + Math.sign(wallGoal - wallT)*dt*0.8, 0, 1);
+    const e = wallT*wallT*(3-2*wallT); cur.ops.forEach(f => f(e));
+  }
+  controls.update(); renderer.render(scene, camera);
+});
+setWallBtn(); show(+(P.get('c') || 1));
+window.__ready = true;
+</script>
+</body>
+</html>
