@@ -1,4 +1,4 @@
-/* gill james v2 · base: tokens, type, header, moon-phase doors, star motif, footer.
+/* gill james v2 · base: tokens, type, header, moon + sky buttons, star motif, footer.
    Values from Gill's original Wix site (see sketches/gilljames-site/direction-v2.md §1). */
 @font-face{font-family:"Poppins";font-weight:200;font-display:swap;src:url(../fonts/poppins-200.woff2) format("woff2")}
 @font-face{font-family:"Poppins";font-weight:300;font-display:swap;src:url(../fonts/poppins-300.woff2) format("woff2")}
@@ -9,7 +9,7 @@
  --f:"Poppins","Syl",system-ui,sans-serif;--d:"Julius Sans One","Syl","Poppins",sans-serif}
 *{box-sizing:border-box}
 html{background:#000;color-scheme:dark}
-body{margin:0;background:#000;color:#fff;font-family:var(--f);font-weight:300;-webkit-font-smoothing:antialiased;min-height:100svh;padding-bottom:calc(var(--bar-h) + env(safe-area-inset-bottom))}
+body{margin:0;background:#000;color:#fff;font-family:var(--f);font-weight:300;-webkit-font-smoothing:antialiased;min-height:100svh}
 a{color:inherit;text-decoration:none}
 img,video{max-width:100%;display:block}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
@@ -36,18 +36,10 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .top .snd{justify-self:end}
 .page-top{padding-top:84px}
 
-/* moon-phase doors: the bottom bar (phone), centred row (desktop) */
-.doors{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px 8px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(transparent,rgba(0,0,0,.86) 38%)}
-.doors ul{list-style:none;margin:0 auto;padding:0;display:flex;justify-content:space-around;align-items:flex-end;max-width:560px}
-.door{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:10px;letter-spacing:.16em;color:#a9b1af;text-transform:lowercase;min-width:56px}
-.ph{width:40px;height:40px;border-radius:50%;background:#0b0d10;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2);position:relative;overflow:hidden;transition:transform .35s,box-shadow .35s}
-.ph::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at var(--x,50%) 50%,transparent 0 var(--r,0%),#b9c1c4 calc(var(--r,0%) + 1px))}
-.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s;filter:grayscale(.2) brightness(.9)}
-.door:hover .ph img,.door:focus-visible .ph img,.door[aria-current] .ph img{opacity:1}
-.door:hover .ph::after,.door:focus-visible .ph::after,.door[aria-current] .ph::after{background:radial-gradient(circle at 30% 50%,transparent 0 58%,rgba(0,0,0,.7) 59%)}
-.door[aria-current]{color:#fff}
-.door[aria-current] .ph{box-shadow:0 0 0 1px rgba(255,255,255,.55),0 0 26px rgba(170,210,230,.25)}
-.door{position:relative}
+/* the small moon: rise back to the surface (every page but home) */
+.moonbtn i{background:rgba(10,12,16,.55);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.moonbtn i::before{content:"";width:18px;height:18px;border-radius:50%;background:radial-gradient(circle at 34% 44%,transparent 0 52%,#e8eef2 54%);filter:drop-shadow(1px 1px 0 rgba(10,189,240,.6)) drop-shadow(-1px -1px 0 rgba(254,1,1,.5))}
+.skybtn i{font-size:15px;color:#e8f2ff}
 /* star-point hover/tap: small cross flare, white with a soft glow */
 .flare{position:relative}
 .flare::before{content:"";position:absolute;width:22px;height:22px;right:-8px;top:-8px;pointer-events:none;opacity:0;transform:scale(.4) rotate(0);transition:opacity .25s,transform .35s;
@@ -68,14 +60,23 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .motion .rv{opacity:0;filter:blur(6px);transform:translateY(10px);transition:opacity 1.4s ease,filter 2s ease,transform 1.4s ease}
 .motion .rv.in{opacity:1;filter:none;transform:none}
 @media (prefers-reduced-motion:no-preference){@view-transition{navigation:auto}}
-.door[aria-current] .ph{view-transition-name:door-on}
 
+/* page transitions: dive (falling through the water), rise (back up), zoom into a cluster (Vancouver vtZoomIn/Out) */
+::view-transition-old(root),::view-transition-new(root){animation-duration:.6s;animation-timing-function:cubic-bezier(.6,0,.3,1)}
+.vt-dive::view-transition-old(root){animation-name:diveOld}
+.vt-dive::view-transition-new(root){animation-name:diveNew}
+.vt-rise::view-transition-old(root){animation-name:riseOld}
+.vt-rise::view-transition-new(root){animation-name:riseNew}
+.vt-in::view-transition-old(root){animation-name:vtZoomInOld;transform-origin:var(--zx,50%) var(--zy,50%)}
+.vt-in::view-transition-new(root){animation-name:vtZoomInNew;transform-origin:var(--zx,50%) var(--zy,50%)}
+@keyframes diveOld{to{transform:scale(1.5) translateY(-18%);opacity:0;filter:blur(6px)}}
+@keyframes diveNew{from{clip-path:circle(0 at var(--zx,50%) var(--zy,60%))}to{clip-path:circle(150% at var(--zx,50%) var(--zy,60%))}}
+@keyframes riseOld{to{transform:scale(.6) translateY(30%);opacity:0}}
+@keyframes riseNew{from{clip-path:circle(0 at 50% 0);transform:translateY(-6%)}to{clip-path:circle(150% at 50% 0);transform:none}}
+@keyframes vtZoomInOld{to{transform:scale(2.6);opacity:0}}@keyframes vtZoomInNew{from{transform:scale(.4);opacity:0}}
+@media (prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+.foot{padding-bottom:40px}
 @media (min-width:900px){
- :root{--bar-h:100px}
  .top{padding:22px 26px 0;grid-template-columns:60px 1fr 60px}.wm{font-size:22px}
- .doors{background:linear-gradient(transparent,rgba(0,0,0,.7) 50%);padding-bottom:22px}
- .doors ul{gap:30px;justify-content:center}
- .ph{width:46px;height:46px}
- .door:hover .ph,.door[aria-current] .ph{transform:scale(1.35) translateY(-6px)}
  .foot{padding:48px 6vw 34px}
 }

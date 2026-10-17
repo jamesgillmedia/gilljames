@@ -3,7 +3,7 @@
 .lede{padding:0 22px;margin:0 0 22px}
 .mint{color:var(--mint);font-family:var(--d);text-transform:uppercase;letter-spacing:.06em;transform:rotate(8.27deg);display:inline-block;font-size:24px;margin:8px 0 18px 22px}
 /* photo: the crescent loop stays sticky behind a floating gallery */
-.loopbg{position:fixed;inset:0;z-index:-1;display:grid;place-items:center;background:#000}
+.loopbg{display:grid;place-items:center;background:#000}
 .loopbg video,.loopbg img{width:min(92vw,720px);aspect-ratio:1;object-fit:cover;opacity:.55}
 .gal{columns:2;column-gap:8px;padding:0 8px}
 .gal figure{margin:0 0 8px;break-inside:avoid;background:#0a0b0c}
@@ -48,3 +48,19 @@
  .field{padding:140px 8vw 60px}
  .about-wrap{display:grid;grid-template-columns:1fr 1fr;align-items:center}
 }
+/* photo: the moon loop sits behind the gallery (below the sky band) */
+.loopwrap{position:relative;isolation:isolate}
+.loopwrap .loopbg{position:sticky;top:0;height:100svh;margin-bottom:-100svh;z-index:-1}
+
+.work:target{outline:1px solid rgba(85,218,161,.6);outline-offset:6px;border-radius:12px}
+.gal a,.grid a{display:block}
+.gal a.lit img,.grid a.lit img{outline:1px solid #fff;outline-offset:2px}
+/* viewer */
+.viewer{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.94);display:grid;place-items:center;touch-action:none}
+.viewer[hidden]{display:none}
+.viewer figure{margin:0;max-width:92vw;max-height:84svh;display:flex;flex-direction:column;align-items:center;gap:10px}
+.viewer img{max-width:92vw;max-height:78svh;object-fit:contain}
+.viewer figcaption{font-size:11px;letter-spacing:.1em;color:#9aa4a3}
+.viewer button{position:absolute;width:44px;height:44px;border-radius:50%;background:rgba(153,153,153,.21);color:#eee;font-size:18px}
+.vx{right:14px;top:14px}.vp-prev{left:10px;top:50%}.vp-next{right:10px;top:50%}
+.modal body{overflow:hidden}

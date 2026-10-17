@@ -1,0 +1,66 @@
+/* the sky under the water: clusters = sections, stars = works. Camera = js/skyzoom.js (adapted from the Vancouver zoom.js).
+   World units: landscape 2000x1500, portrait 1300x2300 (chosen by CSS, so the static map works without JS). */
+.vp{position:relative;overflow:auto;background:#02040a;
+ background-image:radial-gradient(1px 1px at 12% 18%,#cfe0ff 50%,transparent),radial-gradient(1px 1px at 67% 32%,#fff 50%,transparent),radial-gradient(1.4px 1.4px at 38% 72%,#dfe9ff 50%,transparent),radial-gradient(1px 1px at 84% 81%,#fff 50%,transparent),radial-gradient(1px 1px at 22% 58%,#aac 50%,transparent),radial-gradient(1px 1px at 91% 12%,#fff 50%,transparent),radial-gradient(ellipse at 50% 46%,#0b1424,#02040a 70%);
+ background-size:180px 190px,230px 210px,260px 240px,170px 260px,210px 170px,300px 280px,100% 100%}
+.vp::before{content:"";position:absolute;inset:0 0 auto;height:22%;z-index:2;pointer-events:none;background:linear-gradient(rgba(150,190,220,.20),transparent);filter:blur(2px)} /* the surface glows overhead */
+.vp.zoom{overflow:hidden;touch-action:none;cursor:grab}.vp.zoom.drag{cursor:grabbing}
+.vp.band{touch-action:pan-y} /* section pages: one finger scrolls the page, two fingers fly */
+.world{position:relative;width:2000px;height:1500px;transform-origin:0 0;--inv:1}
+@media (orientation:portrait){.world{width:1300px;height:2300px}}
+.zoom .world{position:absolute;left:0;top:0}
+.lines{position:absolute;overflow:visible;pointer-events:none}
+.lines line{stroke:rgba(200,225,235,.26);stroke-width:1;vector-effect:non-scaling-stroke}
+.lines.pole-l line{stroke:rgba(200,225,235,.08)}
+.pl-port{display:none}@media (orientation:portrait){.pl-land{display:none}.pl-port{display:block}}
+.pole{position:absolute;transform:translate(-50%,-50%);left:1000px;top:760px;font-size:120px;color:#fff;filter:drop-shadow(0 0 30px rgba(160,210,255,.45));z-index:3}
+@media (orientation:portrait){.pole{left:650px;top:1090px}}
+.cl{position:absolute;left:calc(var(--lx)*1px);top:calc(var(--ly)*1px);width:0;height:0}
+@media (orientation:portrait){.cl{left:calc(var(--px)*1px);top:calc(var(--py)*1px)}}
+.cl .hit{position:absolute;left:calc(var(--r)*-1px);top:calc(var(--r)*-1px);width:calc(var(--r)*2px);height:calc(var(--r)*2px);border-radius:50%}
+.cname{position:absolute;left:0;top:calc(var(--r)*1px + 10px);transform:translate(-50%,0);white-space:nowrap;text-align:center;z-index:4;font-family:var(--d);text-transform:uppercase;letter-spacing:.3em;font-size:calc(13px * var(--inv));color:#eaf2f1;padding:calc(6px * var(--inv)) calc(10px * var(--inv))}
+.cname small{display:block;font-family:var(--f);font-weight:200;text-transform:none;letter-spacing:.14em;font-size:calc(10px * var(--inv));color:#8e9b99;margin-top:calc(3px * var(--inv))}
+.cl.here .cname{color:var(--mint)}
+.st{position:absolute;left:calc(var(--dx)*1px);top:calc(var(--dy)*1px);transform:translate(-50%,-50%);display:block;z-index:3}
+.st::after{content:"";position:absolute;left:50%;top:50%;width:calc(5px * var(--inv));height:calc(5px * var(--inv));transform:translate(-50%,-50%);border-radius:50%;background:#eef6ff;box-shadow:0 0 calc(8px * var(--inv)) calc(2px * var(--inv)) rgba(200,230,255,.6)}
+.st img{display:block;max-width:none;opacity:0;transition:opacity .4s;background:#0b0e14}
+.st.f img{width:84px;height:35px;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px rgba(255,255,255,.35),0 0 14px rgba(170,215,255,.25)}
+.st.p img{width:56px;height:56px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 1px rgba(255,255,255,.35),0 0 14px rgba(170,215,255,.25)}
+.st.d{width:14px;height:14px}
+.st .nm{position:absolute;left:50%;top:100%;transform:translate(-50%,0);margin-top:4px;white-space:nowrap;font-size:calc(10px * var(--inv));letter-spacing:.06em;color:#c9d3d1;opacity:0;pointer-events:none;max-width:calc(220px * var(--inv));overflow:hidden;text-overflow:ellipsis}
+.st.d .nm{opacity:1}
+[data-lod="1"] .st img,[data-lod="2"] .st img{opacity:1}
+[data-lod="1"] .st:not(.d)::after,[data-lod="2"] .st:not(.d)::after{opacity:0}
+[data-lod="2"] .st .nm{opacity:1}
+[data-lod="0"] .st.d .nm{opacity:0}
+/* star-point hover / tap: a small cross flare */
+.st::before{content:"";position:absolute;left:50%;top:50%;width:calc(26px * var(--inv));height:calc(26px * var(--inv));transform:translate(-50%,-50%) scale(.3) rotate(0);opacity:0;transition:opacity .25s,transform .35s;z-index:2;pointer-events:none;
+ background:linear-gradient(90deg,transparent,#fff 50%,transparent) center/100% 1px no-repeat,linear-gradient(transparent,#fff 50%,transparent) center/1px 100% no-repeat}
+.st:hover::before,.st:focus-visible::before,.st.lit::before{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(45deg)}
+.st.lit img{outline:1px solid #fff;outline-offset:2px}
+/* controls */
+.zctl{position:absolute;left:12px;bottom:12px;z-index:6;display:flex;gap:8px}
+.zctl button,.zctl a{width:36px;height:36px;border-radius:50%;background:rgba(20,24,30,.7);box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);display:grid;place-items:center;color:#d5dcdb;font-size:15px}
+.zhint{position:absolute;right:12px;bottom:18px;max-width:calc(100% - 170px);z-index:6;font-size:9.5px;letter-spacing:.16em;color:#8d9a98;text-transform:lowercase;text-align:right;transition:opacity .8s;pointer-events:none}
+.zhint.off{opacity:0}
+.full .zhint{bottom:66px;max-width:none}
+.vp:not(.zoom) .zctl,.vp:not(.zoom) .zhint{display:none}
+/* one thing moves at a time: while the player / viewer is open the sky is frozen and dimmed */
+.frozen .vp{pointer-events:none}
+.frozen .vp .world{filter:brightness(.35);transition:filter .4s}
+/* arriving from the dive: a short fall into the sky (works without view transitions) */
+.motion.dived .vp .world{animation:fallIn 1s cubic-bezier(.2,.7,.2,1) both}
+@keyframes fallIn{from{opacity:0;filter:blur(8px)}to{opacity:1;filter:none}}
+/* /sky/ page */
+.p-sky .vp{height:100svh}
+.p-sky .listbtn{position:absolute;right:12px;bottom:12px;z-index:6;font-size:11px;letter-spacing:.2em;padding:10px 18px;border-radius:99px;background:rgba(16,20,26,.75);box-shadow:inset 0 0 0 1px rgba(255,255,255,.2);color:#e3eae9;text-transform:lowercase}
+.skylist{padding:40px 22px 10px;columns:1}
+.skylist h2{font-size:12px;margin:22px 0 8px}
+.skylist ul{list-style:none;margin:0;padding:0;font-size:12px;letter-spacing:.04em;line-height:1.9;color:#c9d3d1}
+.skylist a:hover{color:#fff}
+@media (min-width:900px){.skylist{columns:3;padding:60px 6vw}.skylist section{break-inside:avoid}}
+/* section pages: the cluster band */
+.band-wrap{position:relative}
+.vp.band{height:58svh;min-height:380px}
+@media (min-width:900px){.vp.band{height:64vh}}
+@media (max-width:600px){.cname{font-size:calc(11px * var(--inv));letter-spacing:.2em}}
