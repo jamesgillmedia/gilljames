@@ -24,7 +24,7 @@ function push(r,replace){var u=fmt(r);if(u===location.pathname+location.search+l
 var io=('IntersectionObserver' in window)?new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;var im=e.target;if(!im.getAttribute('src')&&im.dataset.src)im.src=im.dataset.src;io.unobserve(im)})},{rootMargin:'320px 0px'}):null;
 function wantImgs(c){$$('.vis img',c.el).forEach(function(im){if(im.getAttribute('src'))return;if(io)io.observe(im);else im.src=im.dataset.src})}
 /* ---------- the constellation geometry ---------- */
-function glyphPts(c){var r=[];$$('.head .glyph circle',c.el).forEach(function(ci){var b=ci.getBoundingClientRect();r.push({x:b.left+b.width/2,y:b.top+b.height/2})});return r}
+function glyphPts(c){/* v3.3 constellations */var r=[];$$('.head .glyph circle:not(.f)',c.el).forEach(function(ci){var b=ci.getBoundingClientRect();r.push({x:b.left+b.width/2,y:b.top+b.height/2})});return r}
 function visR(it){return $('.vis',it).getBoundingClientRect()}
 function onScreen(r,m){m=m||120;return r.bottom>-m&&r.top<innerHeight+m&&r.width>0}
 function drawLines(c,draw){var svg=c.svg;if(c.lv<1){svg.innerHTML='';return}
@@ -77,7 +77,7 @@ function go1(r,o){
   if(o.push!==false)push(r,o.replace);ui()}
 function cur(){if(S.w)return{k:S.k,lv:3,w:S.w,play:S.play};var k=inView();return{k:k,lv:CH[k].lv}} /* QA: the chapter in view, never an off-screen open one */
 function step(dir,anchor,k){if(SH()){__sheet.step(dir);return}var s=cur();if(k&&!S.w&&k!==s.k)s={k:k,lv:CH[k].lv};var c=CH[s.k];
-  if(dir>0){if(s.lv===3){if(!S.play&&c.k==='film')go({k:s.k,lv:3,w:s.w,play:true});return}
+  if(dir>0){if(s.lv===3){if(!S.play&&c.k==='film'&&playable(s.w))go({k:s.k,lv:3,w:s.w,play:true});return}
     if(s.lv>=c.max)return;
     if(s.lv===2){var it=anchor&&anchor.classList&&anchor.classList.contains('it')?anchor:centerItem(c);if(it)go({k:s.k,lv:3,w:it.dataset.k},{anchor:it});return}
     go({k:s.k,lv:s.lv+1},{anchor:anchor||centerItem(c)});
@@ -88,11 +88,11 @@ function step(dir,anchor,k){if(SH()){__sheet.step(dir);return}var s=cur();if(k&&
 function centerItem(c){var best=null,bd=1e9,mid=innerHeight*.45;c.items.forEach(function(it){var r=visR(it);if(!r.width||!onScreen(r,0))return;var d=Math.abs(r.top+r.height/2-mid);if(d<bd){bd=d;best=it}});return best}
 function inView(){var mid=innerHeight*.5,best=ORDER[0],bd=1e9;ORDER.forEach(function(k){var r=CH[k].el.getBoundingClientRect();var d=r.top<=mid&&r.bottom>=mid?0:Math.min(Math.abs(r.top-mid),Math.abs(r.bottom-mid));if(d<bd){bd=d;best=k}});return best}
 /* ---------- dock: ●○○○ + name, +/−, the tab you are in ---------- */
-var uiq=0;function ui(){if(uiq)return;uiq=requestAnimationFrame(uiNow)}function uiNow(){if(uiq){cancelAnimationFrame(uiq)}uiq=0;if(SH()){__sheet.ui();return}var s=cur(),c=CH[s.k],lv=s.lv;
+var uiq=0,shownK=null;function ui(){if(uiq)return;uiq=requestAnimationFrame(uiNow)}function uiNow(){if(uiq){cancelAnimationFrame(uiq)}uiq=0;if(SH()){__sheet.ui();return}var s=cur(),c=CH[s.k],lv=s.lv;
   /* five dots: the whole sky (above every chapter), then L0..L3 */
   zDots.textContent=[0,1,2,3,4].map(function(i){return i<=lv+1?'●':'○'}).join('');
-  zName.textContent=s.k+' · L'+lv+(S.play?' ▶':'');ORDER.forEach(function(k){CH[k].el.classList.toggle('inv',k===s.k&&!S.w)}); /* v3.2 QA L2 */
-  zBtn[0].disabled=!window.__sheet&&lv===0;zBtn[1].disabled=lv>=c.max&&!(lv===3&&s.k==='film'&&!S.play);
+  shownK=s.k;zName.textContent=s.k+' · L'+lv+(S.play?' ▶':'');ORDER.forEach(function(k){CH[k].el.classList.toggle('inv',k===s.k&&!S.w)}); /* v3.2 QA L2 */
+  zBtn[0].disabled=!window.__sheet&&lv===0;zBtn[1].disabled=lv>=c.max&&!(lv===3&&s.k==='film'&&!S.play&&playable(S.w));
   tabs.forEach(function(a){a.classList.toggle('here',a.dataset.t===s.k&&(D.scrollTop>0||scrollY>40||lv>0))})}
 /* ---------- L3: the work. The frame zooms up from its tile; the Scope chrome fades in ---------- */
 var openTile=null,vidEl=null;
@@ -102,11 +102,12 @@ function fill(c,it,play){var j=JSON.parse(it.dataset.j||'{}'),k=c.k,SC=!!window.
   $('.imm-m').textContent=$('.cap small',it).textContent;
   var pb=$('[data-a=play]',imm),ex=$('[data-a=ext]',imm),dl=$('.imm-c',imm);dl.hidden=!(k==='film'||k==='objects');
   var fr=$('.imm-f',imm);if(fr)fr.innerHTML=(k==='film'&&j.frames&&j.frames.length?j.frames:[]).map(function(f){return '<img src="'+f+'" alt="" width="160" height="67" decoding="async">'}).join('');
-  pb.hidden=!(k==='film'||k==='sound');ex.hidden=!(j.url);if(j.url)ex.href=j.url;
+  pb.hidden=!(k==='film'||k==='sound')||(k==='film'&&!j.reel&&!j.native&&!j.embed); /* v3.2.2: no local file yet = no play action (never the Vimeo player) */
+  ex.hidden=!(j.url)||/vimeo\.com/.test(j.url);if(j.url)ex.href=j.url; /* v3.2.2: no way out to Vimeo; films play natively in Scope */
   if(k==='film'){pb.textContent=play?'… loading':'▶ play film';imm.classList.toggle('playing',!!play);
     if(SC){vidEl=__scope.fill({it:it,j:j,play:play,frame:frame,label:playLabel,setVid:function(v){vidEl=v}});if(play)watchPlay();return}
     if(play){if(j.reel){vidEl=document.createElement('video');vidEl.src='media/reel/reel-v7-720.mp4';vidEl.playsInline=true;vidEl.setAttribute('playsinline','');vidEl.controls=true;vidEl.autoplay=true;vidEl.poster=it.dataset.big;vidEl.addEventListener('playing',function(){playLabel('❚❚ playing')});vidEl.addEventListener('pause',function(){playLabel('▶ play film')});frame.appendChild(vidEl);vidEl.play().catch(function(){playLabel('▶ play film')})}
-      else{var f=document.createElement('iframe');if(/youtube/.test(j.embed))setTimeout(function(){if(S.play)playLabel('▶ in the player')},1500);f.src=j.embed;f.allow='autoplay; fullscreen; picture-in-picture';f.title=j.title;f.setAttribute('allowfullscreen','');frame.classList.add('ext');frame.appendChild(f);watchPlay()}}
+      else if(j.embed){var f=document.createElement('iframe');if(/youtube/.test(j.embed))setTimeout(function(){if(S.play)playLabel('▶ in the player')},1500);f.src=j.embed;f.allow='autoplay; fullscreen; picture-in-picture';f.title=j.title;f.setAttribute('allowfullscreen','');frame.classList.add('ext');frame.appendChild(f);watchPlay()}}
     else{var pv=it.dataset.pv;if(pv&&anim()){vidEl=document.createElement('video');vidEl.muted=true;vidEl.loop=true;vidEl.playsInline=true;vidEl.setAttribute('playsinline','');vidEl.autoplay=true;vidEl.poster=it.dataset.big;vidEl.src=pv;frame.appendChild(vidEl);vidEl.play().catch(function(){})}
       else{var im=new Image();im.src=it.dataset.big;im.alt='';frame.appendChild(im)}}}
   else if(k==='sound'){pb.textContent=play?'player loaded':'▶ load player';
@@ -152,15 +153,16 @@ function neighbour(dir){var c=CH[S.k],i=c.items.indexOf(item(c,S.w)),n=c.items[(
   if(anim())frame.animate([{opacity:0,transform:'translateX('+(dir*30)+'px)'},{opacity:1,transform:'none'}],{duration:320,easing:EASE});
   fill(c,n,false);push({k:S.k,lv:3,w:S.w},true);ui()}
 imm.addEventListener('click',function(e){var b=e.target.closest('[data-a]');if(!b)return;var a=b.dataset.a;
-  if(a==='out'){e.preventDefault();if(imm.classList.contains('fv')){fv(false);return}if(S.w)go({k:S.k,lv:2},{anchor:item(CH[S.k],S.w)})} /* ✕ always lands on the chapter grid */
-  else if(a==='play'){e.preventDefault();if(!S.play)go({k:S.k,lv:3,w:S.w,play:true});else if(vidEl&&S.play){vidEl.paused?vidEl.play():vidEl.pause()}else{var ifr=$('iframe',frame);if(ifr&&/vimeo/.test(ifr.src))vimeo(ifr,/playing/.test(b.textContent)?'pause':'play')}}
+  if(a==='out'){e.preventDefault();var wasFs=unfullAll();if(S.w)go({k:S.k,lv:2},{anchor:item(CH[S.k],S.w),noAnim:wasFs})} /* ✕ always lands on the chapter grid. v3.4: in full screen too, in ONE tap (it used to only leave full screen first) */
+  else if(a==='play'){e.preventDefault();if(!S.play)go({k:S.k,lv:3,w:S.w,play:true});else if(window.__scope&&__scope.owns())__scope.toggle();else if(vidEl&&S.play){vidEl.paused?vidEl.play():vidEl.pause()}else{var ifr=$('iframe',frame);if(ifr&&/vimeo/.test(ifr.src))vimeo(ifr,/playing/.test(b.textContent)?'pause':'play')}}
   else if(a==='prev'||a==='next'){e.preventDefault();neighbour(a==='next'?1:-1)}
   else if(a==='full'){e.preventDefault();full()}});
 /* full screen: a playing <video> uses the native player (iPhone: webkitEnterFullscreen). An embed (Vimeo/YouTube) uses element
    full screen where the browser has it; iPhone Safari has none for a div, so there we ask Vimeo's own player (postMessage API)
    and also switch the work view to a CSS full-viewport mode (frame fills the screen, ✕ exits). */
 function fsOK(){return !!(document.fullscreenEnabled||document.webkitFullscreenEnabled)}
-function full(){var ifr=$('iframe',frame);
+function playable(w){var it=w&&item(CH.film,w);return !it||!window.__scope||__scope.playable(it)} /* v3.2.2 */
+function full(){var ifr=$('iframe',frame);if(window.__scope&&__scope.owns()){__scope.toggleFull();return} /* v3.2.2: Scope morphs cut <-> full itself, the video never moves */
   if(imm.classList.contains('fv')){fv(false);return}
   /* v3.2 QA L1: element full screen is the whole work view in the .fv layout, so ✕ and ⤡ stay on screen (Android had no on-page exit) */
   if(fsOK()&&(imm.requestFullscreen||imm.webkitRequestFullscreen)){var q=imm.requestFullscreen?imm.requestFullscreen():imm.webkitRequestFullscreen();fsImm=1;fv(true);q&&q.then&&q.then(function(){try{screen.orientation.lock('landscape').catch(function(){})}catch(e){}},function(){fsImm=0});return}
@@ -169,6 +171,10 @@ function full(){var ifr=$('iframe',frame);
   fv(true)}
 var fsImm=0,fsOffT=0;function fsEl(){return document.fullscreenElement||document.webkitFullscreenElement}
 ['fullscreenchange','webkitfullscreenchange'].forEach(function(n){document.addEventListener(n,function(){if(!fsEl()&&fsImm){fsImm=0;fsOffT=Date.now();fv(false)}})}); /* system Back / Esc left full screen */
+/* v3.4: leave every kind of full screen at once (Scope's element full screen + .fv, the embed's element full screen, the iPhone CSS one).
+   Returns whether anything was full, so the close that follows can skip its zoom-out (no animation against a resizing screen) */
+function unfullAll(){var was=!!fsEl()||imm.classList.contains('fv');if(window.__scope&&__scope.unfull)__scope.unfull();if(imm.classList.contains('fv')||fsImm)fv(false);
+  if(fsEl())try{(document.exitFullscreen||document.webkitExitFullscreen).call(document)}catch(e){}return was}
 function fv(on){imm.classList.toggle('fv',on);if(!on&&fsImm&&fsEl()){fsImm=0;try{(document.exitFullscreen||document.webkitExitFullscreen).call(document)}catch(e){}}var b=$('[data-a=full]',imm);if(b){b.setAttribute('aria-label',on?'exit full screen':'full screen');b.textContent=on?'⤡':'⤢'}}
 function vimeo(ifr,method,value){try{ifr.contentWindow.postMessage(JSON.stringify(value===undefined?{method:method}:{method:method,value:value}),'https://player.vimeo.com')}catch(e){}}
 var watchT=0;function watchPlay(){clearTimeout(watchT);var f=$('iframe',frame);if(!f||!S.play)return; /* v3.2 QA M1: no play event within ~3 s -> hand over to the player */
@@ -237,7 +243,8 @@ function pv(){if(pvq)return;pvq=requestAnimationFrame(function(){pvq=0;var live=
 /* ---------- scroll: the water deepens, the poem melts, the sky comes up. Passive, never blocks scroll. ---------- */
 var poemL=$$('.poem span'),P0=[],sky=$('#sky'),sq=0,scrolling=false,scT=0;
 function measure(){var y=scrollY;P0=poemL.map(function(s){return s.getBoundingClientRect().top+y})}
-function onScroll(){scrolling=true;clearTimeout(scT);scT=setTimeout(function(){scrolling=false;pv();uiNow()},180);if(sq)return;sq=requestAnimationFrame(function(){sq=0;var y=scrollY,vh=innerHeight;
+function onScroll(){if(!S.w&&!SH()&&inView()!==shownK)uiNow(); /* v3.4 (QA N-5): the bar names the new chapter in the same scroll event, not a frame or two later (5 rect reads, only rewrites on a change) */
+  scrolling=true;clearTimeout(scT);scT=setTimeout(function(){scrolling=false;pv();uiNow()},180);if(sq)return;sq=requestAnimationFrame(function(){sq=0;var y=scrollY,vh=innerHeight;
   var intro=$('.intro').getBoundingClientRect();D.style.setProperty('--depth',Math.max(0,Math.min(1,(y/(intro.height+80)))).toFixed(3));
   var sr=sky.getBoundingClientRect();D.style.setProperty('--night',Math.max(0,Math.min(1,1-(sr.top/vh-.15)/.6)).toFixed(3));
   poemL.forEach(function(s,i){var top=P0[i]-y,T=Math.min(vh*.16,P0[i]-6),o=Math.max(0,Math.min(1,(top-T+vh*.14)/(vh*.14)));if(top>=T)o=1;
@@ -248,7 +255,8 @@ addEventListener('scroll',onScroll,{passive:true});
 addEventListener('resize',function(){measure();ORDER.forEach(function(k){if(CH[k].lv)drawLines(CH[k])});onScroll()});
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){measure();ORDER.forEach(function(k){if(CH[k].lv)drawLines(CH[k])})});
 /* ---------- Back / Forward and deep links: every level is a hash ---------- */
-addEventListener('popstate',function(){var r=parse(location.hash);if(r.sheet){if(S.w)closeWork(true,true);return} /* v3.2: never leave a work open under/over the sheet */go(r,{push:false,anchor:r.k?CH[r.k].head:null})});
+addEventListener('popstate',function(){var wasFs=unfullAll(),r=parse(location.hash); /* v3.4: Back in full screen = out of full screen + the film closes, together (no stills left in full screen) */
+  if(wasFs&&!r.sheet){go(r,{push:false,anchor:r.k?CH[r.k].head:null,noAnim:true});return}if(r.sheet){if(S.w)closeWork(true,true);return} /* v3.2: never leave a work open under/over the sheet */go(r,{push:false,anchor:r.k?CH[r.k].head:null})});
 function boot(){measure();var r=parse(location.hash);if(r.sheet){onScroll();ui();return}if(r.k){var a=anim;anim=function(){return false};go(r,{push:false,replace:true,noAnim:true});
     if(r.lv<3)CH[r.k].el.scrollIntoView({block:'start'});anim=a}
   else if(location.hash&&location.hash!=='#')history.replaceState(null,'',location.pathname+location.search);

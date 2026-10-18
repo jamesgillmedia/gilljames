@@ -58,6 +58,8 @@ var RUN=function(){
     stars:function(a){SA.fill(0);a.slice(0,48).forEach(function(p,i){SA[i*3]=p[0];SA[i*3+1]=p[1];SA[i*3+2]=p[2]});g.uniform3fv(U.S,SA);if(!run)frame(performance.now())},
     hole:function(x,y){if(dead||lost||!c.classList.contains('on'))return false;act=true;hole={x:x,y:y,t:performance.now()};g.uniform2f(U.M,x,y);reduce=false;play();return true},live:function(){return !dead&&!lost&&c.classList.contains('on')},
     /* the shell turns the water off while the surface is hidden (sky / sections) and back on when you rise */
+    /* v3.2.1: render resolution (1 = the early c08 water, soft; 2 = sharp), live */
+    res:function(d){var n=Math.min(devicePixelRatio||1,d||2);if(n===dpr)return;dpr=n;if(c.classList.contains('on')){size();frame(performance.now())}},
     active:function(on){act=!!on;act&&vis&&!document.hidden?play():stop()},reset:function(){hole=null;reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;frame(performance.now())}};
   var scr=false,scrT=0,reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,run=false,vis=true,act=true,dead=false,t0=performance.now(),raf=0,swell=1,lastY=scrollY;
   var im=new Image();im.decoding='async';
