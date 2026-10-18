@@ -12,9 +12,143 @@
   {
    "id": "site-v31-qa",
    "title": "Site v3.1 QA"
+  },
+  {
+   "id": "site-v32-qa",
+   "title": "Site v3.2 QA (emulated)"
   }
  ],
  "items": [
+  {
+   "section": "site-v3",
+   "type": "video",
+   "file": "media/live-native-films.mp4",
+   "poster": "posters/live-native-films.jpg",
+   "title": "v3.2.2 every film plays on the site",
+   "desc": "The films that used to open Vimeo now play in the site's own player from files on the site. Each one has its own cuts on the timeline and its own strip of shots. Turning the phone switches between the wide frame and full screen without restarting the film.",
+   "time": "2026-10-18T09:34:00-07:00",
+   "badge": null
+  },
+  {
+   "section": "site-v3",
+   "type": "video",
+   "file": "media/sound-player-sketch.mp4",
+   "poster": "posters/sound-player-sketch.jpg",
+   "title": "Sound chapter player (sketch)",
+   "desc": "A sketch for the Sound chapter: the waveform constellation, tap to dive in, and Lost Coffee's “To Go” plays on the page with a moving star shape and a timeline you can drag. Not on the site yet.",
+   "time": "2026-10-18T09:27:00-07:00",
+   "badge": null
+  },
+  {
+   "section": "site-v32-qa",
+   "type": "video",
+   "file": "media/v32-qa-iphone15-webkit.mp4",
+   "poster": "posters/v32-qa-iphone15-webkit.jpg",
+   "title": "iPhone 15 size (WebKit): arrival to Scope and back",
+   "desc": "Emulated in Playwright WebKit at iPhone 15 size. The arrival, dive and a slow scroll, then − to the whole sky, a tap into Film and the reel in Scope. WebKit has no real pinch here, so it uses the buttons.",
+   "time": "2026-10-18T09:15:00-07:00",
+   "badge": null
+  },
+  {
+   "section": "site-v32-qa",
+   "type": "video",
+   "file": "media/v32-qa-s24-landscape.mp4",
+   "poster": "posters/v32-qa-s24-landscape.jpg",
+   "title": "S24 size, landscape: same flow",
+   "desc": "Emulated landscape run of the same flow. In landscape, the dive only moves the page a little and leaves the water dimmed (logged as an issue). The Scope shot strip is hidden in landscape by design.",
+   "time": "2026-10-18T09:14:00-07:00",
+   "badge": null
+  },
+  {
+   "section": "site-v32-qa",
+   "type": "video",
+   "file": "media/v32-qa-s24-portrait.mp4",
+   "poster": "posters/v32-qa-s24-portrait.jpg",
+   "title": "S24 size, portrait: arrival to Scope and back",
+   "desc": "Emulated in Chromium at Galaxy S24 size. Moonwater ripples, tap to dive, swipe back up, a slow scroll through the page, pinch to the whole sky, a big pinch into Film (one level), the stars become the grid, the reel in the Scope player (strip, cut rail, next shot, play), then close back to the grid.",
+   "time": "2026-10-18T09:11:00-07:00",
+   "badge": null
+  },
+  {
+   "section": "site-v3",
+   "type": "video",
+   "file": "media/live-v321-ripples.mp4",
+   "poster": "posters/live-v321-ripples.jpg",
+   "title": "v3.2.1 compare the ripples",
+   "desc": "The home page with a small switcher (1 2 3 5) at the bottom of the water, so Gill can compare the ripple versions on his own phone: 1 is the early mobile water, 2 is site v2, 3 is the dim v3 backdrop and 5 is the current v3.2 water.",
+   "time": "2026-10-18T08:38:00-07:00",
+   "badge": null
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/reel-v7-pass7b-small.mp4",
+   "poster": "posters/reel-v7-pass7b-small.jpg",
+   "title": "Reel v7 pass 7b (full cut)",
+   "desc": "The whole 73-second reel, the newest cut. It is pass 7 with one change Gill asked for: the Weird Kid horse holds again, uninterrupted from 0:51 to 0:54, then shrinks into the river of moving tiles. The Ironworkers welder that used to cut into it is gone. Every tile is moving footage from Gill's own films.",
+   "time": "2026-10-18T08:34:00-07:00",
+   "badge": "Latest"
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/p7b-horse-hold.mp4",
+   "poster": "posters/p7b-horse-hold.jpg",
+   "title": "Pass 7b edit: the horse holds again",
+   "desc": "0:48 to 0:57 of the reel. The Weird Kid horse now stays full-frame from 0:51 to 0:53.5, like in pass 5, and then shrinks into the moving tile river. The welder shot is out of this spot.",
+   "time": "2026-10-18T08:16:00-07:00",
+   "badge": null
+  },
+  {
+   "section": "site-v3",
+   "type": "video",
+   "file": "media/live-v32-moonwater.mp4",
+   "poster": "posters/live-v32-moonwater.jpg",
+   "title": "v3.2 Moonwater arrival",
+   "desc": "The bright water and moon at the top of the home page. Tap the water beside the name: a ripple opens, the poem melts away and the page glides down to the constellations. Scroll back to the top and the water comes back.",
+   "time": "2026-10-18T03:08:00-07:00",
+   "badge": null
+  },
+  {
+   "section": "site-v3",
+   "type": "video",
+   "file": "media/live-v32-scope.mp4",
+   "poster": "posters/live-v32-scope.jpg",
+   "title": "v3.2 Scope film player",
+   "desc": "The reel in the new Scope player: a wide frame with a timecode, a timeline with one star per cut that you can drag, and a strip of shots you can swipe. › jumps to the next shot and ▶ plays.",
+   "time": "2026-10-18T03:07:00-07:00",
+   "badge": null
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/p7-open-dive.mp4",
+   "poster": "posters/p7-open-dive.jpg",
+   "title": "Pass 7 edit: opening and dive into Film",
+   "desc": "0:00 to 0:12. The Moonwater opening is unchanged. On the dive into Film, the four frames waiting along the way now keep playing their shots instead of freezing.",
+   "time": "2026-10-18T02:56:00-07:00",
+   "badge": null
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/p7-strobe-zoom-recap.mp4",
+   "poster": "posters/p7-strobe-zoom-recap.jpg",
+   "title": "Pass 7 edit: second strobe, endless zoom and recap",
+   "desc": "0:55 to 1:04. The second strobe is now 43 different moving shots instead of website stills, the endless zoom is all moving footage, and the recap opens on a Backward Fall portrait instead of a repeated BMW track shot.",
+   "time": "2026-10-18T02:55:00-07:00",
+   "badge": null
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/p7-bmw-electrify-golden-moment.mp4",
+   "poster": "posters/p7-bmw-electrify-golden-moment.jpg",
+   "title": "Pass 7 edit: BMW Drift, Electrify and Golden Moment",
+   "desc": "0:25 to 0:36. A wall of moving tiles, then BMW Drift as one smooth drift toward the camera (it used to be three cuts off the beat), then BMW Electrify the Night, AXE Golden Moment and Stay Gold.",
+   "time": "2026-10-18T02:53:00-07:00",
+   "badge": null
+  },
   {
    "section": "reel-v7",
    "type": "video",
@@ -23,7 +157,7 @@
    "title": "Reel v7 pass 6b (full cut)",
    "desc": "The full pass 6b reel. Retail Revolution footage removed; Ironworkers, Flybits and Special Olympics back in the walls alongside Electrify; Legends focus, chapter constellations and the first mix kept.",
    "time": "2026-10-18T02:15:00-07:00",
-   "badge": "Latest"
+   "badge": null
   },
   {
    "section": "reel-v7",
