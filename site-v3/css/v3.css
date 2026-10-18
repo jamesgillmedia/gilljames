@@ -218,3 +218,59 @@ html.sheet-on,html.sheet-on body{overflow:hidden}
 .imm.fv .imm-stage{grid-row:1/-1}.imm.fv .frame{width:100%;height:100%;max-height:none;aspect-ratio:auto}.imm.fv .amb{display:none}
 @media (orientation:portrait){.imm.playing:not(.fv) .frame.ext{aspect-ratio:16/10}} /* a bigger player in portrait (was a 151px sliver) */
 .ch.lv1 .head,.ch.lv2 .head{position:sticky;top:0;z-index:6;background:linear-gradient(rgba(4,7,11,.96),rgba(4,7,11,.9));box-shadow:0 6px 12px -6px rgba(0,0,0,.6)} /* the chapter name stays while you are deep inside it */
+
+/* ---------- v3.2 · Scope: the film player at L3 / play (js/scope.js). Constellation language: cuts are stars on a hairline ---------- */
+.scope{display:flex;flex-direction:column;gap:2px;margin:6px 0 2px}.scope[hidden]{display:none}
+.imm.scoped .imm-f,.imm.scoped .imm-m{display:none}
+.sc-row{display:flex;align-items:center;gap:6px}
+.sc-b{flex:none;font-size:16px;padding:0}
+.sc-lab{flex:1;min-width:0;min-height:44px;display:flex;flex-direction:column;justify-content:center;gap:1px;padding:0 4px;color:var(--dim);text-decoration:none;font-size:10.5px;letter-spacing:.08em;border-radius:12px}
+.sc-lab .l1{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc-lab .tc{color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:.12em}
+.sc-lab .l2{color:var(--ink);font-size:11.5px;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc-lab .ff,.sc-lab .pl{color:var(--mint)}
+a.sc-lab[href]{cursor:pointer}
+.sc-rail{position:relative;height:26px;margin:0 8px;touch-action:none;cursor:ew-resize;-webkit-user-select:none;user-select:none;outline-offset:0}
+.sc-rail>*{position:absolute;pointer-events:none}
+.sc-line{left:0;right:0;top:50%;height:1px;background:var(--line)}
+.sc-fill{left:0;top:50%;height:1px;width:0;background:linear-gradient(90deg,rgba(85,218,161,.1),rgba(85,218,161,.75))}
+.sc-rail .tk{top:50%;width:3px;height:3px;margin:-1.5px 0 0 -1.5px;border-radius:50%;background:#8fa3aa;box-shadow:0 0 3px rgba(190,225,255,.55)}
+.sc-rail .tk.f{background:#e8f1f4}
+.sc-rail .tk.on{width:7px;height:7px;margin:-3.5px 0 0 -3.5px;background:var(--mint);box-shadow:0 0 6px 2px rgba(85,218,161,.65),0 0 14px 4px rgba(85,218,161,.25);animation:twk 2.4s ease-in-out infinite}
+@keyframes twk{50%{box-shadow:0 0 4px 1px rgba(85,218,161,.5),0 0 10px 2px rgba(85,218,161,.15)}}
+.sc-head{top:3px;bottom:3px;width:1px;margin-left:-.5px;background:rgba(255,255,255,.85);box-shadow:0 0 6px rgba(255,255,255,.7)}
+.sc-head::after{content:"";position:absolute;left:-2.5px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:#fff;box-shadow:0 0 8px 2px rgba(255,255,255,.75),2px 2px 0 -1px var(--cy),-2px -2px 0 -1px var(--rd)}
+.sc-rail.drag .sc-head::after{transform:scale(1.5)}
+.sc-strip{display:flex;gap:6px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scroll-snap-type:x proximity;touch-action:pan-x;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  padding:4px calc(50% - 43px) 6px;background:linear-gradient(var(--line),var(--line)) 0 50%/100% 1px no-repeat;background-attachment:local}
+.sc-strip::-webkit-scrollbar{display:none}
+.sc-strip .th{flex:none;position:relative;width:86px;height:36px;border-radius:2px;overflow:hidden;background:#0b1015;scroll-snap-align:center;opacity:.42;transition:opacity .25s,box-shadow .25s;cursor:pointer}
+.sc-strip .th img,.sc-strip .th canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.sc-strip .th.on{opacity:1;outline:1px solid var(--mint);outline-offset:1px;box-shadow:0 0 12px rgba(85,218,161,.45)}
+.scope.nostrip .sc-strip{display:none}
+.scope.ext .sc-rail .tk{display:none}
+.frame>video.rv{background:#000}
+@media (orientation:landscape) and (max-height:500px){
+  .imm.scoped .imm-bot{flex-wrap:wrap;row-gap:0;padding-top:14px;background:linear-gradient(transparent,rgba(0,0,0,.9) 14px,rgba(0,0,0,.95))}
+  .imm.scoped .imm-m{display:block;flex:1}
+  .imm-bot .scope{flex:1 0 100%;flex-direction:row;align-items:center;gap:6px;margin:0}
+  .scope .sc-row{display:contents}.scope .sc-lab{order:1;flex:0 1 220px}.scope [data-s=prev]{order:0}.scope .sc-rail{order:2;flex:1;margin:0 6px}.scope [data-s=snd]{order:3}.scope [data-s=next]{order:4}
+  .scope .sc-strip{display:none}
+}
+
+/* ---------- v3.2 · Moonwater arrival (js/arrival.js): bright, full-strength water + moon at the top; dims as you sink ---------- */
+.backdrop{--arr:1}
+.backdrop::after{opacity:calc(1 - var(--arr))}
+.backdrop::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;opacity:var(--arr);background:linear-gradient(180deg,rgba(3,6,10,.04),rgba(3,6,10,.10) 40%,rgba(3,6,10,.46) 64%,rgba(3,6,10,.66))}
+.plain-p .backdrop::before{display:none}
+.id .moon{width:64px;height:64px;margin:-8px 0;box-shadow:inset -17px 4px 0 0 #f2f5f7} /* bigger moon, same row height (no layout change) */
+.home-p .hint{display:table;background:rgba(3,7,12,.58);border-radius:8px;padding:3px 8px;margin-left:0}
+.intro .name,.intro .roles,.intro .poem,.intro .hint{transition:opacity .5s var(--ease),filter .5s var(--ease)}
+.intro.melt .name,.intro.melt .roles,.intro.melt .poem,.intro.melt .hint{opacity:0;filter:blur(8px)}
+.bd-hole{position:absolute;z-index:3;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;transform:scale(0);
+  background:radial-gradient(circle,#0a1424 0,#050a14 62%,rgba(5,10,20,0) 70%);box-shadow:0 0 0 1px rgba(190,220,245,.55),0 0 24px rgba(190,220,245,.35);transition:transform .62s cubic-bezier(.5,0,.75,0),opacity .45s}
+.bd-hole.open{transform:scale(260)}.bd-hole.gone{opacity:0}
+.backdrop.sink::before,.backdrop.sink::after{transition:opacity .8s var(--ease)}
+.home-p .main,.home-p header.top{-webkit-tap-highlight-color:transparent}.home-p .main a,.home-p .main button,.home-p header.top a{-webkit-tap-highlight-color:initial} /* the water listens for taps (iOS needs a listener below <body>): no grey flash over the page, links keep theirs */
+/* v3.2 QA L2: the chapter the dock names (+ / − act on it) glows */
+.ch.inv>.head .glyph polyline{stroke:rgba(150,240,210,.85)}.ch.inv>.head .glyph circle{filter:drop-shadow(0 0 3px #7ef0c8)}
