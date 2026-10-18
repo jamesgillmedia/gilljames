@@ -88,30 +88,32 @@ function step(dir,anchor,k){if(SH()){__sheet.step(dir);return}var s=cur();if(k&&
 function centerItem(c){var best=null,bd=1e9,mid=innerHeight*.45;c.items.forEach(function(it){var r=visR(it);if(!r.width||!onScreen(r,0))return;var d=Math.abs(r.top+r.height/2-mid);if(d<bd){bd=d;best=it}});return best}
 function inView(){var mid=innerHeight*.5,best=ORDER[0],bd=1e9;ORDER.forEach(function(k){var r=CH[k].el.getBoundingClientRect();var d=r.top<=mid&&r.bottom>=mid?0:Math.min(Math.abs(r.top-mid),Math.abs(r.bottom-mid));if(d<bd){bd=d;best=k}});return best}
 /* ---------- dock: ●○○○ + name, +/−, the tab you are in ---------- */
-var uiq=0;function ui(){if(uiq)return;uiq=requestAnimationFrame(function(){uiq=0;if(SH()){__sheet.ui();return}var s=cur(),c=CH[s.k],lv=s.lv;
+var uiq=0;function ui(){if(uiq)return;uiq=requestAnimationFrame(uiNow)}function uiNow(){if(uiq){cancelAnimationFrame(uiq)}uiq=0;if(SH()){__sheet.ui();return}var s=cur(),c=CH[s.k],lv=s.lv;
   /* five dots: the whole sky (above every chapter), then L0..L3 */
   zDots.textContent=[0,1,2,3,4].map(function(i){return i<=lv+1?'●':'○'}).join('');
-  zName.textContent=s.k+' · L'+lv+(S.play?' ▶':'');
+  zName.textContent=s.k+' · L'+lv+(S.play?' ▶':'');ORDER.forEach(function(k){CH[k].el.classList.toggle('inv',k===s.k&&!S.w)}); /* v3.2 QA L2 */
   zBtn[0].disabled=!window.__sheet&&lv===0;zBtn[1].disabled=lv>=c.max&&!(lv===3&&s.k==='film'&&!S.play);
-  tabs.forEach(function(a){a.classList.toggle('here',a.dataset.t===s.k&&(D.scrollTop>0||scrollY>40||lv>0))})})}
+  tabs.forEach(function(a){a.classList.toggle('here',a.dataset.t===s.k&&(D.scrollTop>0||scrollY>40||lv>0))})}
 /* ---------- L3: the work. The frame zooms up from its tile; the Scope chrome fades in ---------- */
 var openTile=null,vidEl=null;
-function fill(c,it,play){var j=JSON.parse(it.dataset.j||'{}'),k=c.k;frame.className='frame';frame.innerHTML='';
+function fill(c,it,play){var j=JSON.parse(it.dataset.j||'{}'),k=c.k,SC=!!window.__scope&&k==='film'; /* v3.2: film works live in the Scope player (js/scope.js) */
+  if(window.__scope&&!SC)__scope.stop();if(!SC){frame.className='frame';frame.innerHTML=''}
   $('.imm-t').textContent=k+' · '+($('.cap b',it).textContent);
   $('.imm-m').textContent=$('.cap small',it).textContent;
   var pb=$('[data-a=play]',imm),ex=$('[data-a=ext]',imm),dl=$('.imm-c',imm);dl.hidden=!(k==='film'||k==='objects');
   var fr=$('.imm-f',imm);if(fr)fr.innerHTML=(k==='film'&&j.frames&&j.frames.length?j.frames:[]).map(function(f){return '<img src="'+f+'" alt="" width="160" height="67" decoding="async">'}).join('');
   pb.hidden=!(k==='film'||k==='sound');ex.hidden=!(j.url);if(j.url)ex.href=j.url;
   if(k==='film'){pb.textContent=play?'… loading':'▶ play film';imm.classList.toggle('playing',!!play);
-    if(play){if(j.reel){vidEl=document.createElement('video');vidEl.src=(innerWidth<900?'media/reel-2026-720.mp4':'media/reel-2026-1080.mp4');vidEl.playsInline=true;vidEl.setAttribute('playsinline','');vidEl.controls=true;vidEl.autoplay=true;vidEl.poster=it.dataset.big;vidEl.addEventListener('playing',function(){playLabel('❚❚ playing')});vidEl.addEventListener('pause',function(){playLabel('▶ play film')});frame.appendChild(vidEl);vidEl.play().catch(function(){playLabel('▶ play film')})}
-      else{var f=document.createElement('iframe');if(/youtube/.test(j.embed))setTimeout(function(){if(S.play)playLabel('▶ in the player')},1500);f.src=j.embed;f.allow='autoplay; fullscreen; picture-in-picture';f.title=j.title;f.setAttribute('allowfullscreen','');frame.classList.add('ext');frame.appendChild(f)}}
+    if(SC){vidEl=__scope.fill({it:it,j:j,play:play,frame:frame,label:playLabel,setVid:function(v){vidEl=v}});if(play)watchPlay();return}
+    if(play){if(j.reel){vidEl=document.createElement('video');vidEl.src='media/reel/reel-v7-720.mp4';vidEl.playsInline=true;vidEl.setAttribute('playsinline','');vidEl.controls=true;vidEl.autoplay=true;vidEl.poster=it.dataset.big;vidEl.addEventListener('playing',function(){playLabel('❚❚ playing')});vidEl.addEventListener('pause',function(){playLabel('▶ play film')});frame.appendChild(vidEl);vidEl.play().catch(function(){playLabel('▶ play film')})}
+      else{var f=document.createElement('iframe');if(/youtube/.test(j.embed))setTimeout(function(){if(S.play)playLabel('▶ in the player')},1500);f.src=j.embed;f.allow='autoplay; fullscreen; picture-in-picture';f.title=j.title;f.setAttribute('allowfullscreen','');frame.classList.add('ext');frame.appendChild(f);watchPlay()}}
     else{var pv=it.dataset.pv;if(pv&&anim()){vidEl=document.createElement('video');vidEl.muted=true;vidEl.loop=true;vidEl.playsInline=true;vidEl.setAttribute('playsinline','');vidEl.autoplay=true;vidEl.poster=it.dataset.big;vidEl.src=pv;frame.appendChild(vidEl);vidEl.play().catch(function(){})}
       else{var im=new Image();im.src=it.dataset.big;im.alt='';frame.appendChild(im)}}}
   else if(k==='sound'){pb.textContent=play?'player loaded':'▶ load player';
     if(play){var f2=document.createElement('iframe');f2.src=j.embed;f2.allow='autoplay; encrypted-media; fullscreen';f2.title=j.title;frame.classList.add(j.video?'ext':'emb');frame.appendChild(f2)}
     else{var im2=new Image();im2.src=it.dataset.big;im2.alt='';frame.appendChild(im2)}}
   else{frame.classList.add('pic');var im3=new Image();im3.src=it.dataset.big;im3.alt=j.alt||'';frame.appendChild(im3)}}
-function openWork(c,key,play,o){var it=item(c,key);if(!it)return;var first=imm.hidden;
+function openWork(c,key,play,o){var it=item(c,key);if(!it)return;var first=imm.hidden||closing; /* v3.2: a work opened while the last one is still shrinking away starts fresh */
   if(!first&&S.w===key&&S.play===play)return;
   if(!first&&S.w===key&&play!==S.play){fill(c,it,play);S.play=play;ui();return}
   $$('.it.cur').forEach(function(x){x.classList.remove('cur')});it.classList.add('cur');
@@ -127,8 +129,8 @@ function openWork(c,key,play,o){var it=item(c,key);if(!it)return;var first=imm.h
     setTimeout(function(){try{$('.x',imm).focus({preventScroll:true})}catch(e){}},50)}
   ui()}
 var back2=null;
-function closeWork(all,noAnim){fv(false);imm.classList.remove('playing');if(imm.hidden){S.w=null;S.play=false;return}var it=openTile;S.w=null;S.play=false;
-  function end(){imm.hidden=true;imm.classList.remove('on','in');frame.innerHTML='';vidEl=null;D.classList.remove('modal');
+var closing=0;function closeWork(all,noAnim){fv(false);imm.classList.remove('playing');if(imm.hidden){S.w=null;S.play=false;return}var it=openTile;S.w=null;S.play=false;closing=1;
+  function end(){closing=0;if(S.w)return; /* reopened meanwhile (Back/Forward, a deep link): leave the new work alone */imm.hidden=true;imm.classList.remove('on','in');if(window.__scope)__scope.stop();frame.innerHTML='';vidEl=null;D.classList.remove('modal');
     if(back2&&document.contains(back2)&&!all){try{(it?$('.tile',it):back2).focus({preventScroll:true})}catch(e){}}ui()}
   if(vidEl)try{vidEl.pause()}catch(e){}
   if(document.fullscreenElement)try{document.exitFullscreen()}catch(e){}
@@ -160,17 +162,22 @@ imm.addEventListener('click',function(e){var b=e.target.closest('[data-a]');if(!
 function fsOK(){return !!(document.fullscreenEnabled||document.webkitFullscreenEnabled)}
 function full(){var ifr=$('iframe',frame);
   if(imm.classList.contains('fv')){fv(false);return}
-  if(vidEl&&S.play){if(vidEl.requestFullscreen&&fsOK()){vidEl.requestFullscreen().catch(function(){});return}if(vidEl.webkitEnterFullscreen){try{vidEl.webkitEnterFullscreen()}catch(e){}return}}
-  if(fsOK()&&frame.requestFullscreen){var q=frame.requestFullscreen();q&&q.then&&q.then(function(){try{screen.orientation.lock('landscape').catch(function(){})}catch(e){}},function(){fv(true)});return}
-  if(fsOK()&&frame.webkitRequestFullscreen){frame.webkitRequestFullscreen();return}
+  /* v3.2 QA L1: element full screen is the whole work view in the .fv layout, so ✕ and ⤡ stay on screen (Android had no on-page exit) */
+  if(fsOK()&&(imm.requestFullscreen||imm.webkitRequestFullscreen)){var q=imm.requestFullscreen?imm.requestFullscreen():imm.webkitRequestFullscreen();fsImm=1;fv(true);q&&q.then&&q.then(function(){try{screen.orientation.lock('landscape').catch(function(){})}catch(e){}},function(){fsImm=0});return}
+  if(vidEl&&S.play&&vidEl.webkitEnterFullscreen){try{vidEl.webkitEnterFullscreen()}catch(e){}return}
   if(ifr&&/vimeo/.test(ifr.src))vimeo(ifr,'requestFullscreen');
   fv(true)}
-function fv(on){imm.classList.toggle('fv',on);var b=$('[data-a=full]',imm);if(b){b.setAttribute('aria-label',on?'exit full screen':'full screen');b.textContent=on?'⤡':'⤢'}}
+var fsImm=0,fsOffT=0;function fsEl(){return document.fullscreenElement||document.webkitFullscreenElement}
+['fullscreenchange','webkitfullscreenchange'].forEach(function(n){document.addEventListener(n,function(){if(!fsEl()&&fsImm){fsImm=0;fsOffT=Date.now();fv(false)}})}); /* system Back / Esc left full screen */
+function fv(on){imm.classList.toggle('fv',on);if(!on&&fsImm&&fsEl()){fsImm=0;try{(document.exitFullscreen||document.webkitExitFullscreen).call(document)}catch(e){}}var b=$('[data-a=full]',imm);if(b){b.setAttribute('aria-label',on?'exit full screen':'full screen');b.textContent=on?'⤡':'⤢'}}
 function vimeo(ifr,method,value){try{ifr.contentWindow.postMessage(JSON.stringify(value===undefined?{method:method}:{method:method,value:value}),'https://player.vimeo.com')}catch(e){}}
+var watchT=0;function watchPlay(){clearTimeout(watchT);var f=$('iframe',frame);if(!f||!S.play)return; /* v3.2 QA M1: no play event within ~3 s -> hand over to the player */
+  watchT=setTimeout(function(){var pb=$('[data-a=play]',imm);if(S.play&&$('iframe',frame)===f&&pb&&/loading/.test(pb.textContent))playLabel('▶ tap the player')},3000)}
 function playLabel(t){var pb=$('[data-a=play]',imm);if(pb&&S.k==='film')pb.textContent=t}
 addEventListener('message',function(e){if(!/player\.vimeo\.com$/.test((e.origin||'').replace(/^https?:\/\//,'')))return;var d=e.data;try{if(typeof d==='string')d=JSON.parse(d)}catch(x){return}if(!d||!S.play)return;
   var ifr=$('iframe',frame);if(!ifr)return;
   if(d.event==='ready'){['play','pause','ended'].forEach(function(ev){vimeo(ifr,'addEventListener',ev)});vimeo(ifr,'play')}
+  else if(d.event==='error')playLabel('▶ tap the player'); /* v3.2 QA M1: Vimeo could not start (e.g. iOS blocks autoplay with sound) */
   else if(d.event==='play'||d.event==='playing')playLabel('❚❚ playing');else if(d.event==='pause'||d.event==='ended')playLabel('▶ play film')});
 /* ---------- taps ---------- */
 document.addEventListener('click',function(e){if(e.defaultPrevented||e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;var t=e.target;
@@ -185,7 +192,7 @@ document.addEventListener('click',function(e){if(e.defaultPrevented||e.metaKey||
     go({k:k,lv:Math.min(2,c4.max)},{anchor:c4.head});c4.el.scrollIntoView({behavior:anim()?'smooth':'auto',block:'start'});return}
   var g=t.closest('[data-goto]');if(g){e.preventDefault();var c5=CH[g.dataset.goto];go({k:c5.k,lv:1},{anchor:c5.head});c5.el.scrollIntoView({behavior:anim()?'smooth':'auto',block:'start'});return}
   var hm=t.closest('a.home');if(hm){if(SH())__sheet.close({quick:1});e.preventDefault();go({k:null});scrollTo({top:0,behavior:anim()?'smooth':'auto'});return}});
-addEventListener('keydown',function(e){if(e.key==='Escape'&&S.w){go({k:S.k,lv:2},{anchor:item(CH[S.k],S.w)})}
+addEventListener('keydown',function(e){if(e.key==='Escape'&&(fsEl()||Date.now()-fsOffT<500))return; /* Esc only leaves full screen */if(e.key==='Escape'&&S.w){go({k:S.k,lv:2},{anchor:item(CH[S.k],S.w)})}
   if(e.key==='Tab'&&S.w){var f=$$('button:not([hidden]),a[href]:not([hidden]),iframe,video',imm).filter(function(x){return x.getClientRects().length});if(!f.length)return;
     var a=f[0],z=f[f.length-1];if(!imm.contains(document.activeElement)){e.preventDefault();a.focus()}else if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}}
   if((e.key==='+'||e.key==='=')&&!e.target.closest('input'))step(1);if(e.key==='-'&&!e.target.closest('input'))step(-1)});
@@ -230,18 +237,18 @@ function pv(){if(pvq)return;pvq=requestAnimationFrame(function(){pvq=0;var live=
 /* ---------- scroll: the water deepens, the poem melts, the sky comes up. Passive, never blocks scroll. ---------- */
 var poemL=$$('.poem span'),P0=[],sky=$('#sky'),sq=0,scrolling=false,scT=0;
 function measure(){var y=scrollY;P0=poemL.map(function(s){return s.getBoundingClientRect().top+y})}
-function onScroll(){scrolling=true;clearTimeout(scT);scT=setTimeout(function(){scrolling=false;pv()},180);if(sq)return;sq=requestAnimationFrame(function(){sq=0;var y=scrollY,vh=innerHeight;
+function onScroll(){scrolling=true;clearTimeout(scT);scT=setTimeout(function(){scrolling=false;pv();uiNow()},180);if(sq)return;sq=requestAnimationFrame(function(){sq=0;var y=scrollY,vh=innerHeight;
   var intro=$('.intro').getBoundingClientRect();D.style.setProperty('--depth',Math.max(0,Math.min(1,(y/(intro.height+80)))).toFixed(3));
   var sr=sky.getBoundingClientRect();D.style.setProperty('--night',Math.max(0,Math.min(1,1-(sr.top/vh-.15)/.6)).toFixed(3));
   poemL.forEach(function(s,i){var top=P0[i]-y,T=Math.min(vh*.16,P0[i]-6),o=Math.max(0,Math.min(1,(top-T+vh*.14)/(vh*.14)));if(top>=T)o=1;
     s.style.opacity=o<1?o.toFixed(2):'';s.style.filter=o<1&&anim()?'blur('+((1-o)*5).toFixed(1)+'px)':''});
   if(window.__water&&__water.active)__water.active(+getComputedStyle(D).getPropertyValue('--night')<.9);
-  ui()})}
+  uiNow()})}
 addEventListener('scroll',onScroll,{passive:true});
 addEventListener('resize',function(){measure();ORDER.forEach(function(k){if(CH[k].lv)drawLines(CH[k])});onScroll()});
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){measure();ORDER.forEach(function(k){if(CH[k].lv)drawLines(CH[k])})});
 /* ---------- Back / Forward and deep links: every level is a hash ---------- */
-addEventListener('popstate',function(){var r=parse(location.hash);if(r.sheet)return;go(r,{push:false,anchor:r.k?CH[r.k].head:null})});
+addEventListener('popstate',function(){var r=parse(location.hash);if(r.sheet){if(S.w)closeWork(true,true);return} /* v3.2: never leave a work open under/over the sheet */go(r,{push:false,anchor:r.k?CH[r.k].head:null})});
 function boot(){measure();var r=parse(location.hash);if(r.sheet){onScroll();ui();return}if(r.k){var a=anim;anim=function(){return false};go(r,{push:false,replace:true,noAnim:true});
     if(r.lv<3)CH[r.k].el.scrollIntoView({block:'start'});anim=a}
   else if(location.hash&&location.hash!=='#')history.replaceState(null,'',location.pathname+location.search);

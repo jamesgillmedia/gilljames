@@ -108,11 +108,16 @@ function chapS(){var k=FK||nearest();return chapCam(k).s}
 function nearest(px,py){var p=wp(px==null?W/2:px,py==null?(H+TOP)/2:py),best='film',bd=1e18;ORDER.forEach(function(k){var c=C[k];if(!c)return;var x=M>.5?c.bx+164:c.x,y=M>.5?c.by+Math.min(260,c.pitch*Math.ceil(c.n/3)/2):c.y,d=(x-p[0])*(x-p[0])+(y-p[1])*(y-p[1]);if(d<bd){bd=d;best=k}});return best}
 /* ---------- HUD: chapter names are real buttons (44px+), placed under their star each frame ---------- */
 var HB={};ORDER.forEach(function(k){var b=$('[data-sk="'+k+'"]',hud);if(b)HB[k]=b});
+var RB=46; /* bottom band kept for the hint pill (12px + its height + a gap) */
 function placeHud(){var rects=[],vis=1-M,show=vis>.4&&mode!=='all';
   ORDER.forEach(function(k){var b=HB[k];if(!b||!C[k])return;var p=sp(C[k].x,C[k].y),bw=b.offsetWidth||96,bh=b.offsetHeight||44,x=p[0]-bw/2,y=p[1]+10*Math.min(2,cam.s/.3)+4;
     /* names never overlap: if the spot under the star is taken, try above it, then beside it */
     var cand=[[x,y],[x,p[1]-10*Math.min(2,cam.s/.3)-4-bh],[p[0]+14,p[1]-bh/2],[p[0]-14-bw,p[1]-bh/2]];
-    for(var ci=0;ci<cand.length;ci++){var q=cand[ci],hitR=rects.some(function(r){return q[0]<r.x+r.w&&q[0]+bw>r.x&&q[1]<r.y+r.h&&q[1]+bh>r.y});if(!hitR){x=q[0];y=q[1];break}}
+    /* v3.2 QA: a name stays inside the frame, clear of the hint pill at the bottom (RB) */
+    var lo=TOP+2,hi=H-RB-bh,inF=function(q){return q[0]>=4&&q[0]+bw<=W-4&&q[1]>=lo&&q[1]<=hi},cl=function(q){return[Math.max(4,Math.min(W-4-bw,q[0])),Math.max(lo,Math.min(hi,q[1]))]},hitQ=function(q){return rects.some(function(r){return q[0]<r.x+r.w&&q[0]+bw>r.x&&q[1]<r.y+r.h&&q[1]+bh>r.y})},pick=null;
+    for(var ci=0;ci<cand.length&&!pick;ci++)if(inF(cand[ci])&&!hitQ(cand[ci]))pick=cand[ci];
+    for(ci=0;ci<cand.length&&!pick;ci++)if(!hitQ(cl(cand[ci])))pick=cl(cand[ci]);
+    pick=pick||cl(cand[0]);x=pick[0];y=pick[1];
     var on=show&&p[0]>-40&&p[0]<W+40&&p[1]>TOP-20&&p[1]<H+20;b.style.transform='translate3d('+x.toFixed(1)+'px,'+y.toFixed(1)+'px,0)';b.style.opacity=on?Math.min(1,vis*1.4).toFixed(2):'0';b.style.visibility=on?'':'hidden';b.tabIndex=on?0:-1;
     if(on)rects.push({x:x,y:y,w:bw,h:bh})});return rects}
 /* ---------- near cards: real DOM images (and up to 4 muted previews) once a frame is big enough to read ---------- */
@@ -188,10 +193,10 @@ function close(o){o=o||{};if(!open)return;tw=null;MP=null;var go=o.to;if(o.quick
   else if(from)scrollTo(0,from.y);
   if(anim())sheet.animate([{opacity:1},{opacity:0}],{duration:260}).onfinish=end;else end()}
 /* ---------- gestures on the sheet: one finger pans, two fingers drive the camera, tap zooms into what is under it ---------- */
-var PT=new Map(),pd=0,pm=null,moved=0,t0=0,MP=null,lastTap=0,pinched=false;
+var PT=new Map(),pd=0,pm=null,moved=0,t0=0,MP=null,lastTap=0,pinched=false,g0='sky'; /* g0: the level this two-finger gesture started at */
 function zoomAt(f,x,y,cap){var p=wp(x,y);cam.s=Math.max(fitS()*.7,Math.min(cap||3.2,cam.s*f));cam.x=p[0]-(x-W/2)/cam.s;cam.y=p[1]-(y-H/2)/cam.s}
 sheet.addEventListener('pointerdown',function(e){if(e.target.closest('.sx,.shome'))return;try{sheet.setPointerCapture(e.pointerId)}catch(x){}PT.set(e.pointerId,{x:e.clientX,y:e.clientY});
-  if(PT.size===1){moved=0;t0=Date.now();pinched=false}if(PT.size===2){var a=[...PT.values()];pd=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);pm={x:(a[0].x+a[1].x)/2,y:(a[0].y+a[1].y)/2};moved=99;pinched=true;tw=null}});
+  if(PT.size===1){moved=0;t0=Date.now();pinched=false}if(PT.size===2){var a=[...PT.values()];pd=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);pm={x:(a[0].x+a[1].x)/2,y:(a[0].y+a[1].y)/2};moved=99;pinched=true;tw=null;g0=mode}});
 sheet.addEventListener('pointermove',function(e){if(!PT.has(e.pointerId))return;var o=PT.get(e.pointerId),n={x:e.clientX,y:e.clientY};PT.set(e.pointerId,n);
   if(PT.size===1&&!MP){var dx=n.x-o.x,dy=n.y-o.y;moved+=Math.abs(dx)+Math.abs(dy);if(moved>8){tw=null;cam.x-=dx/cam.s;cam.y-=dy/cam.s;clampCam();req()}}
   else if(PT.size===2){var a=[...PT.values()],d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y),m={x:(a[0].x+a[1].x)/2,y:(a[0].y+a[1].y)/2};if(!pd){pd=d;pm=m;return}var f=d/pd;pd=d;pinch(f,m);pm=m;req()}});
@@ -200,7 +205,7 @@ function clampCam(){var b=M>.5?{x0:C.film.bx-200,x1:C.about.bx+530,y0:-400,y1:18
 function pinch(f,m){if(MP){MP.vs*=f;var p=Math.log(MP.vs/MP.s0)/Math.log(MP.R);if(p<0){var c0=MP.c0;MP=null;HAND=null;M=0;cam={x:c0.x,y:c0.y,s:c0.s};return}MP.p=Math.min(1,p);return}
   var px=pm?m.x-pm.x:0,py=pm?m.y-pm.y:0;cam.x-=px/cam.s;cam.y-=py/cam.s;
   if(M<.02){var k=nearest(m.x,m.y),cap=chapCam(k).s*1.3;zoomAt(f,m.x,m.y,cap);clampCam();
-    if(f>1&&cam.s>=cap*.995&&k!=='about'){FK=k;var c0={x:cam.x,y:cam.y,s:cam.s};prepHand(k);var c1=blockCam(k);MP={k:k,c0:c0,c1:c1,s0:cam.s,vs:cam.s,p:0,R:Math.max(1.7,c1.s/cam.s)}}}
+    if(f>1&&cam.s>=cap*.995&&k!=='about'&&g0==='chap'){FK=k; /* v3.2 QA HIGH: only from a constellation the gesture started in */var c0={x:cam.x,y:cam.y,s:cam.s};prepHand(k);var c1=blockCam(k);MP={k:k,c0:c0,c1:c1,s0:cam.s,vs:cam.s,p:0,R:Math.max(1.7,c1.s/cam.s)}}}
   else{zoomAt(f,m.x,m.y);clampCam()}}
 function up(e){if(!PT.has(e.pointerId))return;var was=PT.size;PT.delete(e.pointerId);if(PT.size<2)pd=0;if(PT.size)return;
   if(was===1&&moved<10&&Date.now()-t0<500){tap(e.clientX,e.clientY);return}if(pinched)release();else ui()}
@@ -208,10 +213,13 @@ sheet.addEventListener('pointerup',up);sheet.addEventListener('pointercancel',fu
 /* release: snap to the nearest level */
 function release(){if(MP){var mp=MP;MP=null;cam=interp(mp.c0,mp.c1,mp.p);M=mp.p;if(mp.p>.3){FK=mp.k;tween(mp.c1,1,Math.max(260,700*(1-mp.p)),function(){close({to:{k:mp.k,lv:2},hand:1})})}
     else{HAND=null;tween(chapCam(mp.k),0,360,function(){settle('chap',mp.k)})}return}
-  var s=cam.s;if(M>.5){var a=allS();if(s>a*1.7)dive(nearest());else if(s<a*.62)toSky();else req();if(mode!=='all')settle('all');return}
+  var s=cam.s;if(M>.5){var a=allS();if(s>a*1.7)dive(nearest());else if(s<a*.62)toSky();else{req();if(mode!=='all')settle('all')}return} /* v3.2 QA: reduced motion moved synchronously; no swallowed pinch */
   var f=fitS(),k=nearest(),cs=chapCam(k).s;if(s<Math.sqrt(f*cs))toSky();else toChap(k)}
 function tap(x,y){var t=document.elementFromPoint(x,y);if(t&&t.closest('[data-sk]'))return; /* the name buttons handle their own click */
-  if(M>.5){var hit=null;ITEMS.forEach(function(it){var a=sp(it.gx,it.gy),b=sp(it.gx+104,it.gy+C[it.k].imgh);if(x>=a[0]&&x<=b[0]&&y>=a[1]&&y<=b[1]+14)hit=it});if(hit)dive(hit.k,hit.k==='about'?null:hit.w);return}
+  if(M>.5){var hit=null,hd=1e9;ITEMS.forEach(function(it){var a=sp(it.gx,it.gy),b=sp(it.gx+104,it.gy+C[it.k].imgh);b[1]+=14; /* v3.2 QA: >= 44px tap target */
+      var px=Math.max(0,(44-(b[0]-a[0]))/2),py=Math.max(0,(44-(b[1]-a[1]))/2);if(x>=a[0]-px&&x<=b[0]+px&&y>=a[1]-py&&y<=b[1]+py){var d=Math.hypot(x-(a[0]+b[0])/2,y-(a[1]+b[1])/2);if(d<hd){hd=d;hit=it}}});
+    /* tiles smaller than a fingertip: the first tap magnifies the grid around the finger until tiles are >= 44px; the next tap opens one */
+    if(hit){var ta=sp(hit.gx,hit.gy),tb=sp(hit.gx+104,hit.gy+C[hit.k].imgh+14),tm=Math.min(tb[0]-ta[0],tb[1]-ta[1]);if(tm<43.5&&cam.s<allS()*1.68){var s2=Math.min(allS()*1.69,cam.s*46/tm),q=wp(x,y);tween({x:q[0]-(x-W/2)/s2,y:q[1]-(y-H/2)/s2,s:s2},1,320);return}}if(hit)dive(hit.k,hit.k==='about'?null:hit.w);return}
   var best=null,bd=30;ORDER.forEach(function(k){var p=sp(C[k].x,C[k].y),d=Math.hypot(p[0]-x,p[1]-y);if(d<bd){bd=d;best={k:k}}});
   var fa=(cam.s/fitS()-1.25)/.9;ITEMS.forEach(function(it){if(!it.ring&&fa<.3)return;var p=sp(it.x,it.y),d=Math.hypot(p[0]-x,p[1]-y);if(d<Math.min(bd,24)){bd=d;best={k:it.k,w:it.w}}});
   if(!best){var o=sp(0,0);if(Math.hypot(o[0]-x,o[1]-y)<50){toSky()}return}
