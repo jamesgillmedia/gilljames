@@ -13,6 +13,26 @@
   "items": [
     {
       "section": "reel-v7",
+      "type": "video",
+      "file": "media/reel-v7-legends-small.mp4",
+      "poster": "posters/reel-v7-legends-small.jpg",
+      "title": "Full cut with Legends + story sound",
+      "desc": "First-cut look plus BMW X7 Legends focus, Stay Gold, 663 unique constellation tiles (no loops, no repeats) and the pass 4 story mix.",
+      "time": "2026-10-18T00:13:59-07:00",
+      "badge": "Latest"
+    },
+    {
+      "section": "reel-v7",
+      "type": "audio",
+      "file": "media/v7_audio_sample_pass4.m4a",
+      "poster": null,
+      "title": "Audio mix pass 4, story order",
+      "desc": "Builds on pass 3: lines now run as one story, from 'What are legends made of?' to 'That's what I love to do'.",
+      "time": "2026-10-18T00:12:53-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
       "type": "audio",
       "file": "media/v7_audio_sample-2.m4a",
       "poster": null,
