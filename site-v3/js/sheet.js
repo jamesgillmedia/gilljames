@@ -23,7 +23,7 @@ ORDER.forEach(function(k,ci){var sec=document.getElementById(k);if(!sec)return;v
     else{var j=i-ring,aa2=j*2.39996+ci,rr2=170+Math.sqrt(j)*24;sx=cx+Math.cos(aa2)*rr2;sy=cy+Math.sin(aa2)*rr2}
     var col=i%3,row=(i/3)|0,gx=c.bx+col*112,gy=c.by+row*pitch;/* gy is live: rows close up into a dense wall when far, open to the column's spacing when near */
     var it={k:k,i:i,ring:i<ring,w:el.dataset.k,el:el,lab:(($('.cap b',el)||{}).textContent||'').trim(),meta:(($('.cap small',el)||{}).textContent||'').trim(),
-      row:row,pv:el.dataset.pv||'',sc:(el.dataset.pv||'').replace('/pv/','/sc/'),thumb:(($('.vis img',el)||{}).dataset||{}).src||'',sx:sx,sy:sy,gx:gx,gy:gy,stg:n>1?i/(n-1):0,x:sx,y:sy,mi:0,card:null};
+      row:row,pv:el.dataset.pv||'',sc:el.dataset.sc||'',thumb:(($('.vis img',el)||{}).dataset||{}).src||'',sx:sx,sy:sy,gx:gx,gy:gy,stg:n>1?i/(n-1):0,x:sx,y:sy,mi:0,card:null};
     c.rad=Math.max(c.rad,Math.hypot(sx-cx,sy-cy));c.items.push(it);ITEMS.push(it)})});
 ORDER.forEach(function(k){var c=C[k];if(!c)return;var its=c.items,ring=its.filter(function(i){return i.ring}),ex=its.filter(function(i){return !i.ring});c.sky=[];c.arm=[];c.grid=[];
   ring.forEach(function(it,j){if(ring.length>2||j)c.sky.push([it,ring[(j+1)%ring.length]]);if(j%3===0)c.sky.push([it,null])});if(ring.length===2)c.sky.pop();

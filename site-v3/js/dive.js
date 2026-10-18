@@ -222,10 +222,10 @@ var wAcc=0,wT=0;addEventListener('wheel',function(e){if(!e.ctrlKey||(e.target.cl
 /* ---------- previews: muted loops only for frames on screen at L2 (max 6), stills everywhere else ---------- */
 var pvq=0,PVMAX=6,save=(navigator.connection||{}).saveData;
 function pv(){if(pvq)return;pvq=requestAnimationFrame(function(){pvq=0;var live=[];
-  ORDER.forEach(function(k){var c=CH[k];c.items.forEach(function(it){if(!it.dataset.pv)return;var v=$('.vis',it),vd=$('video',v);if(scrolling&&vd&&c.lv===2&&!S.w&&!QUIET)return;
+  ORDER.forEach(function(k){var c=CH[k];c.items.forEach(function(it){if(!it.dataset.sc)return;var v=$('.vis',it),vd=$('video',v);if(scrolling&&vd&&c.lv===2&&!S.w&&!QUIET)return;
     var ok=c.lv===2&&!S.w&&!QUIET&&anim()&&!save&&!scrolling, /* v3.1: tiny clips that play once (a different moment from the work view), never loop */r=ok?v.getBoundingClientRect():null;
     if(ok&&r.top>-r.height*.2&&r.bottom<innerHeight-60&&live.length<PVMAX){live.push(it);
-      if(!vd&&!it._done){it._done=1;vd=document.createElement('video');vd.muted=true;vd.playsInline=true;vd.setAttribute('playsinline','');vd.setAttribute('aria-hidden','true');vd.preload='auto';vd.src=it.dataset.pv.replace('/pv/','/sc/');v.appendChild(vd);vd.play().catch(function(){})}}
+      if(!vd&&!it._done){it._done=1;vd=document.createElement('video');vd.muted=true;vd.playsInline=true;vd.setAttribute('playsinline','');vd.setAttribute('aria-hidden','true');vd.preload='auto';vd.src=it.dataset.sc;v.appendChild(vd);vd.play().catch(function(){})}}
     else{if(vd){vd.pause();vd.removeAttribute('src');vd.load();vd.remove()}it._done=0}})})})}
 /* ---------- scroll: the water deepens, the poem melts, the sky comes up. Passive, never blocks scroll. ---------- */
 var poemL=$$('.poem span'),P0=[],sky=$('#sky'),sq=0,scrolling=false,scT=0;
