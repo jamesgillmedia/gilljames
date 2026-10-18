@@ -9,10 +9,10 @@ var RM=matchMedia('(prefers-reduced-motion: reduce)'),EASE='cubic-bezier(.2,.8,.
 var CH={};$$('.ch').forEach(function(el){CH[el.dataset.k]={el:el,k:el.dataset.k,max:+el.dataset.max,lv:0,head:$('.head',el),wrap:$('.sky-wrap',el),svg:$('.lines',el),items:$$('.it',el)}});
 var ORDER=Object.keys(CH),imm=$('.imm'),frame=$('.frame',imm),amb=$('.amb',imm),zDots=$('.zoom .dots'),zName=$('.zoom .zn'),zBtn=$$('.zoom .zb'),tabs=$$('.tabs a');
 var S={k:null,w:null,play:false}; /* the open chapter, the open work, playing? */
-var busy=0;
+var busy=0;function SH(){return window.__sheet&&__sheet.isOpen()}var QUIET=false;
 function anim(){return !RM.matches}
 /* ---------- hash ⇄ state ---------- */
-function parse(h){var m=(h||'').match(/^#(\w+)(?:\/(l[0-3]|w\w+))?(?:\/(play))?$/);if(!m||!CH[m[1]])return{k:null};
+function parse(h){if(/^#(sky|all)(\/|$)/.test(h||''))return{k:null,sheet:1};var m=(h||'').match(/^#(\w+)(?:\/(l[0-3]|w\w+))?(?:\/(play))?$/);if(!m||!CH[m[1]])return{k:null};
   var c=CH[m[1]],r={k:m[1],lv:1,w:null,play:false};
   if(m[2]&&m[2][0]==='l')r.lv=Math.min(+m[2][1],c.max);
   else if(m[2]&&m[2][0]==='w'&&c.max>=3&&item(c,m[2])){r.lv=3;r.w=m[2];r.play=!!m[3]}
@@ -66,7 +66,8 @@ function after(c,draw){drawLines(c,draw);pv();ui()}
 /* only one constellation open at a time: the others fold back to their glyph (no animation when off screen) */
 function only(k){ORDER.forEach(function(x){var c=CH[x];if(x!==k&&c.lv){var r=c.el.getBoundingClientRect();if(onScreen(r,0)&&anim()){setLv(c,0)}else{var a=CH[k]?CH[k].head:null,t=a?a.getBoundingClientRect().top:0;apply(c,0);c.svg.innerHTML='';if(a)keep(a,t)}}})}
 /* ---------- one entry point: go to a state (from a tap, a pinch, +/−, a tab, Back) ---------- */
-function go(r,o){o=o||{};
+function go(r,o){o=o||{};if(o.noAnim&&anim()){var a0=anim;anim=function(){return false};try{go1(r,o)}finally{anim=a0}return}go1(r,o)}
+function go1(r,o){
   if(!r.k){closeWork(true);ORDER.forEach(function(x){if(CH[x].lv)setLv(CH[x],0)});S.k=null;ui();if(o.push!==false)push(r,o.replace);return}
   var c=CH[r.k];only(r.k);S.k=r.k;
   if(r.lv===3){if(c.lv<2)setLv(c,2,{anchor:o.anchor});openWork(c,r.w,r.play,o)}
@@ -74,21 +75,24 @@ function go(r,o){o=o||{};
     /* the camera: when a constellation opens low on the screen, glide it up so what just appeared is in view */
     if(r.lv>was&&o.glide){var ht=c.head.getBoundingClientRect().top;if(ht>innerHeight*.34)scrollBy({top:ht-8,behavior:anim()?'smooth':'auto'})}}
   if(o.push!==false)push(r,o.replace);ui()}
-function cur(){if(S.w)return{k:S.k,lv:3,w:S.w,play:S.play};var k=S.k&&CH[S.k].lv?S.k:inView();return{k:k,lv:CH[k].lv}}
-function step(dir,anchor,k){var s=cur();if(k&&!S.w&&k!==s.k)s={k:k,lv:CH[k].lv};var c=CH[s.k];
+function cur(){if(S.w)return{k:S.k,lv:3,w:S.w,play:S.play};var k=inView();return{k:k,lv:CH[k].lv}} /* QA: the chapter in view, never an off-screen open one */
+function step(dir,anchor,k){if(SH()){__sheet.step(dir);return}var s=cur();if(k&&!S.w&&k!==s.k)s={k:k,lv:CH[k].lv};var c=CH[s.k];
   if(dir>0){if(s.lv===3){if(!S.play&&c.k==='film')go({k:s.k,lv:3,w:s.w,play:true});return}
     if(s.lv>=c.max)return;
     if(s.lv===2){var it=anchor&&anchor.classList&&anchor.classList.contains('it')?anchor:centerItem(c);if(it)go({k:s.k,lv:3,w:it.dataset.k},{anchor:it});return}
     go({k:s.k,lv:s.lv+1},{anchor:anchor||centerItem(c)});
-  }else{if(s.lv===3){if(S.play){go({k:s.k,lv:3,w:s.w,play:false});return}go({k:s.k,lv:2},{anchor:item(c,s.w)});return}
-    if(s.lv===0)return;go({k:s.k,lv:s.lv-1},{anchor:s.lv-1===0?c.head:anchor||centerItem(c)})}}
+  }else{if(s.lv===3){if(S.play){go({k:s.k,lv:3,w:s.w,play:false});return}
+      /* pull out of the work: through the frame into the massive grid of everything */
+      if(window.__sheet){var kk=s.k,ww=s.w;closeWork(true,true);__sheet.open({mode:'all',k:kk,w:ww});return}go({k:s.k,lv:2},{anchor:item(c,s.w)});return}
+    if(s.lv===0){if(window.__sheet)__sheet.open({k:s.k});return}go({k:s.k,lv:s.lv-1},{anchor:s.lv-1===0?c.head:anchor||centerItem(c)})}}
 function centerItem(c){var best=null,bd=1e9,mid=innerHeight*.45;c.items.forEach(function(it){var r=visR(it);if(!r.width||!onScreen(r,0))return;var d=Math.abs(r.top+r.height/2-mid);if(d<bd){bd=d;best=it}});return best}
 function inView(){var mid=innerHeight*.5,best=ORDER[0],bd=1e9;ORDER.forEach(function(k){var r=CH[k].el.getBoundingClientRect();var d=r.top<=mid&&r.bottom>=mid?0:Math.min(Math.abs(r.top-mid),Math.abs(r.bottom-mid));if(d<bd){bd=d;best=k}});return best}
 /* ---------- dock: ●○○○ + name, +/−, the tab you are in ---------- */
-var uiq=0;function ui(){if(uiq)return;uiq=requestAnimationFrame(function(){uiq=0;var s=cur(),c=CH[s.k],n=c.max+1,lv=s.lv;
-  zDots.textContent=Array.from({length:Math.max(n,2)},function(_,i){return i<=lv?'●':'○'}).join('');
+var uiq=0;function ui(){if(uiq)return;uiq=requestAnimationFrame(function(){uiq=0;if(SH()){__sheet.ui();return}var s=cur(),c=CH[s.k],lv=s.lv;
+  /* five dots: the whole sky (above every chapter), then L0..L3 */
+  zDots.textContent=[0,1,2,3,4].map(function(i){return i<=lv+1?'●':'○'}).join('');
   zName.textContent=s.k+' · L'+lv+(S.play?' ▶':'');
-  zBtn[0].disabled=lv===0;zBtn[1].disabled=lv>=c.max&&!(lv===3&&s.k==='film'&&!S.play);
+  zBtn[0].disabled=!window.__sheet&&lv===0;zBtn[1].disabled=lv>=c.max&&!(lv===3&&s.k==='film'&&!S.play);
   tabs.forEach(function(a){a.classList.toggle('here',a.dataset.t===s.k&&(D.scrollTop>0||scrollY>40||lv>0))})})}
 /* ---------- L3: the work. The frame zooms up from its tile; the Scope chrome fades in ---------- */
 var openTile=null,vidEl=null;
@@ -98,9 +102,9 @@ function fill(c,it,play){var j=JSON.parse(it.dataset.j||'{}'),k=c.k;frame.classN
   var pb=$('[data-a=play]',imm),ex=$('[data-a=ext]',imm),dl=$('.imm-c',imm);dl.hidden=!(k==='film'||k==='objects');
   var fr=$('.imm-f',imm);if(fr)fr.innerHTML=(k==='film'&&j.frames&&j.frames.length?j.frames:[]).map(function(f){return '<img src="'+f+'" alt="" width="160" height="67" decoding="async">'}).join('');
   pb.hidden=!(k==='film'||k==='sound');ex.hidden=!(j.url);if(j.url)ex.href=j.url;
-  if(k==='film'){pb.textContent=play?'❚❚ playing':'▶ play film';
-    if(play){if(j.reel){vidEl=document.createElement('video');vidEl.src=(innerWidth<900?'media/reel-2026-720.mp4':'media/reel-2026-1080.mp4');vidEl.playsInline=true;vidEl.setAttribute('playsinline','');vidEl.controls=true;vidEl.autoplay=true;vidEl.poster=it.dataset.big;frame.appendChild(vidEl);vidEl.play().catch(function(){})}
-      else{var f=document.createElement('iframe');f.src=j.embed;f.allow='autoplay; fullscreen; picture-in-picture';f.title=j.title;f.setAttribute('allowfullscreen','');frame.classList.add('ext');frame.appendChild(f)}}
+  if(k==='film'){pb.textContent=play?'… loading':'▶ play film';imm.classList.toggle('playing',!!play);
+    if(play){if(j.reel){vidEl=document.createElement('video');vidEl.src=(innerWidth<900?'media/reel-2026-720.mp4':'media/reel-2026-1080.mp4');vidEl.playsInline=true;vidEl.setAttribute('playsinline','');vidEl.controls=true;vidEl.autoplay=true;vidEl.poster=it.dataset.big;vidEl.addEventListener('playing',function(){playLabel('❚❚ playing')});vidEl.addEventListener('pause',function(){playLabel('▶ play film')});frame.appendChild(vidEl);vidEl.play().catch(function(){playLabel('▶ play film')})}
+      else{var f=document.createElement('iframe');if(/youtube/.test(j.embed))setTimeout(function(){if(S.play)playLabel('▶ in the player')},1500);f.src=j.embed;f.allow='autoplay; fullscreen; picture-in-picture';f.title=j.title;f.setAttribute('allowfullscreen','');frame.classList.add('ext');frame.appendChild(f)}}
     else{var pv=it.dataset.pv;if(pv&&anim()){vidEl=document.createElement('video');vidEl.muted=true;vidEl.loop=true;vidEl.playsInline=true;vidEl.setAttribute('playsinline','');vidEl.autoplay=true;vidEl.poster=it.dataset.big;vidEl.src=pv;frame.appendChild(vidEl);vidEl.play().catch(function(){})}
       else{var im=new Image();im.src=it.dataset.big;im.alt='';frame.appendChild(im)}}}
   else if(k==='sound'){pb.textContent=play?'player loaded':'▶ load player';
@@ -123,7 +127,7 @@ function openWork(c,key,play,o){var it=item(c,key);if(!it)return;var first=imm.h
     setTimeout(function(){try{$('.x',imm).focus({preventScroll:true})}catch(e){}},50)}
   ui()}
 var back2=null;
-function closeWork(all,noAnim){if(imm.hidden){S.w=null;S.play=false;return}var it=openTile;S.w=null;S.play=false;
+function closeWork(all,noAnim){fv(false);imm.classList.remove('playing');if(imm.hidden){S.w=null;S.play=false;return}var it=openTile;S.w=null;S.play=false;
   function end(){imm.hidden=true;imm.classList.remove('on','in');frame.innerHTML='';vidEl=null;D.classList.remove('modal');
     if(back2&&document.contains(back2)&&!all){try{(it?$('.tile',it):back2).focus({preventScroll:true})}catch(e){}}ui()}
   if(vidEl)try{vidEl.pause()}catch(e){}
@@ -146,13 +150,28 @@ function neighbour(dir){var c=CH[S.k],i=c.items.indexOf(item(c,S.w)),n=c.items[(
   if(anim())frame.animate([{opacity:0,transform:'translateX('+(dir*30)+'px)'},{opacity:1,transform:'none'}],{duration:320,easing:EASE});
   fill(c,n,false);push({k:S.k,lv:3,w:S.w},true);ui()}
 imm.addEventListener('click',function(e){var b=e.target.closest('[data-a]');if(!b)return;var a=b.dataset.a;
-  if(a==='out'){e.preventDefault();step(-1);if(S.w)step(-1)} /* ✕ always lands on the grid */
-  else if(a==='play'){e.preventDefault();if(!S.play)go({k:S.k,lv:3,w:S.w,play:true});else if(vidEl){vidEl.paused?vidEl.play():vidEl.pause()}}
+  if(a==='out'){e.preventDefault();if(imm.classList.contains('fv')){fv(false);return}if(S.w)go({k:S.k,lv:2},{anchor:item(CH[S.k],S.w)})} /* ✕ always lands on the chapter grid */
+  else if(a==='play'){e.preventDefault();if(!S.play)go({k:S.k,lv:3,w:S.w,play:true});else if(vidEl&&S.play){vidEl.paused?vidEl.play():vidEl.pause()}else{var ifr=$('iframe',frame);if(ifr&&/vimeo/.test(ifr.src))vimeo(ifr,/playing/.test(b.textContent)?'pause':'play')}}
   else if(a==='prev'||a==='next'){e.preventDefault();neighbour(a==='next'?1:-1)}
   else if(a==='full'){e.preventDefault();full()}});
-function full(){var el=vidEl&&S.play?vidEl:frame;
-  if(el.requestFullscreen){var q=el.requestFullscreen();q&&q.then&&q.then(function(){try{screen.orientation.lock('landscape').catch(function(){})}catch(e){}},function(){});return}
-  if(el.webkitEnterFullscreen){try{el.webkitEnterFullscreen()}catch(e){}}else if(frame.webkitRequestFullscreen)frame.webkitRequestFullscreen()}
+/* full screen: a playing <video> uses the native player (iPhone: webkitEnterFullscreen). An embed (Vimeo/YouTube) uses element
+   full screen where the browser has it; iPhone Safari has none for a div, so there we ask Vimeo's own player (postMessage API)
+   and also switch the work view to a CSS full-viewport mode (frame fills the screen, ✕ exits). */
+function fsOK(){return !!(document.fullscreenEnabled||document.webkitFullscreenEnabled)}
+function full(){var ifr=$('iframe',frame);
+  if(imm.classList.contains('fv')){fv(false);return}
+  if(vidEl&&S.play){if(vidEl.requestFullscreen&&fsOK()){vidEl.requestFullscreen().catch(function(){});return}if(vidEl.webkitEnterFullscreen){try{vidEl.webkitEnterFullscreen()}catch(e){}return}}
+  if(fsOK()&&frame.requestFullscreen){var q=frame.requestFullscreen();q&&q.then&&q.then(function(){try{screen.orientation.lock('landscape').catch(function(){})}catch(e){}},function(){fv(true)});return}
+  if(fsOK()&&frame.webkitRequestFullscreen){frame.webkitRequestFullscreen();return}
+  if(ifr&&/vimeo/.test(ifr.src))vimeo(ifr,'requestFullscreen');
+  fv(true)}
+function fv(on){imm.classList.toggle('fv',on);var b=$('[data-a=full]',imm);if(b){b.setAttribute('aria-label',on?'exit full screen':'full screen');b.textContent=on?'⤡':'⤢'}}
+function vimeo(ifr,method,value){try{ifr.contentWindow.postMessage(JSON.stringify(value===undefined?{method:method}:{method:method,value:value}),'https://player.vimeo.com')}catch(e){}}
+function playLabel(t){var pb=$('[data-a=play]',imm);if(pb&&S.k==='film')pb.textContent=t}
+addEventListener('message',function(e){if(!/player\.vimeo\.com$/.test((e.origin||'').replace(/^https?:\/\//,'')))return;var d=e.data;try{if(typeof d==='string')d=JSON.parse(d)}catch(x){return}if(!d||!S.play)return;
+  var ifr=$('iframe',frame);if(!ifr)return;
+  if(d.event==='ready'){['play','pause','ended'].forEach(function(ev){vimeo(ifr,'addEventListener',ev)});vimeo(ifr,'play')}
+  else if(d.event==='play'||d.event==='playing')playLabel('❚❚ playing');else if(d.event==='pause'||d.event==='ended')playLabel('▶ play film')});
 /* ---------- taps ---------- */
 document.addEventListener('click',function(e){if(e.defaultPrevented||e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;var t=e.target;
   var h=t.closest('.ch .head');if(h){e.preventDefault();var c=CH[h.parentNode.dataset.k];go({k:c.k,lv:c.lv?0:1},{anchor:c.head,glide:1});return}
@@ -162,11 +181,11 @@ document.addEventListener('click',function(e){if(e.defaultPrevented||e.metaKey||
   var m=t.closest('.more button');if(m){e.preventDefault();var c3=CH[m.closest('.ch').dataset.k];S.k=c3.k;
     if(m.classList.contains('zin'))go({k:c3.k,lv:c3.lv+1},{anchor:centerItem(c3)});else go({k:c3.k,lv:c3.lv-1},{anchor:c3.lv-1===0?c3.head:centerItem(c3)});return}
   var z=t.closest('.zoom .zb');if(z){e.preventDefault();step(+z.dataset.z);return}
-  var tb=t.closest('.tabs a');if(tb){e.preventDefault();var k=tb.dataset.t,c4=CH[k];closeWork(true,true);
+  var tb=t.closest('.tabs a');if(tb){e.preventDefault();var k=tb.dataset.t,c4=CH[k];if(SH())__sheet.close({quick:1});closeWork(true,true);
     go({k:k,lv:Math.min(2,c4.max)},{anchor:c4.head});c4.el.scrollIntoView({behavior:anim()?'smooth':'auto',block:'start'});return}
   var g=t.closest('[data-goto]');if(g){e.preventDefault();var c5=CH[g.dataset.goto];go({k:c5.k,lv:1},{anchor:c5.head});c5.el.scrollIntoView({behavior:anim()?'smooth':'auto',block:'start'});return}
-  var hm=t.closest('a.home');if(hm){e.preventDefault();go({k:null});scrollTo({top:0,behavior:anim()?'smooth':'auto'});return}});
-addEventListener('keydown',function(e){if(e.key==='Escape'&&S.w){step(-1);if(S.w)step(-1)}
+  var hm=t.closest('a.home');if(hm){if(SH())__sheet.close({quick:1});e.preventDefault();go({k:null});scrollTo({top:0,behavior:anim()?'smooth':'auto'});return}});
+addEventListener('keydown',function(e){if(e.key==='Escape'&&S.w){go({k:S.k,lv:2},{anchor:item(CH[S.k],S.w)})}
   if(e.key==='Tab'&&S.w){var f=$$('button:not([hidden]),a[href]:not([hidden]),iframe,video',imm).filter(function(x){return x.getClientRects().length});if(!f.length)return;
     var a=f[0],z=f[f.length-1];if(!imm.contains(document.activeElement)){e.preventDefault();a.focus()}else if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}}
   if((e.key==='+'||e.key==='=')&&!e.target.closest('input'))step(1);if(e.key==='-'&&!e.target.closest('input'))step(-1)});
@@ -175,37 +194,39 @@ var P=null,lastStep=0,TH_IN=1.22,TH_OUT=.8;
 function dist(t){var dx=t[0].clientX-t[1].clientX,dy=t[0].clientY-t[1].clientY;return Math.sqrt(dx*dx+dy*dy)}
 function mid(t){return{x:(t[0].clientX+t[1].clientX)/2,y:(t[0].clientY+t[1].clientY)/2}}
 function pinchTarget(m){var el=document.elementFromPoint(m.x,m.y),c=el&&el.closest&&el.closest('.ch');if(S.w)return{k:S.k,it:null};
+  if(el&&el.closest&&el.closest('.sky'))return{k:cur().k,it:null,portal:1};
   if(c){S.k=c.dataset.k;return{k:c.dataset.k,it:el.closest('.it')}}return{k:cur().k,it:null}}
-function live(sc){var tgt=S.w?frame:P&&P.k?CH[P.k].el.querySelector(CH[P.k].lv?'.sky-wrap':'.head'):null;if(!tgt)return;
+function live(sc){if(P&&P.portal)return;var tgt=S.w?frame:P&&P.k?CH[P.k].el.querySelector(CH[P.k].lv?'.sky-wrap':'.head'):null;if(!tgt)return;
   if(sc===1){tgt.style.transform='';tgt.style.transition='transform .25s';return}
   tgt.style.transition='none';tgt.style.transformOrigin=P.ox+'px '+P.oy+'px';tgt.style.transform='scale('+sc.toFixed(3)+')'}
-function pstart(t){var m=mid(t),pt=pinchTarget(m);P={d0:dist(t),k:pt.k,it:pt.it,steps:0};
+function pstart(t){var m=mid(t),pt=pinchTarget(m);P={d0:dist(t),k:pt.k,it:pt.it,steps:0,portal:pt.portal};
   var tg=S.w?frame:CH[P.k].el.querySelector(CH[P.k].lv?'.sky-wrap':'.head'),r=tg.getBoundingClientRect();P.ox=m.x-r.left;P.oy=m.y-r.top;D.classList.add('pinching')}
 /* the blocking touchmove listener only exists while two fingers are down, so one-finger scrolling stays on the compositor */
-document.addEventListener('touchstart',function(e){if(e.touches.length===2&&!e.target.closest('.fly')){pstart(e.touches);document.addEventListener('touchmove',tmove,{passive:false})}else if(e.touches.length>2)P=null},{passive:true});
+document.addEventListener('touchstart',function(e){if(e.touches.length===2&&!e.target.closest('.sheet')&&!SH()){pstart(e.touches);document.addEventListener('touchmove',tmove,{passive:false})}else if(e.touches.length>2)P=null},{passive:true});
 function tmove(e){if(!P||e.touches.length!==2)return;
   if(e.cancelable)e.preventDefault(); /* only ever for two fingers: stops the browser zooming the page while we change level */
   var r=dist(e.touches)/P.d0,now=Date.now();if(!P.done)live(Math.max(.86,Math.min(1.14,Math.pow(r,.35))));
   if(P.done)return; /* one pinch = one level: the view snaps, then waits for the next pinch */
+  if(S.w){if(r>TH_IN||r<TH_OUT){P.done=1;P.defer=r>TH_IN?1:-1;lastStep=now;live(1)}return} /* in the work view: act on touchend, so the frame is not replaced under the fingers */
+  if(P.portal&&(r>TH_IN||r<TH_OUT)&&window.__sheet){P.done=1;live(1);var po=$('.portal');__sheet.open(po?{rect:po.getBoundingClientRect()}:{});return}
   if(r>TH_IN){P.done=1;lastStep=now;live(1);step(1,P.it,P.k)}
   else if(r<TH_OUT){P.done=1;lastStep=now;live(1);step(-1,null,P.k)}}
-function pend(){document.removeEventListener('touchmove',tmove,{passive:false});if(!P)return;live(1);P=null;setTimeout(function(){D.classList.remove('pinching')},60)}
+function pend(){document.removeEventListener('touchmove',tmove,{passive:false});if(!P)return;live(1);var df=P.defer,pk=P.k;P=null;if(df)setTimeout(function(){step(df,null,pk)},0);setTimeout(function(){D.classList.remove('pinching')},60)}
 document.addEventListener('touchend',function(e){if(e.touches.length<2)pend()},{passive:true});
 document.addEventListener('touchcancel',pend,{passive:true});
 /* iOS Safari: its own gesture events. Block page zoom on the sheet (the list page keeps browser zoom). */
 ['gesturestart','gesturechange'].forEach(function(n){document.addEventListener(n,function(e){if(!e.target.closest||!e.target.closest('.fly'))e.preventDefault()},{passive:false})});
 /* trackpad pinch (ctrl+wheel) and Safari desktop gestures */
-var wAcc=0,wT=0;addEventListener('wheel',function(e){if(!e.ctrlKey)return;e.preventDefault();wAcc+=e.deltaY;clearTimeout(wT);wT=setTimeout(function(){wAcc=0},250);
+var wAcc=0,wT=0;addEventListener('wheel',function(e){if(!e.ctrlKey||(e.target.closest&&e.target.closest('.sheet')))return;e.preventDefault();wAcc+=e.deltaY;clearTimeout(wT);wT=setTimeout(function(){wAcc=0},250);
   if(Date.now()-lastStep<380)return;if(wAcc<-40){lastStep=Date.now();wAcc=0;var m={x:e.clientX,y:e.clientY},pt=pinchTarget(m);step(1,pt.it,pt.k)}else if(wAcc>40){lastStep=Date.now();wAcc=0;var pt2=pinchTarget({x:e.clientX,y:e.clientY});step(-1,null,pt2.k)}},{passive:false});
 /* ---------- previews: muted loops only for frames on screen at L2 (max 6), stills everywhere else ---------- */
 var pvq=0,PVMAX=6,save=(navigator.connection||{}).saveData;
 function pv(){if(pvq)return;pvq=requestAnimationFrame(function(){pvq=0;var live=[];
-  ORDER.forEach(function(k){var c=CH[k];c.items.forEach(function(it){if(!it.dataset.pv)return;var v=$('.vis',it),vd=$('video',v);
-    var ok=c.lv===2&&!S.w&&anim()&&!save&&!scrolling,r=ok?v.getBoundingClientRect():null;
+  ORDER.forEach(function(k){var c=CH[k];c.items.forEach(function(it){if(!it.dataset.pv)return;var v=$('.vis',it),vd=$('video',v);if(scrolling&&vd&&c.lv===2&&!S.w&&!QUIET)return;
+    var ok=c.lv===2&&!S.w&&!QUIET&&anim()&&!save&&!scrolling, /* v3.1: tiny clips that play once (a different moment from the work view), never loop */r=ok?v.getBoundingClientRect():null;
     if(ok&&r.top>-r.height*.2&&r.bottom<innerHeight-60&&live.length<PVMAX){live.push(it);
-      if(!vd){vd=document.createElement('video');vd.muted=true;vd.loop=true;vd.playsInline=true;vd.setAttribute('playsinline','');vd.setAttribute('aria-hidden','true');vd.preload='auto';vd.src=it.dataset.pv;v.appendChild(vd)}
-      if(vd.paused)vd.play().catch(function(){})}
-    else if(vd){vd.pause();vd.removeAttribute('src');vd.load();vd.remove()}})})})}
+      if(!vd&&!it._done){it._done=1;vd=document.createElement('video');vd.muted=true;vd.playsInline=true;vd.setAttribute('playsinline','');vd.setAttribute('aria-hidden','true');vd.preload='auto';vd.src=it.dataset.pv.replace('/pv/','/sc/');v.appendChild(vd);vd.play().catch(function(){})}}
+    else{if(vd){vd.pause();vd.removeAttribute('src');vd.load();vd.remove()}it._done=0}})})})}
 /* ---------- scroll: the water deepens, the poem melts, the sky comes up. Passive, never blocks scroll. ---------- */
 var poemL=$$('.poem span'),P0=[],sky=$('#sky'),sq=0,scrolling=false,scT=0;
 function measure(){var y=scrollY;P0=poemL.map(function(s){return s.getBoundingClientRect().top+y})}
@@ -220,11 +241,11 @@ addEventListener('scroll',onScroll,{passive:true});
 addEventListener('resize',function(){measure();ORDER.forEach(function(k){if(CH[k].lv)drawLines(CH[k])});onScroll()});
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){measure();ORDER.forEach(function(k){if(CH[k].lv)drawLines(CH[k])})});
 /* ---------- Back / Forward and deep links: every level is a hash ---------- */
-addEventListener('popstate',function(){var r=parse(location.hash);go(r,{push:false,anchor:r.k?CH[r.k].head:null})});
-function boot(){measure();var r=parse(location.hash);if(r.k){var a=anim;anim=function(){return false};go(r,{push:false,replace:true,noAnim:true});
+addEventListener('popstate',function(){var r=parse(location.hash);if(r.sheet)return;go(r,{push:false,anchor:r.k?CH[r.k].head:null})});
+function boot(){measure();var r=parse(location.hash);if(r.sheet){onScroll();ui();return}if(r.k){var a=anim;anim=function(){return false};go(r,{push:false,replace:true,noAnim:true});
     if(r.lv<3)CH[r.k].el.scrollIntoView({block:'start'});anim=a}
   else if(location.hash&&location.hash!=='#')history.replaceState(null,'',location.pathname+location.search);
   onScroll();ui()}
 boot();
-window.__dive={go:go,step:step,state:function(){return{k:S.k,w:S.w,play:S.play,lv:S.k?(S.w?3:CH[S.k].lv):0,levels:ORDER.map(function(k){return CH[k].lv})}},parse:parse};
+window.__dive={quiet:function(q){QUIET=q;pv();ui()},sync:function(){push(cur().lv?cur():{k:null});ui()},go:go,step:step,state:function(){return{k:S.k,w:S.w,play:S.play,lv:S.k?(S.w?3:CH[S.k].lv):0,levels:ORDER.map(function(k){return CH[k].lv})}},parse:parse};
 })();
