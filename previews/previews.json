@@ -1,313 +1,279 @@
 {
-  "title": "Gill James · work-in-progress previews",
-  "sections": [
-    {
-      "id": "reel-v7",
-      "title": "Reel v7"
-    },
-    {
-      "id": "site-v3",
-      "title": "Site v3"
-    },
-    {
-      "id": "site-v31-qa",
-      "title": "Site v3.1 QA"
-    }
-  ],
-  "items": [
-    {
-      "section": "site-v31-qa",
-      "type": "video",
-      "file": "media/v31-s24-pinch.mp4",
-      "poster": "posters/v31-s24-pinch.jpg",
-      "title": "S24 size: pinch on a film (fix 1)",
-      "desc": "Two-finger pinches on the work view: the film plays, stops, then pulls out to the grid of every work. The page zoom readout stays 1.00x (the v3 blocker is fixed in emulation).",
-      "time": "2026-10-18T01:04:00-07:00",
-      "badge": null
-    },
-    {
-      "section": "site-v31-qa",
-      "type": "video",
-      "file": "media/v31-s24-sheet.mp4",
-      "poster": "posters/v31-s24-sheet.jpg",
-      "title": "S24 size: one-sheet zoom out and in",
-      "desc": "Tap − to the whole sky, pinch into Photo and back out, + into Film where the stars travel into the grid, then − steps back out one level at a time, Back closes the sky.",
-      "time": "2026-10-18T01:03:00-07:00",
-      "badge": null
-    },
-    {
-      "section": "site-v31-qa",
-      "type": "video",
-      "file": "media/v31-s24-scroll.mp4",
-      "poster": "posters/v31-s24-scroll.jpg",
-      "title": "S24 size: slow scroll through the whole page",
-      "desc": "Emulated Galaxy S24 (384x832, Android Chrome, real finger drags). The whole Dive at rest, top to the whole-sky portal at the end.",
-      "time": "2026-10-18T01:02:00-07:00",
-      "badge": null
-    },
-    {
-      "section": "site-v3",
-      "type": "video",
-      "file": "media/v31_preview_3.mp4",
-      "poster": "posters/v31_preview_3.jpg",
-      "title": "v3.1 full one-sheet story",
-      "desc": "Now live at site-v3/. 38 s: whole sky, Film, grid, a work, pull out to the massive grid, back to the constellation, Photo.",
-      "time": "2026-10-18T00:21:48-07:00",
-      "badge": "Live"
-    },
-    {
-      "section": "reel-v7",
-      "type": "video",
-      "file": "media/reel-v7-pass5-small.mp4",
-      "poster": "posters/reel-v7-pass5-small.jpg",
-      "title": "Full cut, first mix fitted to the new edit",
-      "desc": "New edit (Legends focus, unique constellations) with the first new mix, cuts on music hits, quiet texture layer, Legends line at 0:20.",
-      "time": "2026-10-18T00:21:28-07:00",
-      "badge": "Latest"
-    },
-    {
-      "section": "reel-v7",
-      "type": "audio",
-      "file": "media/v7_audio_sample_pass5.m4a",
-      "poster": null,
-      "title": "Audio pass 5: first mix + Legends",
-      "desc": "Gill's favourite first mix, fitted to the new edit, with 'What are legends made of?' over the Legends focus.",
-      "time": "2026-10-18T00:21:08-07:00",
-      "badge": null
-    },
-    {
-      "section": "reel-v7",
-      "type": "video",
-      "file": "media/reel-v7-legends-small.mp4",
-      "poster": "posters/reel-v7-legends-small.jpg",
-      "title": "Full cut with Legends + story sound",
-      "desc": "First-cut look plus BMW X7 Legends focus, Stay Gold, 663 unique constellation tiles (no loops, no repeats) and the pass 4 story mix.",
-      "time": "2026-10-18T00:13:59-07:00",
-      "badge": null
-    },
-    {
-      "section": "reel-v7",
-      "type": "audio",
-      "file": "media/v7_audio_sample_pass4.m4a",
-      "poster": null,
-      "title": "Audio mix pass 4, story order",
-      "desc": "Builds on pass 3: lines now run as one story, from 'What are legends made of?' to 'That's what I love to do'.",
-      "time": "2026-10-18T00:12:53-07:00",
-      "badge": null
-    },
-    {
-      "section": "reel-v7",
-      "type": "audio",
-      "file": "media/v7_audio_sample-2.m4a",
-      "poster": null,
-      "title": "Audio mix pass 3",
-      "desc": "Lost in Time, water, Legends and Stay Gold narration added.",
-      "time": "2026-10-17T23:54:16-07:00",
-      "badge": null
-    },
-    {
-      "section": "reel-v7",
-      "type": "video",
-      "file": "media/legends-focus.mp4",
-      "poster": "posters/legends-focus.jpg",
-      "title": "Edit clip: BMW X7 Legends focus",
-      "desc": "Full-screen Legends with 'What are legends made of?' 19 to 24.5 s.",
-      "time": "2026-10-18T00:07:08-07:00",
-      "badge": null
-    },
-    {
-      "section": "reel-v7",
-      "type": "video",
-      "file": "media/opening-water-to-constellation.mp4",
-      "poster": "posters/opening-water-to-constellation.jpg",
-      "title": "Edit clip: opening, water to constellation",
-      "desc": "0 to 8.5 s.",
-      "time": "2026-10-18T00:06:50-07:00",
-      "badge": null
-    },
-    {
-      "section": "reel-v7",
-      "type": "video",
-      "file": "media/wall-a-constellation.mp4",
-      "poster": "posters/wall-a-constellation.jpg",
-      "title": "Edit clip: wall A constellation",
-      "desc": "Unique clips, photos and held frames, no repeats. 12.5 to 20 s.",
-      "time": "2026-10-18T00:07:02-07:00",
-      "badge": null
-    },
-    {
-      "section": "reel-v7",
-      "type": "video",
-      "file": "media/dive-film-stars.mp4",
-      "poster": "posters/dive-film-stars.jpg",
-      "title": "Edit clip: dive into the film star",
-      "desc": "6.5 to 13 s.",
-      "time": "2026-10-18T00:06:55-07:00",
-      "badge": null
-    },
-    {
-      "section": "reel-v7",
-      "type": "video",
-      "file": "media/stay-gold-hero.mp4",
-      "poster": "posters/stay-gold-hero.jpg",
-      "title": "Edit clip: AXE Stay Gold hero",
-      "desc": "With Stroman's 'When the stakes are high, I stay gold.'",
-      "time": "2026-10-18T00:07:21-07:00",
-      "badge": null
-    },
-    {
-      "section": "reel-v7",
-      "type": "video",
-      "file": "media/closing-cluster.mp4",
-      "poster": "posters/closing-cluster.jpg",
-      "title": "Edit clip: closing cluster",
-      "desc": "Render 8 edit clip.",
-      "time": "2026-10-18T00:07:38-07:00",
-      "badge": null
-    },
-    {
-      "section": "reel-v7",
-      "type": "video",
-      "file": "media/bmw-drift-hero.mp4",
-      "poster": "posters/bmw-drift-hero.jpg",
-      "title": "Edit clip: BMW Drift hero",
-      "desc": "Render 8 edit clip.",
-      "time": "2026-10-18T00:07:16-07:00",
-      "badge": null
-    },
-    {
-      "section": "reel-v7",
-      "type": "video",
-      "file": "media/flash-heroes.mp4",
-      "poster": "posters/flash-heroes.jpg",
-      "title": "Edit clip: flash heroes",
-      "desc": "Render 8 edit clip.",
-      "time": "2026-10-18T00:07:34-07:00",
-      "badge": null
-    },
-    {
-      "section": "reel-v7",
-      "type": "video",
-      "file": "media/heroes-jf-braun-arcteryx.mp4",
-      "poster": "posters/heroes-jf-braun-arcteryx.jpg",
-      "title": "Edit clip: heroes (JF Braun, Arc'teryx)",
-      "desc": "Render 8 edit clip.",
-      "time": "2026-10-18T00:07:24-07:00",
-      "badge": null
-    },
-    {
-      "section": "reel-v7",
-      "type": "video",
-      "file": "media/mosaic-infinite-zoom.mp4",
-      "poster": "posters/mosaic-infinite-zoom.jpg",
-      "title": "Edit clip: infinite-zoom mosaic",
-      "desc": "Render 8 edit clip.",
-      "time": "2026-10-18T00:07:31-07:00",
-      "badge": null
-    },
-    {
-      "section": "site-v3",
-      "type": "video",
-      "file": "media/v31_preview_2.mp4",
-      "poster": "posters/v31_preview_2.jpg",
-      "title": "v3.1 one-sheet camera, preview 2",
-      "desc": "Dive, then the whole sky, into the Film constellation where stars become the grid, push into BMW Legends, pull out to the massive grid.",
-      "time": "2026-10-17T23:57:49-07:00",
-      "badge": null
-    },
-    {
-      "section": "site-v3",
-      "type": "video",
-      "file": "media/v31_preview_1.mp4",
-      "poster": "posters/v31_preview_1.jpg",
-      "title": "v3.1 constellation sheet, early look",
-      "desc": "Work in progress: the whole site as one sky, zooming into the Film constellation. Moving thumbnails and the push into the grid are still being built.",
-      "time": "2026-10-17T23:47:47-07:00",
-      "badge": null
-    },
-    {
-      "section": "reel-v7",
-      "type": "video",
-      "file": "media/reel-v7-firstcut-newsound.mp4",
-      "poster": "posters/reel-v7-firstcut-newsound.jpg",
-      "title": "First cut + new sound mix",
-      "desc": "Lost Coffee ‘Lost in Time’, voice lines from 19 Crimes, BMW Drift and AXE, water ambience. Current direction. Legends X7 and extra sound layers coming next.",
-      "time": "2026-10-17T23:36:00-07:00",
-      "badge": "Current direction"
-    },
-    {
-      "section": "reel-v7",
-      "type": "video",
-      "file": "media/reel-v7-pass4-opening.mp4",
-      "poster": "posters/reel-v7-pass4-opening.jpg",
-      "title": "Pass 4 opening",
-      "desc": "First 27 s: rebuilt ocean, dense imagery in constellations, HUD titles. Not chosen; kept for reference.",
-      "time": "2026-10-17T23:27:00-07:00",
-      "badge": null
-    },
-    {
-      "section": "reel-v7",
-      "type": "video",
-      "file": "media/reel-v7-firstcut-preview.mp4",
-      "poster": "posters/reel-v7-firstcut-preview.jpg",
-      "title": "First cut preview",
-      "desc": "First cut, full 73 s, original track. Gill picked this look.",
-      "time": "2026-10-17T23:09:00-07:00",
-      "badge": null
-    },
-    {
-      "section": "reel-v7",
-      "type": "audio",
-      "file": "media/v7_audio_sample.m4a",
-      "poster": null,
-      "title": "First audio draft",
-      "desc": "Audio only, 73 s.",
-      "time": "2026-10-17T23:07:00-07:00",
-      "badge": null
-    },
-    {
-      "section": "reel-v7",
-      "type": "video",
-      "file": "media/v7_preview_clip1.mp4",
-      "poster": "posters/v7_preview_clip1.jpg",
-      "title": "Preview clip 1",
-      "desc": "Opening: water to constellation.",
-      "time": "2026-10-17T22:52:00-07:00",
-      "badge": null
-    },
-    {
-      "section": "reel-v7",
-      "type": "video",
-      "file": "media/v7_preview_clip2.mp4",
-      "poster": "posters/v7_preview_clip2.jpg",
-      "title": "Preview clip 2",
-      "desc": "Tile wall forms ᑕᐣᓯ, cut to heroes.",
-      "time": "2026-10-17T22:52:00-07:00",
-      "badge": null
-    },
-    {
-      "section": "reel-v7",
-      "type": "video",
-      "file": "media/v7_preview_clip3.mp4",
-      "poster": "posters/v7_preview_clip3.jpg",
-      "title": "Preview clip 3",
-      "desc": "Helmet pull-out to the close.",
-      "time": "2026-10-17T22:52:00-07:00",
-      "badge": null
-    },
-    {
-      "section": "site-v3",
-      "type": "video",
-      "file": "media/site-v3-zoom-preview.mp4",
-      "poster": "posters/site-v3-zoom-preview.jpg",
-      "title": "v3 film zoom",
-      "desc": "L0 → L1 → L2 → full-screen work → back out (live at site-v3/).",
-      "time": "2026-10-17T22:45:00-07:00",
-      "badge": null,
-      "link": {
-        "href": "https://jamesgillmedia.github.io/gilljames/site-v3/",
-        "label": "Open site v3"
-      }
-    }
-  ]
+ "title": "Gill James · work-in-progress previews",
+ "sections": [
+  {
+   "id": "reel-v7",
+   "title": "Reel v7"
+  },
+  {
+   "id": "site-v3",
+   "title": "Site v3"
+  }
+ ],
+ "items": [
+  {
+   "section": "site-v3",
+   "type": "video",
+   "file": "media/v31_preview_3.mp4",
+   "poster": "posters/v31_preview_3.jpg",
+   "title": "v3.1 full one-sheet story",
+   "desc": "Now live at site-v3/. 38 s: whole sky, Film, grid, a work, pull out to the massive grid, back to the constellation, Photo.",
+   "time": "2026-10-18T00:21:48-07:00",
+   "badge": "Live"
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/reel-v7-pass5-small.mp4",
+   "poster": "posters/reel-v7-pass5-small.jpg",
+   "title": "Full cut, first mix fitted to the new edit",
+   "desc": "New edit (Legends focus, unique constellations) with the first new mix, cuts on music hits, quiet texture layer, Legends line at 0:20.",
+   "time": "2026-10-18T00:21:28-07:00",
+   "badge": "Latest"
+  },
+  {
+   "section": "reel-v7",
+   "type": "audio",
+   "file": "media/v7_audio_sample_pass5.m4a",
+   "poster": null,
+   "title": "Audio pass 5: first mix + Legends",
+   "desc": "Gill's favourite first mix, fitted to the new edit, with 'What are legends made of?' over the Legends focus.",
+   "time": "2026-10-18T00:21:08-07:00",
+   "badge": null
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/reel-v7-legends-small.mp4",
+   "poster": "posters/reel-v7-legends-small.jpg",
+   "title": "Full cut with Legends + story sound",
+   "desc": "First-cut look plus BMW X7 Legends focus, Stay Gold, 663 unique constellation tiles (no loops, no repeats) and the pass 4 story mix.",
+   "time": "2026-10-18T00:13:59-07:00",
+   "badge": null
+  },
+  {
+   "section": "reel-v7",
+   "type": "audio",
+   "file": "media/v7_audio_sample_pass4.m4a",
+   "poster": null,
+   "title": "Audio mix pass 4, story order",
+   "desc": "Builds on pass 3: lines now run as one story, from 'What are legends made of?' to 'That's what I love to do'.",
+   "time": "2026-10-18T00:12:53-07:00",
+   "badge": null
+  },
+  {
+   "section": "reel-v7",
+   "type": "audio",
+   "file": "media/v7_audio_sample-2.m4a",
+   "poster": null,
+   "title": "Audio mix pass 3",
+   "desc": "Lost in Time, water, Legends and Stay Gold narration added.",
+   "time": "2026-10-17T23:54:16-07:00",
+   "badge": null
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/legends-focus.mp4",
+   "poster": "posters/legends-focus.jpg",
+   "title": "Edit clip: BMW X7 Legends focus",
+   "desc": "Full-screen Legends with 'What are legends made of?' 19 to 24.5 s.",
+   "time": "2026-10-18T00:07:08-07:00",
+   "badge": null
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/opening-water-to-constellation.mp4",
+   "poster": "posters/opening-water-to-constellation.jpg",
+   "title": "Edit clip: opening, water to constellation",
+   "desc": "0 to 8.5 s.",
+   "time": "2026-10-18T00:06:50-07:00",
+   "badge": null
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/wall-a-constellation.mp4",
+   "poster": "posters/wall-a-constellation.jpg",
+   "title": "Edit clip: wall A constellation",
+   "desc": "Unique clips, photos and held frames, no repeats. 12.5 to 20 s.",
+   "time": "2026-10-18T00:07:02-07:00",
+   "badge": null
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/dive-film-stars.mp4",
+   "poster": "posters/dive-film-stars.jpg",
+   "title": "Edit clip: dive into the film star",
+   "desc": "6.5 to 13 s.",
+   "time": "2026-10-18T00:06:55-07:00",
+   "badge": null
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/stay-gold-hero.mp4",
+   "poster": "posters/stay-gold-hero.jpg",
+   "title": "Edit clip: AXE Stay Gold hero",
+   "desc": "With Stroman's 'When the stakes are high, I stay gold.'",
+   "time": "2026-10-18T00:07:21-07:00",
+   "badge": null
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/closing-cluster.mp4",
+   "poster": "posters/closing-cluster.jpg",
+   "title": "Edit clip: closing cluster",
+   "desc": "Render 8 edit clip.",
+   "time": "2026-10-18T00:07:38-07:00",
+   "badge": null
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/bmw-drift-hero.mp4",
+   "poster": "posters/bmw-drift-hero.jpg",
+   "title": "Edit clip: BMW Drift hero",
+   "desc": "Render 8 edit clip.",
+   "time": "2026-10-18T00:07:16-07:00",
+   "badge": null
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/flash-heroes.mp4",
+   "poster": "posters/flash-heroes.jpg",
+   "title": "Edit clip: flash heroes",
+   "desc": "Render 8 edit clip.",
+   "time": "2026-10-18T00:07:34-07:00",
+   "badge": null
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/heroes-jf-braun-arcteryx.mp4",
+   "poster": "posters/heroes-jf-braun-arcteryx.jpg",
+   "title": "Edit clip: heroes (JF Braun, Arc'teryx)",
+   "desc": "Render 8 edit clip.",
+   "time": "2026-10-18T00:07:24-07:00",
+   "badge": null
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/mosaic-infinite-zoom.mp4",
+   "poster": "posters/mosaic-infinite-zoom.jpg",
+   "title": "Edit clip: infinite-zoom mosaic",
+   "desc": "Render 8 edit clip.",
+   "time": "2026-10-18T00:07:31-07:00",
+   "badge": null
+  },
+  {
+   "section": "site-v3",
+   "type": "video",
+   "file": "media/v31_preview_2.mp4",
+   "poster": "posters/v31_preview_2.jpg",
+   "title": "v3.1 one-sheet camera, preview 2",
+   "desc": "Dive, then the whole sky, into the Film constellation where stars become the grid, push into BMW Legends, pull out to the massive grid.",
+   "time": "2026-10-17T23:57:49-07:00",
+   "badge": null
+  },
+  {
+   "section": "site-v3",
+   "type": "video",
+   "file": "media/v31_preview_1.mp4",
+   "poster": "posters/v31_preview_1.jpg",
+   "title": "v3.1 constellation sheet, early look",
+   "desc": "Work in progress: the whole site as one sky, zooming into the Film constellation. Moving thumbnails and the push into the grid are still being built.",
+   "time": "2026-10-17T23:47:47-07:00",
+   "badge": null
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/reel-v7-firstcut-newsound.mp4",
+   "poster": "posters/reel-v7-firstcut-newsound.jpg",
+   "title": "First cut + new sound mix",
+   "desc": "Lost Coffee ‘Lost in Time’, voice lines from 19 Crimes, BMW Drift and AXE, water ambience. Current direction. Legends X7 and extra sound layers coming next.",
+   "time": "2026-10-17T23:36:00-07:00",
+   "badge": "Current direction"
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/reel-v7-pass4-opening.mp4",
+   "poster": "posters/reel-v7-pass4-opening.jpg",
+   "title": "Pass 4 opening",
+   "desc": "First 27 s: rebuilt ocean, dense imagery in constellations, HUD titles. Not chosen; kept for reference.",
+   "time": "2026-10-17T23:27:00-07:00",
+   "badge": null
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/reel-v7-firstcut-preview.mp4",
+   "poster": "posters/reel-v7-firstcut-preview.jpg",
+   "title": "First cut preview",
+   "desc": "First cut, full 73 s, original track. Gill picked this look.",
+   "time": "2026-10-17T23:09:00-07:00",
+   "badge": null
+  },
+  {
+   "section": "reel-v7",
+   "type": "audio",
+   "file": "media/v7_audio_sample.m4a",
+   "poster": null,
+   "title": "First audio draft",
+   "desc": "Audio only, 73 s.",
+   "time": "2026-10-17T23:07:00-07:00",
+   "badge": null
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/v7_preview_clip1.mp4",
+   "poster": "posters/v7_preview_clip1.jpg",
+   "title": "Preview clip 1",
+   "desc": "Opening: water to constellation.",
+   "time": "2026-10-17T22:52:00-07:00",
+   "badge": null
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/v7_preview_clip2.mp4",
+   "poster": "posters/v7_preview_clip2.jpg",
+   "title": "Preview clip 2",
+   "desc": "Tile wall forms ᑕᐣᓯ, cut to heroes.",
+   "time": "2026-10-17T22:52:00-07:00",
+   "badge": null
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/v7_preview_clip3.mp4",
+   "poster": "posters/v7_preview_clip3.jpg",
+   "title": "Preview clip 3",
+   "desc": "Helmet pull-out to the close.",
+   "time": "2026-10-17T22:52:00-07:00",
+   "badge": null
+  },
+  {
+   "section": "site-v3",
+   "type": "video",
+   "file": "media/site-v3-zoom-preview.mp4",
+   "poster": "posters/site-v3-zoom-preview.jpg",
+   "title": "v3 film zoom",
+   "desc": "L0 → L1 → L2 → full-screen work → back out (live at site-v3/).",
+   "time": "2026-10-17T22:45:00-07:00",
+   "badge": null,
+   "link": {
+    "href": "https://jamesgillmedia.github.io/gilljames/site-v3/",
+    "label": "Open site v3"
+   }
+  }
+ ]
 }
