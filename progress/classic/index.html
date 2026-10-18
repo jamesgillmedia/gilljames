@@ -150,10 +150,14 @@ const ETA = [
     name: "Site v3.2: Scope player and Moonwater arrival",
     detail: "Scope film player back (cut rail and swipeable shot strip) with reel v7 in the Film chapter, plus v2’s bright Moonwater arrival: touch the water to dive, fading dim as you sink",
     start: "2026-10-18T07:55:00Z",
-    ready: "2026-10-18T10:40:00Z",
-    now: "Third full test run on the real site build passed with nothing failing. Next is uploading the 56 changed files to the live site, then phone QA on the live build.",
+    ready: "2026-10-18T10:34:00Z",
+    now: "Build finished at 3:34 AM and every test suite passed. The 56 changed files (about 22 MB) are staged for upload to the live site. Phone QA on the live build starts as soon as it is up.",
+    preview: "../preview/site-v3-2.jpg",
+    previewAt: "2026-10-18T10:08:00Z",
     previewsAnchor: "site-v3-2",
     log: [
+      { at: "2026-10-18T10:35:00Z", text: "Upload copy staged: 56 files, about 22 MB, none over 25 MB" },
+      { at: "2026-10-18T10:34:00Z", text: "Build finished. Every suite green on the real site build: 413 of 413 touch and feel, 162 of 162 camera, 234 of 234 Scope player, 113 of 113 Moonwater arrival, 48 of 48 QA-fix checks. Reel v7 in the Film chapter is the clean 720p cut (22.2 MB, 41 cuts), and the Moonwater arrival can switch between the new v3.2 feel and the original v2 feel. Nothing uploaded yet" },
       { at: "2026-10-18T10:23:00Z", text: "Third full test run passed: 48 of 48 QA-fix checks, so every suite is green. Ready to upload" },
       { at: "2026-10-18T10:21:00Z", text: "Moonwater arrival checks pass: 113 of 113" },
       { at: "2026-10-18T10:19:00Z", text: "Scope player checks pass: 234 of 234" },
@@ -181,8 +185,10 @@ const ETA = [
       { at: "2026-10-18T07:55:00Z", text: "Started v3.2" },
     ],
     milestones: [
-      { name: "Scope player" },
       { name: "Moonwater arrival", at: "2026-10-18T09:03:00Z" },
+      { name: "build done", at: "2026-10-18T10:34:00Z" },
+      { name: "live" },
+      { name: "phone QA" },
     ]
   }
 ];
@@ -190,8 +196,8 @@ const ETA = [
 
 // ==== STATUS START
 const STATUS = {
-  lastUpdated: "18 Oct 2026, 10:24 AM UTC",
-  lastUpdatedISO: "2026-10-18T10:24:00Z",
+  lastUpdated: "18 Oct 2026, 10:40 AM UTC",
+  lastUpdatedISO: "2026-10-18T10:40:00Z",
   title: "gilljames.com rebuild · progress",
 
   // kind: "here" (today, yellow) · "gill" (mint, Gill's) · "due" (red, deadline) · "date"
