@@ -8,18 +8,52 @@
     {
       "id": "site-v3",
       "title": "Site v3"
+    },
+    {
+      "id": "site-v31-qa",
+      "title": "Site v3.1 QA"
     }
   ],
   "items": [
+    {
+      "section": "site-v31-qa",
+      "type": "video",
+      "file": "media/v31-s24-pinch.mp4",
+      "poster": "posters/v31-s24-pinch.jpg",
+      "title": "S24 size: pinch on a film (fix 1)",
+      "desc": "Two-finger pinches on the work view: the film plays, stops, then pulls out to the grid of every work. The page zoom readout stays 1.00x (the v3 blocker is fixed in emulation).",
+      "time": "2026-10-18T01:04:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "site-v31-qa",
+      "type": "video",
+      "file": "media/v31-s24-sheet.mp4",
+      "poster": "posters/v31-s24-sheet.jpg",
+      "title": "S24 size: one-sheet zoom out and in",
+      "desc": "Tap − to the whole sky, pinch into Photo and back out, + into Film where the stars travel into the grid, then − steps back out one level at a time, Back closes the sky.",
+      "time": "2026-10-18T01:03:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "site-v31-qa",
+      "type": "video",
+      "file": "media/v31-s24-scroll.mp4",
+      "poster": "posters/v31-s24-scroll.jpg",
+      "title": "S24 size: slow scroll through the whole page",
+      "desc": "Emulated Galaxy S24 (384x832, Android Chrome, real finger drags). The whole Dive at rest, top to the whole-sky portal at the end.",
+      "time": "2026-10-18T01:02:00-07:00",
+      "badge": null
+    },
     {
       "section": "site-v3",
       "type": "video",
       "file": "media/v31_preview_3.mp4",
       "poster": "posters/v31_preview_3.jpg",
       "title": "v3.1 full one-sheet story",
-      "desc": "38 s: whole sky, Film, grid, a work, pull out to the massive grid, back to the constellation, Photo.",
+      "desc": "Now live at site-v3/. 38 s: whole sky, Film, grid, a work, pull out to the massive grid, back to the constellation, Photo.",
       "time": "2026-10-18T00:21:48-07:00",
-      "badge": null
+      "badge": "Live"
     },
     {
       "section": "reel-v7",
@@ -259,16 +293,6 @@
       "title": "Preview clip 3",
       "desc": "Helmet pull-out to the close.",
       "time": "2026-10-17T22:52:00-07:00",
-      "badge": null
-    },
-    {
-      "section": "site-v3",
-      "type": "placeholder",
-      "file": null,
-      "poster": null,
-      "title": "v3.1 constellation one-sheet layer",
-      "desc": "Previews coming.",
-      "time": null,
       "badge": null
     },
     {
