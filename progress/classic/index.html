@@ -149,9 +149,10 @@ const ETA = [
     detail: "Scope film player back (cut rail and swipeable shot strip) with reel v7 in the Film chapter, plus v2’s bright Moonwater arrival: touch the water to dive, fading dim as you sink",
     start: "2026-10-18T07:55:00Z",
     ready: "2026-10-18T10:15:00Z",
-    now: "Moved into the real site build; touch and feel checks all pass (413 of 413). Camera, Scope, arrival and QA checks are running, then demo videos and the deploy copy",
+    now: "Fixing the one camera check that failed (✕ back to the Dive in S24 landscape) and rerunning the Scope and arrival checks on the real site build, then demo videos and the deploy copy",
     previewsAnchor: "site-v3-2",
     log: [
+      { at: "2026-10-18T09:40:00Z", text: "First full test pass on the real site build done: 161 of 162 camera checks and 48 of 48 QA-fix checks pass. One fix needed: ✕ back to the Dive on Galaxy S24 landscape. The Scope and arrival check runs stopped early and are being rerun" },
       { at: "2026-10-18T09:34:00Z", text: "Real site build: 413 of 413 touch and feel checks pass; camera checks running now" },
       { at: "2026-10-18T09:29:00Z", text: "Scope player and Moonwater arrival moved into the real site build (old files backed up); full test run started on it" },
       { at: "2026-10-18T09:03:00Z", text: "Ready ETA revised to 10:15Z (was 10:45Z)" },
@@ -177,8 +178,8 @@ const ETA = [
 
 // ==== STATUS START
 const STATUS = {
-  lastUpdated: "18 Oct 2026, 9:38 AM UTC",
-  lastUpdatedISO: "2026-10-18T09:38:00Z",
+  lastUpdated: "18 Oct 2026, 9:44 AM UTC",
+  lastUpdatedISO: "2026-10-18T09:44:00Z",
   title: "gilljames.com rebuild · progress",
 
   // kind: "here" (today, yellow) · "gill" (mint, Gill's) · "due" (red, deadline) · "date"
