@@ -12,6 +12,126 @@
   ],
   "items": [
     {
+      "section": "reel-v7",
+      "type": "audio",
+      "file": "media/v7_audio_sample-2.m4a",
+      "poster": null,
+      "title": "Audio mix pass 3",
+      "desc": "Lost in Time, water, Legends and Stay Gold narration added.",
+      "time": "2026-10-17T23:54:16-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/legends-focus.mp4",
+      "poster": "posters/legends-focus.jpg",
+      "title": "Edit clip: BMW X7 Legends focus",
+      "desc": "Full-screen Legends with 'What are legends made of?' 19 to 24.5 s.",
+      "time": "2026-10-18T00:07:08-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/opening-water-to-constellation.mp4",
+      "poster": "posters/opening-water-to-constellation.jpg",
+      "title": "Edit clip: opening, water to constellation",
+      "desc": "0 to 8.5 s.",
+      "time": "2026-10-18T00:06:50-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/wall-a-constellation.mp4",
+      "poster": "posters/wall-a-constellation.jpg",
+      "title": "Edit clip: wall A constellation",
+      "desc": "Unique clips, photos and held frames, no repeats. 12.5 to 20 s.",
+      "time": "2026-10-18T00:07:02-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/dive-film-stars.mp4",
+      "poster": "posters/dive-film-stars.jpg",
+      "title": "Edit clip: dive into the film star",
+      "desc": "6.5 to 13 s.",
+      "time": "2026-10-18T00:06:55-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/stay-gold-hero.mp4",
+      "poster": "posters/stay-gold-hero.jpg",
+      "title": "Edit clip: AXE Stay Gold hero",
+      "desc": "With Stroman's 'When the stakes are high, I stay gold.'",
+      "time": "2026-10-18T00:07:21-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/closing-cluster.mp4",
+      "poster": "posters/closing-cluster.jpg",
+      "title": "Edit clip: closing cluster",
+      "desc": "Render 8 edit clip.",
+      "time": "2026-10-18T00:07:38-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/bmw-drift-hero.mp4",
+      "poster": "posters/bmw-drift-hero.jpg",
+      "title": "Edit clip: BMW Drift hero",
+      "desc": "Render 8 edit clip.",
+      "time": "2026-10-18T00:07:16-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/flash-heroes.mp4",
+      "poster": "posters/flash-heroes.jpg",
+      "title": "Edit clip: flash heroes",
+      "desc": "Render 8 edit clip.",
+      "time": "2026-10-18T00:07:34-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/heroes-jf-braun-arcteryx.mp4",
+      "poster": "posters/heroes-jf-braun-arcteryx.jpg",
+      "title": "Edit clip: heroes (JF Braun, Arc'teryx)",
+      "desc": "Render 8 edit clip.",
+      "time": "2026-10-18T00:07:24-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/mosaic-infinite-zoom.mp4",
+      "poster": "posters/mosaic-infinite-zoom.jpg",
+      "title": "Edit clip: infinite-zoom mosaic",
+      "desc": "Render 8 edit clip.",
+      "time": "2026-10-18T00:07:31-07:00",
+      "badge": null
+    },
+    {
+      "section": "site-v3",
+      "type": "video",
+      "file": "media/v31_preview_2.mp4",
+      "poster": "posters/v31_preview_2.jpg",
+      "title": "v3.1 one-sheet camera, preview 2",
+      "desc": "Dive, then the whole sky, into the Film constellation where stars become the grid, push into BMW Legends, pull out to the massive grid.",
+      "time": "2026-10-17T23:57:49-07:00",
+      "badge": null
+    },
+    {
       "section": "site-v3",
       "type": "video",
       "file": "media/v31_preview_1.mp4",
