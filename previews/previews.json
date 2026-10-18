@@ -12,6 +12,16 @@
   ],
   "items": [
     {
+      "section": "site-v3",
+      "type": "video",
+      "file": "media/v31_preview_1.mp4",
+      "poster": "posters/v31_preview_1.jpg",
+      "title": "v3.1 constellation sheet, early look",
+      "desc": "Work in progress: the whole site as one sky, zooming into the Film constellation. Moving thumbnails and the push into the grid are still being built.",
+      "time": "2026-10-17T23:47:47-07:00",
+      "badge": null
+    },
+    {
       "section": "reel-v7",
       "type": "video",
       "file": "media/reel-v7-firstcut-newsound.mp4",
