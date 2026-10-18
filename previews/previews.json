@@ -8,9 +8,103 @@
   {
    "id": "site-v3",
    "title": "Site v3"
+  },
+  {
+   "id": "site-v31-qa",
+   "title": "Site v3.1 QA"
   }
  ],
  "items": [
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/p6-wip06-recap-close.mp4",
+   "poster": "posters/p6-wip06-recap-close.jpg",
+   "title": "Pass 6 edit: recap re-timed",
+   "desc": "1:01-1:06. End of the infinite zoom; recap re-timed to the music: BMW smoke, BONSAI letters, Electrify light.",
+   "time": "2026-10-18T01:36:44-07:00",
+   "badge": "Latest"
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/p6-wip05-chapter-constellations.mp4",
+   "poster": "posters/p6-wip05-chapter-constellations.jpg",
+   "title": "Pass 6 edit: chapter constellations as motifs",
+   "desc": "Four excerpts: the new gilljames.com v3.2 chapter constellations marking film, photo, objects and sound sections.",
+   "time": "2026-10-18T01:36:42-07:00",
+   "badge": null
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/p6-wip04-bonsai-artist-river.mp4",
+   "poster": "posters/p6-wip04-bonsai-artist-river.jpg",
+   "title": "Pass 6 edit: tighter artist run",
+   "desc": "0:50-0:56. Allan Rayman, Hey Ocean, Kiesza, now cut on the hit into BONSAI's masked artist.",
+   "time": "2026-10-18T01:36:31-07:00",
+   "badge": null
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/p6-wip03-bonsai-hero.mp4",
+   "poster": "posters/p6-wip03-bonsai-hero.jpg",
+   "title": "Pass 6 edit: BONSAI Retail Revolution hero",
+   "desc": "0:37-0:43. John Frieda splash into the BONSAI spray-can painter, landing on the hit.",
+   "time": "2026-10-18T01:36:29-07:00",
+   "badge": null
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/p6-wip02-legends-focus.mp4",
+   "poster": "posters/p6-wip02-legends-focus.jpg",
+   "title": "Pass 6 edit: Legends focus, refined",
+   "desc": "0:19-0:24. The wall calms in a ripple toward the X7 tile, which zooms to full screen; 'What are legends made of?'.",
+   "time": "2026-10-18T01:36:27-07:00",
+   "badge": null
+  },
+  {
+   "section": "reel-v7",
+   "type": "video",
+   "file": "media/p6-wip01-electrify-hero.mp4",
+   "poster": "posters/p6-wip01-electrify-hero.jpg",
+   "title": "Pass 6 edit: Electrify the Night hero",
+   "desc": "0:24-0:31. BMW Drift low hero, then on the hit BMW Electrify the Night: i8 laser headlights, red light-blade tail. Pass 6 mix.",
+   "time": "2026-10-18T01:36:13-07:00",
+   "badge": null
+  },
+  {
+   "section": "site-v31-qa",
+   "type": "video",
+   "file": "media/v31-s24-pinch.mp4",
+   "poster": "posters/v31-s24-pinch.jpg",
+   "title": "S24 size: pinch on a film (fix 1)",
+   "desc": "Two-finger pinches on the work view: the film plays, stops, then pulls out to the grid of every work. The page zoom readout stays 1.00x (the v3 blocker is fixed in emulation).",
+   "time": "2026-10-18T01:04:00-07:00",
+   "badge": null
+  },
+  {
+   "section": "site-v31-qa",
+   "type": "video",
+   "file": "media/v31-s24-sheet.mp4",
+   "poster": "posters/v31-s24-sheet.jpg",
+   "title": "S24 size: one-sheet zoom out and in",
+   "desc": "Tap − to the whole sky, pinch into Photo and back out, + into Film where the stars travel into the grid, then − steps back out one level at a time, Back closes the sky.",
+   "time": "2026-10-18T01:03:00-07:00",
+   "badge": null
+  },
+  {
+   "section": "site-v31-qa",
+   "type": "video",
+   "file": "media/v31-s24-scroll.mp4",
+   "poster": "posters/v31-s24-scroll.jpg",
+   "title": "S24 size: slow scroll through the whole page",
+   "desc": "Emulated Galaxy S24 (384x832, Android Chrome, real finger drags). The whole Dive at rest, top to the whole-sky portal at the end.",
+   "time": "2026-10-18T01:02:00-07:00",
+   "badge": null
+  },
   {
    "section": "site-v3",
    "type": "video",
@@ -29,7 +123,7 @@
    "title": "Full cut, first mix fitted to the new edit",
    "desc": "New edit (Legends focus, unique constellations) with the first new mix, cuts on music hits, quiet texture layer, Legends line at 0:20.",
    "time": "2026-10-18T00:21:28-07:00",
-   "badge": "Latest"
+   "badge": null
   },
   {
    "section": "reel-v7",
