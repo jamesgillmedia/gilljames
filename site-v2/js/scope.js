@@ -55,7 +55,7 @@ GJ.mods.scope=function(main,SIG){
   bPlay.addEventListener('click',function(){if(!vid||vid.paused)start();else vid.pause()});
   bSnd.addEventListener('click',function(){if(!vid)return;vid.muted=!vid.muted;bSnd.setAttribute('aria-pressed',String(!vid.muted));bSnd.textContent=vid.muted?'♪̸':'♪'});
   bFull.addEventListener('click',function(){load();var el=vid;
-    if(el.requestFullscreen){var q=el.requestFullscreen();q&&q.catch&&q.catch(function(){});return}
+    if(el.requestFullscreen){var q=el.requestFullscreen();q&&q.then&&q.then(function(){try{var o=screen.orientation;o&&o.lock&&o.lock('landscape').catch(function(){})}catch(e){}},function(){});return} /* Android: full screen turns the picture sideways */
     /* iPhone: the native player can only go full screen once the metadata is in */
     function ios(){try{el.webkitEnterFullscreen()}catch(e){}}
     if(el.webkitEnterFullscreen){if(el.readyState>=1)ios();else el.addEventListener('loadedmetadata',ios,{once:true})}});

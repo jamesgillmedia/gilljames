@@ -13,7 +13,7 @@ var s=1,tx=0,ty=0,minS=0.1,lod=-1,vw=0,vh=0,bw=0,bh=0;
 VP.classList.add('zoom');
 /* the whole sky fits between the header (top) and the controls (bottom), so no label sits under a button */
 var PT=64,PB=72;function wv(){return{x:0,y:PT,w:vw,h:Math.max(100,vh-PT-PB)}}
-function size(){var r=VP.getBoundingClientRect();vw=r.width;vh=r.height;var sh=vh<500;PT=sh?44:64;PB=sh?100:128;bw=W.offsetWidth;bh=W.offsetHeight;var v=wv();minS=Math.min(vw/bw,v.h/bh)*0.94}
+function size(){var r=VP.getBoundingClientRect();vw=r.width;vh=r.height;var sh=vh<500,wide=sh&&vw>vh;PT=wide?54:sh?44:64;PB=wide?62:sh?100:128;bw=W.offsetWidth;bh=W.offsetHeight;var v=wv();minS=Math.min(vw/bw,v.h/bh)*0.94}
 /* band (section pages): frame the cluster in the band window where it sits in the page, even below the fold, then keep it
    there as the page scrolls (the scene is fixed, the window moves): see track() */
 function view(){if(MODE!=='band')return{x:0,y:0,w:vw,h:vh};var sp=document.querySelector('main .sp-band');if(!sp)return{x:0,y:0,w:vw,h:vh};

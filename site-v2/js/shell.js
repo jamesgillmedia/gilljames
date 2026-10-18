@@ -85,7 +85,12 @@ document.addEventListener('click',function(e){
   if(e.defaultPrevented||e.button||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
   var a=e.target.closest&&e.target.closest('a[href]');if(!a||(a.target&&a.target!=='_self')||a.hasAttribute('download'))return;
   if(pageOf(a.href)==null)return;
-  var u=new URL(a.href);if(u.pathname===location.pathname)return; /* same page: a hash, handled natively / by the page */
+  var u=new URL(a.href);if(u.pathname===location.pathname){
+    if(u.hash)return; /* same page + a hash: handled natively / by the page */
+    /* the tab, crumb or list link of the page you are on: no reload. Close the list (and an open player), back to the top */
+    e.preventDefault();listSet(false);var px=document.querySelector('.player-open .scope .x:not([hidden])');if(px)px.click();
+    if(window.__sky&&d.classList.contains('m-sky')&&__sky.whole)__sky.whole();
+    var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;try{scrollTo({top:0,behavior:rm?'auto':'smooth'})}catch(_){scrollTo(0,0)}return}
   e.preventDefault();GJ.nav(a.href)});
 var svT=0;addEventListener('scroll',function(){clearTimeout(svT);svT=setTimeout(function(){try{history.replaceState(Object.assign({},history.state,{gj:1,y:scrollY}),'')}catch(e){}},200)},{passive:true});
 addEventListener('popstate',function(){if(location.pathname===cur.path)return; /* a hash step inside the page */

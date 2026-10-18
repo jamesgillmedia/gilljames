@@ -4,7 +4,7 @@
   var d=document.documentElement,rm=matchMedia('(prefers-reduced-motion: reduce)');
   if(rm.matches||!('IntersectionObserver' in window))return;
   d.classList.add('motion');
-  /* reveal + poem stagger; the shell calls GJ.reveal(main) again for every page it swaps in */
+  /* reveal; the shell calls GJ.reveal(main) again for every page it swaps in */
   function go(root){root=root&&root.querySelectorAll?root:document;
     /* titles, captions, rows and thumbnails rise in as they arrive and fade as they leave (both directions) */
     root.querySelectorAll('main h1,main h2,main .lede,main .intro,main .row,main figure,main .act,main .work,main .grid > *,main .skylist section').forEach(function(el){if(!el.closest('.scope,.viewer'))el.classList.add('rv')});
@@ -12,7 +12,7 @@
       if(el.classList.contains('poem')){if(e.isIntersecting){el.classList.add('in','go');io.unobserve(el)}return}
       el.classList.toggle('in',e.isIntersecting)})},{rootMargin:'0px 0px -6% 0px'});
     root.querySelectorAll('.rv,.poem').forEach(function(el){io.observe(el)});
-    root.querySelectorAll('.poem').forEach(function(p){[].forEach.call(p.children,function(s,k){s.style.transitionDelay=(0.25+k*0.32)+'s'})});
+    /* the poem is not staggered in any more: it is fully readable on arrival (it still melts on the dive) */
   }
   (window.GJ=window.GJ||{}).reveal=go;
   document.readyState==='loading'?document.addEventListener('DOMContentLoaded',function(){go()}):go();
