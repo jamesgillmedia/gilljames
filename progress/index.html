@@ -21,9 +21,13 @@ const ETA = [
     name: "Site v3 prototype",
     detail: "Dive + whole-site constellation zoom, one-sheet zoom, full-screen video",
     start: "2026-10-18T05:06:00Z",
-    ready: "2026-10-18T07:45:00Z",
-    now: "Phone tests on S24, iPhone SE, iPhone 13 and landscape, then fixing what they find. Next: whole-site constellation view and zoom into full-screen video.",
+    ready: "2026-10-18T07:13:00Z",
+    now: "Fixing pinch targeting, then touch and feel tests (Chromium, WebKit).",
+    preview: "preview/site-v3.jpg",
+    previewAt: "2026-10-18T05:39:46Z",
+    previewUrl: "",
     log: [
+      { at: "2026-10-18T05:28:00Z", text: "v3 built: one-sheet Dive; film, photo, objects, sound and about constellations; zoom L0 to L3; work view; previews; fly sky; plain pages" },
       { at: "2026-10-18T05:27:00Z", text: "Scroll and pinch engine, all levels L0 to L3 rendering, first feel-test pass and screenshots" },
       { at: "2026-10-18T05:19:00Z", text: "Page build for every section" },
       { at: "2026-10-18T05:17:00Z", text: "Star-sky pinch-to-fly" },
@@ -32,7 +36,7 @@ const ETA = [
       { at: "2026-10-18T05:06:00Z", text: "Gill picked The Dive with constellations" }
     ],
     milestones: [
-      { name: "build done", at: "2026-10-18T07:15:00Z" },
+      { name: "build done", at: "2026-10-18T06:43:00Z" },
       { name: "real-phone checks (Android + iPhone)" }
     ]
   },
@@ -40,9 +44,15 @@ const ETA = [
     name: "Reel v7",
     detail: "constellation and imagery-overload motion graphics",
     start: "2026-10-18T05:15:00Z",
-    ready: "2026-10-18T08:30:00Z",
-    now: "Gathering footage and stills from the full image library and planning the constellation structure. Rendering not started yet.",
+    ready: "2026-10-18T08:03:00Z",
+    now: "Timeline: open, dive, overload, heroes, mosaic, infinite zoom, close",
+    preview: "preview/reel-v7.jpg",
+    previewAt: "2026-10-18T05:39:46Z",
+    previewUrl: "",
     log: [
+      { at: "2026-10-18T05:33:00Z", text: "Engine core: camera, constellation, tiles, chromatic aberration, grain" },
+      { at: "2026-10-18T05:28:00Z", text: "Tile database (343 film clips, 177 stills) and Moonwater water port" },
+      { at: "2026-10-18T05:28:00Z", text: "Research done: Moonwater shader and constellation studied; Lost Coffee \u201cLost in Time\u201d chosen for the hard hits; 73.2 s music edit with hits mapped" },
       { at: "2026-10-18T05:19:00Z", text: "Gill approved the five-part structure: water open, dive in, overload walls, heroes, pull-out end card" },
       { at: "2026-10-18T05:15:00Z", text: "Brief started" }
     ]
@@ -52,8 +62,8 @@ const ETA = [
 
 // ==== STATUS START
 const STATUS = {
-  lastUpdated: "18 Oct 2026, 5:30 AM UTC",
-  lastUpdatedISO: "2026-10-18T05:30:00Z",
+  lastUpdated: "18 Oct 2026, 5:40 AM UTC",
+  lastUpdatedISO: "2026-10-18T05:40:00Z",
   title: "gilljames.com rebuild · progress",
 
   // kind: "here" (today, yellow) · "gill" (mint, Gill's) · "due" (red, deadline) · "date"
@@ -316,10 +326,36 @@ a{color:inherit}
 /* live estimates */
 #eta .L.pin{font-size:14px}
 .eta-card .cx{margin-bottom:10px}
-.eta-bar{position:relative;height:14px;border:2px solid var(--ink);border-radius:4px;background:#fff;overflow:visible;margin:2px 0 8px}
-.eta-fill{height:100%;width:0;background:repeating-linear-gradient(135deg,var(--pin) 0 5px,#ffe98a 5px 10px);border-radius:2px 0 0 2px;max-width:100%}
-.eta-tick{position:absolute;top:-4px;bottom:-4px;width:0;border-left:2.5px solid var(--ink);transform:translateX(-1px);z-index:1}
-.eta-tick::after{content:attr(data-lab);position:absolute;top:-16px;left:50%;transform:translateX(-50%) rotate(-2deg);font-family:var(--mono);font-size:10px;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;background:var(--paper);padding:0 3px;color:var(--ink-soft)}
+.eta-bar{position:relative;height:22px;border:3px solid var(--ink);border-radius:5px;background:#fff;overflow:visible;margin:4px 0 10px;box-shadow:3px 3px 0 var(--ink)}
+.eta-fill{height:100%;width:0;position:relative;overflow:hidden;background:repeating-linear-gradient(135deg,var(--ink) 0 8px,var(--pin) 8px 16px);background-size:22px 22px;border-radius:2px 0 0 2px;max-width:100%;transition:width .9s linear}
+.eta-meta{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;font-family:var(--mono);font-size:13px;line-height:1.35}
+.eta-count{font-size:15px;font-family:var(--mono);font-weight:500;font-variant-numeric:tabular-nums;letter-spacing:.02em;color:var(--ink);white-space:nowrap}
+.eta-van{color:var(--ink-soft)}
+.eta-load{margin:6px 0 2px;font-family:var(--mono);font-size:12.5px;line-height:1.4;color:var(--ink-soft);overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.eta-load .pct{color:var(--ink)}
+.eta-load .dots{display:inline-block;min-width:1.2em}
+/* motion variants: A slow-glide · B dialup-steps (default) · C crawl */
+@media (prefers-reduced-motion:no-preference){
+  /* B default: dial-up stepped chug */
+  .eta-fill{animation:eta-stripes 8s steps(16) infinite}
+  .eta-fill::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.45) 50%,transparent 65%);background-size:220% 100%;animation:eta-shimmer 5s ease-in-out infinite;pointer-events:none}
+  .eta-fill::before{content:"";position:absolute;top:-1px;right:-1px;bottom:-1px;width:4px;border-radius:1px;background:rgba(255,255,255,.85);box-shadow:0 0 5px 1px rgba(255,210,63,.9),0 0 10px 2px rgba(255,233,138,.55);animation:eta-edge 2.8s ease-in-out infinite;pointer-events:none}
+  .eta-load .dots::after{content:"";animation:eta-dots 2.1s steps(4,end) infinite}
+  body.eta-var-a .eta-fill{animation:eta-stripes 6s linear infinite}
+  body.eta-var-a .eta-fill::after{animation:eta-shimmer 4s ease-in-out infinite}
+  body.eta-var-a .eta-fill::before{animation:eta-edge 2s ease-in-out infinite}
+  body.eta-var-a .eta-load .dots::after{animation:eta-dots 1.5s steps(4,end) infinite}
+  body.eta-var-c .eta-fill{animation:eta-stripes 14s linear infinite}
+  body.eta-var-c .eta-fill::after{opacity:.45;animation:eta-shimmer 8s ease-in-out infinite}
+  body.eta-var-c .eta-fill::before{animation:eta-edge 4s ease-in-out infinite;opacity:.7}
+  body.eta-var-c .eta-load .dots::after{animation:eta-dots 2.8s steps(4,end) infinite}
+  @keyframes eta-stripes{from{background-position:0 0}to{background-position:22px 0}}
+  @keyframes eta-shimmer{0%{background-position:120% 0}100%{background-position:-40% 0}}
+  @keyframes eta-edge{0%,100%{opacity:.35;transform:scaleY(.9)}50%{opacity:1;transform:scaleY(1)}}
+  @keyframes eta-dots{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}}
+}
+.eta-tick{position:absolute;top:-5px;bottom:-5px;width:0;border-left:3px solid var(--ink);transform:translateX(-1.5px);z-index:1}
+.eta-tick::after{content:attr(data-lab);position:absolute;top:-18px;left:50%;transform:translateX(-50%) rotate(-2deg);font-family:var(--mono);font-size:10px;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;background:var(--paper);padding:0 3px;color:var(--ink-soft)}
 .eta-meta{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;font-family:var(--mono);font-size:13px;line-height:1.35}
 .eta-count{font-size:16px;font-family:var(--hand);font-weight:400;color:var(--ink)}
 .eta-van{color:var(--ink-soft)}
@@ -334,12 +370,28 @@ a{color:inherit}
 .eta-log .t{font-family:var(--mono);font-size:12px;color:var(--ink-soft);padding-top:2px;white-space:nowrap}
 .eta-log .x{min-width:0;overflow-wrap:anywhere;color:var(--ink-2)}
 
+/* live preview window on each ETA card */
+.eta-preview{margin:0 0 12px}
+.eta-preview-lab{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 6px}
+.eta-preview-frame{display:block;position:relative;border:3px solid var(--ink);background:#fff;overflow:hidden;box-shadow:3px 3px 0 var(--ink)}
+.eta-preview-frame.phone{width:min(168px,46%);max-height:360px;aspect-ratio:9/19.5;margin:0 auto;border-radius:22px}
+.eta-preview-frame.land{width:100%;aspect-ratio:16/9;border-radius:8px}
+.eta-preview-frame img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center}
+.eta-preview-frame.empty{display:flex;align-items:center;justify-content:center;min-height:140px;border-style:dashed;border-width:2.5px;box-shadow:none;background:
+  radial-gradient(circle,var(--paper-dot) 1px,transparent 1.5px) 0 0/10px 10px,var(--card);
+  font-family:var(--mono);font-size:13px;color:var(--ink-soft);letter-spacing:.02em}
+.eta-preview-frame.phone.empty{min-height:0}
+.eta-preview-link{margin:6px 0 0;font-family:var(--mono);font-size:12.5px;line-height:1.35;text-align:center}
+.eta-preview-frame.land + .eta-preview-link,.eta-preview-link{text-align:left}
+.eta-preview-link a{color:var(--ink);text-underline-offset:2px}
+.eta-preview-link .soon{color:var(--ink-soft)}
+
 </style>
 </head>
 <body>
 <div class="wrap" id="app">
 <!--STATIC-START-->
-<header class="ttl"><div class="kick">progress page</div><h1>gilljames.com rebuild · progress</h1><div class="upd"><span class="lab">last updated</span><span class="val">18 Oct 2026, 5:30 AM UTC</span><span class="ago" data-ago="2026-10-18T05:30:00Z"></span></div></header><section class="band" id="eta"><h2 class="bh"><span class="L pin">·</span>Live estimates</h2><span class="mnote">Estimates can change as work moves.</span><div class="stack"><article class="card eta-card" data-start="2026-10-18T05:06:00Z" data-ready="2026-10-18T07:45:00Z"><h3 class="ct"><span class="pin">1</span>Site v3 prototype</h3><div class="cx">Dive + whole-site constellation zoom, one-sheet zoom, full-screen video</div><div class="eta-now"><span class="lab">now</span>Phone tests on S24, iPhone SE, iPhone 13 and landscape, then fixing what they find. Next: whole-site constellation view and zoom into full-screen video.</div><div class="eta-bar" aria-hidden="true"><div class="eta-fill" style="width:14.4%"></div><span class="eta-tick" style="left:81.1%" data-lab="build done" title="build done"></span></div><div class="eta-meta"><span class="eta-count">ready in 2h 16m</span><span class="eta-van">ready ~12:45 AM PDT</span></div><ul class="eta-ms"><li>build done · ~12:15 AM PDT</li><li>real-phone checks (Android + iPhone)</li></ul><ul class="eta-log"><li><span class="t">10:27 PM</span><span class="x">Scroll and pinch engine, all levels L0 to L3 rendering, first feel-test pass and screenshots</span></li><li><span class="t">10:19 PM</span><span class="x">Page build for every section</span></li><li><span class="t">10:17 PM</span><span class="x">Star-sky pinch-to-fly</span></li><li><span class="t">10:14 PM</span><span class="x">Water and moon backdrop</span></li><li><span class="t">10:10 PM</span><span class="x">New site set up with real content and video previews</span></li><li><span class="t">10:06 PM</span><span class="x">Gill picked The Dive with constellations</span></li></ul></article><article class="card eta-card" data-start="2026-10-18T05:15:00Z" data-ready="2026-10-18T08:30:00Z"><h3 class="ct"><span class="pin">2</span>Reel v7</h3><div class="cx">constellation and imagery-overload motion graphics</div><div class="eta-now"><span class="lab">now</span>Gathering footage and stills from the full image library and planning the constellation structure. Rendering not started yet.</div><div class="eta-bar" aria-hidden="true"><div class="eta-fill" style="width:7.1%"></div></div><div class="eta-meta"><span class="eta-count">ready in 3h 1m</span><span class="eta-van">ready ~1:30 AM PDT</span></div><ul class="eta-log"><li><span class="t">10:19 PM</span><span class="x">Gill approved the five-part structure: water open, dive in, overload walls, heroes, pull-out end card</span></li><li><span class="t">10:15 PM</span><span class="x">Brief started</span></li></ul></article></div></section><div class="legend" aria-label="legend"><span class="lh">key</span><span class="li"><i class="sw here"></i>today</span><span class="li"><i class="sw gill"></i>Gill</span><span class="li"><i class="sw due"></i>deadline</span><span class="li"><i class="sw done"></i>done</span><span class="li"><span class="stamp building">building</span></span></div><nav class="jump" aria-label="sections"><a href="#timeline"><span class="L">A</span>Timeline</a><a href="#progress"><span class="L">B</span>In progress</a><a href="#fixes"><span class="L">C</span>C-09 fixes</a><a href="#bugs"><span class="L">D</span>Bugs in this build</a><a href="#done"><span class="L">E</span>Done</a><a href="#waiting"><span class="L mint">F</span>Waiting on Gill</a><a href="#links"><span class="L">G</span>Links</a></nav><section class="band" id="timeline"><h2 class="bh"><span class="L">A</span>Timeline</h2><span class="mnote">pins 1–6 · spacing not to scale</span><div class="tl"><ol style="--n:6" aria-hidden="true"><li class="k-here"><span class="d">Oct 18</span><span class="dot"></span><span class="pin">1</span></li><li class="k-gill"><span class="d">Oct 21</span><span class="dot"></span><span class="pin white">2</span></li><li class="k-date"><span class="d">Oct 22</span><span class="dot"></span><span class="pin white">3</span></li><li class="k-date"><span class="d">Oct 24</span><span class="dot"></span><span class="pin white">4</span></li><li class="k-date"><span class="d">Oct 26</span><span class="dot"></span><span class="pin white">5</span></li><li class="k-due gap"><span class="d">Nov 30</span><span class="dot"></span><span class="pin white">6</span></li></ol></div><ol class="tnotes"><li class="k-here"><span class="pin">1</span><span class="row"><span class="date">Oct 18</span><span class="t">Today</span></span></li><li class="k-gill"><span class="pin white">2</span><span class="row"><span class="date">Oct 21</span><span class="t">Content checklist from Gill</span><span class="when" data-date="2026-10-21"></span></span></li><li class="k-date"><span class="pin white">3</span><span class="row"><span class="date">Oct 22</span><span class="t">Upload (deploy files under 25&nbsp;MB)</span><span class="when" data-date="2026-10-22"></span></span></li><li class="k-date"><span class="pin white">4</span><span class="row"><span class="date">Oct 24</span><span class="t">Launch of the new gilljames.com</span><span class="when" data-date="2026-10-24"></span></span></li><li class="k-date"><span class="pin white">5</span><span class="row"><span class="date">Oct 26</span><span class="t">Bill Reid application</span><span class="when" data-date="2026-10-26"></span></span></li><li class="k-due"><span class="pin white">6</span><span class="row"><span class="date">Nov 30</span><span class="t">GitHub 2FA deadline</span><span class="when" data-date="2026-11-30"></span></span></li></ol></section><section class="band" id="progress"><h2 class="bh"><span class="L">B</span>In progress</h2><span class="mnote">both by Artist Agent</span><div class="stack"><article class="card hl"><h3 class="ct"><span class="pin">1</span>Site navigation overhaul<span class="who">Artist Agent</span></h3><div class="cx">GILL PICKED C, The Dive, with more of A. Each chapter is a constellation in a single column; native scroll sinks you through the water; pinch, tap or + expands a constellation in place through the C-10 levels (L1 project names, L2 a dense frame grid, L3 the work, then the player). Status: Artist Agent is building the site-v3 prototype from the C-11 mocks and rules and C-10.</div><div class="track"><div class="tlab">next</div><ol><li><span class="sn">1</span><span>Artist Agent builds the site-v3 prototype (in progress now)</span></li><li><span class="sn">2</span><span>Real-phone checks on Android and iPhone by both agents</span></li><li><span class="sn">3</span><span>Then it goes to Gill</span></li></ol></div></article><article class="card"><h3 class="ct"><span class="pin">2</span>Reel v6<span class="who">Artist Agent</span></h3><div class="cx">LIVE. Built around Gill’s own reel picks (John Frieda, Braun, Arc’teryx, BMW Drift, AXE), with bolder transitions.</div></article></div></section><section class="band" id="fixes"><h2 class="bh"><span class="L">C</span>The 8 approved C-09 fixes</h2><span class="mnote">being replaced by the navigation overhaul</span><div class="card"><ol class="check"><li><span class="box superseded">1</span><span class="t"><span>Always-on tab bar</span><span class="stamp superseded">superseded</span></span></li><li><span class="box superseded">2</span><span class="t"><span>Breadcrumb top bar with a current-tab dot</span><span class="stamp superseded">superseded</span></span></li><li><span class="box superseded">3</span><span class="t"><span>One set of names (tab · project)</span><span class="stamp superseded">superseded</span></span></li><li><span class="box superseded">4</span><span class="t"><span>Names always visible at full contrast</span><span class="stamp superseded">superseded</span></span></li><li><span class="box superseded">5</span><span class="t"><span>Water names dive to their section and blank water goes to the sky, plus a first-visit hint</span><span class="stamp superseded">superseded</span></span></li><li><span class="box superseded">6</span><span class="t"><span>A visible button for every gesture</span><span class="stamp superseded">superseded</span></span></li><li><span class="box superseded">7</span><span class="t"><span>A ‘≡ list’ toggle on every page</span><span class="stamp superseded">superseded</span></span></li><li><span class="box superseded">8</span><span class="t"><span>Every control 44px+ with no hidden tap layers</span><span class="stamp superseded">superseded</span></span></li></ol></div></section><section class="band" id="bugs"><h2 class="bh"><span class="L">D</span>Bugs from QA going into this build</h2><span class="mnote">fixed, passed QA</span><div class="stack"><div class="card red bug"><span class="pin white">1</span><span>Touching the water led to a ‘page not found’ · fixed, passed QA</span></div><div class="card red bug"><span class="pin white">2</span><span>Ghost taps on hidden controls · fixed, passed QA</span></div><div class="card red bug"><span class="pin white">3</span><span>A tap on the water reflection opened Mothers Moniker instead of the sky · fixed, passed QA</span></div></div></section><section class="band" id="done"><h2 class="bh"><span class="L">E</span>Done</h2><span class="mnote" aria-hidden="true" style="visibility:hidden;height:4px;margin-bottom:8px"></span><div class="card"><ol class="donel"><li><span class="pin ink">✓</span><div><b>QA rounds 1 to 3</b><span>Desktop, real mobile, retests</span></div></li><li><span class="pin ink">✓</span><div><b>Round-4 QA by Sketch Artist</b><span>9 devices · portrait pass; C-09 and round-3 bugs passed; continuity and cold/JS-off/reduced-motion/no-WebGL pass. Not ready to ship — 3 landscape/poem items plus smaller fixes for Artist Agent</span></div></li><li><span class="pin ink">✓</span><div><b>Real-iPhone retest on TestingBot</b><span>iPhone XR, iOS 18.7, Safari · by Artist Agent. Home, film (player opens, plays, ✕ closes), photo (scroll, ≡ list) and blank-water dive to the sky all pass. Open: in portrait the player stays section-size; a rotate or full-screen option is proposed</span></div></li><li><span class="pin ink">✓</span><div><b>Continuity verified</b><span>One continuous scene, ~96 navigations, memory flat</span></div></li><li><span class="pin ink">✓</span><div><b>Cold load, JS off, reduced motion, no-WebGL</b><span>All pass</span></div></li><li><span class="pin ink">✓</span><div><b>C-09 navigation sheet approved</b><span>With all 8 fixes — now superseded by the navigation overhaul</span></div></li></ol></div></section><section class="band" id="waiting"><h2 class="bh"><span class="L mint">F</span>Waiting on Gill</h2><span class="mnote">mint = with Gill</span><div class="card mint"><ol class="check"><li><span class="box">1</span><span class="t"><span>Film years (the deepest zoom level shows client and credits until then)</span></span></li><li><span class="box">2</span><span class="t"><span>OK on four small choices in the new build<span class="dt">the about label ‘bio · contact’</span><span class="dt">the first-visit line ‘touch the water · fall into the sky ↓’</span><span class="dt">the list view without an intro</span><span class="dt">solid bars</span></span></span></li><li><span class="box">3</span><span class="t"><span>The bio</span></span></li><li><span class="box">4</span><span class="t"><span>The ‘To Go’ master</span></span></li><li><span class="box">5</span><span class="t"><span>Ambient sound</span></span></li><li><span class="box">6</span><span class="t"><span>Higher-res joio.co photos or clips</span></span></li><li><span class="box">7</span><span class="t"><span>Photos of built spaces</span></span></li><li><span class="box">8</span><span class="t"><span>Approval of the placeholder copy</span></span></li><li><span class="box">9</span><span class="t"><span>The Oct 21 content in Gill’s own words</span><span class="stamp gill">Oct 21</span></span></li><li><span class="box">10</span><span class="t"><span>Final page names<span class="dt">current: /photo/ /objects/ /sound/ /about/</span><span class="dt">vs: art / photo / film / music / joio / spatial / cv</span></span></span></li><li><span class="box">11</span><span class="t"><span>Turning on GitHub 2FA</span><span class="stamp gill">by Nov 30</span></span></li><li><span class="box">12</span><span class="t"><span>The submission-fit email waiting in Gill’s Gmail drafts</span></span></li></ol></div></section><section class="band" id="links"><h2 class="bh"><span class="L">G</span>Links</h2><span class="mnote">tap a card to open</span><div class="links"><a class="lk sheet" href="https://jamesgillmedia.github.io/gilljames/nav-overhaul/"><span class="lt"><span class="tagc">sheet</span>Nav overhaul concepts (pick one)</span><span class="lu">jamesgillmedia.github.io/<wbr>gilljames/<wbr>nav-overhaul</span><span class="ar" aria-hidden="true">↗</span></a><a class="lk sheet" href="https://jamesgillmedia.github.io/gilljames/home-first/"><span class="lt"><span class="tagc">sheet</span>Sheet C-11 Home, first screen</span><span class="lu">jamesgillmedia.github.io/<wbr>gilljames/<wbr>home-first</span><span class="ar" aria-hidden="true">↗</span></a><a class="lk site" href="https://jamesgillmedia.github.io/gilljames/site-v2/"><span class="lt"><span class="tagc">site</span>Site v2 (current build)</span><span class="lu">jamesgillmedia.github.io/<wbr>gilljames/<wbr>site-v2</span><span class="ar" aria-hidden="true">↗</span></a><a class="lk reel" href="https://jamesgillmedia.github.io/gilljames/reel-v6/"><span class="lt"><span class="tagc">reel</span>Reel v6</span><span class="lu">jamesgillmedia.github.io/<wbr>gilljames/<wbr>reel-v6</span><span class="ar" aria-hidden="true">↗</span></a><a class="lk reel" href="https://jamesgillmedia.github.io/gilljames/reel-v5/"><span class="lt"><span class="tagc">reel</span>Reel v5</span><span class="lu">jamesgillmedia.github.io/<wbr>gilljames/<wbr>reel-v5</span><span class="ar" aria-hidden="true">↗</span></a><a class="lk reel" href="https://jamesgillmedia.github.io/gilljames/reel-v4/"><span class="lt"><span class="tagc">reel</span>Reel v4</span><span class="lu">jamesgillmedia.github.io/<wbr>gilljames/<wbr>reel-v4</span><span class="ar" aria-hidden="true">↗</span></a><a class="lk reel" href="https://jamesgillmedia.github.io/gilljames/reel-v3/"><span class="lt"><span class="tagc">reel</span>Reel v3</span><span class="lu">jamesgillmedia.github.io/<wbr>gilljames/<wbr>reel-v3</span><span class="ar" aria-hidden="true">↗</span></a><a class="lk sheet" href="https://jamesgillmedia.github.io/gilljames/semantic-zoom/"><span class="lt"><span class="tagc">sheet</span>Sheet C-10 Pinch to see more</span><span class="lu">jamesgillmedia.github.io/<wbr>gilljames/<wbr>semantic-zoom</span><span class="ar" aria-hidden="true">↗</span></a><a class="lk sheet" href="https://jamesgillmedia.github.io/gilljames/nav-visible/"><span class="lt"><span class="tagc">sheet</span>Sheet C-09 ‘Magic but obvious’</span><span class="lu">jamesgillmedia.github.io/<wbr>gilljames/<wbr>nav-visible</span><span class="ar" aria-hidden="true">↗</span></a><a class="lk sheet" href="https://jamesgillmedia.github.io/gilljames/nav-water-sky/"><span class="lt"><span class="tagc">sheet</span>Sheet C-08 ‘Water + sky’</span><span class="lu">jamesgillmedia.github.io/<wbr>gilljames/<wbr>nav-water-sky</span><span class="ar" aria-hidden="true">↗</span></a></div></section><section class="band" id="roles"><h2 class="bh">Who does what</h2><span class="mnote" aria-hidden="true" style="visibility:hidden;height:4px;margin-bottom:8px"></span><div class="card dashed"><dl class="roles"><dt>Artist Agent</dt><dd>builds and pushes the site and reel</dd><dt>Sketch Artist</dt><dd>does the sketches, QA and this page</dd></dl></div></section><p class="foot">last updated 18 Oct 2026, 5:30 AM UTC</p>
+<header class="ttl"><div class="kick">progress page</div><h1>gilljames.com rebuild · progress</h1><div class="upd"><span class="lab">last updated</span><span class="val">18 Oct 2026, 5:40 AM UTC</span><span class="ago" data-ago="2026-10-18T05:40:00Z"></span></div></header><section class="band" id="eta"><h2 class="bh"><span class="L pin">·</span>Live estimates</h2><span class="mnote">Estimates can change as work moves.</span><div class="stack"><article class="card eta-card" data-start="2026-10-18T05:06:00Z" data-ready="2026-10-18T07:13:00Z" data-now="Fixing pinch targeting, then touch and feel tests (Chromium, WebKit)."><h3 class="ct"><span class="pin">1</span>Site v3 prototype</h3><div class="cx">Dive + whole-site constellation zoom, one-sheet zoom, full-screen video</div><div class="eta-preview" data-preview="preview/site-v3.jpg" data-preview-at="2026-10-18T05:39:46Z"><div class="eta-preview-lab">LIVE PREVIEW · updated 10:39 PM PDT</div><div class="eta-preview-frame phone"><img src="preview/site-v3.jpg?t=1792301986000" alt="Live preview of Site v3 prototype" loading="lazy" decoding="async"></div><div class="eta-preview-link"><span class="soon">link coming soon</span></div></div><div class="eta-now"><span class="lab">now</span>Fixing pinch targeting, then touch and feel tests (Chromium, WebKit).</div><div class="eta-bar" aria-hidden="true"><div class="eta-fill" style="width:27.4%"></div><span class="eta-tick" style="left:76.4%" data-lab="build done" title="build done"></span></div><div class="eta-load">loading<span class="dots"></span> Fixing pinch targeting, then touch and feel tests (Chromium, WebKit) · <span class="pct">27.4%</span></div><div class="eta-meta"><span class="eta-count">ready in 1:32:10</span><span class="eta-van">ready ~12:13 AM PDT</span></div><ul class="eta-ms"><li>build done · ~11:43 PM PDT</li><li>real-phone checks (Android + iPhone)</li></ul><ul class="eta-log"><li><span class="t">10:28 PM</span><span class="x">v3 built: one-sheet Dive; film, photo, objects, sound and about constellations; zoom L0 to L3; work view; previews; fly sky; plain pages</span></li><li><span class="t">10:27 PM</span><span class="x">Scroll and pinch engine, all levels L0 to L3 rendering, first feel-test pass and screenshots</span></li><li><span class="t">10:19 PM</span><span class="x">Page build for every section</span></li><li><span class="t">10:17 PM</span><span class="x">Star-sky pinch-to-fly</span></li><li><span class="t">10:14 PM</span><span class="x">Water and moon backdrop</span></li><li><span class="t">10:10 PM</span><span class="x">New site set up with real content and video previews</span></li><li><span class="t">10:06 PM</span><span class="x">Gill picked The Dive with constellations</span></li></ul></article><article class="card eta-card" data-start="2026-10-18T05:15:00Z" data-ready="2026-10-18T08:03:00Z" data-now="Timeline: open, dive, overload, heroes, mosaic, infinite zoom, close"><h3 class="ct"><span class="pin">2</span>Reel v7</h3><div class="cx">constellation and imagery-overload motion graphics</div><div class="eta-preview" data-preview="preview/reel-v7.jpg" data-preview-at="2026-10-18T05:39:46Z"><div class="eta-preview-lab">LIVE PREVIEW · updated 10:39 PM PDT</div><div class="eta-preview-frame land"><img src="preview/reel-v7.jpg?t=1792301986000" alt="Live preview of Reel v7" loading="lazy" decoding="async"></div><div class="eta-preview-link"><span class="soon">link coming soon</span></div></div><div class="eta-now"><span class="lab">now</span>Timeline: open, dive, overload, heroes, mosaic, infinite zoom, close</div><div class="eta-bar" aria-hidden="true"><div class="eta-fill" style="width:15.4%"></div></div><div class="eta-load">loading<span class="dots"></span> Timeline: open, dive, overload, heroes, mosaic, infinite zoom, close · <span class="pct">15.4%</span></div><div class="eta-meta"><span class="eta-count">ready in 2:22:10</span><span class="eta-van">ready ~1:03 AM PDT</span></div><ul class="eta-log"><li><span class="t">10:33 PM</span><span class="x">Engine core: camera, constellation, tiles, chromatic aberration, grain</span></li><li><span class="t">10:28 PM</span><span class="x">Tile database (343 film clips, 177 stills) and Moonwater water port</span></li><li><span class="t">10:28 PM</span><span class="x">Research done: Moonwater shader and constellation studied; Lost Coffee “Lost in Time” chosen for the hard hits; 73.2 s music edit with hits mapped</span></li><li><span class="t">10:19 PM</span><span class="x">Gill approved the five-part structure: water open, dive in, overload walls, heroes, pull-out end card</span></li><li><span class="t">10:15 PM</span><span class="x">Brief started</span></li></ul></article></div></section><div class="legend" aria-label="legend"><span class="lh">key</span><span class="li"><i class="sw here"></i>today</span><span class="li"><i class="sw gill"></i>Gill</span><span class="li"><i class="sw due"></i>deadline</span><span class="li"><i class="sw done"></i>done</span><span class="li"><span class="stamp building">building</span></span></div><nav class="jump" aria-label="sections"><a href="#timeline"><span class="L">A</span>Timeline</a><a href="#progress"><span class="L">B</span>In progress</a><a href="#fixes"><span class="L">C</span>C-09 fixes</a><a href="#bugs"><span class="L">D</span>Bugs in this build</a><a href="#done"><span class="L">E</span>Done</a><a href="#waiting"><span class="L mint">F</span>Waiting on Gill</a><a href="#links"><span class="L">G</span>Links</a></nav><section class="band" id="timeline"><h2 class="bh"><span class="L">A</span>Timeline</h2><span class="mnote">pins 1–6 · spacing not to scale</span><div class="tl"><ol style="--n:6" aria-hidden="true"><li class="k-here"><span class="d">Oct 18</span><span class="dot"></span><span class="pin">1</span></li><li class="k-gill"><span class="d">Oct 21</span><span class="dot"></span><span class="pin white">2</span></li><li class="k-date"><span class="d">Oct 22</span><span class="dot"></span><span class="pin white">3</span></li><li class="k-date"><span class="d">Oct 24</span><span class="dot"></span><span class="pin white">4</span></li><li class="k-date"><span class="d">Oct 26</span><span class="dot"></span><span class="pin white">5</span></li><li class="k-due gap"><span class="d">Nov 30</span><span class="dot"></span><span class="pin white">6</span></li></ol></div><ol class="tnotes"><li class="k-here"><span class="pin">1</span><span class="row"><span class="date">Oct 18</span><span class="t">Today</span></span></li><li class="k-gill"><span class="pin white">2</span><span class="row"><span class="date">Oct 21</span><span class="t">Content checklist from Gill</span><span class="when" data-date="2026-10-21"></span></span></li><li class="k-date"><span class="pin white">3</span><span class="row"><span class="date">Oct 22</span><span class="t">Upload (deploy files under 25&nbsp;MB)</span><span class="when" data-date="2026-10-22"></span></span></li><li class="k-date"><span class="pin white">4</span><span class="row"><span class="date">Oct 24</span><span class="t">Launch of the new gilljames.com</span><span class="when" data-date="2026-10-24"></span></span></li><li class="k-date"><span class="pin white">5</span><span class="row"><span class="date">Oct 26</span><span class="t">Bill Reid application</span><span class="when" data-date="2026-10-26"></span></span></li><li class="k-due"><span class="pin white">6</span><span class="row"><span class="date">Nov 30</span><span class="t">GitHub 2FA deadline</span><span class="when" data-date="2026-11-30"></span></span></li></ol></section><section class="band" id="progress"><h2 class="bh"><span class="L">B</span>In progress</h2><span class="mnote">both by Artist Agent</span><div class="stack"><article class="card hl"><h3 class="ct"><span class="pin">1</span>Site navigation overhaul<span class="who">Artist Agent</span></h3><div class="cx">GILL PICKED C, The Dive, with more of A. Each chapter is a constellation in a single column; native scroll sinks you through the water; pinch, tap or + expands a constellation in place through the C-10 levels (L1 project names, L2 a dense frame grid, L3 the work, then the player). Status: Artist Agent is building the site-v3 prototype from the C-11 mocks and rules and C-10.</div><div class="track"><div class="tlab">next</div><ol><li><span class="sn">1</span><span>Artist Agent builds the site-v3 prototype (in progress now)</span></li><li><span class="sn">2</span><span>Real-phone checks on Android and iPhone by both agents</span></li><li><span class="sn">3</span><span>Then it goes to Gill</span></li></ol></div></article><article class="card"><h3 class="ct"><span class="pin">2</span>Reel v6<span class="who">Artist Agent</span></h3><div class="cx">LIVE. Built around Gill’s own reel picks (John Frieda, Braun, Arc’teryx, BMW Drift, AXE), with bolder transitions.</div></article></div></section><section class="band" id="fixes"><h2 class="bh"><span class="L">C</span>The 8 approved C-09 fixes</h2><span class="mnote">being replaced by the navigation overhaul</span><div class="card"><ol class="check"><li><span class="box superseded">1</span><span class="t"><span>Always-on tab bar</span><span class="stamp superseded">superseded</span></span></li><li><span class="box superseded">2</span><span class="t"><span>Breadcrumb top bar with a current-tab dot</span><span class="stamp superseded">superseded</span></span></li><li><span class="box superseded">3</span><span class="t"><span>One set of names (tab · project)</span><span class="stamp superseded">superseded</span></span></li><li><span class="box superseded">4</span><span class="t"><span>Names always visible at full contrast</span><span class="stamp superseded">superseded</span></span></li><li><span class="box superseded">5</span><span class="t"><span>Water names dive to their section and blank water goes to the sky, plus a first-visit hint</span><span class="stamp superseded">superseded</span></span></li><li><span class="box superseded">6</span><span class="t"><span>A visible button for every gesture</span><span class="stamp superseded">superseded</span></span></li><li><span class="box superseded">7</span><span class="t"><span>A ‘≡ list’ toggle on every page</span><span class="stamp superseded">superseded</span></span></li><li><span class="box superseded">8</span><span class="t"><span>Every control 44px+ with no hidden tap layers</span><span class="stamp superseded">superseded</span></span></li></ol></div></section><section class="band" id="bugs"><h2 class="bh"><span class="L">D</span>Bugs from QA going into this build</h2><span class="mnote">fixed, passed QA</span><div class="stack"><div class="card red bug"><span class="pin white">1</span><span>Touching the water led to a ‘page not found’ · fixed, passed QA</span></div><div class="card red bug"><span class="pin white">2</span><span>Ghost taps on hidden controls · fixed, passed QA</span></div><div class="card red bug"><span class="pin white">3</span><span>A tap on the water reflection opened Mothers Moniker instead of the sky · fixed, passed QA</span></div></div></section><section class="band" id="done"><h2 class="bh"><span class="L">E</span>Done</h2><span class="mnote" aria-hidden="true" style="visibility:hidden;height:4px;margin-bottom:8px"></span><div class="card"><ol class="donel"><li><span class="pin ink">✓</span><div><b>QA rounds 1 to 3</b><span>Desktop, real mobile, retests</span></div></li><li><span class="pin ink">✓</span><div><b>Round-4 QA by Sketch Artist</b><span>9 devices · portrait pass; C-09 and round-3 bugs passed; continuity and cold/JS-off/reduced-motion/no-WebGL pass. Not ready to ship — 3 landscape/poem items plus smaller fixes for Artist Agent</span></div></li><li><span class="pin ink">✓</span><div><b>Real-iPhone retest on TestingBot</b><span>iPhone XR, iOS 18.7, Safari · by Artist Agent. Home, film (player opens, plays, ✕ closes), photo (scroll, ≡ list) and blank-water dive to the sky all pass. Open: in portrait the player stays section-size; a rotate or full-screen option is proposed</span></div></li><li><span class="pin ink">✓</span><div><b>Continuity verified</b><span>One continuous scene, ~96 navigations, memory flat</span></div></li><li><span class="pin ink">✓</span><div><b>Cold load, JS off, reduced motion, no-WebGL</b><span>All pass</span></div></li><li><span class="pin ink">✓</span><div><b>C-09 navigation sheet approved</b><span>With all 8 fixes — now superseded by the navigation overhaul</span></div></li></ol></div></section><section class="band" id="waiting"><h2 class="bh"><span class="L mint">F</span>Waiting on Gill</h2><span class="mnote">mint = with Gill</span><div class="card mint"><ol class="check"><li><span class="box">1</span><span class="t"><span>Film years (the deepest zoom level shows client and credits until then)</span></span></li><li><span class="box">2</span><span class="t"><span>OK on four small choices in the new build<span class="dt">the about label ‘bio · contact’</span><span class="dt">the first-visit line ‘touch the water · fall into the sky ↓’</span><span class="dt">the list view without an intro</span><span class="dt">solid bars</span></span></span></li><li><span class="box">3</span><span class="t"><span>The bio</span></span></li><li><span class="box">4</span><span class="t"><span>The ‘To Go’ master</span></span></li><li><span class="box">5</span><span class="t"><span>Ambient sound</span></span></li><li><span class="box">6</span><span class="t"><span>Higher-res joio.co photos or clips</span></span></li><li><span class="box">7</span><span class="t"><span>Photos of built spaces</span></span></li><li><span class="box">8</span><span class="t"><span>Approval of the placeholder copy</span></span></li><li><span class="box">9</span><span class="t"><span>The Oct 21 content in Gill’s own words</span><span class="stamp gill">Oct 21</span></span></li><li><span class="box">10</span><span class="t"><span>Final page names<span class="dt">current: /photo/ /objects/ /sound/ /about/</span><span class="dt">vs: art / photo / film / music / joio / spatial / cv</span></span></span></li><li><span class="box">11</span><span class="t"><span>Turning on GitHub 2FA</span><span class="stamp gill">by Nov 30</span></span></li><li><span class="box">12</span><span class="t"><span>The submission-fit email waiting in Gill’s Gmail drafts</span></span></li></ol></div></section><section class="band" id="links"><h2 class="bh"><span class="L">G</span>Links</h2><span class="mnote">tap a card to open</span><div class="links"><a class="lk sheet" href="https://jamesgillmedia.github.io/gilljames/nav-overhaul/"><span class="lt"><span class="tagc">sheet</span>Nav overhaul concepts (pick one)</span><span class="lu">jamesgillmedia.github.io/<wbr>gilljames/<wbr>nav-overhaul</span><span class="ar" aria-hidden="true">↗</span></a><a class="lk sheet" href="https://jamesgillmedia.github.io/gilljames/home-first/"><span class="lt"><span class="tagc">sheet</span>Sheet C-11 Home, first screen</span><span class="lu">jamesgillmedia.github.io/<wbr>gilljames/<wbr>home-first</span><span class="ar" aria-hidden="true">↗</span></a><a class="lk site" href="https://jamesgillmedia.github.io/gilljames/site-v2/"><span class="lt"><span class="tagc">site</span>Site v2 (current build)</span><span class="lu">jamesgillmedia.github.io/<wbr>gilljames/<wbr>site-v2</span><span class="ar" aria-hidden="true">↗</span></a><a class="lk reel" href="https://jamesgillmedia.github.io/gilljames/reel-v6/"><span class="lt"><span class="tagc">reel</span>Reel v6</span><span class="lu">jamesgillmedia.github.io/<wbr>gilljames/<wbr>reel-v6</span><span class="ar" aria-hidden="true">↗</span></a><a class="lk reel" href="https://jamesgillmedia.github.io/gilljames/reel-v5/"><span class="lt"><span class="tagc">reel</span>Reel v5</span><span class="lu">jamesgillmedia.github.io/<wbr>gilljames/<wbr>reel-v5</span><span class="ar" aria-hidden="true">↗</span></a><a class="lk reel" href="https://jamesgillmedia.github.io/gilljames/reel-v4/"><span class="lt"><span class="tagc">reel</span>Reel v4</span><span class="lu">jamesgillmedia.github.io/<wbr>gilljames/<wbr>reel-v4</span><span class="ar" aria-hidden="true">↗</span></a><a class="lk reel" href="https://jamesgillmedia.github.io/gilljames/reel-v3/"><span class="lt"><span class="tagc">reel</span>Reel v3</span><span class="lu">jamesgillmedia.github.io/<wbr>gilljames/<wbr>reel-v3</span><span class="ar" aria-hidden="true">↗</span></a><a class="lk sheet" href="https://jamesgillmedia.github.io/gilljames/semantic-zoom/"><span class="lt"><span class="tagc">sheet</span>Sheet C-10 Pinch to see more</span><span class="lu">jamesgillmedia.github.io/<wbr>gilljames/<wbr>semantic-zoom</span><span class="ar" aria-hidden="true">↗</span></a><a class="lk sheet" href="https://jamesgillmedia.github.io/gilljames/nav-visible/"><span class="lt"><span class="tagc">sheet</span>Sheet C-09 ‘Magic but obvious’</span><span class="lu">jamesgillmedia.github.io/<wbr>gilljames/<wbr>nav-visible</span><span class="ar" aria-hidden="true">↗</span></a><a class="lk sheet" href="https://jamesgillmedia.github.io/gilljames/nav-water-sky/"><span class="lt"><span class="tagc">sheet</span>Sheet C-08 ‘Water + sky’</span><span class="lu">jamesgillmedia.github.io/<wbr>gilljames/<wbr>nav-water-sky</span><span class="ar" aria-hidden="true">↗</span></a></div></section><section class="band" id="roles"><h2 class="bh">Who does what</h2><span class="mnote" aria-hidden="true" style="visibility:hidden;height:4px;margin-bottom:8px"></span><div class="card dashed"><dl class="roles"><dt>Artist Agent</dt><dd>builds and pushes the site and reel</dd><dt>Sketch Artist</dt><dd>does the sketches, QA and this page</dd></dl></div></section><p class="foot">last updated 18 Oct 2026, 5:40 AM UTC</p>
 <!--STATIC-END-->
 </div>
 <script>
@@ -360,9 +412,24 @@ function vanReady(iso){
 function etaCountdown(readyIso, now){
   var ms=Date.parse(readyIso)-now;
   if(!(ms>0)) return "due now, checking";
-  var m=Math.round(ms/6e4);
-  if(m<60) return "ready in "+m+"m";
-  return "ready in "+Math.floor(m/60)+"h "+(m%60)+"m";
+  var total=ms;
+  var h=Math.floor(total/36e5); total-=h*36e5;
+  var m=Math.floor(total/6e4); total-=m*6e4;
+  var s=Math.floor(total/1e3);
+  var pad=function(n,w){n=String(n); while(n.length<w) n="0"+n; return n;};
+  return "ready in "+h+":"+pad(m,2)+":"+pad(s,2);
+}
+function etaNowShort(nowText){
+  var t=String(nowText||"").trim();
+  if(!t) return "building";
+  var cut=t.split(/[.!?]/)[0].split(/\n/)[0].trim();
+  if(cut.length>72){ cut=cut.slice(0,69).replace(/\s+\S*$/,""); if(cut.length<20) cut=t.slice(0,69); cut+="…"; }
+  return cut||"building";
+}
+function etaLoadLine(item, pct){
+  var short=etaNowShort(item.now||item.detail||"");
+  var p=(Math.round(pct*1000)/10).toFixed(1);
+  return "loading<span class=\"dots\"></span> "+esc(short)+" · <span class=\"pct\">"+p+"%</span>";
 }
 function etaPct(startIso, readyIso, now){
   var s=Date.parse(startIso), r=Date.parse(readyIso);
@@ -370,6 +437,38 @@ function etaPct(startIso, readyIso, now){
   var p=(now-s)/(r-s);
   if(p<0) return 0; if(p>1) return 1;
   return p;
+}
+function etaPreviewShape(item){
+  var path=String(item.preview||"");
+  if(/reel/i.test(path)||/reel/i.test(item.name||"")) return "land";
+  return "phone";
+}
+function etaPreviewHtml(item){
+  var path=item.preview||"";
+  var at=item.previewAt||"";
+  var url=item.previewUrl||"";
+  var shape=etaPreviewShape(item);
+  var lab="LIVE PREVIEW";
+  if(at) lab+=" · updated "+vanReady(at);
+  var h='<div class="eta-preview"';
+  if(path) h+=' data-preview="'+esc(path)+'"';
+  if(at) h+=' data-preview-at="'+esc(at)+'"';
+  h+='>';
+  h+='<div class="eta-preview-lab">'+esc(lab)+'</div>';
+  if(path){
+    var bust=at&&!isNaN(Date.parse(at))?Date.parse(at):0;
+    var src=esc(path)+(bust?("?t="+bust):"");
+    h+='<div class="eta-preview-frame '+shape+'"><img src="'+src+'" alt="Live preview of '+esc(item.name)+'" loading="lazy" decoding="async"></div>';
+  }else{
+    h+='<div class="eta-preview-frame '+shape+' empty">preview coming</div>';
+  }
+  if(url){
+    h+='<div class="eta-preview-link"><a href="'+esc(url)+'" target="_blank" rel="noopener">open WIP build ↗</a></div>';
+  }else{
+    h+='<div class="eta-preview-link"><span class="soon">link coming soon</span></div>';
+  }
+  h+='</div>';
+  return h;
 }
 function renderEta(E, now){
   now=now||Date.now();
@@ -404,11 +503,13 @@ function renderEta(E, now){
       });
       logHtml+='</ul>';
     }
-    h.push('<article class="card eta-card" data-start="'+esc(item.start)+'" data-ready="'+esc(item.ready)+'">');
+    h.push('<article class="card eta-card" data-start="'+esc(item.start)+'" data-ready="'+esc(item.ready)+'" data-now="'+esc(item.now||item.detail||'')+'">');
     h.push('<h3 class="ct"><span class="pin">'+(i+1)+'</span>'+esc(item.name)+'</h3>');
     h.push('<div class="cx">'+esc(item.detail)+(item.note?' '+esc(item.note):'')+'</div>');
+    h.push(etaPreviewHtml(item));
     if(item.now) h.push('<div class="eta-now"><span class="lab">now</span>'+esc(item.now)+'</div>');
     h.push('<div class="eta-bar" aria-hidden="true"><div class="eta-fill" style="width:'+pctPct+'%"></div>'+ticks+'</div>');
+    h.push('<div class="eta-load">'+etaLoadLine(item,pct)+'</div>');
     h.push('<div class="eta-meta"><span class="eta-count">'+esc(etaCountdown(item.ready,now))+'</span><span class="eta-van">ready ~'+esc(vanReady(item.ready))+'</span></div>');
     h.push(msList);
     h.push(logHtml);
@@ -516,17 +617,49 @@ function renderAll(S, E){
         if(m<1)txt="just now";else if(m<60)txt=m+" min ago";else if(m<48*60)txt=Math.round(m/60)+" h ago";else txt=Math.round(m/1440)+" days ago";
         if(m>=-5)ago.textContent="("+txt+")";}}
     }
-    function tickEta(){
+    var reduce=false;
+    try{reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){}
+    document.body.classList.add("eta-var-b");
+    function tickEtaBar(){
       var now=Date.now();
       Array.prototype.forEach.call(document.querySelectorAll(".eta-card"),function(card){
         var start=card.getAttribute("data-start"), ready=card.getAttribute("data-ready");
-        var fill=card.querySelector(".eta-fill"), count=card.querySelector(".eta-count");
-        if(fill) fill.style.width=(Math.round(etaPct(start,ready,now)*1000)/10)+"%";
+        var fill=card.querySelector(".eta-fill");
+        var load=card.querySelector(".eta-load");
+        var pct=etaPct(start,ready,now);
+        if(fill) fill.style.width=(Math.round(pct*1000)/10)+"%";
+        if(load){
+          var short=etaNowShort(card.getAttribute("data-now")||"");
+          var p=(Math.round(pct*1000)/10).toFixed(1);
+          if(reduce) load.innerHTML="loading… "+esc(short)+' · <span class="pct">'+p+"%</span>";
+          else load.innerHTML='loading<span class="dots"></span> '+esc(short)+' · <span class="pct">'+p+"%</span>";
+        }
+      });
+    }
+    function tickEtaCount(){
+      var now=Date.now();
+      Array.prototype.forEach.call(document.querySelectorAll(".eta-card"),function(card){
+        var ready=card.getAttribute("data-ready");
+        var count=card.querySelector(".eta-count");
         if(count) count.textContent=etaCountdown(ready,now);
       });
     }
-    tickWhenAgo(); tickEta();
-    setInterval(function(){tickEta();},30000);
+    tickWhenAgo(); tickEtaBar(); tickEtaCount();
+    setInterval(tickEtaCount,1000);
+    setInterval(tickEtaBar,5000);
+    setInterval(tickWhenAgo,30000);
+    function refreshPreviews(){
+      var t=Date.now();
+      Array.prototype.forEach.call(document.querySelectorAll(".eta-preview[data-preview]"),function(box){
+        var path=box.getAttribute("data-preview");
+        if(!path) return;
+        var img=box.querySelector("img");
+        if(!img) return;
+        var base=path.split("?")[0];
+        img.src=base+"?t="+t;
+      });
+    }
+    setInterval(refreshPreviews,60000);
   }catch(e){/* static copy stays */}
 })();
 </script>
