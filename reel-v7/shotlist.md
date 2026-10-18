@@ -1,6 +1,6 @@
-# gill james ᑕᐣᓯ · reel v7, "constellation"
+# gill james ᑕᐣᓯ · reel v7, "constellation" · pass 6b
 
-73.2 s · 1080p 23.976 fps · built like gilljames.com: one continuous zoomable constellation. The picture uses only Gill's existing work. No AI imagery, no cedar, no Kodafy.
+73.2 s · pass 6b (Oct 18 2026) · 1080p 23.976 fps · built like gilljames.com: one continuous zoomable constellation. The picture uses only Gill's existing work. No AI imagery, no cedar, no Kodafy.
 Music: Lost Coffee, "Lost in Time" (Gill's band; draft audio re-edited to 73 s), with a sound-design layer taken from Gill's own films, plus water ambience.
 
 ## Structure (follows the approved Open / Dive / Overload / Heroes / Close)
@@ -9,11 +9,53 @@ Music: Lost Coffee, "Lost in Time" (Gill's band; draft audio re-edited to 73 s),
 |---|---|---|---|
 | 0:00–0:06.5 | **1 Open** | First-cut opening (Gill's pick): bright Moonwater shader water with the crescent moon and the mint tilted GILL JAMES, then a continuous tilt up as the reflected stars rise into the constellation: ᑕᐣᓯ at the centre and five chapter stars (film · photo · objects · sound · about). Lines draw in, then labels. VO: "It's within me. It's in me." (19 Crimes x Malamen) | first hard hit at 6.52 |
 | 0:06.5–0:12.5 | **2 Dive in** | Fly into FILM. Its sub-stars grow into frames, and each cut travels along a constellation line (the line lights up) into the next frame: Arc'teryx window light → Braun flare → John Frieda hair → Stay Gold flare | arrivals on 9.10 / 11.12 / 12.05 |
-| 0:12.5–0:25.8 | **3 Overload** | The Stay Gold frame blooms into a 27×23 wall of 621 tiles, every one a different moment: 321 unique clips playing forward once, 170 of Gill's photographs, 130 held film frames. The tiles fly into the constellation's shape, then scatter as a 24×16 photo-and-clip wall arrives from depth; On the 20.07 hit the **BMW X7 Legends** tile zooms up to full frame (fog grille → front), with the narration "What are legends made of?", then pulls back out through the frame. Then an accelerating strobe of flash frames (stills and Tier-1 heroes), then a 15×9 wall where the BMW tile morphs from 16:9 to 2.39 and zooms up to full frame | 12.53, 16.52, 18.61, 20.07, 22.83 → 25.77 |
-| 0:25.8–0:45 | **4 Heroes** | Full-frame hero footage hangs on a seven-star chain. Each pull-back goes out through the frame to the stars and dives into the next one: BMW Drift low → BMW headlights / AXE GM ropes → slam / AXE Stay Gold face (new 1080p source) / John Frieda gold → splash / Braun red ring / Braun chandelier / Arc'teryx coat. VO: BMW Drift "There are those moments where you are just one with a car." AXE GM "Push! Push! Push! Get up! Routine is everything." | 25.77, 28.36, 31.31, 31.79, 34.66, 35.78, 36.32, 37.87, 39.33, 42.07 |
-| 0:45–0:58.6 | **3b Overload (ᑕᐣᓯ mosaic)** | A 48×27 mosaic of 1,296 tiles in which the bright tiles spell ᑕᐣᓯ. Then a dive into one tile → Tier 2 at full frame: Verona's Obsession candles → Allan Rayman fire → Hey Ocean tub → Weird Kid horse. The horse frame shrinks into a river of 8 rows of moving tiles, then a Tier-2 flash overload. VO: 19 Crimes "Create the way you want it, the way you feel, without hesitation." | 45.04, 47.61, 49.63, 50.56, 51.05, 55.03 |
-| 0:58.6–1:04.3 | **Infinite zoom + recap** | A recursive wall zoom: each wall's centre tile contains the next wall, through three levels. Then a Tier-1 recap at 0.49 s per shot (BMW smoke, AXE box, John Frieda, Braun dance, Arc'teryx silhouette, BMW helmet), with a one-frame bloom on each hit. VO: "You need to feel that freedom." | 58.58, 61.34, 64.28 |
-| 1:04.3–1:13.2 | **5 Close** | Pull out through the last frame into ᑕᐣᓯ and the whole constellation, with 34 tiny clips (all unique, playing forward) hanging on its stars. The water and moon return under the sky, and the stars condense into the tilted mint GILL JAMES with ᑕᐣᓯ above it. Contact: imjamesgill@gmail.com · gilljames.com. VO: BMW Drift "That's what I know. That's what I love to do." | 64.28 → fade 72.3 |
+| 0:12.5–0:25.8 | **3 Overload** | The Stay Gold frame blooms into a 27×23 wall of 621 tiles, every one a different moment: 321 unique clips playing forward once, 170 of Gill's photographs, 130 held film frames. The tiles fly into the constellation's shape, then scatter as a 24×16 photo-and-clip wall arrives from depth; On the 20.07 hit the **BMW X7 Legends** tile zooms up to full frame (fog grille → front), with the narration "What are legends made of?", then pulls back out through the frame. **Pass 6/6b:** before the zoom the wall calms in a ripple toward the X7 tile (19.53→20.07), the fog-grille → front cut sits on the 21.165 hit, and on the pull-back the wall re-lights outward from the Legends tile (22.30→22.83). Then an accelerating strobe of flash frames (stills and Tier-1 heroes, now including BMW Electrify the Night, Special Olympics and Flybits moments), then a 15×9 wall where the BMW tile morphs from 16:9 to 2.39 and zooms up to full frame | 12.53, 16.52, 18.61, 20.07, 21.165, 22.83 → 25.77 |
+| 0:25.8–0:45 | **4 Heroes** | Full-frame hero footage hangs on a seven-star chain. Each pull-back goes out through the frame to the stars and dives into the next one: BMW Drift low → **BMW Electrify the Night: i8 laser headlights (28.36) → red light-blade tail (28.91) → yellow i8 on the blue bridge (30.37, as the frame pulls back)** / AXE GM ropes → slam / AXE Stay Gold face / John Frieda gold → splash / **Canadian Ironworkers: grinder sparks (arrives on 37.87) → second spark shower (38.79)** / Braun chandelier / Arc'teryx coat → **Electrify blue-mist alley (43.93)**. VO: BMW Drift "There are those moments where you are just one with a car." AXE GM "Push! Push! Push! Get up! Routine is everything." | 25.77, 28.36, 28.91, 30.37, 31.31, 31.79, 34.61, 35.78, 36.32, 37.87, 38.79, 39.33, 42.07, 43.93 |
+| 0:45–0:58.6 | **3b Overload (ᑕᐣᓯ mosaic)** | A 48×27 mosaic of 1,296 tiles in which the bright tiles spell ᑕᐣᓯ. Then a dive into one tile → Tier 2 at full frame: Verona's Obsession candles → Allan Rayman fire → Hey Ocean tub → Weird Kid horse → **Canadian Ironworkers welder (51.92, the horse hold tightened) → welder close-up (53.33)**. The welder frame shrinks into a river of 8 rows of moving tiles, then a Tier-2 flash overload. VO: 19 Crimes "Create the way you want it, the way you feel, without hesitation." | 45.04, 47.61, 49.63, 50.56, 51.05, 51.92, 53.33, 55.03 |
+| 0:58.6–1:04.3 | **Infinite zoom + recap** | A recursive wall zoom: each wall's centre tile contains the next wall, through three levels. Then a Tier-1 recap, **re-timed in pass 6 onto music onsets** (BMW smoke 61.34 → Special Olympics golf swing 62.02 → Electrify light tunnel 62.54 → Arc'teryx silhouette 63.33 → BMW helmet 63.97), with a one-frame bloom on each cut. VO: "You need to feel that freedom." | 58.58, 61.34, 62.02, 62.54, 63.33, 63.97, 64.28 |
+| 1:04.3–1:13.2 | **5 Close** | Pull out through the last frame into ᑕᐣᓯ and the whole constellation (all five chapter constellations light up, about = ᑕᐣᓯ in stars, moon-silver), with 34 tiny clips (all unique, playing forward) hanging on its stars. The water and moon return under the sky, and the stars condense into the tilted mint GILL JAMES with ᑕᐣᓯ above it. Contact: imjamesgill@gmail.com · gilljames.com. VO: BMW Drift "That's what I know. That's what I love to do." | 64.28 → fade 72.3 |
+
+
+## Pass 6b
+Built on pass 6 (below; that table is updated to 6b). Two credit corrections:
+1. Canadian Ironworkers, Flybits and Special Olympics are restored to the tile and frame pools (Gill shot them).
+2. **BONSAI Retail Revolution is not Gill's.** All of its footage is gone, and it is blocklisted in the build (`BLOCK_KEYS` in lib_v7.py). Replacements, on the same music hits:
+
+| reel time | pass 6 (removed) | pass 6b |
+|---|---|---|
+| 22.83–25.20 strobe | BONSAI DJ, BONSAI light letters | Special Olympics glove, Flybits downtown |
+| 37.55–39.10 chain star 5 | BONSAI spray-can painter | Canadian Ironworkers grinder sparks (arrive 37.87) → spark shower (38.79 onset) |
+| 51.92–54.1 tier 2 → river | BONSAI masked artist | Ironworkers welder (51.92) → welder close-up (53.33 onset), shrinks into the river |
+| 62.02–62.54 recap | BONSAI letters | Special Olympics golf swing |
+| tiles | 12 BONSAI moving tiles + 26 BONSAI held frames (the frames were already in pass 5's pool) | those slots back to Ironworkers / Flybits / Special Olympics; BONSAI frames out of the pool |
+
+
+## Pass 6 (built on pass 5; same story order, music edit, voice lines and look)
+
+| reel time | pass 5 | pass 6 |
+|---|---|---|
+| 5.45–7.4 | plain film star | the **FILM constellation** (loose 2.39 frame, cyan) lights up just before the dive and gives way as the frames grow, with a small chime |
+| 17.25–19.25 | tiles in the constellation shape | the **PHOTO aperture** (mint) and **OBJECTS cube** (warm white) light over the tile constellation before the photo/objects wall arrives |
+| 19.53–20.07 | wall B at full brightness up to the zoom | the wall **calms in a ripple toward the X7 tile** (far tiles first) with a falling wash, so the overload settles into the single full-screen shot |
+| 21.20 → 21.165 | Legends fog → front cut | moved onto the music hit at 21.165 |
+| 22.30–22.83 | uniform pull-back | the wall **re-lights outward from the Legends tile** with a riser, building back up into the strobe |
+| 22.83–25.20 | strobe heroes: BMW smoke, AXE box, JF gold, Braun ring… | strobe heroes: **Electrify charging port, Special Olympics glove, Electrify tunnel portrait, Flybits downtown**, AXE box, Braun ring, Stay Gold, JF splash. Each flash frame gets a tiny shutter tick |
+| 28.36–31.0 | BMW Drift "headlights" shot (2.4 s hold) | **BMW Electrify the Night**: i8 laser headlights (28.36) → red light-blade tail (28.91) → yellow i8 on the blue bridge (30.37) |
+| 37.55–39.10 | Braun red ring (Braun was on two stars in a row) | **Canadian Ironworkers**: grinder sparks arriving on 37.87, second spark shower on the 38.79 onset, with spark hiss in the texture |
+| 41.80–44.70 | Arc'teryx coat, 2.9 s hold | Arc'teryx coat, then **Electrify blue-mist alley** on the 43.93 onset |
+| 44.20–45.04 | plain pull-out | the **SOUND waveform** constellation (soft red) lights up before the mosaic and the music-video section |
+| 51.05–54.1 | Weird Kid horse, 2.45 s hold → river | horse cut on 51.92 to the **Ironworkers welder**, close-up on 53.33, which shrinks into the tile river |
+| 61.34–64.28 | 6-shot recap at 0.49 s (not on hits; JF hair repeated the dive) | 5 shots on music onsets 61.34 / 62.02 / 62.54 / 63.33 / 63.97: BMW smoke → **Special Olympics golf swing** → **Electrify light tunnel** → Arc'teryx silhouette → BMW helmet |
+| 64.9–68.2 | plain constellation | **all five chapter constellations** glow on the pull-out (about = ᑕᐣᓯ in stars, moon-silver), then the stars condense into the name |
+| whole reel | slowed heroes repeat frames (12 fps look) | slowed heroes are **frame-blended** (Braun flare, JF gold, Braun chandelier, Arc'teryx, Electrify tail, Ironworkers sparks/weld) |
+| sound | pass-5 texture | same pass-1 mix + Legends line, with a re-built texture layer that follows the pass-6 picture: impacts on every new cut, a falling wash into the Legends calm and a riser out of it, a sub swell under the full-screen Legends shot, shutter ticks on strobe frames, chapter-motif chimes, Electrify / Ironworkers / Special Olympics source sound under their heroes. About 16 dB under the mix, ducked 7 dB under the voices |
+
+**Every cut against the music:** all 31 section cuts sit within 0.5 frame of a detected Lost in Time onset. The 10 new inner cuts land on onsets at 21.165, 28.91, 38.79, 43.93, 51.92, 53.33, 62.02, 62.54, 63.33 and 63.97 (Stay Gold arrival moved 34.66 → 34.61 onset) (62.54 and 63.97 are weak onsets; the others are clear hits).
+
+**Chapter constellations:** from `/workspace/constellations-v32/points.json` (v3.2), the same designs as gilljames.com. They are drawn as tinted star clusters with hairlines. While a chapter's motif is lit, that chapter's pass-5 sub-stars give way. No text.
+
+### All cut times (s)
+6.52 · 9.10 · 11.12 · 12.05 · 12.53 · 16.52 · 17.06 · 18.61 · 20.07 · 21.165 · 22.83 · (strobe 22.83–25.20) · 25.77 · 28.36 · 28.91 · 30.37 · 31.31 · 31.79 · 34.61 · 35.78 · 36.32 · 37.87 · 38.79 · 39.33 · 42.07 · 43.93 · 45.04 · 47.61 · 49.63 · 50.56 · 51.05 · 51.92 · 53.33 · 55.03 · (strobe 55.03–58.58) · 58.58 · 61.34 · 62.02 · 62.54 · 63.33 · 63.97 · 64.28 · fade 72.3–73.19
 
 ## Techniques
 - **Single world camera.** Everything lives in one 2D world: the constellation, walls and hero frames. The camera keyframes (centre and zoom) are interpolated in log-zoom, and zooms run about a fixed point, so the target stays pinned while scale changes by up to 40×. Those are the zoom-throughs and the tile → full-frame match cuts.
@@ -27,9 +69,10 @@ Music: Lost Coffee, "Lost in Time" (Gill's band; draft audio re-edited to 73 s),
 - **Finish.** Lateral chromatic aberration (cyan/red fringes, as on the site) plus luma-weighted grain on every frame.
 
 ## Database used
-- New sources: BMW X7 Legendary (director's cut 1080p), AXE Stay Gold, BBBS Bigger Together, Tweed, Canadian Ironworkers, Flybits, Special Olympics, BONSAI Retail Revolution, all folded into the tile pools; Legends and Stay Gold also get heroes.
+- Sources: BMW X7 Legendary (director's cut 1080p), AXE Stay Gold, BBBS Bigger Together, Tweed, Canadian Ironworkers, Flybits, Special Olympics, **BMW Electrify the Night** (all Gill DOP), folded into the tile pools; Legends, Stay Gold, Electrify, Ironworkers, Special Olympics and Flybits also get heroes. BONSAI · Just The Beginning (site film 34) stays in the pools and flashes.
+- **Pass 6b tile share:** the 27 new-film moving-tile slots are split between the five films: Electrify 6, Flybits 7, Special Olympics 7, Canadian Ironworkers 5 (+2 never-drawn slots). Every tile is a different moment (tiles avoid the hero and strobe windows of their films). Ironworkers / Flybits / Special Olympics held frames are back in the frame pool.
 - Clip scenes from the films, and all 170 usable stills (photography, joio.co objects, spatial/studio pieces).
-- Full-frame hero moments from 17 projects, incl. BMW X7 Legends and AXE Stay Gold.
+- Full-frame hero moments from 19 projects, incl. BMW X7 Legends, AXE Stay Gold, BMW Electrify the Night, Canadian Ironworkers and Special Olympics.
 
 ## Sound
 **Track audition** (6 tracks by Gill's bands, analysed for hit count and strength over a 73 s window):
@@ -59,8 +102,8 @@ Edit: Lost in Time 173.5–180.06 s (quiet intro) + 61.93–121.36 s + 181.0–1
 
 **Re-fit to the current edit.** The cuts sit on the same Lost in Time hits: every hard cut is within one frame of a music onset, including 20.07 and 22.83 for Legends and 34.66 for Stay Gold. Under pass 1 there is now a quiet texture layer, about 16 dB below the mix and ducked 7 dB under the voices, generated from the render-8 camera and cut list. It has whooshes on camera moves and zoom-throughs, soft impacts on the hard cuts, risers under the wall builds, star chimes, and each hero film's own sound (including the Legends bed under the Legends focus).
 
-A/B: pass 1 `/workspace/v7_audio_sample_pass1.m4a`, pass 3 `/workspace/v7_audio_sample.m4a`, pass 4 `/workspace/v7_audio_sample_pass4.m4a`, **pass 5 (final)** `/workspace/v7_audio_sample_pass5.m4a`.
+A/B: pass 1 `/workspace/v7_audio_sample_pass1.m4a`, pass 3 `/workspace/v7_audio_sample.m4a`, pass 4 `/workspace/v7_audio_sample_pass4.m4a`, pass 5 `/workspace/v7_audio_sample_pass5.m4a`, **pass 6 (current)** `/workspace/v7_audio_sample_pass6.m4a`.
 
-**Ambience.** Procedural calm water (low swell, lapping, droplets, soft air noise). It is full level over the water open (0–5 s), dips to a bed, and returns for the close (64–73 s). Under the music: shimmer/chimes as stars appear and lines connect, whooshes driven by camera speed and zoom, a granular riser under each wall build, soft impacts on hard cuts, and diegetic bleed from each hero's own film (BMW engine/tyres, Legends, AXE gym, John Frieda, Braun, Arc'teryx fire crackle, room tone). Final mix: about −14.5 LUFS integrated, true peak −1 dBTP.
+**Ambience.** Procedural calm water (low swell, lapping, droplets, soft air noise). It is full level over the water open (0–5 s), dips to a bed, and returns for the close (64–73 s). Under the music: shimmer/chimes as stars appear and lines connect, whooshes driven by camera speed and zoom, a granular riser under each wall build, soft impacts on hard cuts, and diegetic bleed from each hero's own film (BMW engine/tyres, Legends, AXE gym, John Frieda, Braun, Arc'teryx fire crackle, room tone). Final mix (pass 6): −14.4 LUFS integrated, true peak −1.6 dBTP.
 
 **Not available.** Coca-Cola: the Vimeo download is login-gated (yt-dlp: unauthorized), so there is no jingle. The Legends narration now comes from the director's-cut source.
