@@ -172,12 +172,15 @@ const ETA = [
     detail: "The whole site as one constellation at full zoom-out, with one continuous camera into the v3 views; stars turn into labels, thumbnails and video",
     start: "2026-10-18T06:25:00Z",
     ready: "2026-10-18T07:35:00Z",
-    now: "Live on site-v3 for review. Emulated phone QA running now: Galaxy S24 Chrome first, then iPhone.",
+    now: "Done, in review with Gill. Emulated phone QA passed with no blockers or high issues; one medium and three low issues go to Artist Agent. Next is Gill’s check on the Galaxy S24.",
+    status: "done",
     preview: "preview/site-v3-1.jpg",
     previewAt: "2026-10-18T07:35:48Z",
     previewUrl: "https://jamesgillmedia.github.io/gilljames/site-v3/",
     siteUrl: "https://jamesgillmedia.github.io/gilljames/site-v3/",
+    previewsAnchor: "site-v31-qa",
     log: [
+      { at: "2026-10-18T08:07:00Z", text: "Phone QA done (emulated Galaxy S24 Chrome, then iPhone 15): all four fixes and the sticky header pass, pinching a film never zooms the page, and the whole-sky zoom steps one level per gesture. No blockers or high issues. One medium issue: the Vimeo play button can stay on ‘loading’ if the player errors. Three low ones. Videos on the previews page" },
       { at: "2026-10-18T07:41:00Z", text: "Live and checked: all 29 changed files are on site-v3/. Phone QA started" },
       { at: "2026-10-18T07:35:00Z", text: "Build done: feel tests 413 pass, 0 fail; camera tests 138 pass in Chromium and 24 in WebKit, 0 fail. Deploy copy written (29 changed files), not uploaded yet" },
       { at: "2026-10-18T07:21:00Z", text: "Full one-sheet story video recorded (38 s): Dive, whole sky, film, grid, work, pull out to the massive grid, constellation, photo. Final test run started" },
@@ -241,8 +244,8 @@ const ETA = [
 
 // ==== STATUS START
 const STATUS = {
-  lastUpdated: "18 Oct 2026, 7:43 AM UTC",
-  lastUpdatedISO: "2026-10-18T07:43:00Z",
+  lastUpdated: "18 Oct 2026, 8:10 AM UTC",
+  lastUpdatedISO: "2026-10-18T08:10:00Z",
   title: "gilljames.com rebuild · progress",
 
   // kind: "here" (today, yellow) · "gill" (mint, Gill's) · "due" (red, deadline) · "date"
