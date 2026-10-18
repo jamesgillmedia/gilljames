@@ -1,4 +1,4 @@
-# gill james ᑕᐣᓯ · reel v7, "constellation" · pass 7
+# gill james ᑕᐣᓯ · reel v7, "constellation" · pass 7b
 
 73.2 s · pass 6b (Oct 18 2026) · 1080p 23.976 fps · built like gilljames.com: one continuous zoomable constellation. The picture uses only Gill's existing work. No AI imagery, no cedar, no Kodafy.
 Music: Lost Coffee, "Lost in Time" (Gill's band; draft audio re-edited to 73 s), with a sound-design layer taken from Gill's own films, plus water ambience.
@@ -11,10 +11,22 @@ Music: Lost Coffee, "Lost in Time" (Gill's band; draft audio re-edited to 73 s),
 | 0:06.5–0:12.5 | **2 Dive in** | Fly into FILM. Its sub-stars grow into frames, and each cut travels along a constellation line (the line lights up) into the next frame: Arc'teryx window light → Braun flare → John Frieda hair → Stay Gold flare | arrivals on 9.10 / 11.12 / 12.05 |
 | 0:12.5–0:25.8 | **3 Overload** | The Stay Gold frame blooms into a 27×23 wall of 621 tiles, every one a different moment of moving footage (pass 7: no photographs or held frames; each tile plays its own window of a Gill film for as long as it is visible). The tiles fly into the constellation's shape, then scatter as a 24×16 photo-and-clip wall arrives from depth; On the 20.07 hit the **BMW X7 Legends** tile zooms up to full frame (fog grille → front), with the narration "What are legends made of?", then pulls back out through the frame. **Pass 6/6b:** before the zoom the wall calms in a ripple toward the X7 tile (19.53→20.07), the fog-grille → front cut sits on the 21.165 hit, and on the pull-back the wall re-lights outward from the Legends tile (22.30→22.83). Then an accelerating strobe of flash frames (stills and Tier-1 heroes, now including BMW Electrify the Night, Special Olympics and Flybits moments), then a 15×9 wall where the BMW tile morphs from 16:9 to 2.39 and zooms up to full frame | 12.53, 16.52, 18.61, 20.07, 21.165, 22.83 → 25.77 |
 | 0:25.8–0:45 | **4 Heroes** | Full-frame hero footage hangs on a seven-star chain. Each pull-back goes out through the frame to the stars and dives into the next one: BMW Drift low → **BMW Electrify the Night: i8 laser headlights (28.36) → red light-blade tail (28.91) → yellow i8 on the blue bridge (30.37, as the frame pulls back)** / AXE GM ropes → slam / AXE Stay Gold face / John Frieda gold → splash / **Canadian Ironworkers: grinder sparks (arrives on 37.87) → second spark shower (38.79)** / Braun chandelier / Arc'teryx coat → **Electrify blue-mist alley (43.93)**. VO: BMW Drift "There are those moments where you are just one with a car." AXE GM "Push! Push! Push! Get up! Routine is everything." | 25.77, 28.36, 28.91, 30.37, 31.31, 31.79, 34.61, 35.78, 36.32, 37.87, 38.79, 39.33, 42.07, 43.93 |
-| 0:45–0:58.6 | **3b Overload (ᑕᐣᓯ mosaic)** | A 48×27 mosaic of 1,296 tiles in which the bright tiles spell ᑕᐣᓯ. Then a dive into one tile → Tier 2 at full frame: Verona's Obsession candles → Allan Rayman fire → Hey Ocean tub → Weird Kid horse → **Canadian Ironworkers welder (51.92, the horse hold tightened) → welder close-up (53.33)**. The welder frame shrinks into a river of 8 rows of moving tiles, then a Tier-2 flash overload. VO: 19 Crimes "Create the way you want it, the way you feel, without hesitation." | 45.04, 47.61, 49.63, 50.56, 51.05, 51.92, 53.33, 55.03 |
+| 0:45–0:58.6 | **3b Overload (ᑕᐣᓯ mosaic)** | A 48×27 mosaic of 1,296 tiles in which the bright tiles spell ᑕᐣᓯ. Then a dive into one tile → Tier 2 at full frame: Verona's Obsession candles → Allan Rayman fire → Hey Ocean tub → **Weird Kid horse, held uninterrupted 51.05–53.5 (pass 7b, as pass 5)**. The horse frame shrinks into a river of 8 rows of moving tiles, then a Tier-2 flash overload. VO: 19 Crimes "Create the way you want it, the way you feel, without hesitation." | 45.04, 47.61, 49.63, 50.56, 51.05, 55.03 |
 | 0:58.6–1:04.3 | **Infinite zoom + recap** | A recursive wall zoom: each wall's centre tile contains the next wall, through three levels. Then a Tier-1 recap, **re-timed in pass 6 onto music onsets** (Backward Fall portrait 61.34 → Special Olympics golf swing 62.02 → Electrify light tunnel 62.54 → Arc'teryx silhouette 63.33 → BMW helmet 63.97), with a one-frame bloom on each cut. VO: "You need to feel that freedom." | 58.58, 61.34, 62.02, 62.54, 63.33, 63.97, 64.28 |
 | 1:04.3–1:13.2 | **5 Close** | Pull out through the last frame into ᑕᐣᓯ and the whole constellation (all five chapter constellations light up, about = ᑕᐣᓯ in stars, moon-silver), with 34 tiny clips (all unique, playing forward) hanging on its stars. The water and moon return under the sky, and the stars condense into the tilted mint GILL JAMES with ᑕᐣᓯ above it. Contact: imjamesgill@gmail.com · gilljames.com. VO: BMW Drift "That's what I know. That's what I love to do." | 64.28 → fade 72.3 |
 
+
+## Pass 7b
+Gill: "hold on the Weird Kid horse longer, like before". The horse is restored exactly as in pass 5:
+- It holds full-frame 0:51.05–0:53.5, uninterrupted.
+- At 0:53.5–0:54.1 it shrinks into the moving tile river.
+- One continuous slowed window: Weird Kid source 214.18 →, ×0.46.
+
+What came out:
+- The Ironworkers welder (0:51.92–0:54.1 in pass 6–7) is removed, along with its cuts at 0:51.92 and 0:53.33, its sound bleed and its spark hiss.
+- The welder is not reused elsewhere. The Ironworkers grinder sparks at 0:37.55 already represent that workshop scene, so placing it again would be a near-repeat.
+
+Unchanged from pass 7: every tile, strobe, hero, cut time and the mix (−14.4 LUFS).
 
 ## Pass 7 (built on 6b; same story order, music, voice lines, Legends focus, constellation beats and first-cut look)
 Gill's notes on 6b: too many stills, repetition, some weak shot choices. The full audit is in `pass7_audit.md`.
@@ -165,7 +177,7 @@ Built on pass 6 (below; that table is updated to 6b). Two credit corrections:
 **Chapter constellations:** from `/workspace/constellations-v32/points.json` (v3.2), the same designs as gilljames.com. They are drawn as tinted star clusters with hairlines. While a chapter's motif is lit, that chapter's pass-5 sub-stars give way. No text.
 
 ### All cut times (s)
-6.52 · 9.10 · 11.12 · 12.05 · 12.53 · 16.52 · 17.06 · 18.61 · 20.07 · 21.165 · 22.83 · (strobe 22.83–25.20) · 25.77 · 28.36 · 28.91 · 30.37 · 31.31 · 31.79 · 34.61 · 35.78 · 36.32 · 37.87 · 38.79 · 39.33 · 42.07 · 43.93 · 45.04 · 47.61 · 49.63 · 50.56 · 51.05 · 51.92 · 53.33 · 55.03 · (strobe 55.03–58.58) · 58.58 · 61.34 · 62.02 · 62.54 · 63.33 · 63.97 · 64.28 · fade 72.3–73.19
+6.52 · 9.10 · 11.12 · 12.05 · 12.53 · 16.52 · 17.06 · 18.61 · 20.07 · 21.165 · 22.83 · (strobe 22.83–25.20) · 25.77 · 28.36 · 28.91 · 30.37 · 31.31 · 31.79 · 34.61 · 35.78 · 36.32 · 37.87 · 38.79 · 39.33 · 42.07 · 43.93 · 45.04 · 47.61 · 49.63 · 50.56 · 51.05 · 55.03 · (strobe 55.03–58.58) · 58.58 · 61.34 · 62.02 · 62.54 · 63.33 · 63.97 · 64.28 · fade 72.3–73.19
 
 ## Techniques
 - **Single world camera.** Everything lives in one 2D world: the constellation, walls and hero frames. The camera keyframes (centre and zoom) are interpolated in log-zoom, and zooms run about a fixed point, so the target stays pinned while scale changes by up to 40×. Those are the zoom-throughs and the tile → full-frame match cuts.
