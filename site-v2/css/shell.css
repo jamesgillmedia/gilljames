@@ -142,7 +142,6 @@ html.scrolled.js .top{background:linear-gradient(#000 0,rgba(0,0,0,.85) 55%,tran
 /* landscape phones: the reflection stays right of the poem and above the dive link */
 @media (max-height:500px) and (orientation:landscape){
  .refl{inset:0 0 20% 0}
- .hero .poem span:nth-child(n+5){display:none}
  .js .hero .dive{bottom:calc(58px + env(safe-area-inset-bottom))}
 }
 [tabindex="-1"]:focus{outline:none}
@@ -280,6 +279,94 @@ html.ui-idle.player-open .scope.reelbig:not(.paused) .pnav{opacity:1}
  .js .hero .dive{left:max(24px,env(safe-area-inset-left))!important;right:auto!important;transform:none!important;text-align:left!important;width:auto!important;max-width:44%!important}
 }
 /* short portrait phones (iPhone 13/SE height): the water names lift clear of the first-visit line above the tab bar */
-@media (orientation:portrait) and (max-height:720px){.refl.port{transform:translateY(-12px)}.js .hero .dive{bottom:calc(var(--bar) + 2px + env(safe-area-inset-bottom))!important}}
+@media (orientation:portrait) and (max-height:720px){.js .hero .dive{bottom:calc(var(--bar) + 2px + env(safe-area-inset-bottom))!important}}
 /* landscape / desktop: the first-visit line sits at the left under the poem, clear of the water names */
 @media (orientation:landscape){.js .hero .dive{left:max(24px,env(safe-area-inset-left),5vw)!important;right:auto!important;transform:none!important;text-align:left!important;width:auto!important;max-width:44%!important}}
+/* ---- the poem is never hidden (Gill, 18 Oct: "The poem is still hidden.")
+   Every line at full opacity on arrival, a soft dark scrim + shadow for contrast over the water,
+   compact enough that the water names, the hint and the tab bar never touch it (surface.js fits the
+   reflected names below it). It still melts on the dive (.hero.melt) and is back when you return home. */
+.hero:not(.melt) .poem span,.hero:not(.melt) .roles{opacity:1!important;filter:none!important;transform:none!important;transition:opacity .35s ease}
+.hero .poem{color:#fff;isolation:isolate;line-height:1.6;font-size:12.5px;z-index:3}
+.hero .poem.off,.hero .roles.off{text-shadow:var(--o) var(--o) 0 var(--cy),calc(var(--o)*-1) calc(var(--o)*-1) 0 var(--rd),0 0 8px rgba(0,0,0,.95),0 1px 3px #000}
+.hero .poem::before{content:"";position:absolute;inset:-14px -18px -16px -24px;z-index:-1;pointer-events:none;border-radius:18px;
+ background:radial-gradient(ellipse 85% 75% at 35% 50%,rgba(2,6,10,.62),rgba(2,6,10,.38) 60%,rgba(2,6,10,0) 100%)}
+.hero.melt .poem::before{opacity:0;transition:opacity .5s}
+@media (orientation:portrait) and (max-height:720px){.hero .poem{font-size:12px;line-height:1.55;top:calc(31svh + 22px)}}
+@media (min-width:900px) and (orientation:landscape){.hero .poem{font-size:14.5px;line-height:1.7}}
+@media (orientation:landscape) and (max-height:500px){
+ .hero .roles{top:calc(var(--hdr) + 12px)!important}
+ .hero .poem{top:calc(var(--hdr) + 30px)!important;font-size:11.5px;line-height:1.5;max-width:44vw}
+}
+/* very narrow phones (320–359px): the roles line wraps to two lines, so the poem starts one line lower */
+@media (orientation:portrait) and (max-width:359px){.hero .roles{letter-spacing:.16em;line-height:1.5}.hero .poem{top:calc(31svh + 40px)!important;font-size:11.5px}}
+/* the whole poem on home: all 15 lines. surface.js shows it in full where it fits; on shorter screens it steps through
+   in pages with a visible "more of the poem ›" button (never a fade). The scrim is a real panel, solid enough over the
+   moon's bright streak. */
+.hero .poem{right:auto;max-width:min(calc(100% - 40px),560px);padding:10px 14px 10px 0}
+.hero .poem::before{inset:-6px -14px -6px -24px;border-radius:16px;background:rgba(3,7,12,.6);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.hero .poem span.pg-off{display:none!important}
+.hero .ppager{position:absolute;left:14px;z-index:4;display:flex;align-items:center;gap:6px}
+.hero .ppager[hidden]{display:none}
+.hero .ppager button{min-width:44px;min-height:44px;padding:0 14px;border-radius:22px;border:1px solid rgba(255,255,255,.35);background:rgba(3,7,12,.72);color:#fff;font:inherit;font-size:11px;letter-spacing:.12em;text-transform:lowercase;cursor:pointer}
+.hero .ppager button[disabled]{opacity:.35}
+.hero .ppager .pp-n{font-size:11px;letter-spacing:.12em;color:#dfe7e6;min-width:38px;text-align:center;text-shadow:0 0 6px #000}
+.hero.melt .ppager{opacity:0;transition:opacity .3s}
+/* native pinch-zoom on home: pinch always works; once zoomed, one finger pans the zoomed view (and never dives) */
+.js.m-surface.vzoom .scene .hero{touch-action:manipulation}
+@media (orientation:landscape) and (max-height:500px){.hero .roles{top:calc(var(--hdr) + 8px)!important}.hero .poem{top:calc(var(--hdr) + 30px)!important;font-size:11px;line-height:1.4;padding:6px 12px 6px 0}}
+/* ---- QA round 4 #1: landscape phones (max-height 500) get their own wide sky: two rows, each name stacked (tab over
+   project) and placed beside its constellation, spaced so no name or hit area touches a neighbour. The zoom buttons
+   stand in a column at the left edge; the pinch hint is dropped here (it sat on "objects · joio.co"). */
+.pl-wide{display:none}
+@media (orientation:landscape) and (max-height:500px){
+ .world{width:4100px!important;height:1200px!important}
+ .cl{left:calc(var(--wx)*1px)!important;top:calc(var(--wy)*1px)!important}
+ .pole{left:3950px!important;top:330px!important}
+ .pl-land,.pl-port{display:none!important}.pl-wide{display:block!important}
+ .cname{top:0!important;left:calc(var(--r)*1px + 16px * var(--inv))!important;transform:translate(0,-50%)!important;text-align:left!important;line-height:1.25!important;padding-top:calc(4px * var(--inv))!important}
+ .cname small,.cl:not(.near) .cname small{display:block!important;margin-top:calc(2px * var(--inv))!important}
+ .cname small i{display:none}
+ .cname::after{inset:calc(-6px * var(--inv)) calc(-8px * var(--inv))!important}
+ .sp-full .zhint{display:none!important}
+ .sp-full .zctl{flex-direction:column;left:max(8px,env(safe-area-inset-left))!important;bottom:calc(var(--bar) + 8px + env(safe-area-inset-bottom))!important;gap:6px}
+}
+/* ---- QA round 4 #2: the player on landscape phones. The picture takes the full height between the bars (2.39 at
+   ~256px tall), title + ✕ and the play controls sit over it, the filmstrip and caption step aside, and prev / next
+   become compact single-line side buttons. */
+@media (orientation:landscape) and (max-height:500px){
+ .js.player-open .scope.sheet{display:block!important;padding:0!important;overflow:hidden!important;background:#000!important}
+ .js.player-open .scope.sheet .frame{position:absolute!important;top:0;bottom:0;left:50%;transform:translateX(-50%);height:100%!important;width:auto!important;max-width:calc(100% - 176px);aspect-ratio:2.39;margin:0!important}
+ .js.player-open .scope.sheet .frame video,.js.player-open .scope.sheet .frame iframe,.js.player-open .scope.sheet .frame img{width:100%;height:100%;object-fit:contain}
+ .js.player-open .scope.sheet .bar{position:absolute!important;top:0;left:88px;right:88px;z-index:3;padding:4px 8px 14px!important;background:linear-gradient(rgba(0,0,0,.75),transparent);max-width:none}
+ .js.player-open .scope.sheet .lower,.js.player-open .scope.sheet .strip{display:none!important}
+ .js.player-open .scope.sheet .rail{position:absolute!important;left:100px;right:100px;bottom:46px;margin:0!important;z-index:3}
+ .js.player-open .scope.sheet .ctrl{position:absolute!important;left:88px;right:88px;bottom:0;z-index:3;padding:14px 10px 4px!important;background:linear-gradient(transparent,rgba(0,0,0,.75))}
+ .js.player-open .scope.sheet .ctrl .hint,.js.player-open .scope.sheet .ctrl>span{display:none}
+ .js.player-open .scope.sheet .pnav{display:block!important;position:static!important;padding:0!important}
+ .js.player-open .scope.sheet .pnav button{position:absolute!important;top:50%;transform:translateY(-50%);width:80px;min-height:56px;padding:0 6px!important;font-size:11px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;z-index:4}
+ .js.player-open .scope.sheet .pnav [data-a=pprev]{left:4px}
+ .js.player-open .scope.sheet .pnav [data-a=pnext]{right:4px}
+ .js.player-open .scope.sheet .pnav [data-a=pclose]{display:none!important}
+}
+/* portrait phones: a bigger picture is one tap away (⛶ full screen, which turns sideways on Android) or a turn of the phone */
+@media (orientation:portrait) and (max-width:899px){
+ .js.player-open .scope.reelbig .ctrl [data-a=full]::after{content:" full screen";font-size:11px;letter-spacing:.08em}
+ .js.player-open .scope.reelbig .ctrl [data-a=full]{width:auto!important;padding:0 14px!important;border-radius:22px;display:inline-flex!important;align-items:center;gap:4px;white-space:nowrap}
+ .js.player-open .scope.reelbig .ctrl .hint{font-size:0!important}
+ .js.player-open .scope.reelbig .ctrl .hint::after{content:"↻ or turn your phone sideways";font-size:10.5px;letter-spacing:.08em;color:#c9d3d1}
+}
+@media (orientation:landscape) and (max-height:500px){
+ .js.player-open .scope.sheet .bar{width:auto!important;box-sizing:border-box;display:flex!important;align-items:center;gap:8px}
+ .js.player-open .scope.sheet .bar .ttl{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ .js.player-open .scope.sheet .bar .tc,.js.player-open .scope.sheet .bar .x{flex:none}
+}
+/* ---- QA round 4 (LOW): every inline text link is a 44px target too (sky list, mailto, Spotify / Apple / YouTube, joio.co) */
+main .skylist li a,main .skylist h2.label a{display:flex;align-items:center;min-height:44px;box-sizing:border-box}
+main a:not([class]){display:inline-flex;align-items:center;min-height:44px;vertical-align:middle;box-sizing:border-box}
+main a.btn{min-height:44px;display:inline-flex;align-items:center;box-sizing:border-box}
+@media (orientation:landscape) and (max-height:500px){
+ .hero .poem{max-width:44vw!important}
+ .hero .ppager{gap:4px}.hero .ppager button{padding:0 10px;font-size:10.5px}
+ .hero .ppager .pp-next{font-size:0!important}.hero .ppager .pp-next::after{content:"more ›";font-size:10.5px;letter-spacing:.12em}.hero .ppager .pp-next[data-last]::after{content:"↺ start"}
+}

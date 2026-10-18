@@ -15,10 +15,7 @@
 .roles{position:absolute;left:24px;top:31svh;margin:0;font-size:9.5px;letter-spacing:.24em}
 .poem{position:absolute;left:24px;right:24px;top:calc(31svh + 26px);margin:0;font-family:var(--d);font-size:12.5px;letter-spacing:.09em;line-height:1.75;text-transform:uppercase}
 .poem span{display:block}
-.poem span:nth-child(n+5){opacity:.55}.poem span:nth-child(n+6){opacity:.35;filter:blur(.5px)}.poem span:nth-child(n+7){opacity:.2;filter:blur(1.2px)}
-.motion .poem span{opacity:0;transform:translateY(14px);transition:opacity 1.2s ease,transform 1.2s ease,filter 1.2s}
-.motion .poem.go span{opacity:1;transform:none}
-.motion .poem.go span:nth-child(n+5){opacity:.55}.motion .poem.go span:nth-child(n+6){opacity:.35}.motion .poem.go span:nth-child(n+7){opacity:.2}
+/* the whole poem is readable on arrival, every visit: no fade ramp, no delayed reveal. It only melts when you dive (below). */
 /* the poem melts as the dive begins: each line blurs, runs down and dissolves into the water */
 .hero.melt .poem span,.hero.melt .roles,.hero.melt .name{transition:opacity .55s ease-in,transform .6s cubic-bezier(.5,0,.9,.5),filter .5s!important;opacity:0!important;filter:blur(7px)!important;transform:translateY(36px) scaleY(1.9)!important;transform-origin:50% 0}
 .hero.melt .poem span:nth-child(1){transition-delay:0s!important}.hero.melt .poem span:nth-child(2){transition-delay:.04s!important}.hero.melt .poem span:nth-child(3){transition-delay:.08s!important}.hero.melt .poem span:nth-child(4){transition-delay:.12s!important}.hero.melt .poem span:nth-child(n+5){transition-delay:.16s!important}
