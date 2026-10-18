@@ -10,7 +10,7 @@ GJ.mods.scope=function(main,SIG){
   var frame=root.querySelector('.frame'),big=root.querySelector('.big'),tc=root.querySelector('.tc'),ttl=root.querySelector('.ttl'),
       rail=root.querySelector('.rail'),head=root.querySelector('.head'),strip=root.querySelector('.strip'),lower=root.querySelector('.lower'),
       bPlay=root.querySelector('[data-a=play]'),bSnd=root.querySelector('[data-a=snd]'),bFull=root.querySelector('[data-a=full]'),bBack=root.querySelector('[data-a=back]'),bX=root.querySelector('[data-a=close]'),D=document.documentElement,pushed=false,back2=null;
-  var vid=null,dur=99.76,cur=-1;
+  var vid=null,dur=99.76,cur=-1,cur2=null;
   function pad(n){return(n<10?'0':'')+n}
   function tcode(s){var f=Math.floor((s%1)*FPS);s=Math.floor(s);return'00:'+pad(Math.floor(s/60))+':'+pad(s%60)+':'+pad(f)}
   /* rail ticks: one per cut */
@@ -38,13 +38,21 @@ GJ.mods.scope=function(main,SIG){
     if(at!=null){vid.currentTime=at}
     vid.play().catch(function(){})}
   function reel(){ /* back from an external film to the reel */
-    var f=frame.querySelector('iframe');if(f)f.remove();frame.classList.remove('ext');D.classList.remove('player-open','modal');bX.hidden=true;D.classList.remove('frozen'); /* the sky only freezes while the full-screen overlay is open, never for the inline reel */ttl.textContent='film · reel 2026';
+    var f=frame.querySelector('iframe');if(f)f.remove();frame.classList.remove('ext');if(!R){D.classList.remove('player-open','modal');bX.hidden=true;D.classList.remove('frozen')} /* the sky only freezes while the full-screen overlay is open, never for the inline reel */ttl.textContent='film · reel 2026';
     bBack.hidden=true;bPlay.hidden=false;bFull.hidden=false;rail.hidden=false;strip.hidden=false;
-    document.querySelectorAll('.row.lit').forEach(function(r){r.classList.remove('lit')});
-    if(location.hash)history.replaceState(null,'',location.pathname+location.search);
+    document.querySelectorAll('.row.lit').forEach(function(r){r.classList.remove('lit')});cur2=null;crumb(R?'reel 2026':null);pn();
+    if(location.hash&&!R)history.replaceState(null,'',location.pathname+location.search);
+    if(!R&&back2&&document.contains(back2)){try{back2.focus({preventScroll:true})}catch(_){}}back2=null}
+  /* phones: the reel opens in the full-screen 2.39 player (with ✕, Back closes it); desktop plays it in place */
+  var R=false,PH=matchMedia('(max-width: 899px), (pointer: coarse)');
+  function openReel(){if(R)return;R=true;crumb('reel 2026');setTimeout(pn);var ae=document.activeElement;back2=ae&&ae!==document.body&&!root.contains(ae)?ae:null;
+    D.classList.add('player-open','frozen','modal');root.classList.add('reelbig');bX.hidden=false;try{bX.focus({preventScroll:true})}catch(_){}}
+  function closeReel(){if(!R)return;R=false;if(!frame.classList.contains('ext'))crumb(null);if(vid)vid.pause();root.classList.remove('reelbig');
+    if(!frame.classList.contains('ext')){D.classList.remove('player-open','modal','frozen');bX.hidden=true}
     if(back2&&document.contains(back2)){try{back2.focus({preventScroll:true})}catch(_){}}back2=null}
-  big.addEventListener('click',function(){load()});
-  bPlay.addEventListener('click',function(){if(!vid||vid.paused)load();else vid.pause()});
+  function start(at){if(PH.matches&&!R){if(location.hash!=='#reel'){pushed=true;history.pushState(history.state,'','#reel')}openReel()}load(at)}
+  big.addEventListener('click',function(){start()});
+  bPlay.addEventListener('click',function(){if(!vid||vid.paused)start();else vid.pause()});
   bSnd.addEventListener('click',function(){if(!vid)return;vid.muted=!vid.muted;bSnd.setAttribute('aria-pressed',String(!vid.muted));bSnd.textContent=vid.muted?'♪̸':'♪'});
   bFull.addEventListener('click',function(){load();var el=vid;
     if(el.requestFullscreen){var q=el.requestFullscreen();q&&q.catch&&q.catch(function(){});return}
@@ -52,7 +60,7 @@ GJ.mods.scope=function(main,SIG){
     function ios(){try{el.webkitEnterFullscreen()}catch(e){}}
     if(el.webkitEnterFullscreen){if(el.readyState>=1)ios();else el.addEventListener('loadedmetadata',ios,{once:true})}});
   
-  strip.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;reel();load(S[+b.dataset.i].t+.05)});
+  strip.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;if(frame.classList.contains('ext'))reel();start(S[+b.dataset.i].t+.05)});
   function scrub(e){var r=rail.getBoundingClientRect();var x=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));load(x*(vid&&vid.duration||dur))}
   rail.addEventListener('pointerdown',function(e){rail.setPointerCapture(e.pointerId);scrub(e);rail.onpointermove=scrub});
   rail.addEventListener('pointerup',function(){rail.onpointermove=null});
@@ -68,13 +76,26 @@ GJ.mods.scope=function(main,SIG){
     ttl.textContent=f.title;tc.textContent=f.dur||'';lower.innerHTML='<span>'+esc(f.title)+'</span><small>'+esc(f.cat||'film')+'</small> <a href="'+f.url+'" target="_blank" rel="noopener">open ↗</a>';
     bBack.hidden=false;bPlay.hidden=true;bFull.hidden=true;rail.hidden=true;strip.hidden=true;bSnd.hidden=true;
     document.querySelectorAll('.row').forEach(function(r){r.classList.toggle('lit',r.dataset.n==n)});
-    }
+    cur2=+n;crumb(f.title);pn()}
   function fromHash(){var m=location.hash.match(/play=(\d+)/);
     if(m&&!F[+m[1]]){pushed=false;history.replaceState(null,'',location.pathname+location.search);m=null} /* dead or invalid #play= -> clean URL */
-    if(m)playFilm(+m[1]);else if(frame.classList.contains('ext'))reel()}
+    if(m){playFilm(+m[1]);return}if(frame.classList.contains('ext'))reel();
+    if(location.hash==='#reel'){openReel();load()}else if(R)closeReel()}
+  window.__scopePushed=function(){pushed=true};window.__scopeFrom=function(){fromHash()};
   window.__scopeSwap=function(n){if(!F[n])return false;history.replaceState(null,'','#play='+n);playFilm(+n);return true};
-  addEventListener('hashchange',function(){if(/play=/.test(location.hash))pushed=true;fromHash()},O);fromHash();
-  function shut(){if(pushed){pushed=false;history.back()}else reel()}
+  addEventListener('hashchange',function(){if(/play=|^#reel$/.test(location.hash))pushed=true;fromHash()},O);fromHash();
+  function shut(){if(pushed){pushed=false;history.back()}else{if(frame.classList.contains('ext'))reel();if(R){closeReel();if(location.hash==='#reel')history.replaceState(history.state,'',location.pathname+location.search)}}}
+  /* C-09 #6: visible twins for the gestures: ‹ prev / next › and ✕ close, as words in the thumb zone */
+  var pnv=root.querySelector('.pnav'),FK=Object.keys(F).map(Number).sort(function(a,b){return a-b});
+  function crumb(t){window.GJ&&GJ.crumb&&GJ.crumb(t)}
+  function pn(){if(!pnv)return;var ext=frame.classList.contains('ext');
+    pnv.querySelector('[data-a=pprev]').textContent=ext?'‹ prev film':'‹ prev shot';pnv.querySelector('[data-a=pnext]').textContent=ext?'next film ›':'next shot ›';
+    pnv.querySelector('[data-a=pclose]').textContent=ext?'✕ close · back to film':'✕ close'}
+  if(pnv)pnv.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var a=b.dataset.a;
+    if(a==='pclose'){shut();return}var dir=a==='pnext'?1:-1;
+    if(frame.classList.contains('ext')&&cur2!=null){var i=FK.indexOf(cur2),n=FK[(i+dir+FK.length)%FK.length];window.__scopeSwap(n);return}
+    var k=Math.max(1,Math.min(S.length-2,(cur<1?1:cur)+dir));load(S[k].t+.05)},O);
+  pn();
   bX.addEventListener('click',shut);bBack.addEventListener('click',shut);
   addEventListener('keydown',function(e){if(!D.classList.contains('player-open'))return;if(e.key==='Escape')shut();else trapTab(root,e)},O);
   /* ctrl/pinch-wheel over the player would zoom the browser page: block it */
@@ -92,10 +113,15 @@ GJ.mods.scope=function(main,SIG){
 main.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('.row a');if(!a||e.metaKey||e.ctrlKey)return;
   e.preventDefault();var n=a.parentNode.dataset.n;
   if(document.documentElement.classList.contains('player-open')&&window.__scopeSwap&&window.__scopeSwap(n))return; /* another film while one is open: replace, so ✕ doesn't reopen the first */
-  if(location.hash==='#play='+n)dispatchEvent(new HashChangeEvent('hashchange'));else location.hash='play='+n},O);
+  openN(n)},O);
+/* push #play=NN without a fragment jump (assigning location.hash scrolls the page to the top when no element matches) */
+function openN(n){if(location.hash!=='#play='+n)history.pushState(history.state,'','#play='+n);window.__scopePushed&&window.__scopePushed();window.__scopeFrom&&window.__scopeFrom()}
 /* any other same-page #play= link (sky band stars) while a film is open: replace too */
 document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href*="#play="]');if(!a||a.closest('.row')||e.metaKey||e.ctrlKey||e.defaultPrevented)return;
   var u=new URL(a.href,location.href);if(u.pathname!==location.pathname||!document.documentElement.classList.contains('player-open'))return;
   var n=(u.hash.match(/play=(\d+)/)||[])[1];if(n&&window.__scopeSwap&&window.__scopeSwap(n))e.preventDefault()},O);
+/* same-page #play= links (sky band stars) when no film is open: open without the fragment jump */
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href*="#play="]');if(!a||a.closest('.row')||e.metaKey||e.ctrlKey||e.defaultPrevented)return;
+  var u=new URL(a.href,location.href);if(u.pathname!==location.pathname)return;var n=(u.hash.match(/play=(\d+)/)||[])[1];if(!n)return;e.preventDefault();openN(n)},O);
   SIG.addEventListener('abort',function(){if(vid){vid.pause();vid.removeAttribute('src');vid.load()}D.classList.remove('player-open','frozen','modal')});
 };

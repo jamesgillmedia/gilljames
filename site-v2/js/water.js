@@ -3,6 +3,9 @@
    Fallbacks: no WebGL / Save-Data / slow device (<30 fps over 1.5 s) -> the still poster stays.
    Reduced motion -> a single still frame. Pauses off-screen and when the tab is hidden. */
 (function(){
+/* The poster and the poem paint first. The GPU work (shader compile can block a phone's main thread for seconds on some
+   Android GPUs) waits until the page has loaded and the browser is idle, so arrival is never a black screen. */
+var RUN=function(){
   var hero=document.querySelector('.hero'),c=document.getElementById('gl'),poster=document.getElementById('poster');
   if(!hero||!c)return;
   var con=navigator.connection||{};
@@ -46,7 +49,8 @@
     var b=g.createBuffer();g.bindBuffer(g.ARRAY_BUFFER,b);g.bufferData(g.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),g.STATIC_DRAW);
     var l=g.getAttribLocation(pr,'p');g.enableVertexAttribArray(l);g.vertexAttribPointer(l,2,g.FLOAT,false,0,0);
     ['T','R','M','MO','I','t','mb','sw','H'].forEach(function(n){U[n]=g.getUniformLocation(pr,n)});U.S=g.getUniformLocation(pr,'S');return true}
-  if(!prog()){c.remove();return}
+  var pt=performance.now();if(!prog()){c.remove();return}
+  if(performance.now()-pt>900){c.remove();return} /* the GPU took too long just to compile: keep the still poster */
   var SA=new Float32Array(48*3),hole=null;
   window.__water={stars:function(a){SA.fill(0);a.slice(0,48).forEach(function(p,i){SA[i*3]=p[0];SA[i*3+1]=p[1];SA[i*3+2]=p[2]});g.uniform3fv(U.S,SA);if(!run)frame(performance.now())},
     hole:function(x,y){if(dead||lost||!c.classList.contains('on'))return false;act=true;hole={x:x,y:y,t:performance.now()};g.uniform2f(U.M,x,y);reduce=false;play();return true},live:function(){return !dead&&!lost&&c.classList.contains('on')},
@@ -82,4 +86,8 @@
     new IntersectionObserver(function(es){vis=es[0].isIntersecting;vis&&!document.hidden?play():stop()}).observe(hero);
     document.addEventListener('visibilitychange',function(){document.hidden?stop():play()});
     play()}
+};
+var ran=false;function go(){if(ran)return;ran=true;RUN()}
+function later(){(window.requestIdleCallback||function(f){setTimeout(f,150)})(go,{timeout:1200})}
+if(document.readyState==='complete')later();else{addEventListener('load',later);setTimeout(later,3000)}
 })();
