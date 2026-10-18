@@ -1,0 +1,109 @@
+{
+  "title": "Gill James · work-in-progress previews",
+  "sections": [
+    {
+      "id": "reel-v7",
+      "title": "Reel v7"
+    },
+    {
+      "id": "site-v3",
+      "title": "Site v3"
+    }
+  ],
+  "items": [
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/reel-v7-firstcut-newsound.mp4",
+      "poster": "posters/reel-v7-firstcut-newsound.jpg",
+      "title": "First cut + new sound mix",
+      "desc": "Lost Coffee ‘Lost in Time’, voice lines from 19 Crimes, BMW Drift and AXE, water ambience. Current direction. Legends X7 and extra sound layers coming next.",
+      "time": "2026-10-17T23:36:00-07:00",
+      "badge": "Current direction"
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/reel-v7-pass4-opening.mp4",
+      "poster": "posters/reel-v7-pass4-opening.jpg",
+      "title": "Pass 4 opening",
+      "desc": "First 27 s: rebuilt ocean, dense imagery in constellations, HUD titles. Not chosen; kept for reference.",
+      "time": "2026-10-17T23:27:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/reel-v7-firstcut-preview.mp4",
+      "poster": "posters/reel-v7-firstcut-preview.jpg",
+      "title": "First cut preview",
+      "desc": "First cut, full 73 s, original track. Gill picked this look.",
+      "time": "2026-10-17T23:09:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "audio",
+      "file": "media/v7_audio_sample.m4a",
+      "poster": null,
+      "title": "First audio draft",
+      "desc": "Audio only, 73 s.",
+      "time": "2026-10-17T23:07:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/v7_preview_clip1.mp4",
+      "poster": "posters/v7_preview_clip1.jpg",
+      "title": "Preview clip 1",
+      "desc": "Opening: water to constellation.",
+      "time": "2026-10-17T22:52:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/v7_preview_clip2.mp4",
+      "poster": "posters/v7_preview_clip2.jpg",
+      "title": "Preview clip 2",
+      "desc": "Tile wall forms ᑕᐣᓯ, cut to heroes.",
+      "time": "2026-10-17T22:52:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/v7_preview_clip3.mp4",
+      "poster": "posters/v7_preview_clip3.jpg",
+      "title": "Preview clip 3",
+      "desc": "Helmet pull-out to the close.",
+      "time": "2026-10-17T22:52:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "site-v3",
+      "type": "placeholder",
+      "file": null,
+      "poster": null,
+      "title": "v3.1 constellation one-sheet layer",
+      "desc": "Previews coming.",
+      "time": null,
+      "badge": null
+    },
+    {
+      "section": "site-v3",
+      "type": "video",
+      "file": "media/site-v3-zoom-preview.mp4",
+      "poster": "posters/site-v3-zoom-preview.jpg",
+      "title": "v3 film zoom",
+      "desc": "L0 → L1 → L2 → full-screen work → back out (live at site-v3/).",
+      "time": "2026-10-17T22:45:00-07:00",
+      "badge": null,
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/site-v3/",
+        "label": "Open site v3"
+      }
+    }
+  ]
+}

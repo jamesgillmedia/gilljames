@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#04070b">
+<title>Gill James ᑕᐣᓯ · previews</title>
+<!-- Content lives in previews.json. Add a preview with ../add_preview.sh (see README.md). -->
+<style>
+@font-face{font-family:"Poppins";font-weight:300;font-display:swap;src:url(fonts/poppins-300.woff2) format("woff2")}
+@font-face{font-family:"Poppins";font-weight:200;font-display:swap;src:url(fonts/poppins-200.woff2) format("woff2")}
+@font-face{font-family:"Julius Sans One";font-display:swap;src:url(fonts/julius-sans-one.woff2) format("woff2")}
+@font-face{font-family:"Syl";font-weight:700;font-display:block;src:url(fonts/noto-canadian-aboriginal-subset.woff2) format("woff2");unicode-range:U+1400-167F}
+:root{--bg:#04070b;--mint:#55DAA1;--mint-tint:rgba(85,218,161,.10);--ink:#eef3f5;--dim:#c9d3d6;--meta:#93a1a6;--line:rgba(255,255,255,.18);
+  --cy:rgba(10,189,240,.45);--rd:rgba(254,1,1,.45);--here:#ffd84a;--card:rgba(6,11,17,.78);--r:12px;
+  --mono:ui-monospace,"SF Mono",Menlo,monospace;
+  --sl:env(safe-area-inset-left,0px);--sr:env(safe-area-inset-right,0px);--st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html{background:var(--bg);color:var(--ink);-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100dvh;font:300 15px/1.45 Poppins,"Syl",system-ui,sans-serif;-webkit-font-smoothing:antialiased;
+  padding:calc(var(--st) + 14px) max(14px,var(--sr)) calc(var(--sb) + 28px) max(14px,var(--sl));
+  background:radial-gradient(1px 1px at 12% 8%,#fff,transparent),radial-gradient(1px 1px at 72% 4%,#fff,transparent),radial-gradient(1.5px 1.5px at 40% 14%,#fff,transparent),
+  radial-gradient(1px 1px at 85% 22%,#fff,transparent),radial-gradient(1px 1px at 22% 30%,#fff,transparent),radial-gradient(1.5px 1.5px at 60% 38%,#fff,transparent),
+  radial-gradient(1px 1px at 92% 48%,#fff,transparent),radial-gradient(1px 1px at 8% 58%,#fff,transparent),radial-gradient(1px 1px at 50% 70%,#fff,transparent),
+  radial-gradient(1px 1px at 78% 84%,#fff,transparent),radial-gradient(ellipse at 50% 0,#13202e,var(--bg) 70%) fixed}
+main{max-width:640px;margin:0 auto}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--mint);outline-offset:2px;border-radius:6px}
+.sig{font-family:"Syl",sans-serif;font-weight:700}
+/* header */
+.ttl{margin:0 0 18px}
+.kick{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.id{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px}
+h1{margin:6px 0 0;font:400 28px/1.1 "Julius Sans One",sans-serif;letter-spacing:.06em;color:var(--mint);text-transform:uppercase;transform:rotate(-3deg);transform-origin:left center;
+  text-shadow:2px 2px 0 var(--cy),-2px -2px 0 var(--rd)}
+.moon{width:40px;height:40px;flex:none;border-radius:50%;box-shadow:inset -11px 3px 0 0 #f2f5f7;filter:drop-shadow(1.5px 1.5px 0 var(--cy)) drop-shadow(-1.5px -1.5px 0 var(--rd))}
+.sub{margin:10px 0 0;color:var(--dim);font-size:14px}
+.jump{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.jump a{display:inline-grid;place-items:center;min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:22px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;background:rgba(3,7,12,.5)}
+.jump a:active{background:var(--mint-tint)}
+/* sections */
+.band{margin:26px 0 0;scroll-margin-top:12px}
+.bh{display:flex;align-items:center;gap:10px;margin:0 0 4px;font:400 21px/1.15 "Julius Sans One",sans-serif;letter-spacing:.06em;text-transform:uppercase}
+.L{flex:0 0 34px;width:34px;height:34px;border-radius:50%;border:1px solid var(--mint);color:var(--mint);display:inline-flex;align-items:center;justify-content:center;font:400 13px/1 Poppins,sans-serif;letter-spacing:.04em}
+.mnote{display:block;margin:0 0 12px 44px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--meta)}
+/* vertical timeline */
+.tline{list-style:none;margin:0;padding:0;position:relative;display:flex;flex-direction:column;gap:16px}
+.tline::before{content:"";position:absolute;left:8px;top:14px;bottom:14px;border-left:1.5px dashed rgba(255,255,255,.28)}
+.tline>li{position:relative;padding-left:26px;min-width:0}
+.tline>li::before{content:"";position:absolute;left:3px;top:15px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:1.5px solid var(--dim);z-index:1}
+.tline>li.cur::before{background:var(--mint);border-color:var(--mint);box-shadow:0 0 0 4px rgba(85,218,161,.22),0 0 12px rgba(85,218,161,.6)}
+.tline>li.ph::before{border-style:dashed;background:transparent}
+/* cards */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.35);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.cur .card{border-color:rgba(85,218,161,.7);box-shadow:0 0 0 1px rgba(85,218,161,.25),0 8px 24px rgba(0,0,0,.45)}
+.ph .card{border-style:dashed;background:rgba(3,7,12,.35);box-shadow:none}
+.card video{display:block;width:100%;max-height:72svh;background:#000;aspect-ratio:var(--ar,16/9);object-fit:contain}
+.card audio{display:block;width:calc(100% - 26px);margin:14px 13px 2px;height:44px}
+.cb{padding:11px 13px 13px}
+.meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:0 0 6px}
+.when{font-family:var(--mono);font-size:11.5px;color:var(--meta);white-space:nowrap}
+.kind{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);border:1px solid var(--line);border-radius:10px;padding:0 7px;line-height:1.7}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:#04130c;background:var(--mint);border-radius:4px;padding:2px 8px;line-height:1.45;transform:rotate(-2deg);box-shadow:1.5px 1.5px 0 var(--cy),-1.5px -1.5px 0 var(--rd);white-space:nowrap}
+.badge::before{content:"★";font-size:10px}
+.ct{margin:0 0 4px;font:400 17px/1.25 "Julius Sans One",sans-serif;letter-spacing:.04em}
+.cx{margin:0;color:var(--dim);font-size:14.5px;line-height:1.5;overflow-wrap:anywhere}
+.btn{display:inline-flex;align-items:center;gap:8px;margin-top:12px;min-height:44px;padding:0 18px;border-radius:22px;background:var(--mint);color:#04130c;text-decoration:none;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:300}
+.btn:active{transform:translateY(1px)}
+.file{display:block;margin-top:8px;font-family:var(--mono);font-size:11px;color:var(--meta);overflow-wrap:anywhere}
+.file a{color:var(--meta)}
+.foot{margin:30px 0 0;text-align:center;font-family:var(--mono);font-size:11px;color:var(--meta);line-height:1.6}
+.err{border:1px dashed var(--rd);border-radius:var(--r);padding:12px;color:var(--dim)}
+@media (min-width:480px){h1{font-size:34px}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<main>
+<header class="ttl">
+  <div class="kick">work in progress · previews</div>
+  <div class="id"><h1>Gill James <span class="sig">ᑕᐣᓯ</span></h1><i class="moon" aria-hidden="true"></i></div>
+  <p class="sub">Every preview for reel v7 and site v3, newest first, so you can play and compare them.</p>
+  <nav class="jump" id="jump" aria-label="Sections"></nav>
+</header>
+<div id="list"><noscript><p class="err">This page needs JavaScript to list the previews. The raw list is in <a href="previews.json">previews.json</a>.</p></noscript></div>
+<p class="foot" id="foot">times are Vancouver time</p>
+</main>
+<script>
+(function(){
+  var TZ = "America/Vancouver";
+  var esc = function(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]; }); };
+  function when(iso){
+    if(!iso) return "";
+    var d = new Date(iso); if(isNaN(d)) return esc(iso);
+    try{
+      var day = new Intl.DateTimeFormat("en-CA",{timeZone:TZ,weekday:"short",month:"short",day:"numeric"}).format(d);
+      var t = new Intl.DateTimeFormat("en-US",{timeZone:TZ,hour:"numeric",minute:"2-digit",timeZoneName:"short"}).format(d);
+      return day.replace(/\./g,"") + " · " + t;
+    }catch(e){ return d.toISOString(); }
+  }
+  function card(it){
+    var cls = [it.badge === "Current direction" ? "cur" : "", it.type === "placeholder" ? "ph" : ""].join(" ").trim();
+    var h = '<li' + (cls ? ' class="' + cls + '"' : '') + '><article class="card">';
+    if(it.type === "video" && it.file){
+      h += '<video controls playsinline preload="metadata"' + (it.poster ? ' poster="' + esc(it.poster) + '"' : '') +
+           ' src="' + esc(it.file) + '"></video>';
+    }
+    if(it.type === "audio" && it.file){
+      h += '<audio controls preload="metadata" src="' + esc(it.file) + '"></audio>';
+    }
+    h += '<div class="cb"><div class="meta">';
+    if(it.time) h += '<time class="when" datetime="' + esc(it.time) + '">' + when(it.time) + '</time>';
+    if(it.type === "audio") h += '<span class="kind">audio</span>';
+    if(it.type === "placeholder") h += '<span class="kind">coming</span>';
+    if(it.badge) h += '<span class="badge">' + esc(it.badge) + '</span>';
+    h += '</div><h3 class="ct">' + esc(it.title) + '</h3>';
+    if(it.desc) h += '<p class="cx">' + esc(it.desc) + '</p>';
+    if(it.link && it.link.href) h += '<a class="btn" href="' + esc(it.link.href) + '" target="_blank" rel="noopener">' + esc(it.link.label || "Open") + ' <span aria-hidden="true">↗</span></a>';
+    if(it.file) h += '<span class="file"><a href="' + esc(it.file) + '" download>' + esc(it.file.split("/").pop()) + '</a></span>';
+    return h + '</div></article></li>';
+  }
+  function render(data){
+    var items = (data.items || []).map(function(it, i){ return {it: it, i: i}; });
+    // newest first; undated (placeholder) cards go on top; ties keep JSON order
+    items.sort(function(a, b){
+      var ta = a.it.time ? Date.parse(a.it.time) : Infinity, tb = b.it.time ? Date.parse(b.it.time) : Infinity;
+      return ta === tb ? a.i - b.i : tb - ta;
+    });
+    var out = "", nav = "", latest = 0;
+    (data.sections || []).forEach(function(s, si){
+      var mine = items.filter(function(x){ return x.it.section === s.id; });
+      var n = mine.filter(function(x){ return x.it.type !== "placeholder"; }).length;
+      nav += '<a href="#' + esc(s.id) + '">' + esc(s.title) + '</a>';
+      out += '<section class="band" id="' + esc(s.id) + '"><h2 class="bh"><span class="L">' + (si + 1) + '</span>' + esc(s.title) + '</h2>' +
+             '<span class="mnote">' + n + ' preview' + (n === 1 ? '' : 's') + ' · newest first</span><ol class="tline">';
+      mine.forEach(function(x){ out += card(x.it); if(x.it.time) latest = Math.max(latest, Date.parse(x.it.time)); });
+      out += '</ol></section>';
+    });
+    document.getElementById("jump").innerHTML = nav;
+    document.getElementById("list").innerHTML = out;
+    if(latest) document.getElementById("foot").textContent = "newest preview " + when(new Date(latest).toISOString()) + " · times are Vancouver time";
+    // portrait videos: size the box from the real aspect ratio once metadata loads
+    Array.prototype.forEach.call(document.querySelectorAll(".card video"), function(v){
+      v.addEventListener("loadedmetadata", function(){ if(v.videoWidth && v.videoHeight) v.style.setProperty("--ar", v.videoWidth + "/" + v.videoHeight); });
+      // only one plays at a time, so comparing is easy
+      v.addEventListener("play", function(){ Array.prototype.forEach.call(document.querySelectorAll("video,audio"), function(o){ if(o !== v) o.pause(); }); });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll(".card audio"), function(a){
+      a.addEventListener("play", function(){ Array.prototype.forEach.call(document.querySelectorAll("video,audio"), function(o){ if(o !== a) o.pause(); }); });
+    });
+  }
+  fetch("previews.json?v=" + Date.now(), {cache: "no-store"})
+    .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(render)
+    .catch(function(e){ document.getElementById("list").innerHTML = '<p class="err">Could not load previews.json (' + esc(e.message) + ').</p>'; });
+})();
+</script>
+</body>
+</html>
