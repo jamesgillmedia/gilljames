@@ -12,6 +12,16 @@
   ],
   "items": [
     {
+      "section": "site-v3",
+      "type": "video",
+      "file": "media/v31_preview_3.mp4",
+      "poster": "posters/v31_preview_3.jpg",
+      "title": "v3.1 full one-sheet story",
+      "desc": "38 s: whole sky, Film, grid, a work, pull out to the massive grid, back to the constellation, Photo.",
+      "time": "2026-10-18T00:21:48-07:00",
+      "badge": null
+    },
+    {
       "section": "reel-v7",
       "type": "video",
       "file": "media/reel-v7-pass5-small.mp4",
