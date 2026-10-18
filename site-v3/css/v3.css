@@ -179,3 +179,42 @@ header.top{display:flex;justify-content:space-between;align-items:center;min-hei
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 html.gl .moon{visibility:hidden}
+
+/* ---------- v3.1 · the constellation sheet (a full-screen layer like the work view; the column stays in flow under it) ---------- */
+html.sheet-on,html.sheet-on body{overflow:hidden}
+.sheet{position:fixed;left:0;right:0;top:0;bottom:calc(var(--dock) + var(--sb));z-index:35;background:#03050a;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none;contain:strict}
+.sheet[hidden]{display:none}
+.sheet{background:radial-gradient(120% 75% at 50% 42%,#16223a 0%,#0a1120 55%,#03050a 100%)}
+.sf{position:absolute;left:0;top:0;width:calc(100vw / .8 + 1024px);height:calc(100vh / .8 + 1024px);transform-origin:0 0;will-change:transform;background-repeat:repeat;background-size:512px 512px;pointer-events:none}
+.sheet>canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.sw{position:absolute;left:0;top:0;width:1px;height:1px;transform-origin:0 0;will-change:transform,opacity;opacity:0;pointer-events:none}
+.card{position:absolute;left:0;top:0;width:104px;will-change:transform;display:block;color:var(--ink);text-decoration:none}
+.card .cv{position:relative;display:block;height:58.5px;border-radius:3px;overflow:hidden;background:#0d151c;box-shadow:0 0 12px rgba(150,200,255,.25)}
+.card.sq .cv{height:104px}
+.card .cv{background-repeat:no-repeat}.sw.far .cc{visibility:hidden}.sw .cc{transition:opacity .3s}.sw.big .cc{opacity:0}.sw.far .card .cv{box-shadow:none}
+.card .cv img,.card .cv video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.card .cv.tx{display:grid;place-items:center;font:400 10px/1.2 "Julius Sans One";letter-spacing:.12em;text-transform:uppercase;color:var(--mint);border:1px solid rgba(85,218,161,.35)}
+.card .cc{display:block;margin-top:4px}.card .cc b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-weight:300;font-size:11px;line-height:1.3}
+.card .cc small{display:block;font-size:9.5px;margin-top:1px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.slabs{position:absolute;inset:0;pointer-events:none}
+.sl{position:absolute;left:0;top:0;min-width:92px;min-height:44px;padding:4px 8px;border:0;background:none;color:#e6edf0;pointer-events:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:opacity .25s;will-change:transform}
+.sl b{font:400 11px/1 "Julius Sans One";letter-spacing:.24em;text-transform:uppercase;padding-left:.24em;text-shadow:0 0 6px #03050a,0 0 2px #03050a}
+.sl small{font:300 10px/1.1 Poppins;color:#c3ccd0;letter-spacing:.06em;text-shadow:0 0 4px #03050a}
+.shud{position:absolute;left:0;right:0;top:0;display:flex;align-items:center;gap:8px;padding:calc(6px + var(--st)) max(8px,var(--sr)) 6px max(8px,var(--sl));background:linear-gradient(rgba(3,5,10,.9),rgba(3,5,10,0))}
+.shome{min-width:44px;min-height:44px;border:0;background:none;color:#fff;font-size:18px;text-shadow:-1px 0 rgba(10,189,240,.7),1px 0 rgba(254,1,1,.6)}
+.crumb{flex:1;min-width:0;margin:0;text-align:center;font:300 11px/1.2 Poppins;letter-spacing:.22em;text-transform:uppercase;color:#d3dbde;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sheet .sx{flex:none}
+.shint{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);margin:0;padding:6px 12px;border-radius:14px;background:rgba(3,5,10,.75);font:300 11px/1.3 Poppins;letter-spacing:.06em;color:#d3dbde;white-space:nowrap;pointer-events:none}
+.portal{display:block;width:100%;max-width:520px;margin:6px auto 18px;padding:0;border:1px solid rgba(160,200,240,.28);border-radius:18px;background:#03050a;overflow:hidden;color:var(--dim);cursor:zoom-in}
+.portal canvas{display:block;width:100%;height:min(52dvh,380px)}
+.portal span{display:block;padding:12px 8px;font:300 11px/1.3 Poppins;letter-spacing:.14em;text-transform:uppercase;color:#d3dbde}
+.js .portal[hidden]{display:block}
+@media (orientation:landscape) and (max-height:500px){.portal canvas{height:62dvh}}
+@media (prefers-reduced-motion:reduce){.sl{transition:none}}
+
+/* QA fixes (v3.1) */
+.imm{touch-action:none} /* the work view never scrolls: two fingers there are always ours, the page can never zoom under it */
+.imm.fv{bottom:0;z-index:60;background:#000}.imm.fv .imm-bot{display:none}.imm.fv .imm-top{position:absolute;left:0;right:0;top:0;z-index:3;background:linear-gradient(rgba(0,0,0,.85),transparent)}
+.imm.fv .imm-stage{grid-row:1/-1}.imm.fv .frame{width:100%;height:100%;max-height:none;aspect-ratio:auto}.imm.fv .amb{display:none}
+@media (orientation:portrait){.imm.playing:not(.fv) .frame.ext{aspect-ratio:16/10}} /* a bigger player in portrait (was a 151px sliver) */
+.ch.lv1 .head,.ch.lv2 .head{position:sticky;top:0;z-index:6;background:linear-gradient(rgba(4,7,11,.96),rgba(4,7,11,.9));box-shadow:0 6px 12px -6px rgba(0,0,0,.6)} /* the chapter name stays while you are deep inside it */
