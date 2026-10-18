@@ -111,12 +111,8 @@ html:not(.js) .dock{position:static;transform:none;margin:20px auto;width:max-co
 /* ---- controls appear in context: the shell sets html.ui-idle after ~2.5 s without input, while scrolling down, or while
    the sky flies; any touch, tap, key, scroll-up or mouse move brings them back. Keyboard focus always keeps them. */
 .top,.dock,.sp .zctl,.sp .listbtn,.scope .ctrl,.scope .rail,.scope .strip{transition:opacity .45s ease,transform .45s ease}
-html.ui-idle .top,html.ui-idle .dock,html.ui-idle .sp .zctl,html.ui-idle .sp .listbtn{opacity:0;pointer-events:none}
-html.ui-idle .dock{transform:translateX(-50%) translateY(12px)}
-html.ui-idle .scope:not(.paused) .ctrl,html.ui-idle .scope:not(.paused) .rail,html.ui-idle .scope:not(.paused) .strip{opacity:.0;pointer-events:none}
 html.ui-idle .top:focus-within,html.ui-idle .dock:focus-within,html.ui-idle .sp .zctl:focus-within,html.ui-idle .sp .listbtn:focus,html.ui-idle .scope .ctrl:focus-within{opacity:1;pointer-events:auto;transform:none}
 html.ui-idle .dock:focus-within{transform:translateX(-50%)}
-.player-open .scope .ctrl,.player-open .scope .bar{opacity:1!important;pointer-events:auto!important}
 @media (prefers-reduced-motion:reduce){.top,.dock,.sp .zctl,.sp .listbtn{transition:opacity .2s linear}html.ui-idle .dock{transform:translateX(-50%)}}
 /* ---- reveal as you arrive, fade as you leave (motion only) */
 .motion main .rv{filter:none;opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
@@ -127,7 +123,6 @@ html.ui-idle .dock:focus-within{transform:translateX(-50%)}
 .cname,.cname small{transition:opacity .4s}
 [data-lod] .cl:not(.near) .st .nm{opacity:0!important}
 [data-lod="1"] .cl.near .st.d .nm,[data-lod="2"] .cl.near .st .nm{opacity:1}
-html.flying:not(.ui-hold) .top,html.flying:not(.ui-hold) .dock{opacity:0;pointer-events:none}
 .vhint{color:#8d9a98}
 /* ---- QA re-test (c08-retest) */
 /* BLOCKER: the player overlay must beat `.js .sheet{position:relative}` */
@@ -151,3 +146,140 @@ html.scrolled.js .top{background:linear-gradient(#000 0,rgba(0,0,0,.85) 55%,tran
  .js .hero .dive{bottom:calc(58px + env(safe-area-inset-bottom))}
 }
 [tabindex="-1"]:focus{outline:none}
+/* ---- sky hit targets (S24 test: taps needed two tries). Every star is at least 44px on screen; a constellation catches
+   taps across its whole circle (at least 60px); a name catches taps around it. */
+.st{display:grid;place-items:center;min-width:calc(44px * var(--inv));min-height:calc(44px * var(--inv))}
+.st.deco{min-width:0;min-height:0}
+.cl .hit{left:calc(max(var(--r) * 1px, 30px * var(--inv)) * -1);top:calc(max(var(--r) * 1px, 30px * var(--inv)) * -1);width:calc(max(var(--r) * 2px, 60px * var(--inv)));height:calc(max(var(--r) * 2px, 60px * var(--inv)))}
+.cname::after{content:"";position:absolute;inset:calc(-14px * var(--inv)) calc(-10px * var(--inv))}
+/* the reel in the full-screen player (phones): controls fade while it plays and you're idle; any tap brings them back; ✕ never fades.
+   Inline (desktop) controls never fade, so no empty area is ever left. */
+html.ui-idle.player-open .scope.reelbig:not(.paused) .ctrl,html.ui-idle.player-open .scope.reelbig:not(.paused) .rail,
+html.ui-idle.player-open .scope.reelbig:not(.paused) .strip,html.ui-idle.player-open .scope.reelbig:not(.paused) .lower{opacity:0;pointer-events:none}
+.player-open .scope .bar,.player-open .scope .x{opacity:1!important;visibility:visible}
+.js.player-open .scope.reelbig.sheet{display:flex;flex-direction:column;justify-content:center;padding-bottom:env(safe-area-inset-bottom)}
+.js.player-open .scope.reelbig .bar{position:absolute;top:0;left:0;right:0;padding-top:max(10px,env(safe-area-inset-top));max-width:none}
+/* arrival is never black: night water colours under the poster while it loads, and if WebGL or the poster fail */
+.hero{background:radial-gradient(90% 55% at 68% 22%,#22344a 0,#0c1520 55%,#04070c 100%)}
+.cname{min-height:calc(46px * var(--inv));box-sizing:border-box}
+/* hidden chrome is never tappable, and for 350 ms after a wake it still isn't (no ghost taps on a bar that was invisible
+   when the finger came down) */
+/* 44 x 44 everywhere */
+.dk{min-width:44px}
+.top .wm{min-height:44px;min-width:44px;display:inline-flex;flex-direction:column;justify-content:center}
+.sp-full .listbtn{min-height:44px;min-width:44px;box-sizing:border-box;display:inline-flex;align-items:center}
+/* landscape home: smaller reflected labels so they don't crowd */
+@media (orientation:landscape) and (max-height:500px){.rc{font-size:8.5px;letter-spacing:.14em;padding:0 6px}}
+/* ---- (Gill, pre C-09) the header and the bottom bar never hide: always visible, always tappable, on every page.
+   Only the player's own controls fade while a film plays (✕ never does), and faded things are never tappable. */
+html.ui-waking.player-open .scope.reelbig .ctrl,html.ui-waking.player-open .scope.reelbig .rail,html.ui-waking.player-open .scope.reelbig .strip,html.ui-waking.player-open .scope.reelbig .lower{pointer-events:none}
+.js.player-open .dock{opacity:0!important;pointer-events:none!important}
+/* you are here */
+.dk[aria-current=page]{color:#04110d;background:var(--mint);border-radius:99px;font-weight:400}
+.dk[aria-current=page] i{color:#04110d}
+.dk.dkmoon[aria-current=page] i{filter:none;background:radial-gradient(circle at 34% 44%,transparent 0 52%,#04110d 54%)}
+/* reflections and anything visually hidden are never tap targets: blank water always dives */
+.refl,.refl *,.rc{pointer-events:none!important}
+.js.m-surface .surface-list,.js.m-surface .surface-list *{pointer-events:none!important}
+.st .nm{pointer-events:none}
+/* ================= C-09: magic but obvious. Wayfinding never hides. ================= */
+:root{--bar:56px;--hdr:48px;--here:#ffd84a}
+/* 2. top bar: breadcrumb + ≡ list; solid dark strip, never fades */
+.top{position:fixed;left:0;right:0;top:0;z-index:50;display:flex;align-items:center;gap:6px;height:auto;min-height:var(--hdr);box-sizing:border-box;
+ padding:env(safe-area-inset-top) max(6px,env(safe-area-inset-right)) 0 max(6px,env(safe-area-inset-left))!important;background:rgba(4,6,10,.94)!important;
+ -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 1px 0 rgba(255,255,255,.08)}
+.top>*,.top a,.top button{pointer-events:auto!important;opacity:1!important}
+.crumb{display:flex;align-items:center;flex:1;min-width:0;overflow:hidden;white-space:nowrap;font-size:12px;letter-spacing:.06em;text-transform:lowercase}
+.crumb a,.crumb .cw{display:inline-flex;align-items:center;gap:4px;min-height:44px;min-width:44px;padding:0 6px;justify-content:center;color:#e9efee;flex:none}
+.crumb a i{font-style:normal;color:#cfe3ff}
+.crumb a[aria-current=page]{color:#fff;font-weight:400}
+.crumb .cw{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;display:inline-block;line-height:44px;color:#fff}
+.crumb .sep{color:#6f7b7a;flex:none}
+.listtog{flex:none;display:inline-flex;align-items:center;gap:6px;min-height:44px;min-width:64px;justify-content:center;padding:0 12px;border-radius:99px;
+ color:#fff;font-size:12px;letter-spacing:.08em;background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
+.listtog i{font-style:normal}
+.page-top{padding-top:calc(var(--hdr) + 16px + env(safe-area-inset-top))!important}
+.js .sp-wrap.page-top{padding-top:calc(var(--hdr) + env(safe-area-inset-top))!important}
+/* 1. tab bar: five words, ≥64×48, thumb zone, the one yellow dot */
+.dock{left:0!important;right:0;bottom:0!important;transform:none!important;max-width:none!important;border-radius:0!important;display:grid!important;grid-template-columns:repeat(5,1fr);
+ padding:4px max(4px,env(safe-area-inset-right)) calc(4px + env(safe-area-inset-bottom)) max(4px,env(safe-area-inset-left))!important;background:rgba(4,6,10,.96)!important;
+ box-shadow:0 -1px 0 rgba(255,255,255,.1)!important;overflow:visible!important;z-index:50!important;opacity:1!important;pointer-events:auto!important}
+.dk{position:relative;min-width:64px!important;min-height:48px!important;font-size:13px!important;letter-spacing:.06em!important;color:#e9efee!important;background:none!important;padding:0 4px!important}
+.dk[aria-current=page]{color:#fff!important;font-weight:400}
+.dk[aria-current=page]::before{content:"";position:absolute;top:6px;left:50%;width:7px;height:7px;margin-left:-3.5px;border-radius:50%;background:var(--here);box-shadow:0 0 8px rgba(255,216,74,.7)}
+.js body{padding-bottom:calc(var(--bar) + env(safe-area-inset-bottom))!important}
+.js.m-surface body{padding-bottom:0!important}
+html:not(.js) .dock{position:static!important;display:grid!important}
+html:not(.js) .top{position:static}
+/* /sky/ controls above the tab bar */
+.sp-full .zctl{bottom:calc(var(--bar) + 12px + env(safe-area-inset-bottom))!important}
+.sp-full .zhint{bottom:calc(var(--bar) + 68px + env(safe-area-inset-bottom))!important;opacity:1}
+.sp .zctl button,.sp .zctl a{width:48px!important;height:48px!important;font-size:18px!important;color:#fff!important;background:rgba(10,14,20,.9)!important}
+/* 7. the list panel: between the bars, scrolls by itself, back to the sky in place */
+.listpanel{position:fixed;left:0;right:0;top:calc(var(--hdr) + env(safe-area-inset-top));bottom:calc(var(--bar) + env(safe-area-inset-bottom));z-index:48;
+ background:rgba(3,5,9,.97);overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.listpanel[hidden]{display:none}
+.lp-in{max-width:760px;margin:0 auto;padding:14px 18px 40px}
+.lp-h{margin:0 0 8px;font-size:12px;letter-spacing:.08em}
+.lp-h a{display:inline-flex;align-items:center;min-height:44px;color:#fff}
+.listpanel section{margin:18px 0 6px}
+.listpanel h2{margin:0;font-size:13px;letter-spacing:.2em}.listpanel h2 a{display:inline-flex;min-height:44px;align-items:center;color:var(--mint)}
+.listpanel h3{margin:6px 0 0;font-size:13px;font-weight:300}.listpanel h3 a{display:inline-flex;min-height:44px;align-items:center;color:#fff}
+.listpanel ul{list-style:none;margin:0;padding:0 0 0 12px}
+.listpanel li a{display:flex;align-items:center;min-height:44px;color:#d6dedd;font-size:14px;border-bottom:1px solid rgba(255,255,255,.06)}
+html.listopen .listtog{background:#fff;color:#000}
+/* 3 + 4. names always on, full contrast, ≥14px, never clipped */
+.cname{font-size:calc(14px * var(--inv))!important;color:#fff!important;opacity:1!important;letter-spacing:.14em!important;white-space:nowrap!important;width:auto!important;text-shadow:0 0 calc(6px * var(--inv)) #000}
+.cname b{font-weight:400}
+.cname small,.cl:not(.near) .cname small{display:inline!important;opacity:1!important;font-size:inherit!important;color:#d9e2e1!important;letter-spacing:.1em;margin:0!important;text-transform:lowercase}
+.cl.here .cname b{color:var(--mint)}
+.st .nm{color:#fff!important;font-size:calc(12px * var(--inv))!important;text-shadow:0 0 calc(5px * var(--inv)) #000}
+[data-lod] .cl.near .st .nm{opacity:1!important}
+/* 5. water names: real links, sized and visible; blank water dives to /sky/; the first-visit line */
+.rc{pointer-events:auto!important;min-height:44px;color:#f2f6f7!important;font-size:11px!important;letter-spacing:.1em!important;text-shadow:0 0 6px #000,0 0 2px #000;opacity:1!important}
+.rc b{font-weight:400;color:#fff}
+.refl svg,.refl .rd,.refl-sig,.refl .wob{pointer-events:none!important}
+.js.seen-water .hero .dive{display:none}
+.js .hero .dive{bottom:calc(24px + env(safe-area-inset-bottom))!important;color:#fff}
+/* 6. signposts at the edges of the section sky windows */
+.signs{position:absolute;inset:0;pointer-events:none}
+.sign{position:absolute;pointer-events:auto;display:inline-flex;align-items:center;min-height:44px;min-width:44px;padding:0 14px;border-radius:99px;background:rgba(6,9,14,.82);
+ box-shadow:inset 0 0 0 1px rgba(255,255,255,.22);color:#fff;font-size:12px;letter-spacing:.08em;text-transform:lowercase;z-index:6}
+.s-up{top:10px}.s-down{bottom:10px}.s-left{left:max(10px,env(safe-area-inset-left))}.s-right{right:max(10px,env(safe-area-inset-right))}
+.s-up.s0,.s-down.s0{left:max(10px,env(safe-area-inset-left))}.s-up.s1,.s-down.s1{right:max(10px,env(safe-area-inset-right))}
+.s-left.s0,.s-right.s0{top:22%}.s-left.s1,.s-right.s1{top:62%}
+/* 6 + 8. the player sits between the bars; close and prev / next are words in the thumb zone */
+.js.player-open .scope.sheet{top:calc(var(--hdr) + env(safe-area-inset-top))!important;bottom:calc(var(--bar) + env(safe-area-inset-bottom))!important;height:auto;z-index:46!important;padding-top:8px!important}
+.js.player-open .dock{opacity:1!important;pointer-events:auto!important}
+.pnav{display:none}
+.player-open .scope .pnav{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;padding:10px 12px 6px;width:100%;box-sizing:border-box}
+.pnav button{min-height:48px;padding:0 12px;border-radius:99px;background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1px rgba(255,255,255,.22);color:#fff;font-size:12px;letter-spacing:.06em;border:0;cursor:pointer}
+.pnav [data-a=pclose]{background:#fff;color:#000}
+.pnav [data-a=pprev]{justify-self:start}.pnav [data-a=pnext]{justify-self:end}
+html.ui-idle.player-open .scope.reelbig:not(.paused) .pnav{opacity:1}
+/* nothing tappable under an invisible layer */
+.js:not(.m-surface) .scene .hero *{pointer-events:none!important}
+.js .hero .dive{bottom:calc(var(--bar) + 18px + env(safe-area-inset-bottom))!important;font-size:12px;min-height:44px;display:inline-flex;align-items:center}
+/* star names: one line, ellipsised to the star's width so neighbours don't pile up */
+.st .nm{max-width:calc(90px * var(--inv))!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap!important;font-size:calc(10.5px * var(--inv))!important}
+/* C-09 follow-up: on phones the sky names stack (tab over project) so they never collide; the hint sits under the top bar */
+.cname small i{font-style:normal}
+@media (max-width:600px){
+ .cname{line-height:1.25!important;padding-top:calc(4px * var(--inv))!important}
+ .cname small,.cl:not(.near) .cname small{display:block!important;margin-top:calc(2px * var(--inv))!important}
+ .cname small i{display:none}
+ .sp-full .zhint{top:calc(var(--hdr) + 10px)!important;bottom:auto!important;text-align:center}
+}
+/* the signpost container spans the band: only the signposts themselves take taps, the stars under it stay live */
+.signs{pointer-events:none!important}
+.signs .sign{pointer-events:auto!important}
+.zhint{pointer-events:none!important}
+/* short landscape phones: smaller water names and the first-visit line moves under the poem, so nothing collides */
+@media (orientation:landscape) and (max-height:500px){
+ .rc{font-size:9px!important;letter-spacing:.05em!important;padding:0 4px!important}
+ .js .hero .dive{left:max(24px,env(safe-area-inset-left))!important;right:auto!important;transform:none!important;text-align:left!important;width:auto!important;max-width:44%!important}
+}
+/* short portrait phones (iPhone 13/SE height): the water names lift clear of the first-visit line above the tab bar */
+@media (orientation:portrait) and (max-height:720px){.refl.port{transform:translateY(-12px)}.js .hero .dive{bottom:calc(var(--bar) + 2px + env(safe-area-inset-bottom))!important}}
+/* landscape / desktop: the first-visit line sits at the left under the poem, clear of the water names */
+@media (orientation:landscape){.js .hero .dive{left:max(24px,env(safe-area-inset-left),5vw)!important;right:auto!important;transform:none!important;text-align:left!important;width:auto!important;max-width:44%!important}}
