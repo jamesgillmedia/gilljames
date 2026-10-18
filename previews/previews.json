@@ -14,12 +14,32 @@
     {
       "section": "reel-v7",
       "type": "video",
+      "file": "media/reel-v7-pass5-small.mp4",
+      "poster": "posters/reel-v7-pass5-small.jpg",
+      "title": "Full cut, first mix fitted to the new edit",
+      "desc": "New edit (Legends focus, unique constellations) with the first new mix, cuts on music hits, quiet texture layer, Legends line at 0:20.",
+      "time": "2026-10-18T00:21:28-07:00",
+      "badge": "Latest"
+    },
+    {
+      "section": "reel-v7",
+      "type": "audio",
+      "file": "media/v7_audio_sample_pass5.m4a",
+      "poster": null,
+      "title": "Audio pass 5: first mix + Legends",
+      "desc": "Gill's favourite first mix, fitted to the new edit, with 'What are legends made of?' over the Legends focus.",
+      "time": "2026-10-18T00:21:08-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
       "file": "media/reel-v7-legends-small.mp4",
       "poster": "posters/reel-v7-legends-small.jpg",
       "title": "Full cut with Legends + story sound",
       "desc": "First-cut look plus BMW X7 Legends focus, Stay Gold, 663 unique constellation tiles (no loops, no repeats) and the pass 4 story mix.",
       "time": "2026-10-18T00:13:59-07:00",
-      "badge": "Latest"
+      "badge": null
     },
     {
       "section": "reel-v7",
