@@ -7,14 +7,14 @@
 <link rel="stylesheet" href="css/sound.css">
 </head><body>
 <main class="sk" id="sk" data-mode="sky">
-  <canvas id="cv" aria-label="the Sound constellation; tap to dive into the waveform"></canvas>
+  <canvas id="cv" aria-label="the Sound constellation; tap a star to choose a song, pinch to zoom, dive into the waveform"></canvas>
   <header class="hud">
     <a class="shome" id="home" href="https://jamesgillmedia.github.io/gilljames/site-v3/#sound" aria-label="back to the site">‹</a>
     <p class="crumb"><span class="sig off">ᑕᐣᓯ</span> &nbsp;sound<span id="crumbSec"></span></p>
     <button type="button" class="shome rise" id="rise" aria-label="rise out to the constellation">↑</button>
   </header>
   <section class="intro" id="intro">
-    <p class="sl"><b>SOUND</b><small>2 projects · tap the stars to dive</small></p>
+    <p class="sl"><b>SOUND</b><small>tap a star · drag to wander · pinch to zoom · dive in</small></p>
     <div class="picks" id="picks" role="radiogroup" aria-label="track"></div>
     <button type="button" class="dive" id="dive">▶ dive in</button>
   </section>
@@ -27,7 +27,7 @@
     <div class="sc-rail" id="rail" role="slider" tabindex="0" aria-label="timeline: drag to fly through the song" aria-valuemin="0" aria-valuemax="80" aria-valuenow="0">
       <canvas class="wf" id="wf"></canvas><span class="sc-line"></span><span class="sc-fill" id="fill"></span><b class="sc-head" id="head"></b>
     </div>
-    <p class="gest">drag the rail to fly · tap to pause · swipe down or ↑ to rise</p>
+    <p class="gest">drag to look · pinch zoom stays · rail flies · swipe down or ↑ to rise</p>
   </section>
   <audio id="au" preload="auto" crossorigin="anonymous"></audio>
 </main>
