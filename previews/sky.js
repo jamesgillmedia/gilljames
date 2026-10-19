@@ -310,12 +310,18 @@ sky.addEventListener('pointermove',function(e){if(!PT.has(e.pointerId)||mode==='
     var soft=chapS(nearest(m.x,m.y))*(g0==='chap'?1.85:1.45);zoomAt(f,m.x,m.y,soft);clampCam();req()}});
 function up(e){if(!PT.has(e.pointerId))return;var was=PT.size;PT.delete(e.pointerId);if(PT.size<2)pd=0;if(PT.size)return;
   if(was===1&&moved<10&&Date.now()-t0<500){tap(e.clientX,e.clientY);return}
-  if(pinched)release();else{lastUi='';ui()}} /* pan stays (site-v3); only pinch settles */
+  if(pinched)release();else if(moved>8)stayLevel();else{lastUi='';ui()}} /* pan stays (site-v3); zoom-stay: the level is re-read from the view, nothing moves */
 sky.addEventListener('pointerup',up);sky.addEventListener('pointercancel',function(e){PT.delete(e.pointerId);if(!PT.size&&pinched)release()});
-/* release: continuous sheet; lock near level; dive only after chap overshoot */
-function release(){if(mode==='grid')return;var s=cam.s,g=nearest(),cs=chapS(g),f=fitS();
+/* ZOOM-STAY v1 (Gill, Oct 19): release never snaps. The camera stays exactly where the fingers / wheel left it, pan stays free at
+   any depth. Detail-by-zoom steps are THRESHOLDS read from the zoom (far = streams, mid = What's new + related, close = clip + feedback):
+   far/mid only relabel (mode + hash, replaceState); close (zooming past 1.55x a constellation in a gesture that began at mid) opens the cards. */
+var ZS_MID=1.35; /* same threshold lod() uses for mid detail */
+function stayLevel(){if(mode==='grid'||tw)return;var g=nearest(),h;
+  if(cam.s<fitS()*ZS_MID){mode='sky';FG=null;h='#sky'}else{mode='chap';FG=g;h='#sky/'+g.id;hint.classList.add('off')}
+  if(location.hash!==h&&D.classList.contains('sky-on'))history.replaceState({pv:1},'',h);lastUi='';ui();req()}
+function release(){if(mode==='grid')return;var s=cam.s,g=nearest(),cs=chapS(g);
   if(g0==='chap'&&s>cs*1.55){dive(g.sec,null,{});return}
-  if(s<Math.sqrt(f*cs))toSky({dur:480});else toChap(g,{dur:480})}
+  stayLevel()}
 function tap(x,y){if(tw)return;var lv=lvNow();
   if(lv===1||cam.s>fitS()*1.6){var best=null;GROUPS.forEach(function(g){if(g.k<.5)return;g.items.forEach(function(it){var r=rectL1(it);if(x>=r.x-4&&x<=r.x+r.w+4&&y>=r.y-4&&y<=r.y+r.h+26)best=it})});
     if(best){dive(best.g.sec,best,{});return}}
@@ -367,7 +373,7 @@ $('#toList').addEventListener('click',goList);
 var _hl=$('#toListHdr');if(_hl)_hl.addEventListener('click',goList);
 $('#toSky').addEventListener('click',goZoom);
 jump.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;var id=(a.getAttribute('href')||'').replace(/^#(list\/)?/,''),el=document.getElementById(id);if(el){e.preventDefault();history.replaceState({pv:1},'','#list/'+id);el.scrollIntoView({block:'start'})}});
-addEventListener('resize',function(){if(!open)return;size();if(!tw){if(mode==='sky')cam=fitCam();else if(mode==='chap'&&FG)cam=chapCam(FG)}req()});
+addEventListener('resize',function(){if(!open)return;var f0=fitS(),atFit=Math.abs(cam.s/f0-1)<.02;size();if(!tw&&mode!=='grid'){if(atFit)cam=fitCam();else{cam.s=Math.max(fitS()*.7,cam.s);clampCam()}}req()}); /* ZOOM-STAY v1: phone URL-bar resizes keep the view */
 if(RM.addEventListener)RM.addEventListener('change',req);
 
 

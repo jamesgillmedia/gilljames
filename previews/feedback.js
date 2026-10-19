@@ -126,16 +126,28 @@ function applySwipe(el,dir){var react=dir>0?'Love':'Needs work';
   var nrc=el.closest('.nrc');if(nrc&&nrc.dataset.file){reactFile(nrc.dataset.file,react,nrc);return}
   if(el.closest('#player .pstage')){var fb=$('#pfb .fb');if(fb&&fb.dataset.file){reactFile(fb.dataset.file,react,$('#player .pstage'));return}}}
 document.addEventListener('pointerdown',function(e){if(e.pointerType==='mouse'&&e.button!==0)return;var t=swipeTarget(e.target);if(!t)return;
-  if(e.target.closest('button:not(.nrc),input,a,.psrail,.psbtns,.fb,.push,video,audio'))return;
+  if(e.target.closest('button:not(.nrc),input,a,.psrail,.psbtns,.fb,.push,video,audio')&&!clipSwipe(e.target))return; /* CLIP-SWIPE v1 */
   SW.x0=e.clientX;SW.y0=e.clientY;SW.t0=Date.now();SW.el=t;SW.locked=0},true);
 document.addEventListener('pointermove',function(e){if(!SW.el)return;var dx=e.clientX-SW.x0,dy=e.clientY-SW.y0;
   if(!SW.locked){if(Math.abs(dx)<12&&Math.abs(dy)<12)return;if(Math.abs(dy)>Math.abs(dx)){SW.el=null;return}SW.locked=1}
   if(SW.locked){e.preventDefault();SW.el.style.transform='translateX('+(dx*0.35)+'px)';SW.el.style.transition='none'}},{passive:false,capture:true});
 function endSwipe(e){if(!SW.el)return;var el=SW.el,dx=(e.clientX!=null?e.clientX:SW.x0)-SW.x0,dy=(e.clientY!=null?e.clientY:SW.y0)-SW.y0,dt=Date.now()-SW.t0;SW.el=null;SW.locked=0;
   el.style.transition='transform .22s ease';el.style.transform='';
-  if(Math.abs(dx)>56&&Math.abs(dx)>Math.abs(dy)*1.2&&dt<900)applySwipe(el,dx)}
+  if(Math.abs(dx)>56&&Math.abs(dx)>Math.abs(dy)*1.2&&dt<(el.matches('#player .pstage')?1600:900))applySwipe(el,dx)} /* CLIP-SWIPE v1: a slower deliberate drag across the clip still counts */
 document.addEventListener('pointerup',endSwipe,true);
 document.addEventListener('pointercancel',function(){if(SW.el){SW.el.style.transform='';SW.el=null;SW.locked=0}},true);
+
+/* CLIP-SWIPE v1 (Oct 19): swipe on the open clip itself (the player video fills .pstage). Right = Love, left = Needs work, the held
+   Mark goes with it. The scrub rail, ‹‹ ›› frame step, Mark, ▶ and Note live outside .pstage, so they are untouched. A second finger cancels
+   (two-finger pinch still closes the player), and the click after a swipe is swallowed so it can never toggle anything. */
+function clipSwipe(t){return !!(t&&t.closest&&t.closest('#player .pstage > video'))}
+var SWP={},SWX=0; /* touch pointers down; the first finger of a new touch (isPrimary) starts a fresh count, so a lost pointerup can't stick */
+document.addEventListener('pointerdown',function(e){if(e.pointerType!=='touch')return;if(e.isPrimary)SWP={};SWP[e.pointerId]=1;if(Object.keys(SWP).length>1&&SW.el){SW.el.style.transform='';SW.el=null;SW.locked=0}},true);
+function swN(e){delete SWP[e.pointerId]}
+document.addEventListener('pointerup',swN,true);
+document.addEventListener('pointermove',function(){if(SW.locked&&SW.el&&SW.el.matches('#player .pstage'))SWX=Date.now()},true);
+document.addEventListener('pointercancel',swN,true);
+document.addEventListener('click',function(e){if(Date.now()-SWX<400&&e.target.closest&&e.target.closest('#player .pstage')){e.preventDefault();e.stopPropagation()}},true);
 
 window.PVFB={form:form,mark:markNow,stepFrame:stepFrame,
   mountPlayer:function(it){var m=$('#pfb'),v=$('#player video');
