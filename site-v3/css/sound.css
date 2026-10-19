@@ -1,0 +1,72 @@
+/* sound sketch · matches site-v3 (css/v3.css): navy sheet sky, hairlines, spaced uppercase, Scope cut rail */
+@font-face{font-family:"Poppins";font-weight:300;font-display:swap;src:url(../fonts/poppins-300.woff2) format("woff2")}
+@font-face{font-family:"Poppins";font-weight:200;font-display:swap;src:url(../fonts/poppins-200.woff2) format("woff2")}
+@font-face{font-family:"Julius Sans One";font-display:swap;src:url(../fonts/julius-sans-one.woff2) format("woff2")}
+@font-face{font-family:"Syl";font-weight:700;font-display:block;src:url(../fonts/noto-canadian-aboriginal-subset.woff2) format("woff2");unicode-range:U+1400-167F}
+:root{--mint:#55DAA1;--ink:#eef3f5;--dim:#c9d3d6;--line:rgba(255,255,255,.18);--cy:rgba(10,189,240,.45);--rd:rgba(254,1,1,.45);--rose:255,182,176;
+  --st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px);--sl:env(safe-area-inset-left,0px);--sr:env(safe-area-inset-right,0px)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#03050a;color:var(--ink);overflow:hidden;-webkit-text-size-adjust:100%}
+body{font:300 14px/1.4 Poppins,"Syl",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--mint);outline-offset:2px;border-radius:6px}
+.sig{font-family:"Syl",sans-serif;font-weight:700}.off{text-shadow:1.5px 1.5px 0 var(--cy),-1.5px -1.5px 0 var(--rd)}
+.sk{position:fixed;inset:0;touch-action:none;-webkit-user-select:none;user-select:none;
+  background:radial-gradient(120% 75% at 50% 42%,#16223a 0%,#0a1120 55%,#03050a 100%)}
+#cv{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hud{position:absolute;left:0;right:0;top:0;display:flex;align-items:center;gap:8px;padding:calc(6px + var(--st)) max(8px,var(--sr)) 6px max(8px,var(--sl));
+  background:linear-gradient(rgba(3,5,10,.85),rgba(3,5,10,0));z-index:3}
+.shome{display:inline-grid;place-items:center;min-width:44px;min-height:44px;border:0;background:none;color:#fff;font-size:18px;text-shadow:-1px 0 rgba(10,189,240,.7),1px 0 rgba(254,1,1,.6)}
+.crumb{flex:1;min-width:0;margin:0;text-align:center;font:300 11px/1.2 Poppins,"Syl";letter-spacing:.22em;text-transform:uppercase;color:#d3dbde;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crumb .sig{letter-spacing:0;font-size:12px}
+.rise{opacity:0;pointer-events:none;transition:opacity .4s;border:1px solid var(--line)!important;border-radius:22px;font-size:15px}
+.sk[data-mode=in] .rise{opacity:1;pointer-events:auto}
+/* sky: the label and the dive action sit under the constellation, like .sl labels on the sheet */
+.intro{position:absolute;left:0;right:0;top:61%;display:flex;flex-direction:column;align-items:center;gap:10px;z-index:2;transition:opacity .5s,filter .5s}
+.sk:not([data-mode=sky]) .intro{opacity:0;filter:blur(6px);pointer-events:none}
+.sl{margin:0;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+.sl b{font:400 13px/1 "Julius Sans One",sans-serif;letter-spacing:.32em;padding-left:.32em;text-shadow:0 0 8px #03050a}
+.sl small{font:300 10.5px/1.2 Poppins;color:#c3ccd0;letter-spacing:.08em}
+/* zoomed: the intro (except the heading) fades out and lets taps through to the strands; --ia/--ha are set by player.js */
+.sl small,.picks,.dive{opacity:var(--ia,1)}
+.sl b{opacity:var(--ha,1)}
+.intro.zoomed{pointer-events:none}
+.picks{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;padding:0 12px}
+.picks button{min-height:44px;padding:0 14px;border:1px solid var(--line);border-radius:22px;background:rgba(3,7,12,.5);font-size:11px;letter-spacing:.06em;color:var(--dim)}
+.picks button small{display:block;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.75}
+.picks button[aria-checked=true]{color:var(--ink);border-color:rgba(85,218,161,.6)}
+.dive{min-height:48px;padding:0 22px;border:1px solid rgba(85,218,161,.6);border-radius:24px;background:rgba(3,7,12,.5);font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+/* the player chrome: Scope's sc-row + sc-rail, sitting on a soft dark fade */
+.player{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:22px max(10px,var(--sr)) calc(8px + var(--sb)) max(10px,var(--sl));
+  background:linear-gradient(rgba(3,5,10,0),rgba(3,5,10,.78) 40%,rgba(3,5,10,.9));opacity:0;transform:translateY(10px);pointer-events:none;transition:opacity .5s .2s,transform .5s .2s}
+.sk[data-mode=in] .player{opacity:1;transform:none;pointer-events:auto}
+.sc-row{display:flex;align-items:center;gap:6px}
+.ib{display:inline-grid;place-items:center;min-width:44px;min-height:44px;padding:0 12px;border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.06);font-size:11px;letter-spacing:.05em}
+.sc-lab{flex:1;min-width:0;min-height:44px;display:flex;flex-direction:column;justify-content:center;gap:2px;padding:0 4px;color:var(--dim);font-size:10.5px;letter-spacing:.08em}
+.sc-lab .l1{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-transform:uppercase;letter-spacing:.2em;font-size:9.5px}
+.sc-lab .l1 b{font:400 13px/1 "Julius Sans One",sans-serif;letter-spacing:.2em;color:var(--ink);margin-right:6px}
+.sc-lab .l2{white-space:nowrap}
+.tc{font-family:ui-monospace,Menlo,monospace;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:.12em}
+.sn{color:var(--mint);letter-spacing:.18em;text-transform:uppercase;font-size:9.5px;margin-left:6px}
+.sc-rail{position:relative;height:40px;margin:2px 8px 0;touch-action:none;cursor:ew-resize}
+.sc-rail>*{position:absolute;pointer-events:none}
+.wf{left:0;top:0;width:100%;height:100%}
+.sc-line{left:0;right:0;top:50%;height:1px;background:var(--line)}
+.sc-fill{left:0;top:50%;height:1px;width:0;background:linear-gradient(90deg,rgba(85,218,161,.1),rgba(85,218,161,.75))}
+.sc-rail .tk{top:50%;width:3px;height:3px;margin:-1.5px 0 0 -1.5px;border-radius:50%;background:#e8f1f4;box-shadow:0 0 3px rgba(190,225,255,.55)}
+.sc-rail .tk.on{width:7px;height:7px;margin:-3.5px 0 0 -3.5px;background:var(--mint);box-shadow:0 0 6px 2px rgba(85,218,161,.65),0 0 14px 4px rgba(85,218,161,.25);animation:twk 2.4s ease-in-out infinite}
+@keyframes twk{50%{box-shadow:0 0 4px 1px rgba(85,218,161,.5),0 0 10px 2px rgba(85,218,161,.15)}}
+.sc-head{top:6px;bottom:6px;width:1px;margin-left:-.5px;background:rgba(255,255,255,.85);box-shadow:0 0 6px rgba(255,255,255,.7)}
+.sc-head::after{content:"";position:absolute;left:-2.5px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:#fff;box-shadow:0 0 8px 2px rgba(255,255,255,.75),2px 2px 0 -1px var(--cy),-2px -2px 0 -1px var(--rd)}
+.sc-rail.drag .sc-head::after{transform:scale(1.6)}
+.gest{margin:2px 0 0;text-align:center;font-size:9.5px;letter-spacing:.12em;color:rgba(201,211,214,.6)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* merged: six songs in the picks (denser row, from sketch-next) */
+.picks{max-width:min(360px,94vw);gap:5px}
+.picks button{padding:0 10px;font-size:10.5px}
+.sl small{max-width:280px}
+/* site-v3: JS off = the plain links (the player needs JS) */
+.ns{position:absolute;left:0;right:0;top:30%;padding:0 24px;text-align:center;font-size:12px;letter-spacing:.06em;color:var(--dim)}
+.ns ul{list-style:none;margin:12px 0;padding:0;line-height:2.4}.ns a{color:var(--ink);border-bottom:1px solid rgba(85,218,161,.5)}
