@@ -80,6 +80,7 @@ h1{margin:6px 0 0;font:400 28px/1.1 "Julius Sans One",sans-serif;letter-spacing:
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 </style>
 <link rel="stylesheet" href="sky.css">
+<link rel="stylesheet" href="feedback.css">
 </head>
 <body>
 <main id="plain">
@@ -107,7 +108,8 @@ h1{margin:6px 0 0;font:400 28px/1.1 "Julius Sans One",sans-serif;letter-spacing:
 <section class="grid pre" id="grid" hidden aria-label="Section previews"></section>
 <header class="shud" id="shud" hidden><button type="button" class="hb home" id="home" aria-label="Whole sky">ᑕᐣᓯ</button><p class="crumb" id="crumb">the whole sky</p><button type="button" class="hb o" id="toList">List</button></header>
 <nav class="sbar" id="sbar" hidden aria-label="Zoom"><button type="button" class="hb zb" id="zout" aria-label="Zoom out">−</button><div class="lvl"><span class="dots" id="dots" aria-hidden="true">●○○○</span><span class="zn" id="zn" aria-live="polite">whole sky · L0</span></div><button type="button" class="hb zb" id="zin" aria-label="Zoom in">+</button></nav>
-<div class="player" id="player" hidden role="dialog" aria-modal="true" aria-label="Preview player"><div class="ptop"><button type="button" class="hb px" id="pclose" aria-label="Close player">✕</button><div class="pcap" id="pcap"></div><button type="button" class="hb o" id="pfs" aria-label="Full screen">⛶</button></div><div class="pstage"><video controls playsinline preload="metadata"></video></div><p class="pbot" id="pdesc"></p></div>
+<div class="player" id="player" hidden role="dialog" aria-modal="true" aria-label="Preview player"><div class="ptop"><button type="button" class="hb px" id="pclose" aria-label="Close player">✕</button><div class="pcap" id="pcap"></div><button type="button" class="hb o" id="pfs" aria-label="Full screen">⛶</button></div><div class="pstage"><video controls playsinline preload="metadata"></video></div><p class="pbot" id="pdesc"></p><div class="pfb" id="pfb" hidden></div></div>
+<script src="feedback.js" defer></script>
 <script src="sky.js" defer></script>
 </body>
 </html>

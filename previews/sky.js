@@ -46,6 +46,7 @@ function card(x){var it=x.d,cls=[it.badge==='Current direction'?'cur':'',it.type
   h+='</div><h3 class="ct">'+esc(it.title)+'</h3>';if(it.desc)h+='<p class="cx">'+esc(it.desc)+'</p>';
   if(it.link&&it.link.href)h+='<a class="btn" href="'+esc(it.link.href)+'" target="_blank" rel="noopener">'+esc(it.link.label||'Open')+' <span aria-hidden="true">↗</span></a>';
   if(it.file)h+='<span class="file"><a href="'+esc(it.file)+'" download>'+esc(it.file.split('/').pop())+'</a></span>';
+  if(it.file&&(it.badge==='Latest'||it.badge==='Current direction')&&window.PVFB)h+=PVFB.form(it);
   return h+'</div></article></li>'}
 function band(s,asList){return'<section class="band"'+(asList?' id="'+esc(s.id)+'"':' data-sec="'+esc(s.id)+'"')+'><h2 class="bh"><span class="L">'+(s.si+1)+'</span>'+esc(s.title)+'</h2>'+
   '<span class="mnote">'+s.n+' preview'+(s.n===1?'':'s')+' · newest first'+(asList?'':' · pinch in or − to pull back')+'</span><ol class="tline">'+s.items.map(card).join('')+'</ol></section>'}
@@ -225,7 +226,7 @@ function firstCard(){var best=null;$$('li[data-k]',grid).forEach(function(li){if
 var PL=null,pcap=$('#pcap'),pdesc=$('#pdesc');
 function openPlayer(x,o){o=o||{};if(!x||x.type!=='video'||!x.d.file)return;var li=$('li[data-k="'+x.k+'"]',grid)||$('li[data-k="'+x.k+'"]',list),cvid=li&&$('video',li),t=cvid?cvid.currentTime:0,r=cvid?cvid.getBoundingClientRect():null;
   if(cvid)cvid.pause();PL={x:x,from:cvid};pv.poster=x.poster||'';if(pv.getAttribute('src')!==x.d.file)pv.src=x.d.file;pv.preload='metadata';
-  pcap.innerHTML='<b>'+esc(x.title)+'</b><small>'+(x.time?when(x.time):'')+(x.badge?' · ★ '+esc(x.badge):'')+'</small>';pdesc.textContent=x.d.desc||'';
+  pcap.innerHTML='<b>'+esc(x.title)+'</b><small>'+(x.time?when(x.time):'')+(x.badge?' · ★ '+esc(x.badge):'')+'</small>';pdesc.textContent=x.d.desc||'';window.PVFB&&PVFB.mountPlayer(x.d);
   player.hidden=false;player.getAnimations&&player.getAnimations().forEach(function(a){a.cancel()});D.classList.add('pl-on');try{if(t)pv.currentTime=t}catch(e){}
   var pv0=pv;var pr=pv0.play();if(pr&&pr.catch)pr.catch(function(){});
   if(r&&anim()&&pv.animate){var q=pv.getBoundingClientRect();if(q.width&&q.height){var sx=r.width/q.width,sy=r.height/q.height;

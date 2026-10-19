@@ -1,0 +1,72 @@
+/* previews · feedback (Love / Needs work / Note + one line + Send). Adds to the sky look; nothing here restyles the site. */
+.fb{margin:12px 0 0;padding-top:12px;border-top:1px dashed var(--line);touch-action:manipulation}
+.fb *{-webkit-tap-highlight-color:transparent}
+.fbh{margin:0 0 8px;font:300 10.5px/1.3 Poppins,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--meta)}
+.fbr{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.fbb{min-height:52px;padding:0 6px;border:1.5px solid var(--line);border-radius:14px;background:rgba(3,7,12,.55);color:var(--ink);font:400 14px/1.15 Poppins,sans-serif;letter-spacing:.02em;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.fbb i{font-style:normal;font-size:18px;line-height:1}
+.fbb:active{background:var(--mint-tint)}
+.fbb[aria-pressed=true]{color:#04130c;border-color:transparent}
+.fbb[data-r=Love][aria-pressed=true]{background:var(--mint)}
+.fbb[data-r="Needs work"][aria-pressed=true]{background:var(--here)}
+.fbb[data-r=Note][aria-pressed=true]{background:#7fdcf7}
+.fbn{display:flex;gap:8px;margin-top:8px}
+.fbn input{flex:1;min-width:0;min-height:48px;padding:0 14px;border:1.5px solid var(--line);border-radius:14px;background:rgba(3,7,12,.7);color:var(--ink);font:300 16px/1.2 Poppins,sans-serif} /* 16px stops iOS zooming in */
+.fbn input::placeholder{color:#7f8d92}
+.fbn input:focus{outline:2px solid var(--mint);outline-offset:1px}
+.fbs{flex:none;min-width:84px;min-height:48px;padding:0 18px;border:0;border-radius:24px;background:var(--mint);color:#04130c;font:400 13px/1 Poppins,sans-serif;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+.fbs:active{transform:translateY(1px)}
+.fbx{display:flex;align-items:center;gap:10px;margin-top:2px;min-height:44px}
+.fbc{flex:none;min-height:44px;min-width:76px;padding:0 14px;border:1px solid var(--line);border-radius:22px;background:none;color:var(--dim);font:300 11px/1 Poppins,sans-serif;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+.fbc:active{background:var(--mint-tint)}
+.fbst{flex:1;min-width:0;font:300 12px/1.35 Poppins,sans-serif;color:var(--meta)}
+.fbst.ok{color:var(--mint)}.fbst.warn{color:var(--here)}
+/* player: the form sits under the film */
+.pfb{background:#000;padding:0 max(12px,var(--sr)) calc(8px + var(--sb)) max(12px,var(--sl));touch-action:manipulation}
+.pfb[hidden]{display:none}
+.pfb .fb{margin:0;border-top:0;padding-top:4px;max-width:640px;margin-inline:auto}
+.pfb .fbh{display:none}
+.pfb .fbb{min-height:48px;flex-direction:row;gap:6px}
+.pfb .fbx{min-height:44px}
+.player{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto auto}
+.player .pbot{max-height:4.4em}
+@media (max-height:520px){ /* phone on its side: one compact line */
+  .pfb .fb{display:flex;flex-wrap:wrap;gap:6px;max-width:none}
+  .pfb .fbr{flex:0 0 auto;grid-template-columns:repeat(3,auto)}
+  .pfb .fbn{flex:1;min-width:240px;margin:0}
+  .pfb .fbx{flex:0 0 100%;min-height:0}
+  .pfb .fbc,.pfb .fbst{display:none}
+  .player .pbot{display:none}
+}
+/* the Latest rail */
+.frail{-webkit-tap-highlight-color:transparent}
+.frail[hidden]{display:none!important}
+.frh{display:flex;align-items:center;gap:8px;min-height:44px}
+.frh h2{flex:1;margin:0;font:400 15px/1.2 "Julius Sans One",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--mint)}
+.frh h2 small{display:block;margin-top:2px;font:300 11px/1.3 Poppins,sans-serif;letter-spacing:.04em;text-transform:none;color:var(--meta)}
+.frx{flex:none;width:44px;height:44px;border:1px solid var(--line);border-radius:50%;background:rgba(3,7,12,.6);color:#eef3f5;font:300 18px/1 Poppins,sans-serif;cursor:pointer}
+.frt{list-style:none;margin:6px 0 0;padding:0;display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;padding-bottom:6px;touch-action:pan-x pan-y}
+.frt>li{flex:0 0 min(86vw,380px);scroll-snap-align:center;min-width:0;display:flex}
+.frt .card{width:100%;display:flex;flex-direction:column}
+.frt .cb{flex:1}
+.frp{position:relative;display:block;width:100%;height:132px;padding:0;border:0;background:#000 center/cover no-repeat;cursor:pointer;color:#fff}
+.frp b{position:absolute;right:8px;bottom:8px;min-width:44px;height:44px;border-radius:22px;background:rgba(3,5,10,.7);display:grid;place-items:center;font:400 12px/1 Poppins,sans-serif;letter-spacing:.1em;padding:0 14px}
+.frt .ct{font-size:15px}
+.frt .cx{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:13px}
+/* sky mode: the rail is a sheet under the top bar, opened from the HUD button */
+.frail.sheet{position:fixed;left:0;right:0;top:calc(52px + var(--st));z-index:45;max-height:calc(100dvh - 52px - var(--st) - 72px - var(--sb));overflow-y:auto;overscroll-behavior:contain;
+  padding:4px max(12px,var(--sr)) 10px max(12px,var(--sl));background:rgba(3,5,10,.95);border-bottom:1px solid var(--line);box-shadow:0 14px 30px rgba(0,0,0,.5);touch-action:pan-y}
+/* list mode: inline at the top of the page */
+.frail.inline{margin:18px 0 0;padding:10px 0 4px;border-top:1px solid var(--line)}
+.frail.inline .frx{display:none}
+.fbtog[aria-expanded=true]{border-color:var(--mint);color:var(--mint)}
+@media (min-width:760px){
+  .frt{overflow:visible;scroll-snap-type:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+  .frt>li{flex:none}
+  .frail.sheet{padding-inline:max(24px,var(--sr))}
+  .frail.sheet .frh,.frail.sheet .frt{max-width:1180px;margin-inline:auto}
+  .frp{height:150px}
+  .frail.inline .frt{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+}
+@media (min-width:760px){.frail.inline{width:min(1180px,calc(100vw - 40px));position:relative;left:50%;transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.fbs:active{transform:none}}
