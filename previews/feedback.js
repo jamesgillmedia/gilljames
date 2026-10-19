@@ -11,6 +11,14 @@ function fileUrl(f){try{return new URL(f,BASE).href}catch(e){return f}}
 function getD(f){try{return JSON.parse(localStorage.getItem(KEY+f))||{}}catch(e){return{}}}
 function setD(f,d){try{if(!d.r&&!d.note)localStorage.removeItem(KEY+f);else localStorage.setItem(KEY+f,JSON.stringify(d))}catch(e){}}
 function when(iso){try{var d=new Date(iso);return new Intl.DateTimeFormat('en-US',{timeZone:TZ,weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}).format(d)}catch(e){return iso||''}}
+/* NOTE-TC v1 (Oct 19): the note prefill is 'at m:ss.s ' WITH a trailing space, so typing goes after it ('at 0:36.6 horse').
+   Every reaction tap, swipe, Mark and Send rewrites only that leading 'at m:ss.s' token to the current frame and keeps anything typed
+   after it. A note that does not start with the token is the user's own words and is never touched (the At: line still carries the time). */
+var TCLEAD=/^at \d+:\d{2}\.\d(?![\d:.])[ \t]*/,AUTOSW=/^swipe (Love|Needs work)$/;
+function retc(note,t){if(!note||AUTOSW.test(note))return'at '+t+' ';var m=TCLEAD.exec(note);return m?'at '+t+' '+note.slice(m[0].length):note}
+function caretEnd(i){try{var n=i.value.length;i.setSelectionRange(n,n)}catch(e){}}
+function freshen(box){var mk=window.PVFB&&PVFB.mark&&PVFB.mark();if(!box||!mk)return;var f=box.dataset.file,d=getD(f);if(!d.r&&!d.note)return;
+  var n=d.note?retc(d.note,mk.tc):d.note;if(n===d.note&&d.mark===mk.tc)return;d.note=n;d.mark=mk.tc;setD(f,d);sync(box);$$('.fb input').forEach(function(i){if(document.activeElement===i)caretEnd(i)})}
 function nowStr(){var d=new Date(),v='';try{v=new Intl.DateTimeFormat('en-CA',{timeZone:TZ,dateStyle:'medium',timeStyle:'short'}).format(d)+' Vancouver'}catch(e){}return d.toISOString()+(v?' ('+v+')':'')}
 
 function form(it,o){o=o||{};var f=it.file||'',d=getD(f),id='fb'+Math.random().toString(36).slice(2,7);
@@ -36,15 +44,15 @@ function status(box,msg,cls){var s=$('.fbst',box);if(s){s.textContent=msg;s.clas
 function sync(box,skipInput){var f=box.dataset.file,d=getD(f);$$('.fb').forEach(function(b){if(b.dataset.file!==f)return;
   $$('.fbb',b).forEach(function(x){x.setAttribute('aria-pressed',String(d.r===x.dataset.r))});var i=$('input',b);if(i&&i!==skipInput&&i.value!==(d.note||''))i.value=d.note||''})}
 function ok(box){var d=getD(box.dataset.file);if(!d.r&&!d.note){status(box,'Tap Love, Needs work or Note, or type a line first.','warn');return false}return true}
-function send(box){if(!ok(box))return;var m=compose(box),url='mailto:'+TO+'?subject='+encodeURIComponent(m.subject)+'&body='+encodeURIComponent(m.body);
+function send(box){freshen(box);if(!ok(box))return;var m=compose(box),url='mailto:'+TO+'?subject='+encodeURIComponent(m.subject)+'&body='+encodeURIComponent(m.body);
   status(box,'Opening your mail app… hit send there. If nothing opens, tap Copy.','ok');var a=document.createElement('a');a.href=url;a.style.display='none';document.body.appendChild(a);a.click();a.remove()}
-function copy(box){if(!ok(box))return;var m=compose(box),txt='To: '+TO+'\nSubject: '+m.subject+'\n\n'+m.body;
+function copy(box){freshen(box);if(!ok(box))return;var m=compose(box),txt='To: '+TO+'\nSubject: '+m.subject+'\n\n'+m.body;
   function done(){status(box,'Copied. Paste it into an email to '+TO,'ok')}
   function fb(){var t=document.createElement('textarea');t.value=txt;t.setAttribute('readonly','');t.style.cssText='position:fixed;left:-9999px;top:0;font-size:16px';document.body.appendChild(t);t.select();t.setSelectionRange(0,txt.length);var r=false;try{r=document.execCommand('copy')}catch(e){}t.remove();r?done():status(box,'Could not copy. Long-press the note and copy it by hand.','warn')}
   if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(done,fb);else fb()}
 
 document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.fb button');if(!b)return;var box=b.closest('.fb'),f=box.dataset.file;
-  if(b.classList.contains('fbb')){var d=getD(f);d.r=d.r===b.dataset.r?'':b.dataset.r;var mk=window.PVFB&&PVFB.mark&&PVFB.mark();if(d.r&&mk){d.mark=mk.tc;if(!d.note){d.note='at '+mk.tc}else if(d.note.indexOf('at ')!==0&&d.note.indexOf('@')<0){/* keep note; mark travels in compose */}}setD(f,d);sync(box);status(box,mk&&d.r?('Marked '+mk.tc):'');if(d.r==='Note'){var i=$('input',box);i&&i.focus()}}
+  if(b.classList.contains('fbb')){var d=getD(f);d.r=d.r===b.dataset.r?'':b.dataset.r;var mk=window.PVFB&&PVFB.mark&&PVFB.mark();if(d.r&&mk){d.mark=mk.tc;d.note=retc(d.note,mk.tc)} /* NOTE-TC v1 */setD(f,d);sync(box);status(box,mk&&d.r?('Marked '+mk.tc):'');if(d.r==='Note'){var i=$('input',box);if(i){i.focus();caretEnd(i)}}}
   else if(b.classList.contains('fbs'))send(box);else if(b.classList.contains('fbc'))copy(box)});
 document.addEventListener('input',function(e){var i=e.target;if(!i.closest||!i.closest('.fb')||i.tagName!=='INPUT')return;var box=i.closest('.fb'),f=box.dataset.file,d=getD(f);d.note=i.value;setD(f,d);sync(box,i);status(box,'')});
 document.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.closest&&e.target.closest('.fb')&&e.target.tagName==='INPUT'){e.preventDefault();send(e.target.closest('.fb'))}});
@@ -107,7 +115,7 @@ function unbindScrub(){if(SCR.raf)cancelAnimationFrame(SCR.raf);SCR.raf=0;SCR.v=
   var bk=$('#psback'),fw=$('#psfwd'),pl=$('#psplay'),mk=$('#psmark');
   if(bk)hold(bk,-1);if(fw)hold(fw,1);
   if(pl)pl.addEventListener('click',function(){var v=SCR.v;if(!v)return;if(v.paused){SCR.held=null;var p=v.play();if(p&&p.catch)p.catch(function(){})}else v.pause();paintScrub()});
-  if(mk)mk.addEventListener('click',function(){if(!SCR.v)return;SCR.held=SCR.v.currentTime;paintScrub();var m=markNow();status($('.fb')||document.body,m?'Marked '+m.tc+' — Send will include it':'');
+  if(mk)mk.addEventListener('click',function(){if(!SCR.v)return;SCR.held=SCR.v.currentTime;paintScrub();var m=markNow();freshen($('#pfb .fb')); /* NOTE-TC v1 */status($('.fb')||document.body,m?'Marked '+m.tc+' — Send will include it':'');
     var tip=$('.fbst');if(tip){tip.textContent='Marked '+m.tc;tip.className='fbst ok'}});
   document.addEventListener('keydown',function(e){if($('#player').hidden)return;if(e.target&&/INPUT|TEXTAREA/.test(e.target.tagName))return;
     if(e.key==='ArrowLeft'){e.preventDefault();stepFrame(-1)}else if(e.key==='ArrowRight'){e.preventDefault();stepFrame(1)}
@@ -119,7 +127,7 @@ function unbindScrub(){if(SCR.raf)cancelAnimationFrame(SCR.raf);SCR.raf=0;SCR.v=
 var SW={x0:0,y0:0,t0:0,el:null,locked:0};
 function swipeTarget(el){return el&&el.closest&&(el.closest('.lstrip')||el.closest('.nowrow > li')||el.closest('.nrc')||el.closest('.frt > li')||el.closest('#player .pstage'))} /* LIVE-SWIPE v1: the strip above a live player (first, so a mouse drag on it works too) */
 function flash(el,dir){if(!el)return;el.classList.remove('sw-love','sw-need');void el.offsetWidth;el.classList.add(dir>0?'sw-love':'sw-need')}
-function reactFile(file,react,el){if(!file)return;var d=getD(file);d.r=react;var mk=window.PVFB&&PVFB.mark&&PVFB.mark();if(mk){d.mark=mk.tc;if(!d.note)d.note='at '+mk.tc}else if(!d.note)d.note='swipe '+react;setD(file,d);
+function reactFile(file,react,el){if(!file)return;var d=getD(file);d.r=react;var mk=window.PVFB&&PVFB.mark&&PVFB.mark();if(mk){d.mark=mk.tc;d.note=retc(d.note,mk.tc)}else if(!d.note||AUTOSW.test(d.note))d.note='swipe '+react; /* NOTE-TC v1 */setD(file,d);
   $$('.fb').forEach(function(b){if(b.dataset.file===file){sync(b);status(b,react+(mk?' @ '+mk.tc:''),'ok')}});flash(el,react==='Love'?1:-1)}
 function applySwipe(el,dir){var react=dir>0?'Love':'Needs work';
   var card=el.closest('.nowrow > li, .frt > li');if(card){var box=$('.fb',card);if(box&&box.dataset.file){reactFile(box.dataset.file,react,card);return}}
@@ -128,13 +136,13 @@ function applySwipe(el,dir){var react=dir>0?'Love':'Needs work';
   if(el.closest('#player .pstage')){var fb=$('#pfb .fb');if(fb&&fb.dataset.file){reactFile(fb.dataset.file,react,$('#player .pstage'));return}}}
 document.addEventListener('pointerdown',function(e){if(e.pointerType==='mouse'&&e.button!==0)return;var t=swipeTarget(e.target);if(!t)return;
   if(e.target.closest('button:not(.nrc),input,a,.psrail,.psbtns,.fb,.push,video,audio')&&!clipSwipe(e.target))return; /* CLIP-SWIPE v1 */
-  SW.x0=e.clientX;SW.y0=e.clientY;SW.t0=Date.now();SW.el=t;SW.locked=0},true);
+  SW.x0=e.clientX;SW.y0=e.clientY;SW.t0=Date.now();SW.e0=e.timeStamp;SW.el=t;SW.locked=0},true);
 document.addEventListener('pointermove',function(e){if(!SW.el)return;var dx=e.clientX-SW.x0,dy=e.clientY-SW.y0;
   if(!SW.locked){if(Math.abs(dx)<12&&Math.abs(dy)<12)return;if(Math.abs(dy)>Math.abs(dx)){SW.el=null;return}SW.locked=1}
   if(SW.locked){e.preventDefault();SW.el.style.transform='translateX('+(dx*0.35)+'px)';SW.el.style.transition='none'}},{passive:false,capture:true});
-function endSwipe(e){if(!SW.el)return;var el=SW.el,dx=(e.clientX!=null?e.clientX:SW.x0)-SW.x0,dy=(e.clientY!=null?e.clientY:SW.y0)-SW.y0,dt=Date.now()-SW.t0;SW.el=null;SW.locked=0;
+function endSwipe(e){if(!SW.el)return;var el=SW.el,dx=(e.clientX!=null?e.clientX:SW.x0)-SW.x0,dy=(e.clientY!=null?e.clientY:SW.y0)-SW.y0,dt=(e.timeStamp&&SW.e0?e.timeStamp-SW.e0:Date.now()-SW.t0);SW.el=null;SW.locked=0;
   el.style.transition='transform .22s ease';el.style.transform='';
-  if(Math.abs(dx)>56&&Math.abs(dx)>Math.abs(dy)*1.2&&dt<(el.matches('#player .pstage')?1600:900))applySwipe(el,dx)} /* CLIP-SWIPE v1: a slower deliberate drag across the clip still counts */
+  if(Math.abs(dx)>56&&Math.abs(dx)>Math.abs(dy)*1.2&&dt<1600)applySwipe(el,dx)} /* SWIPE-TIME v1 (Oct 19): one 1.6 s limit for every target, timed by the finger's own event times, so a first swipe that the phone is slow to draw is not dropped */ /* CLIP-SWIPE v1: a slower deliberate drag across the clip still counts */
 document.addEventListener('pointerup',endSwipe,true);
 document.addEventListener('pointercancel',function(){if(SW.el){SW.el.style.transform='';SW.el=null;SW.locked=0}},true);
 
