@@ -20,9 +20,33 @@
     {
       "id": "site-v34-qa",
       "title": "Site v3.4 QA (emulated)"
+    },
+    {
+      "id": "site-v35-qa",
+      "title": "Site v3.5 QA (emulated)"
     }
   ],
   "items": [
+    {
+      "section": "site-v35-qa",
+      "type": "video",
+      "file": "media/v35-qa-iphone15-webkit-films.mp4",
+      "poster": "posters/v35-qa-iphone15-webkit-films.jpg",
+      "title": "iPhone 15 size (WebKit): films play through",
+      "desc": "Emulated in Playwright WebKit at iPhone 15 size. Films 05, 12, 17 and 36 each play for about 7 seconds; the small green readout shows the video clock moving the whole time, with no stop at 0.2 s as in v3.4.",
+      "time": "2026-10-18T18:12:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "site-v35-qa",
+      "type": "video",
+      "file": "media/v35-qa-s24-landscape-fixes.mp4",
+      "poster": "posters/v35-qa-s24-landscape-fixes.jpg",
+      "title": "S24 size, landscape: switcher, full screen and Back fixes",
+      "desc": "Emulated in Chromium at Galaxy S24 landscape size. The 1/2/3/5 ripple buttons now sit in the top bar on the first screen: tap 2 switches with no scrolling, a tap on the water dives, then back to 5. A slow scroll down to the films. BMW Drift: ▶ fills the screen by itself, the first ⤢ tap goes to real full screen, and the phone's Back button lands on the film grid. BMW Legends: ⤢ full screen, then one ✕ straight back to the grid.",
+      "time": "2026-10-18T18:10:00-07:00",
+      "badge": null
+    },
     {
       "section": "site-v3",
       "type": "video",
