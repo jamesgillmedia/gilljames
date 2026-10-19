@@ -230,10 +230,8 @@ document.addEventListener('touchcancel',pend,{passive:true});
 /* iOS Safari: its own gesture events. Block page zoom on the sheet (the list page keeps browser zoom). */
 ['gesturestart','gesturechange'].forEach(function(n){document.addEventListener(n,function(e){if(!e.target.closest||!e.target.closest('.fly'))e.preventDefault()},{passive:false})});
 /* trackpad pinch (ctrl+wheel) and Safari desktop gestures */
-/* v3.6: one trackpad pinch = one level. A gesture is a run of ctrl+wheel events with gaps under WG ms (real event timestamps from e.timeStamp, not an
-   assumed 1/60 s per event); after it steps once, the rest of that same gesture is swallowed (no home -> grid -> player in one pinch). */
-var wAcc=0,wT=0,wLast=-1e9,wDone=0,WG=400;addEventListener('wheel',function(e){if(!e.ctrlKey||(e.target.closest&&e.target.closest('.sheet')))return;e.preventDefault();var now=e.timeStamp||performance.now();if(now-wLast>WG){wDone=0;wAcc=0}wLast=now;clearTimeout(wT);wT=setTimeout(function(){wAcc=0},250);if(wDone)return;wAcc+=e.deltaY;
-  if(Date.now()-lastStep<380)return;if(wAcc<-40){wDone=1;lastStep=Date.now();wAcc=0;var m={x:e.clientX,y:e.clientY},pt=pinchTarget(m);step(1,pt.it,pt.k)}else if(wAcc>40){wDone=1;lastStep=Date.now();wAcc=0;var pt2=pinchTarget({x:e.clientX,y:e.clientY});step(-1,null,pt2.k)}},{passive:false});
+var wAcc=0,wT=0;addEventListener('wheel',function(e){if(!e.ctrlKey||(e.target.closest&&e.target.closest('.sheet')))return;e.preventDefault();wAcc+=e.deltaY;clearTimeout(wT);wT=setTimeout(function(){wAcc=0},250);
+  if(Date.now()-lastStep<380)return;if(wAcc<-40){lastStep=Date.now();wAcc=0;var m={x:e.clientX,y:e.clientY},pt=pinchTarget(m);step(1,pt.it,pt.k)}else if(wAcc>40){lastStep=Date.now();wAcc=0;var pt2=pinchTarget({x:e.clientX,y:e.clientY});step(-1,null,pt2.k)}},{passive:false});
 /* ---------- previews: muted loops only for frames on screen at L2 (max 6), stills everywhere else ---------- */
 var pvq=0,PVMAX=6,save=(navigator.connection||{}).saveData;
 function pv(){if(pvq)return;pvq=requestAnimationFrame(function(){pvq=0;var live=[];
