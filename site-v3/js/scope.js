@@ -34,7 +34,7 @@ function natData(u,cb){if(DATA[u]){cb(DATA[u]);return}if(!DQ[u]){DQ[u]=[];fetch(
 var M=null,O=null,userT=0,touching=false,rq=0;
 function pad(n){n=Math.floor(n);return(n<10?'0':'')+n}
 function tcode(s,fps){s=Math.max(0,s||0);if(!fps)return pad(s/3600)+':'+pad(s/60%60)+':'+pad(s%60);var f=Math.floor((s%1)*fps);return '00:'+pad(s/60)+':'+pad(s%60)+':'+pad(f)}
-function fill(o){O=o;var key=o.it.dataset.k;
+function fill(o){if(o.label&&!o.label._ld){var L0=o.label;o.label=function(t){L0(t);ld(/loading/.test(t||''))};o.label._ld=1}O=o;var key=o.it.dataset.k;
   if(M&&M.key===key){setPlay(o.play);return M.vid||null}
   stop();var j=o.j,it=o.it;
   var nat=j.reel?'media/reel/shots.json':(j.native||'');
@@ -47,6 +47,19 @@ function fill(o){O=o;var key=o.it.dataset.k;
   if(nat){M.dur=dm?(+dm[1]*60+ +dm[2]):0;natLoad(M)}
   else{M.extD=dm?(+dm[1]*60+ +dm[2]):0;build();filmStrip()}
   setPlay(o.play);label();return M.vid}
+/* v3.5 · a visible loading state: while a native film (or the reel) is asked to play and has no moving picture yet, the frame shows the
+   film's still (already cached from the grid / L3) under a small "loading film" note; it goes the moment the label says playing / paused */
+function ld(on){if(!O||!O.frame)return;var f=O.frame;on=!!(on&&M&&M.nat&&M.play);
+  if(on){var p=(M.it&&M.it.dataset.big)||M.poster||(M.reel?'media/reel/poster-960.jpg':'');if(p)try{f.style.setProperty('--ldp','url("'+new URL(p,location.href).href+'")')}catch(e){}}
+  f.classList.toggle('ld',on)}
+/* v3.5 · YouTube can't be reached (blocked network, no answer): after 8 s with no word from the player, the frame shows the film's still and
+   a link to watch it on YouTube instead of "… loading" forever; ▶ tries again. If the player answers late, it simply takes over. */
+var YT_WAIT=8000;
+function ytFail(f){if(!M||M.ext!==f||M.ytOK||!O)return;var u=M.j.url||(M.j.embed||'').replace(/^https:\/\/www\.youtube(-nocookie)?\.com\/embed\/([\w-]+).*$/,'https://www.youtube.com/watch?v=$2'),b=M.it.dataset.big;
+  var d=document.createElement('div');d.className='yt-fb';d.innerHTML=(b?'<img src="'+esc(b)+'" alt="">':'')+'<a class="ib yt-go" href="'+esc(u)+'" target="_blank" rel="noopener">watch on YouTube <span aria-hidden="true">↗</span></a>';
+  O.frame.appendChild(d);M.fb=d;O.label('▶ try again')}
+function ytOK(){if(!M)return;M.ytOK=1;clearTimeout(M.ytT);if(M.fb){M.fb.remove();M.fb=null;if(O)O.label('▶ in the player')}}
+function retry(){if(!M||!M.ext||!M.fb)return false;clearTimeout(M.ytT);M.ext.remove();M.ext=null;M.fb=null;O.frame.innerHTML='';O.label('… loading');setPlay(true);return true}
 function natLoad(m){if(m.loading)return;m.loading=1;natData(m.nat,function(d){m.loading=0;if(M!==m)return;
     if(!d){if(m.play){O.label('▶ play film');pwatch(true)}return} /* shots.json did not come: never sit on "… loading"; ▶ asks again */
     m.dur=d.dur;m.fps=d.fps||24;if(d.ar)m.ar=d.ar;
@@ -60,9 +73,18 @@ var PW=0;function pwatch(stop,keep){if(keep&&PW)return; /* 'waiting' keeps a dea
   clearTimeout(PW);PW=0;if(stop||!M||!M.nat||!M.play||!O)return;var m=M,n=0,v0=M.vid,t0=now();
   PW=setTimeout(function chk(){PW=0;if(M!==m||!m.play||!O)return;var v=m.vid&&m.live?m.vid:null;
     if(v&&v.paused&&!m.swap){O.label('▶ play film');return}
-    if(v&&!v.paused&&v.readyState>=3&&(now()>t0+.05||v!==v0)){O.label('❚❚ playing');return} /* the picture really moves */
-    if(++n<2){t0=now();v0=v;PW=setTimeout(chk,2500);return}
+    if(v&&!v.paused&&((v.readyState>=3&&(now()>t0+.05||v!==v0))||(v===v0&&now()>t0+.5))){O.label('❚❚ playing');return} /* the picture really moves (v3.5: a clock that ran on is proof too; WebKit can keep readyState at 2 while it plays) */
+    if(++n<2||(v&&!v.error&&v.networkState===2&&m.prog&&Date.now()-m.prog<3000&&n<8)){t0=now();v0=v;PW=setTimeout(chk,2500);return} /* v3.5: bytes still arriving on a slow line: keep "loading film" up to 20 s; a file that never answers still gives up at 5 s */
     if(v){try{v.pause()}catch(e){}}O.label('▶ play film')},2500)} /* a 'playing' event alone is not proof (WebKit can fire it, then stall) */
+/* v3.5 · stall guard: WebKit (GStreamer) can sit on the first frame with the data already buffered, still "playing" (no waiting/stalled
+   event). If the clock has not moved for ~1.2 s while at least 0.5 s is buffered ahead and the element says it has no future data (readyState < 3), a quiet pause()+play() restarts the decoder (max 3
+   times per start, counted again once it runs). The real cause, in the files, is fixed (correct btrt bitrate box); this is the safety net. */
+var SG=0,WK=/AppleWebKit/.test(navigator.userAgent)&&!/Chrome|Chromium|CriOS|Android|Edg/.test(navigator.userAgent); /* WebKit engines only (Safari, iOS); Chromium never needs it */
+function sguard(){clearInterval(SG);SG=0;if(!WK||!M||!M.nat||!M.play)return;var m=M,last=-1,same=0,n=0;
+  SG=setInterval(function(){if(M!==m||!m.play||!m.vid||!m.live){clearInterval(SG);SG=0;return}var v=m.vid;if(v.paused||v.seeking||m.swap||m.nudge){same=0;last=-1;return}
+    var t=v.currentTime,ahead=0;for(var i=0;i<v.buffered.length;i++)if(v.buffered.start(i)<=t+.05&&v.buffered.end(i)>t)ahead=v.buffered.end(i)-t;
+    if(t===last&&ahead>.5&&v.readyState<3){if(++same>=3&&n<3){same=0;n++;m.nudge=1;try{v.pause()}catch(e){}var q,dn=function(){m.nudge=0},no=function(){setTimeout(function(){var q2;try{q2=v.play()}catch(e){}if(q2&&q2.then)q2.then(dn,function(){m.nudge=0;if(M===m&&m.vid===v&&O){pwatch(true);O.label('▶ play film')}});else dn()},120)};try{q=v.play()}catch(e){}if(q&&q.then)q.then(dn,no);else dn()}}
+    else{same=0;if(last>=0&&t>last+.3)n=0}last=t},400)}
 function okPlay(v){if(M&&M.vid===v&&O&&!v.paused&&v.readyState>=3)O.label('❚❚ playing')} /* play() resolved on a video that was already rolling */
 /* the first thing in the frame: a muted preview loop (or the still); the scrubbable media replaces it on the first touch */
 function preview(){var f=O.frame,it=M.it,pv=M.reel?'media/reel/pv.mp4':it.dataset.pv;
@@ -75,10 +97,11 @@ function now(){if(!M)return 0;if(M.ext)return M.extT;var v=M.vid;if(!v||!M.live)
 function partT(){return M&&M.parts&&M.parts[M.pi]?M.parts[M.pi].t:0}
 function hook(v){v.addEventListener('loadedmetadata',function(){if(M&&M.vid===v){if(!M.nat)M.dur=v.duration;else if(v.duration&&(!M.parts||M.parts.length<2))M.dur=v.duration;if(M.pend!=null){try{v.currentTime=M.pend}catch(e){}M.pend=null}build2();paint(now())}});
   v.addEventListener('timeupdate',function(){if(M&&M.vid===v){paint(now());edge()}});
+  v.addEventListener('progress',function(){if(M&&M.vid===v)M.prog=Date.now()});
   v.addEventListener('seeked',function(){if(M&&M.vid===v)paint(now())});
   v.addEventListener('play',function(){loop()});
   v.addEventListener('ended',function(){if(M&&M.vid===v&&M.nat&&M.parts&&M.pi<M.parts.length-1)toPart(M.pi+1,0,true)});
-  if(M.nat){v.addEventListener('playing',function(){if(M&&M.vid===v&&O){O.label('❚❚ playing');calm()}});v.addEventListener('pause',function(){if(M&&M.vid===v&&O&&!M.swap){pwatch(true);O.label('▶ play film');wake()}})
+  if(M.nat){v.addEventListener('playing',function(){if(M&&M.vid===v&&O){O.label('❚❚ playing');calm()}});v.addEventListener('pause',function(){if(M&&M.vid===v&&O&&!M.swap&&!M.nudge){pwatch(true);O.label('▶ play film');wake()}})
     v.addEventListener('waiting',function(){if(M&&M.vid===v&&O&&M.play&&!v.paused){O.label('… loading');pwatch(false,true)}}); /* buffering mid-film: says so, and the watch ends it */
     v.addEventListener('error',function(){if(M&&M.vid===v&&O){pwatch(true);O.label('▶ play film')}})}}
 function loop(){if(rq)return;rq=requestAnimationFrame(function f(){rq=0;if(!M||!M.vid||M.vid.paused||!M.live)return;paint(now());edge();rq=requestAnimationFrame(f)})}
@@ -105,17 +128,17 @@ function natVid(){if(M.vid&&M.live)return M.vid;if(!M.parts)M.parts=[{src:M.reel
 /* a film's clip at L3: the preview video if it is already in the frame, else the sky clip (media/sc) replaces the still */
 function clipVid(){if(M.vid&&M.live)return M.vid;if(!M.clip)return null;var v=vid({src:M.clip,muted:true,loop:true,poster:M.it.dataset.big});O.frame.innerHTML='';O.frame.appendChild(v);M.vid=v;M.live=true;hook(v);O.setVid(v);return v}
 function setPlay(p){if(!M)return;M.play=!!p;root.classList.toggle('ext',false);
-  if(M.nat){if(p){if(!M.parts&&!M.reel){label();natLoad(M);pwatch();return} /* shots.json still on its way: natLoad() calls back (or asks again after a failed fetch) */
-      var v=natVid();v.muted=!!M.muted;snd();var q=v.play();if(q&&q.then)q.then(function(){okPlay(v)},function(){if(M&&M.vid===v){pwatch(true);O.label('▶ play film')}});pwatch()}else{pwatch(true);if(M.vid&&M.live&&!M.vid.paused)M.vid.pause()}fmt()}
+  if(M.nat){if(p){ld(!(M.vid&&M.live&&!M.vid.paused&&M.vid.readyState>=3));if(!M.parts&&!M.reel){label();natLoad(M);pwatch();return} /* shots.json still on its way: natLoad() calls back (or asks again after a failed fetch) */
+      var v=natVid();v.muted=!!M.muted;snd();var q=v.play();sguard();if(q&&q.then)q.then(function(){okPlay(v)},function(){if(M&&M.vid===v){pwatch(true);O.label('▶ play film')}});pwatch()}else{pwatch(true);ld(false);if(M.vid&&M.live&&!M.vid.paused)M.vid.pause()}fmt()}
   else if(M.soon){M.play=false;if(p&&O)O.label('full film coming soon')} /* no local file yet (never the Vimeo player): still + quiet note */
   else if(p){ /* the film in the same frame (YouTube) */
     if(!M.ext){if(M.vid)try{M.vid.pause()}catch(e){}var f=document.createElement('iframe'),u=M.j.embed||'';
       if(/youtube/.test(u))u+=(u.indexOf('?')<0?'?':'&')+'enablejsapi=1&playsinline=1&origin='+encodeURIComponent(location.origin);
       f.src=u;f.allow='autoplay; fullscreen; picture-in-picture';f.title=M.j.title||'film';f.setAttribute('allowfullscreen','');
-      if(/youtube/.test(u)){f.addEventListener('load',function(){yt(f,{event:'listening',id:'gj',channel:'widget'});setTimeout(function(){if(O&&M&&M.ext===f&&O.label)O.label('▶ in the player')},1500)})}
+      if(/youtube/.test(u)){M.ytOK=0;clearTimeout(M.ytT);M.ytT=setTimeout(function(){ytFail(f)},YT_WAIT);f.addEventListener('load',function(){yt(f,{event:'listening',id:'gj',channel:'widget'});setTimeout(function(){if(O&&M&&M.ext===f&&!M.fb&&O.label)O.label('▶ in the player')},1500)})}
       O.frame.innerHTML='';O.frame.classList.add('ext');O.frame.appendChild(f);M.ext=f;M.vid=null;M.live=false;M.extT=0;O.setVid(null)}
     root.classList.add('ext');build();paint(M.extT)}
-  else if(M.ext){M.ext.remove();M.ext=null;O.frame.classList.remove('ext');O.frame.innerHTML='';preview();O.setVid(M.vid);build();setShot(0,true);paint(0)}
+  else if(M.ext){clearTimeout(M.ytT);M.fb=null;M.ext.remove();M.ext=null;O.frame.classList.remove('ext');O.frame.innerHTML='';preview();O.setVid(M.vid);build();setShot(0,true);paint(0)}
   label()}
 function snd(){if(!M)return;var m=!!M.muted;M0.muted=m;bSnd.textContent=m?'♪̸':'♪';bSnd.setAttribute('aria-pressed',String(!m));bSnd.setAttribute('aria-label',m?'sound off: tap for sound':'sound on: tap to mute')}
 /* ---------- the rail + strip ---------- */
@@ -215,8 +238,10 @@ function fmt(instant){if(!M||!M.nat||!O)return;var o=orient();if(FMT.o&&FMT.o!==
   if(instant||!anim()){f.classList.add('nofit');f.style.width=w+'px';f.style.height=h+'px';void f.offsetWidth;f.classList.remove('nofit')}
   else{f.style.width=w+'px';f.style.height=h+'px'}
   root.classList.toggle('full',full);follow(true);clearTimeout(FMT.ft);FMT.ft=setTimeout(function(){if(M)follow(true)},620)}
-function toggleFull(){if(!M||!M.nat)return;var want=!FMT.full;FMT.user=want;
-  if(want&&!fsEl()&&(document.fullscreenEnabled||document.webkitFullscreenEnabled)&&(imm.requestFullscreen||imm.webkitRequestFullscreen)){
+function toggleFull(){if(!M||!M.nat)return;var canFs=!fsEl()&&(document.fullscreenEnabled||document.webkitFullscreenEnabled)&&(imm.requestFullscreen||imm.webkitRequestFullscreen),want=!FMT.full;
+  if(FMT.full&&FMT.user==null&&canFs)want=true; /* v3.5 QA L1: ▶ in landscape is a CSS fill (auto); the first ⤢ now goes to real full screen, the next one back to the cut */
+  FMT.user=want;
+  if(want&&canFs){
     try{var q=imm.requestFullscreen?imm.requestFullscreen():imm.webkitRequestFullscreen();FMT.fs=1;if(q&&q.then)q.then(function(){if(M&&M.ar>=1.2)try{screen.orientation.lock('landscape').catch(function(){})}catch(e){}},function(){FMT.fs=0})}catch(e){FMT.fs=0}}
   else if(!want&&FMT.fs&&fsEl()){FMT.fs=0;try{(document.exitFullscreen||document.webkitExitFullscreen).call(document)}catch(e){}try{screen.orientation.unlock()}catch(e){}}
   fmt()}
@@ -234,21 +259,21 @@ addEventListener('message',function(e){if(!M||!M.ext||e.source!==M.ext.contentWi
   if(/vimeo\.com$/.test(e.origin)){if(d.event==='ready'){vm(M.ext,'addEventListener','timeupdate');vm(M.ext,'addEventListener','playProgress');vm(M.ext,'getDuration')}
     else if((d.event==='timeupdate'||d.event==='playProgress')&&d.data){if(d.data.duration)M.extD=d.data.duration;if(PR==null){M.extT=d.data.seconds||0;paint(M.extT)}}
     else if(d.method==='getDuration'&&d.value){M.extD=d.value;paint(M.extT)}}
-  else if(/youtube(-nocookie)?\.com$/.test(e.origin)&&d.info){if(d.info.duration)M.extD=d.info.duration;if(d.info.currentTime!=null&&PR==null){M.extT=d.info.currentTime;paint(M.extT)}}});
-function stop(){clearTimeout(PW);PW=0;if(rq){cancelAnimationFrame(rq);rq=0}if(M){if(M.vid){try{M.vid.pause()}catch(e){}if(M.live&&M.nat){M.vid.removeAttribute('src');try{M.vid.load()}catch(e){}}}if(M.nx){M.nx.removeAttribute('src');M.nx.remove()}if(M.ext)M.ext.remove();
-    if(O&&O.frame){O.frame.style.width=O.frame.style.height='';O.frame.classList.remove('fit','tall','sized')}}
+  else if(/youtube(-nocookie)?\.com$/.test(e.origin)&&(ytOK(),d.info)){if(d.info.duration)M.extD=d.info.duration;if(d.info.currentTime!=null&&PR==null){M.extT=d.info.currentTime;paint(M.extT)}}});
+function stop(){clearTimeout(PW);PW=0;clearInterval(SG);SG=0;if(M)clearTimeout(M.ytT);if(rq){cancelAnimationFrame(rq);rq=0}if(M){if(M.vid){try{M.vid.pause()}catch(e){}if(M.live&&M.nat){M.vid.removeAttribute('src');try{M.vid.load()}catch(e){}}}if(M.nx){M.nx.removeAttribute('src');M.nx.remove()}if(M.ext)M.ext.remove();
+    if(O&&O.frame){O.frame.style.width=O.frame.style.height='';O.frame.classList.remove('fit','tall','sized','ld')}}
   if(FMT.full){FMT.full=false;imm.classList.remove('fv','sfull')}imm.classList.remove('calm');FMT.user=null;
   if(FMT.fs&&fsEl()){FMT.fs=0;try{(document.exitFullscreen||document.webkitExitFullscreen).call(document)}catch(e){}}
   M=null;imm.classList.remove('scoped');root.hidden=true;root.classList.remove('ext','reel','nat','full');strip.innerHTML='';[].slice.call(rail.querySelectorAll('.tk')).forEach(function(t){t.remove()});lastF=-1}
 /* v3.4: ▶ / ❚❚ on a native film (dive.js hands the tap over): pause, resume, or start again after a failed start */
 function toggle(){if(!M||!M.nat)return;var v=M.vid&&M.live?M.vid:null;
   if(v&&!v.paused){pwatch(true);v.pause();return} /* M.play stays: a pause keeps the film's format (no morph back to the cut) */
-  if(v&&M.parts){M.play=true;O.label('… loading');var q=v.play();if(q&&q.then)q.then(function(){okPlay(v)},function(){O.label('▶ play film')});pwatch();return}
+  if(v&&M.parts){M.play=true;O.label('… loading');var q=v.play();sguard();if(q&&q.then)q.then(function(){okPlay(v)},function(){O.label('▶ play film')});pwatch();return}
   O.label('… loading');setPlay(true)}
 /* v3.4: leave full screen now (✕ and browser Back close the film in the same step; no second tap, no full screen left over the grid) */
 function unfull(){FMT.user=null;if(fsEl()){FMT.fs=0;try{(document.exitFullscreen||document.webkitExitFullscreen).call(document)}catch(e){}try{screen.orientation.unlock()}catch(e){}}FMT.fs=0;
   if(FMT.full){FMT.full=false;imm.classList.remove('fv','sfull','calm');root.classList.remove('full');var b=document.querySelector('.imm [data-a=full]');if(b){b.setAttribute('aria-label','full screen');b.textContent='⤢'}}}
-window.__scope={fill:fill,stop:stop,toggle:toggle,unfull:unfull,seek:function(t){seek(t)},step:step,toggleFull:toggleFull,owns:function(){return !!(M&&M.nat)},playable:function(it){try{var j=JSON.parse(it.dataset.j||'{}');return !!(j.reel||j.native||j.embed)}catch(e){return true}},
+window.__scope={fill:fill,stop:stop,toggle:toggle,retry:retry,unfull:unfull,seek:function(t){seek(t)},step:step,toggleFull:toggleFull,owns:function(){return !!(M&&M.nat)},playable:function(it){try{var j=JSON.parse(it.dataset.j||'{}');return !!(j.reel||j.native||j.embed)}catch(e){return true}},
   state:function(){if(!M)return null;var v=M.vid,f=O&&O.frame,r=f?f.getBoundingClientRect():null;return{key:M.key,reel:M.reel,nat:!!M.nat,soon:!!M.soon,play:M.play,ext:!!M.ext,shots:shotsNow().length,cur:M.cur,t:now(),dur:dur(),
     loaded:!!(v&&M.live),src:v&&M.live?v.currentSrc||v.src:'',paused:v?v.paused:true,part:M.pi,parts:M.parts?M.parts.length:0,full:FMT.full,user:FMT.user,
     frame:r?[Math.round(r.width),Math.round(r.height)]:null,vids:f?f.querySelectorAll('video').length:0,iframes:document.querySelectorAll('iframe[src*=vimeo]').length,

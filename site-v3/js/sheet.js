@@ -106,7 +106,8 @@ links('arm',.32*fitA*sky*sky);links('grid',.3*M*M);
   labRects=[];if(opt.hud)opt.hud.forEach(function(r){labRects.push(r)});
   var nameA=Math.max(0,Math.min(1,(c.s/chapS()-.62)/.25))*(1-Math.min(1,M*3));
   if(nameA>.02){g.font='300 12px Poppins, sans-serif';g.textAlign='left';g.textBaseline='middle';
-    ITEMS.forEach(function(it){var p=P(it.x,it.y);if(p[0]<0||p[0]>w-30||p[1]<TOP||p[1]>h-10)return;var lab=it.lab.length>24?it.lab.slice(0,23)+'…':it.lab,tw2=g.measureText(lab).width,r={x:p[0]+7,y:p[1]-9,w:tw2+6,h:18};
+    var lk=FK||nearest(); /* v3.5: only the chapter in view names its works (no labels from the neighbouring constellations) */
+    ITEMS.forEach(function(it){if(it.k!==lk)return;var p=P(it.x,it.y);if(p[0]<0||p[0]>w-30||p[1]<TOP||p[1]>h-10)return;var lab=it.lab.length>24?it.lab.slice(0,23)+'…':it.lab,tw2=g.measureText(lab).width,r={x:p[0]+7,y:p[1]-9,w:tw2+6,h:18};
       if(r.x+r.w>w-4)r.x=p[0]-7-r.w;if(!free(r))return;g.globalAlpha=nameA;g.fillStyle='rgba(3,5,10,.62)';g.fillRect(r.x-2,r.y,r.w+2,r.h);g.fillStyle='#e6edf0';g.fillText(lab,r.x+2,p[1]);g.globalAlpha=1})}
   /* block headers in the grid */
   if(M>.6){g.textAlign='left';g.textBaseline='alphabetic';ORDER.forEach(function(k){var c2=C[k];if(!c2)return;var p=P(c2.bx,c2.by-14),fs=Math.max(11,Math.min(22,16*c.s));if(p[0]>w||p[0]+328*c.s<0)return;

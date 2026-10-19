@@ -154,7 +154,7 @@ function neighbour(dir){var c=CH[S.k],i=c.items.indexOf(item(c,S.w)),n=c.items[(
   fill(c,n,false);push({k:S.k,lv:3,w:S.w},true);ui()}
 imm.addEventListener('click',function(e){var b=e.target.closest('[data-a]');if(!b)return;var a=b.dataset.a;
   if(a==='out'){e.preventDefault();var wasFs=unfullAll();if(S.w)go({k:S.k,lv:2},{anchor:item(CH[S.k],S.w),noAnim:wasFs})} /* ✕ always lands on the chapter grid. v3.4: in full screen too, in ONE tap (it used to only leave full screen first) */
-  else if(a==='play'){e.preventDefault();if(!S.play)go({k:S.k,lv:3,w:S.w,play:true});else if(window.__scope&&__scope.owns())__scope.toggle();else if(vidEl&&S.play){vidEl.paused?vidEl.play():vidEl.pause()}else{var ifr=$('iframe',frame);if(ifr&&/vimeo/.test(ifr.src))vimeo(ifr,/playing/.test(b.textContent)?'pause':'play')}}
+  else if(a==='play'){e.preventDefault();if(!S.play)go({k:S.k,lv:3,w:S.w,play:true});else if(window.__scope&&__scope.owns())__scope.toggle();else if(window.__scope&&__scope.retry&&__scope.retry()){}else if(vidEl&&S.play){vidEl.paused?vidEl.play():vidEl.pause()}else{var ifr=$('iframe',frame);if(ifr&&/vimeo/.test(ifr.src))vimeo(ifr,/playing/.test(b.textContent)?'pause':'play')}}
   else if(a==='prev'||a==='next'){e.preventDefault();neighbour(a==='next'?1:-1)}
   else if(a==='full'){e.preventDefault();full()}});
 /* full screen: a playing <video> uses the native player (iPhone: webkitEnterFullscreen). An embed (Vimeo/YouTube) uses element
@@ -255,7 +255,9 @@ addEventListener('scroll',onScroll,{passive:true});
 addEventListener('resize',function(){measure();ORDER.forEach(function(k){if(CH[k].lv)drawLines(CH[k])});onScroll()});
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){measure();ORDER.forEach(function(k){if(CH[k].lv)drawLines(CH[k])})});
 /* ---------- Back / Forward and deep links: every level is a hash ---------- */
-addEventListener('popstate',function(){var wasFs=unfullAll(),r=parse(location.hash); /* v3.4: Back in full screen = out of full screen + the film closes, together (no stills left in full screen) */
+addEventListener('popstate',function(){var pk=S.k,pw=S.w,pp=S.play,land=innerWidth>innerHeight&&innerHeight<=500,wasFs=unfullAll(),r=parse(location.hash);
+  /* v3.5: Back from a film playing full screen (a landscape phone always plays full) lands on the chapter grid, like ✕ (it used to stop on the still) */
+  if(pp&&pw&&(wasFs||land)&&!r.sheet&&r.k===pk&&r.lv===3&&r.w===pw&&!r.play){go({k:pk,lv:2},{replace:true,anchor:item(CH[pk],pw),noAnim:true});return} /* v3.4: Back in full screen = out of full screen + the film closes, together (no stills left in full screen) */
   if(wasFs&&!r.sheet){go(r,{push:false,anchor:r.k?CH[r.k].head:null,noAnim:true});return}if(r.sheet){if(S.w)closeWork(true,true);return} /* v3.2: never leave a work open under/over the sheet */go(r,{push:false,anchor:r.k?CH[r.k].head:null})});
 function boot(){measure();var r=parse(location.hash);if(r.sheet){onScroll();ui();return}if(r.k){var a=anim;anim=function(){return false};go(r,{push:false,replace:true,noAnim:true});
     if(r.lv<3)CH[r.k].el.scrollIntoView({block:'start'});anim=a}

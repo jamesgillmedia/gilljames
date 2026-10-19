@@ -25,7 +25,9 @@ function pname(n){n=n==null?'':String(n).toLowerCase();n=ALIAS[n]||n;return PROF
 function ss(k,v){try{if(v===undefined)return sessionStorage.getItem(k);sessionStorage.setItem(k,v)}catch(e){return null}}
 function mkcfg(n,knobs){var P=PROFILES[n],c={name:n,num:P.n,moon:P.moon,hole:P.hole,guard:P.guard,dpr:P.dpr,bright:P.bright,flash:P.flash,dive:P.dive};
   if(knobs)['moon','hole','guard'].forEach(function(k){var v=Q.get('a-'+k);if(v!=null&&v!=='')c[k]=k==='moon'?v:Math.max(0,+v||0)});return c}
-var CFG=mkcfg(pname(Q.get('arrival'))||pname(ss('gj-arrival'))||pname(D.dataset.arrival)||ARRIVAL_DEFAULT,true);
+var QA=pname(Q.get('arrival')),CFG=mkcfg(QA||pname(ss('gj-arrival'))||pname(D.dataset.arrival)||ARRIVAL_DEFAULT,true);
+/* v3.5: a ?arrival= pick is remembered for the session exactly like a button pick (sessionStorage + the canonical name in the address) */
+if(QA){ss('gj-arrival',QA);if(Q.get('arrival')!==QA)try{var u0=new URL(location.href);u0.searchParams.set('arrival',QA);history.replaceState(history.state,'',u0.pathname+u0.search+u0.hash)}catch(e){}}
 D.dataset.arv=CFG.name;
 var arr=-1,diving=false,dived=false,sunk=false,away=false,lastY=0,landY=60,sk=0,READY=performance.now()+CFG.guard,holeEl=null;
 if(CFG.guard>=1000&&document.readyState!=='complete')addEventListener('load',function(){READY=performance.now()+CFG.guard}); /* v2: the guard counts from load */
