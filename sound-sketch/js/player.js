@@ -86,7 +86,7 @@ function tick(now,dt){if(REC&&pauseAt>0&&VT>=pauseAt){pauseAt=-1;if(mode!=='in'&
   var gap=tz-camZ;if(dragging||Math.abs(gap)>2.5)camZ+=gap*Math.min(1,dt*(dragging?5:3));else camZ+=gap*Math.min(1,dt*8);
   var ct=Math.max(0,Math.min(T.dur,camZ/(N*SP)*T.dur));if(!dragging)railT=au.paused?ct:au.currentTime;
   if(REC)LOG.push([VT,au.currentTime,au.paused?0:1,dragging?1:0,FG.v]);
-  draw(now,dt);ui()}
+  chStep(dt);draw(now,dt);ui()}
 function draw(now,dt){var c=g;c.setTransform(DPR,0,0,DPR,0,0);
   var m=ease(dive),cx=px(camZ)*m,cy=py(camZ)*m,cz=camZ;
   /* sky: navy radial + background star dust (parallax: drifts with the camera path inside) */
@@ -142,17 +142,59 @@ function draw(now,dt){var c=g;c.setTransform(DPR,0,0,DPR,0,0);
   if(sa>.01){var sp=[],zc=cz+DZ*(1-ease(dive));
     for(var k=0;k<SOUND.s.length;k++){var cs=cstar(k);sp.push(proj(cs[0],cs[1],zc,cz,0,0))}
     var hz=Math.min(1,(sp[0]?sp[0][2]:F/DZ)/(F/DZ));
+    for(var i=0;i<CH.length;i++){var ch=CH[i],q=sp[ch.b];if(q&&ch.L){var bb=bob(ch);sp[ch.b]=[q[0]+(bb[0]-ch.rx)*hz,q[1]+(bb[1]-ch.ry)*hz,q[2],q[3]]}}
     var gc=sp[7]||[W/2,H*.4];var nr=Math.min(W,520)*.55*hz;var gg=c.createRadialGradient(W/2,H*.46-H*.07*hz,0,W/2,H*.46-H*.07*hz,nr);
     gg.addColorStop(0,'rgba('+SOUND.t+','+(.09*sa).toFixed(3)+')');gg.addColorStop(1,'rgba('+SOUND.t+',0)');c.fillStyle=gg;c.fillRect(0,0,W,H);
     c.strokeStyle='rgba(255,214,208,'+(.5*sa*sa).toFixed(3)+')';c.lineWidth=1;c.beginPath();
     SOUND.e.forEach(function(e){var a=sp[e[0]],b=sp[e[1]];if(a&&b){c.moveTo(a[0],a[1]);c.lineTo(b[0],b[1])}});c.stroke();
     for(var k=0;k<SOUND.s.length;k++){var p=sp[k];if(!p)continue;var s=SOUND.s[k],b=s[2]*(.85+.15*Math.sin(tw*1.7+k*1.3)),SF=1.35*hz;
-      var gs=(6+30*b*b)*SF;c.globalAlpha=sa*(.35+.65*b)*(s[3]?.8:1);c.drawImage(GR,p[0]-gs/2,p[1]-gs/2,gs,gs);
+      var gs=(6+30*b*b)*SF;for(var i=0;i<CH.length;i++)if(CH[i].b===k)gs*=1+.7*CH[i].fl;c.globalAlpha=sa*(.35+.65*b)*(s[3]?.8:1);c.drawImage(GR,p[0]-gs/2,p[1]-gs/2,gs,gs);
       c.globalAlpha=sa*(.45+.55*b);c.fillStyle='#fff';c.beginPath();c.arc(p[0],p[1],(.5+1.9*b)*SF*.85,0,7);c.fill()}
     c.globalAlpha=1}
   /* a flash of white as you pass through the plane of the stars */
+  if(fing&&fing.a>.01){c.globalAlpha=fing.a;c.drawImage(GW,fing.x-16,fing.y-16,32,32);c.globalAlpha=1;if(!fing.on)fing.a*=.8}
   var fl=Math.max(0,1-Math.abs(dive-.42)/.14);if(fl>0&&(mode==='diving'||mode==='rising')){c.fillStyle='rgba(220,235,255,'+(.10*fl).toFixed(3)+')';c.fillRect(0,0,W,H)}
 }
+/* ---------- wind chimes: the five strands that hang from the constellation's line (edges 2-3, 5-6, 7-8, 10-11, 13-14) ----------
+   sky only. swipe across the sky = a breeze (swipe speed + direction, capped low) that sways the strands on pendulum physics;
+   neighbours that swing into each other's reach knock and ring. tap a strand (44 px+ target) = just that strand plays its note.
+   pitch by position, left to right on C major pentatonic; each strand has its own slightly different timbre. Web Audio only. */
+var RM=window.matchMedia?matchMedia('(prefers-reduced-motion: reduce)'):{matches:false};
+var PENT=[523.25,587.33,659.25,783.99,880.00],CHR=[1,2.76,5.40],CHD=[2.6,1.1,.42];
+var TB=[[1,.20,.06],[1,.14,.09],[1,.24,.05],[1,.12,.08],[1,.18,.10]],CDT=[0,.0015,-.001,.002,-.0015];
+var CH=SOUND.e.slice(0,5).map(function(e,i){return{a:e[0],b:e[1],th:0,w:0,fl:0,f:PENT[i],v:i,lc:-1}}),CHL=[],chT=0;
+function skyXY(k){var s=SOUND.s[k],sc=Math.min(W*.86,520);return[W/2+(s[0]-.5)*sc,H*.46+(s[1]-.5)*sc*.5-H*.07]}
+function chGeo(){for(var i=0;i<CH.length;i++){var c=CH[i],p=skyXY(c.a),r=skyXY(c.b);c.px=p[0];c.py=p[1];c.rx=r[0];c.ry=r[1];c.L=Math.max(20,Math.hypot(r[0]-p[0],r[1]-p[1]));c.a0=Math.atan2(r[0]-p[0],r[1]-p[1])}}
+function bob(c){return[c.px+c.L*Math.sin(c.a0+c.th),c.py+c.L*Math.cos(c.a0+c.th)]}
+function chStep(dt){chGeo();var rm=RM.matches,damp=rm?1.5:.7,vmax=rm?34:68,h=1/120,n=Math.min(8,Math.ceil(dt/h));h=dt/Math.max(1,n);
+  for(var s=0;s<n;s++){chT+=h;
+    for(var i=0;i<CH.length;i++){var c=CH[i];c.w+=(-(900/c.L)*Math.sin(c.th)-damp*c.w)*h;var v=c.w*c.L;if(Math.abs(v)>vmax)c.w=(v>0?vmax:-vmax)/c.L;c.th+=c.w*h}
+    for(var i=0;i<CH.length-1;i++){var A=CH[i],B=CH[i+1],xa=bob(A)[0],xb=bob(B)[0],g0=B.rx-A.rx,ct=g0-9;
+      if(xb-xa<ct){var va=A.w*A.L,vb=B.w*B.L,rel=va-vb;
+        if(rel>0){var m=(va+vb)/2,e=.4;A.w=(m-e*rel/2)/A.L;B.w=(m+e*rel/2)/B.L;var vel=Math.min(1,rel/(rm?60:110));
+          if(vel>.04){if(chT-A.lc>.09){A.lc=chT;chime(A.f,vel,A.v,0)}if(chT-B.lc>.09){B.lc=chT;chime(B.f,vel*.7,B.v,.014)}A.fl=Math.max(A.fl,vel);B.fl=Math.max(B.fl,vel)}}
+        var ov=(ct-(xb-xa))/2;A.th-=ov/A.L;B.th+=ov/B.L}}}
+  for(var i=0;i<CH.length;i++){var c=CH[i];c.fl*=Math.exp(-dt*3);if(Math.abs(c.th)<2e-4&&Math.abs(c.w)<2e-3){c.th=0;c.w=0}}}
+function chActive(){return mode==='sky'}
+function segD(x,y,c){var b=bob(c),dx=b[0]-c.px,dy=b[1]-c.py,t=Math.max(0,Math.min(1,((x-c.px)*dx+(y-c.py)*dy)/(dx*dx+dy*dy)));return Math.hypot(x-c.px-dx*t,y-c.py-dy*t)}
+function chHit(x,y){var best=null,bd=24;for(var i=0;i<CH.length;i++){var c=CH[i],b=bob(c),d=Math.min(segD(x,y,c)+(y<c.py+12?99:0),Math.hypot(x-b[0],y-b[1])-4);if(d<bd){bd=d;best=c}}return best}
+/* the breeze: wind = swipe velocity (capped low), felt most by the strand under the finger, a little by all of them */
+function wind(x,y,vx,vy,dt){var rm=RM.matches,cap=rm?320:640,sp=Math.hypot(vx,vy);if(sp>cap){vx*=cap/sp;vy*=cap/sp}
+  for(var i=0;i<CH.length;i++){var c=CH[i],d=segD(x,y,c),wg=.12+.88*Math.exp(-d*d/(2*60*60)),f=vx+.25*Math.abs(vy)*(c.rx<x?-1:1);c.w+=f*.42*wg*(.3+1.4*rnd(i*7.1+chT*61))*dt/c.L}}
+function pluck(c,x){var rm=RM.matches,dir=x<bob(c)[0]?1:-1;c.w+=dir*(rm?12:22)/c.L;c.fl=Math.max(c.fl,.6);chime(c.f,.5,c.v,0)}
+/* synth: struck-tube partials (1, 2.76, 5.4) with their own decays, on a soft bus that sits under the track, 8 voices max */
+var CB=null,VOX=[],unl=false,CHN=0;
+function unlock(){if(REC)return;try{initAudio();if(AC.state==='suspended')AC.resume();if(!unl){var b=AC.createBuffer(1,1,22050),s=AC.createBufferSource();s.buffer=b;s.connect(AC.destination);s.start(0);unl=true}}catch(x){}}
+['pointerdown','touchend','pointerup','keydown'].forEach(function(t){addEventListener(t,unlock,{capture:true,passive:true})});
+function chime(f,vel,vi,dl){if(REC){CHL.push([+(VT+dl).toFixed(4),f,+vel.toFixed(3),vi]);return}
+  if(!AC||AC.state!=='running')return;var t=AC.currentTime+dl;
+  if(!CB){var cp=AC.createDynamicsCompressor();cp.threshold.value=-26;cp.ratio.value=6;cp.attack.value=.003;cp.release.value=.3;CB=AC.createGain();CB.gain.value=.3;CB.connect(cp);cp.connect(AC.destination)}
+  CB.gain.setTargetAtTime(au.paused?.3:.13,AC.currentTime,.1);
+  while(VOX.length>=8){var o=VOX.shift();try{o.g.gain.cancelScheduledValues(t);o.g.gain.setTargetAtTime(0,t,.015);o.os.forEach(function(s){s.stop(t+.12)})}catch(x){}}
+  var g=AC.createGain(),amp=.05+.25*Math.pow(vel,1.4),tb=TB[vi],os=[];g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(amp,t+.004);g.gain.exponentialRampToValueAtTime(.0003,t+2.8);g.connect(CB);
+  for(var j=0;j<3;j++){var o=AC.createOscillator(),pg=AC.createGain();o.frequency.value=f*CHR[j]*(1+CDT[vi]*j);pg.gain.setValueAtTime(tb[j],t);pg.gain.exponentialRampToValueAtTime(.0001,t+CHD[j]);o.connect(pg);pg.connect(g);o.start(t);o.stop(t+2.85);os.push(o)}
+  CHN++;var V={g:g,os:os};VOX.push(V);os[0].onended=function(){var k=VOX.indexOf(V);if(k>=0)VOX.splice(k,1);g.disconnect()}}
+var fing=null; /* ?rec only: a faint fingertip so the demo shows where the touch is */
 /* ---------- ui ---------- */
 var lastUI='';
 function mmss(s){s=Math.max(0,s);var m=Math.floor(s/60),x=Math.floor(s%60);return(m<10?'0':'')+m+':'+(x<10?'0':'')+x}
@@ -171,10 +213,18 @@ $('pp').onclick=function(){if(au.paused){vol(1);au.play()}else au.pause()};
 addEventListener('popstate',function(){if(mode==='in'||mode==='diving')goOut(true)});
 addEventListener('keydown',function(e){if(e.key==='Escape')goOut();if(e.key===' '&&mode==='in'){e.preventDefault();$('pp').onclick()}});
 /* canvas: tap = dive (sky) / pause (inside); swipe down inside = rise */
-var p0=null;
-cv.addEventListener('pointerdown',function(e){p0={x:e.clientX,y:e.clientY,t:performance.now()}});
-cv.addEventListener('pointerup',function(e){if(!p0)return;var dy=e.clientY-p0.y,dx=e.clientX-p0.x;
-  if(mode==='in'&&dy>80&&Math.abs(dx)<dy)goOut();else if(Math.abs(dx)+Math.abs(dy)<12){if(mode==='sky')goIn();else if(mode==='in')$('pp').onclick()}p0=null});
+var p0=null,TAPD=12,TAPT=400;
+function tnow(e){return REC?VT:e.timeStamp/1000}
+cv.addEventListener('pointerdown',function(e){p0={x:e.clientX,y:e.clientY,t:performance.now(),lx:e.clientX,ly:e.clientY,lt:tnow(e),sw:false,vx:0,vy:0};try{cv.setPointerCapture(e.pointerId)}catch(x){}
+  if(REC)fing={x:e.clientX,y:e.clientY,a:.5,on:true}});
+cv.addEventListener('pointermove',function(e){if(!p0)return;if(fing){fing.x=e.clientX;fing.y=e.clientY}
+  if(!p0.sw&&Math.hypot(e.clientX-p0.x,e.clientY-p0.y)>=TAPD)p0.sw=true;
+  var t=tnow(e),dt=Math.max(1/120,t-p0.lt),vx=(e.clientX-p0.lx)/dt,vy=(e.clientY-p0.ly)/dt;p0.vx=p0.vx*.4+vx*.6;p0.vy=p0.vy*.4+vy*.6;
+  if(p0.sw&&chActive())wind(e.clientX,e.clientY,p0.vx,p0.vy,Math.min(dt,.05));p0.lx=e.clientX;p0.ly=e.clientY;p0.lt=t});
+function cvUp(e){if(fing)fing.on=false;if(!p0)return;var dy=e.clientY-p0.y,dx=e.clientX-p0.x,tap=Math.abs(dx)+Math.abs(dy)<TAPD,hit=chActive()?chHit(p0.x,p0.y):null;
+  if(hit){if(tap&&performance.now()-p0.t<TAPT)pluck(hit,p0.x)}
+  else if(mode==='in'&&dy>80&&Math.abs(dx)<dy)goOut();else if(tap){if(mode==='sky')goIn();else if(mode==='in')$('pp').onclick()}p0=null}
+cv.addEventListener('pointerup',cvUp);cv.addEventListener('pointercancel',function(){if(fing)fing.on=false;p0=null});
 /* rail: drag flies the camera; audio follows on release (soft while dragging), like Scope's scrub */
 var dragging=false,PR=null,seekQ=0;
 function railTime(e){var r=rail.getBoundingClientRect();return Math.max(0,Math.min(T.dur-.05,(e.clientX-r.left)/r.width*T.dur))}
@@ -187,5 +237,5 @@ rail.addEventListener('keydown',function(e){var d=e.key==='ArrowRight'?5:e.key==
 au.addEventListener('ended',function(){au.currentTime=0;tz=0;au.play()});
 addEventListener('resize',rs);
 pickTrack(TK);rs();if(!REC)requestAnimationFrame(frame);else{last=0;tick(0,0)}
-window.__sk={step:function(n,dt){for(var i=0;i<n;i++)step(dt)},ready:function(){return !!PCM},goIn:goIn,goOut:goOut,log:function(){var l=LOG;LOG=[];return l},state:function(){return{mode:mode,t:au.currentTime,dive:dive}}};
+window.__sk={played:function(){return{n:CHN,vox:VOX.length,ac:AC&&AC.state}},chimes:function(){var l=CHL;CHL=[];return l},ch:function(){return CH.map(function(c){var b=bob(c);return{x:b[0],y:b[1],px:c.px,py:c.py,th:c.th,w:c.w}})},step:function(n,dt){for(var i=0;i<n;i++)step(dt)},ready:function(){return !!PCM},goIn:goIn,goOut:goOut,log:function(){var l=LOG;LOG=[];return l},state:function(){return{mode:mode,t:au.currentTime,dive:dive}}};
 })();
