@@ -89,8 +89,11 @@ function draw(g,w,h,c,opt){opt=opt||{};var P=function(x,y){return[(x-c.x)*c.s+w/
     c2.dec.forEach(function(d){var q=P(d.x,d.y),gs=(6+30*d.b*d.b)*SF;if(q[0]<-30||q[0]>w+30||q[1]<-30||q[1]>h+30)return;g.globalAlpha=sky*(.35+.65*d.b)*(d.st?.8:1);g.drawImage(c2.glow,q[0]-gs/2,q[1]-gs/2,gs,gs);g.globalAlpha=sky*(.45+.55*d.b)*(d.st?.8:1);g.fillStyle='#fff';g.beginPath();g.arc(q[0],q[1],(.5+1.9*d.b)*SF*.85,0,7);g.fill()});g.globalAlpha=1});
 links('arm',.32*fitA*sky*sky);links('grid',.3*M*M);
   /* ᑕᐣᓯ: the glowing centre */
-  if(sky>0){var o=P(0,0),gs=Math.max(70,Math.min(420,260*c.s/.3))*1.0;g.globalAlpha=sky;g.drawImage(GLOWC,o[0]-gs/2,o[1]-gs/2,gs,gs);
-    g.font='700 '+Math.round(Math.max(22,Math.min(84,48*c.s/.3)))+'px Syl, sans-serif';g.textAlign='center';g.textBaseline='middle';
+  var GR=null;if(sky>0){var o=P(0,0),gs=Math.max(70,Math.min(420,260*c.s/.3))*1.0,gf=Math.round(Math.max(22,Math.min(84,48*c.s/.3)));
+    g.font='700 '+gf+'px Syl, sans-serif';g.textAlign='center';g.textBaseline='middle';
+    /* v3.5.1 QA O3: the centre mark keeps clear of the words: it fades as it slides under the title bar, and names never sit on it */
+    var gw=g.measureText('ᑕᐣᓯ').width;GR={x:o[0]-gw/2-6,y:o[1]-gf*.62,w:gw+12,h:gf*1.24};var ga=1-.85*Math.max(0,Math.min(1,(TOP-GR.y)/(gf*.9)));
+    g.globalAlpha=sky*ga;g.drawImage(GLOWC,o[0]-gs/2,o[1]-gs/2,gs,gs);
     g.fillStyle='rgba(10,189,240,.55)';g.fillText('ᑕᐣᓯ',o[0]-1.2,o[1]);g.fillStyle='rgba(254,1,1,.45)';g.fillText('ᑕᐣᓯ',o[0]+1.2,o[1]);g.fillStyle='#fff';g.fillText('ᑕᐣᓯ',o[0],o[1]);g.globalAlpha=1}
   /* chapter stars */
   if(sky>0)ORDER.forEach(function(k){var c2=C[k];if(!c2)return;var p=P(c2.x,c2.y),gs=Math.max(46,Math.min(150,110*c.s/.3));g.globalAlpha=sky;g.drawImage(GLOW,p[0]-gs/2,p[1]-gs/2,gs,gs);g.fillStyle='#fff';g.beginPath();g.arc(p[0],p[1],Math.max(2.2,Math.min(5,3.2*c.s/.3)),0,7);g.fill();g.globalAlpha=1});
@@ -103,12 +106,12 @@ links('arm',.32*fitA*sky*sky);links('grid',.3*M*M);
         g.strokeStyle='rgba(200,225,255,.22)';g.strokeRect(p[0]-sw/2+.5,p[1]-sh/2+.5,sw-1,sh-1)}
       g.globalAlpha=1}});
   /* names, only where they help: work names once a constellation is big enough, decluttered (a name shows only if its box is free) */
-  labRects=[];if(opt.hud)opt.hud.forEach(function(r){labRects.push(r)});
+  labRects=[];if(opt.hud)opt.hud.forEach(function(r){labRects.push(r)});if(GR&&GR.x<w&&GR.x+GR.w>0&&GR.y<h&&GR.y+GR.h>0)labRects.push(GR);
   var nameA=Math.max(0,Math.min(1,(c.s/chapS()-.62)/.25))*(1-Math.min(1,M*3));
   if(nameA>.02){g.font='300 12px Poppins, sans-serif';g.textAlign='left';g.textBaseline='middle';
     var lk=FK||nearest(); /* v3.5: only the chapter in view names its works (no labels from the neighbouring constellations) */
     ITEMS.forEach(function(it){if(it.k!==lk)return;var p=P(it.x,it.y);if(p[0]<0||p[0]>w-30||p[1]<TOP||p[1]>h-10)return;var lab=it.lab.length>24?it.lab.slice(0,23)+'…':it.lab,tw2=g.measureText(lab).width,r={x:p[0]+7,y:p[1]-9,w:tw2+6,h:18};
-      if(r.x+r.w>w-4)r.x=p[0]-7-r.w;if(!free(r))return;g.globalAlpha=nameA;g.fillStyle='rgba(3,5,10,.62)';g.fillRect(r.x-2,r.y,r.w+2,r.h);g.fillStyle='#e6edf0';g.fillText(lab,r.x+2,p[1]);g.globalAlpha=1})}
+      if(r.x+r.w>w-4)r.x=p[0]-7-r.w;if(!free(r)){var r2={x:r.x>p[0]?p[0]-7-r.w:p[0]+7,y:r.y,w:r.w,h:r.h};if(r2.x<4||r2.x+r2.w>w-4||!free(r2))return;r=r2}g.globalAlpha=nameA;g.fillStyle='rgba(3,5,10,.62)';g.fillRect(r.x-2,r.y,r.w+2,r.h);g.fillStyle='#e6edf0';g.fillText(lab,r.x+2,p[1]);g.globalAlpha=1})}
   /* block headers in the grid */
   if(M>.6){g.textAlign='left';g.textBaseline='alphabetic';ORDER.forEach(function(k){var c2=C[k];if(!c2)return;var p=P(c2.bx,c2.by-14),fs=Math.max(11,Math.min(22,16*c.s));if(p[0]>w||p[0]+328*c.s<0)return;
     g.globalAlpha=(M-.6)/.4;g.font='400 '+fs.toFixed(0)+'px "Julius Sans One", sans-serif';g.fillStyle='#55DAA1';g.fillText(k.toUpperCase(),p[0],p[1]);var nw=g.measureText(k.toUpperCase()).width;

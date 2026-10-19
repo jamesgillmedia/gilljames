@@ -58,7 +58,7 @@ var YT_WAIT=8000;
 function ytFail(f){if(!M||M.ext!==f||M.ytOK||!O)return;var u=M.j.url||(M.j.embed||'').replace(/^https:\/\/www\.youtube(-nocookie)?\.com\/embed\/([\w-]+).*$/,'https://www.youtube.com/watch?v=$2'),b=M.it.dataset.big;
   var d=document.createElement('div');d.className='yt-fb';d.innerHTML=(b?'<img src="'+esc(b)+'" alt="">':'')+'<a class="ib yt-go" href="'+esc(u)+'" target="_blank" rel="noopener">watch on YouTube <span aria-hidden="true">↗</span></a>';
   O.frame.appendChild(d);M.fb=d;O.label('▶ try again')}
-function ytOK(){if(!M)return;M.ytOK=1;clearTimeout(M.ytT);if(M.fb){M.fb.remove();M.fb=null;if(O)O.label('▶ in the player')}}
+function ytOK(){if(!M)return;var first=!M.ytOK;M.ytOK=1;clearTimeout(M.ytT);if(M.fb){M.fb.remove();M.fb=null;first=1}if(first&&O&&O.label)O.label('▶ in the player')} /* v3.5.1 QA O2: the label says '▶ in the player' only once YouTube has answered; until then it stays '… loading' */
 function retry(){if(!M||!M.ext||!M.fb)return false;clearTimeout(M.ytT);M.ext.remove();M.ext=null;M.fb=null;O.frame.innerHTML='';O.label('… loading');setPlay(true);return true}
 function natLoad(m){if(m.loading)return;m.loading=1;natData(m.nat,function(d){m.loading=0;if(M!==m)return;
     if(!d){if(m.play){O.label('▶ play film');pwatch(true)}return} /* shots.json did not come: never sit on "… loading"; ▶ asks again */
@@ -135,7 +135,7 @@ function setPlay(p){if(!M)return;M.play=!!p;root.classList.toggle('ext',false);
     if(!M.ext){if(M.vid)try{M.vid.pause()}catch(e){}var f=document.createElement('iframe'),u=M.j.embed||'';
       if(/youtube/.test(u))u+=(u.indexOf('?')<0?'?':'&')+'enablejsapi=1&playsinline=1&origin='+encodeURIComponent(location.origin);
       f.src=u;f.allow='autoplay; fullscreen; picture-in-picture';f.title=M.j.title||'film';f.setAttribute('allowfullscreen','');
-      if(/youtube/.test(u)){M.ytOK=0;clearTimeout(M.ytT);M.ytT=setTimeout(function(){ytFail(f)},YT_WAIT);f.addEventListener('load',function(){yt(f,{event:'listening',id:'gj',channel:'widget'});setTimeout(function(){if(O&&M&&M.ext===f&&!M.fb&&O.label)O.label('▶ in the player')},1500)})}
+      if(/youtube/.test(u)){M.ytOK=0;clearTimeout(M.ytT);M.ytT=setTimeout(function(){ytFail(f)},YT_WAIT);f.addEventListener('load',function(){yt(f,{event:'listening',id:'gj',channel:'widget'})})}
       O.frame.innerHTML='';O.frame.classList.add('ext');O.frame.appendChild(f);M.ext=f;M.vid=null;M.live=false;M.extT=0;O.setVid(null)}
     root.classList.add('ext');build();paint(M.extT)}
   else if(M.ext){clearTimeout(M.ytT);M.fb=null;M.ext.remove();M.ext=null;O.frame.classList.remove('ext');O.frame.innerHTML='';preview();O.setVid(M.vid);build();setShot(0,true);paint(0)}
@@ -222,7 +222,7 @@ addEventListener('resize',function(){if(M){fmt();follow(true)}});
    to 2.39, and in full screen the frame has the film's own aspect so nothing is cut) or contain for a tall film (pillarboxed in the cut).
    auto: full while playing on a landscape phone (height <= 500) or when a tall film plays on a portrait screen; cut otherwise.
    ⤢ (FMT.user) overrides auto until the screen turns. Full = .imm.fv (+ element full screen when the browser has it and it was a tap). */
-var M0={muted:false},FMT={user:null,full:false,o:null,fs:0,ct:0},stage=null;
+var M0={muted:false},FMT={user:null,full:false,o:null,fs:0,vfs:0,ct:0},stage=null;
 function fsEl(){return document.fullscreenElement||document.webkitFullscreenElement}
 function orient(){return innerWidth>innerHeight?'l':'p'}
 function autoFull(){if(!M||!M.nat||!M.play)return false;var l=innerWidth>innerHeight;return (l&&innerHeight<=500&&M.ar>=1.2)||(!l&&M.ar<1)}
@@ -240,12 +240,15 @@ function fmt(instant){if(!M||!M.nat||!O)return;var o=orient();if(FMT.o&&FMT.o!==
   root.classList.toggle('full',full);follow(true);clearTimeout(FMT.ft);FMT.ft=setTimeout(function(){if(M)follow(true)},620)}
 function toggleFull(){if(!M||!M.nat)return;var canFs=!fsEl()&&(document.fullscreenEnabled||document.webkitFullscreenEnabled)&&(imm.requestFullscreen||imm.webkitRequestFullscreen),want=!FMT.full;
   if(FMT.full&&FMT.user==null&&canFs)want=true; /* v3.5 QA L1: ▶ in landscape is a CSS fill (auto); the first ⤢ now goes to real full screen, the next one back to the cut */
+  var vfs=0;if(FMT.full&&FMT.user==null&&!canFs){want=true;vfs=1} /* v3.5.1 QA N1: no Fullscreen API (iPhone Safari): the first ⤢ keeps the fill and hands the film to the native player when it has one; the next ⤢ goes back to the cut */
   FMT.user=want;
-  if(want&&canFs){
+  if(vfs){var v=M.vid;if(v&&v.webkitEnterFullscreen&&!v.webkitDisplayingFullscreen){try{v.webkitEnterFullscreen();FMT.vfs=1;v.addEventListener('webkitendfullscreen',function(){if(FMT.vfs){FMT.vfs=0;FMT.user=null;if(M)setTimeout(fmt,0)}},{once:true})}catch(e){FMT.vfs=0}}}
+  else if(want&&canFs){
     try{var q=imm.requestFullscreen?imm.requestFullscreen():imm.webkitRequestFullscreen();FMT.fs=1;if(q&&q.then)q.then(function(){if(M&&M.ar>=1.2)try{screen.orientation.lock('landscape').catch(function(){})}catch(e){}},function(){FMT.fs=0})}catch(e){FMT.fs=0}}
-  else if(!want&&FMT.fs&&fsEl()){FMT.fs=0;try{(document.exitFullscreen||document.webkitExitFullscreen).call(document)}catch(e){}try{screen.orientation.unlock()}catch(e){}}
+  else if(!want&&(FMT.fs||FMT.vfs)){vexit();if(fsEl()){FMT.fs=0;try{var x=(document.exitFullscreen||document.webkitExitFullscreen).call(document);if(x&&x.catch)x.catch(function(){})}catch(e){}try{screen.orientation.unlock()}catch(e){}}FMT.fs=0}
   fmt()}
-['fullscreenchange','webkitfullscreenchange'].forEach(function(n){document.addEventListener(n,function(){if(!fsEl()&&FMT.fs){FMT.fs=0;FMT.user=null}if(M)setTimeout(fmt,0)})});
+function vexit(){FMT.vfs=0;var v=M&&M.vid;if(v&&v.webkitDisplayingFullscreen&&v.webkitExitFullscreen)try{v.webkitExitFullscreen()}catch(e){}}
+['fullscreenchange','webkitfullscreenchange'].forEach(function(n){document.addEventListener(n,function(){if(!fsEl()&&(FMT.fs||FMT.vfs)){FMT.fs=0;FMT.vfs=0;FMT.user=null}if(M)setTimeout(fmt,0)})});
 if(window.ResizeObserver)new ResizeObserver(function(){if(M&&M.nat)fmt()}).observe(imm);
 /* full screen chrome: the rail + strip float over the picture and rest after 2.6 s of play; any touch brings them back */
 function calm(){clearTimeout(FMT.ct);if(!FMT.full)return;FMT.ct=setTimeout(function(){if(FMT.full&&M&&M.vid&&!M.vid.paused&&PR==null)imm.classList.add('calm')},2600)}
@@ -260,7 +263,7 @@ addEventListener('message',function(e){if(!M||!M.ext||e.source!==M.ext.contentWi
     else if((d.event==='timeupdate'||d.event==='playProgress')&&d.data){if(d.data.duration)M.extD=d.data.duration;if(PR==null){M.extT=d.data.seconds||0;paint(M.extT)}}
     else if(d.method==='getDuration'&&d.value){M.extD=d.value;paint(M.extT)}}
   else if(/youtube(-nocookie)?\.com$/.test(e.origin)&&(ytOK(),d.info)){if(d.info.duration)M.extD=d.info.duration;if(d.info.currentTime!=null&&PR==null){M.extT=d.info.currentTime;paint(M.extT)}}});
-function stop(){clearTimeout(PW);PW=0;clearInterval(SG);SG=0;if(M)clearTimeout(M.ytT);if(rq){cancelAnimationFrame(rq);rq=0}if(M){if(M.vid){try{M.vid.pause()}catch(e){}if(M.live&&M.nat){M.vid.removeAttribute('src');try{M.vid.load()}catch(e){}}}if(M.nx){M.nx.removeAttribute('src');M.nx.remove()}if(M.ext)M.ext.remove();
+function stop(){vexit();clearTimeout(PW);PW=0;clearInterval(SG);SG=0;if(M)clearTimeout(M.ytT);if(rq){cancelAnimationFrame(rq);rq=0}if(M){if(M.vid){try{M.vid.pause()}catch(e){}if(M.live&&M.nat){M.vid.removeAttribute('src');try{M.vid.load()}catch(e){}}}if(M.nx){M.nx.removeAttribute('src');M.nx.remove()}if(M.ext)M.ext.remove();
     if(O&&O.frame){O.frame.style.width=O.frame.style.height='';O.frame.classList.remove('fit','tall','sized','ld')}}
   if(FMT.full){FMT.full=false;imm.classList.remove('fv','sfull')}imm.classList.remove('calm');FMT.user=null;
   if(FMT.fs&&fsEl()){FMT.fs=0;try{(document.exitFullscreen||document.webkitExitFullscreen).call(document)}catch(e){}}
@@ -271,7 +274,7 @@ function toggle(){if(!M||!M.nat)return;var v=M.vid&&M.live?M.vid:null;
   if(v&&M.parts){M.play=true;O.label('… loading');var q=v.play();sguard();if(q&&q.then)q.then(function(){okPlay(v)},function(){O.label('▶ play film')});pwatch();return}
   O.label('… loading');setPlay(true)}
 /* v3.4: leave full screen now (✕ and browser Back close the film in the same step; no second tap, no full screen left over the grid) */
-function unfull(){FMT.user=null;if(fsEl()){FMT.fs=0;try{(document.exitFullscreen||document.webkitExitFullscreen).call(document)}catch(e){}try{screen.orientation.unlock()}catch(e){}}FMT.fs=0;
+function unfull(){vexit();FMT.user=null;if(fsEl()){FMT.fs=0;try{(document.exitFullscreen||document.webkitExitFullscreen).call(document)}catch(e){}try{screen.orientation.unlock()}catch(e){}}FMT.fs=0;
   if(FMT.full){FMT.full=false;imm.classList.remove('fv','sfull','calm');root.classList.remove('full');var b=document.querySelector('.imm [data-a=full]');if(b){b.setAttribute('aria-label','full screen');b.textContent='⤢'}}}
 window.__scope={fill:fill,stop:stop,toggle:toggle,retry:retry,unfull:unfull,seek:function(t){seek(t)},step:step,toggleFull:toggleFull,owns:function(){return !!(M&&M.nat)},playable:function(it){try{var j=JSON.parse(it.dataset.j||'{}');return !!(j.reel||j.native||j.embed)}catch(e){return true}},
   state:function(){if(!M)return null;var v=M.vid,f=O&&O.frame,r=f?f.getBoundingClientRect():null;return{key:M.key,reel:M.reel,nat:!!M.nat,soon:!!M.soon,play:M.play,ext:!!M.ext,shots:shotsNow().length,cur:M.cur,t:now(),dur:dur(),
