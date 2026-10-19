@@ -1,447 +1,501 @@
 {
- "title": "Gill James · work-in-progress previews",
- "sections": [
-  {
-   "id": "reel-v7",
-   "title": "Reel v7"
-  },
-  {
-   "id": "site-v3",
-   "title": "Site v3"
-  },
-  {
-   "id": "site-v31-qa",
-   "title": "Site v3.1 QA"
-  },
-  {
-   "id": "site-v32-qa",
-   "title": "Site v3.2 QA (emulated)"
-  }
- ],
- "items": [
-  {
-   "section": "site-v3",
-   "type": "video",
-   "file": "media/live-native-films.mp4",
-   "poster": "posters/live-native-films.jpg",
-   "title": "v3.2.2 every film plays on the site",
-   "desc": "The films that used to open Vimeo now play in the site's own player from files on the site. Each one has its own cuts on the timeline and its own strip of shots. Turning the phone switches between the wide frame and full screen without restarting the film.",
-   "time": "2026-10-18T09:34:00-07:00",
-   "badge": null
-  },
-  {
-   "section": "site-v3",
-   "type": "video",
-   "file": "media/sound-player-sketch.mp4",
-   "poster": "posters/sound-player-sketch.jpg",
-   "title": "Sound chapter player (sketch)",
-   "desc": "A sketch for the Sound chapter: the waveform constellation, tap to dive in, and Lost Coffee's “To Go” plays on the page with a moving star shape and a timeline you can drag. Not on the site yet.",
-   "time": "2026-10-18T09:27:00-07:00",
-   "badge": null
-  },
-  {
-   "section": "site-v32-qa",
-   "type": "video",
-   "file": "media/v32-qa-iphone15-webkit.mp4",
-   "poster": "posters/v32-qa-iphone15-webkit.jpg",
-   "title": "iPhone 15 size (WebKit): arrival to Scope and back",
-   "desc": "Emulated in Playwright WebKit at iPhone 15 size. The arrival, dive and a slow scroll, then − to the whole sky, a tap into Film and the reel in Scope. WebKit has no real pinch here, so it uses the buttons.",
-   "time": "2026-10-18T09:15:00-07:00",
-   "badge": null
-  },
-  {
-   "section": "site-v32-qa",
-   "type": "video",
-   "file": "media/v32-qa-s24-landscape.mp4",
-   "poster": "posters/v32-qa-s24-landscape.jpg",
-   "title": "S24 size, landscape: same flow",
-   "desc": "Emulated landscape run of the same flow. In landscape, the dive only moves the page a little and leaves the water dimmed (logged as an issue). The Scope shot strip is hidden in landscape by design.",
-   "time": "2026-10-18T09:14:00-07:00",
-   "badge": null
-  },
-  {
-   "section": "site-v32-qa",
-   "type": "video",
-   "file": "media/v32-qa-s24-portrait.mp4",
-   "poster": "posters/v32-qa-s24-portrait.jpg",
-   "title": "S24 size, portrait: arrival to Scope and back",
-   "desc": "Emulated in Chromium at Galaxy S24 size. Moonwater ripples, tap to dive, swipe back up, a slow scroll through the page, pinch to the whole sky, a big pinch into Film (one level), the stars become the grid, the reel in the Scope player (strip, cut rail, next shot, play), then close back to the grid.",
-   "time": "2026-10-18T09:11:00-07:00",
-   "badge": null
-  },
-  {
-   "section": "site-v3",
-   "type": "video",
-   "file": "media/live-v321-ripples.mp4",
-   "poster": "posters/live-v321-ripples.jpg",
-   "title": "v3.2.1 compare the ripples",
-   "desc": "The home page with a small switcher (1 2 3 5) at the bottom of the water, so Gill can compare the ripple versions on his own phone: 1 is the early mobile water, 2 is site v2, 3 is the dim v3 backdrop and 5 is the current v3.2 water.",
-   "time": "2026-10-18T08:38:00-07:00",
-   "badge": null
-  },
-  {
-   "section": "reel-v7",
-   "type": "video",
-   "file": "media/reel-v7-pass7b-small.mp4",
-   "poster": "posters/reel-v7-pass7b-small.jpg",
-   "title": "Reel v7 pass 7b (full cut)",
-   "desc": "The whole 73-second reel, the newest cut. It is pass 7 with one change Gill asked for: the Weird Kid horse holds again, uninterrupted from 0:51 to 0:54, then shrinks into the river of moving tiles. The Ironworkers welder that used to cut into it is gone. Every tile is moving footage from Gill's own films.",
-   "time": "2026-10-18T08:34:00-07:00",
-   "badge": "Latest"
-  },
-  {
-   "section": "reel-v7",
-   "type": "video",
-   "file": "media/p7b-horse-hold.mp4",
-   "poster": "posters/p7b-horse-hold.jpg",
-   "title": "Pass 7b edit: the horse holds again",
-   "desc": "0:48 to 0:57 of the reel. The Weird Kid horse now stays full-frame from 0:51 to 0:53.5, like in pass 5, and then shrinks into the moving tile river. The welder shot is out of this spot.",
-   "time": "2026-10-18T08:16:00-07:00",
-   "badge": null
-  },
-  {
-   "section": "site-v3",
-   "type": "video",
-   "file": "media/live-v32-moonwater.mp4",
-   "poster": "posters/live-v32-moonwater.jpg",
-   "title": "v3.2 Moonwater arrival",
-   "desc": "The bright water and moon at the top of the home page. Tap the water beside the name: a ripple opens, the poem melts away and the page glides down to the constellations. Scroll back to the top and the water comes back.",
-   "time": "2026-10-18T03:08:00-07:00",
-   "badge": null
-  },
-  {
-   "section": "site-v3",
-   "type": "video",
-   "file": "media/live-v32-scope.mp4",
-   "poster": "posters/live-v32-scope.jpg",
-   "title": "v3.2 Scope film player",
-   "desc": "The reel in the new Scope player: a wide frame with a timecode, a timeline with one star per cut that you can drag, and a strip of shots you can swipe. › jumps to the next shot and ▶ plays.",
-   "time": "2026-10-18T03:07:00-07:00",
-   "badge": null
-  },
-  {
-   "section": "reel-v7",
-   "type": "video",
-   "file": "media/p7-open-dive.mp4",
-   "poster": "posters/p7-open-dive.jpg",
-   "title": "Pass 7 edit: opening and dive into Film",
-   "desc": "0:00 to 0:12. The Moonwater opening is unchanged. On the dive into Film, the four frames waiting along the way now keep playing their shots instead of freezing.",
-   "time": "2026-10-18T02:56:00-07:00",
-   "badge": null
-  },
-  {
-   "section": "reel-v7",
-   "type": "video",
-   "file": "media/p7-strobe-zoom-recap.mp4",
-   "poster": "posters/p7-strobe-zoom-recap.jpg",
-   "title": "Pass 7 edit: second strobe, endless zoom and recap",
-   "desc": "0:55 to 1:04. The second strobe is now 43 different moving shots instead of website stills, the endless zoom is all moving footage, and the recap opens on a Backward Fall portrait instead of a repeated BMW track shot.",
-   "time": "2026-10-18T02:55:00-07:00",
-   "badge": null
-  },
-  {
-   "section": "reel-v7",
-   "type": "video",
-   "file": "media/p7-bmw-electrify-golden-moment.mp4",
-   "poster": "posters/p7-bmw-electrify-golden-moment.jpg",
-   "title": "Pass 7 edit: BMW Drift, Electrify and Golden Moment",
-   "desc": "0:25 to 0:36. A wall of moving tiles, then BMW Drift as one smooth drift toward the camera (it used to be three cuts off the beat), then BMW Electrify the Night, AXE Golden Moment and Stay Gold.",
-   "time": "2026-10-18T02:53:00-07:00",
-   "badge": null
-  },
-  {
-   "section": "reel-v7",
-   "type": "video",
-   "file": "media/reel-v7-pass6b-small.mp4",
-   "poster": "posters/reel-v7-pass6b-small.jpg",
-   "title": "Reel v7 pass 6b (full cut)",
-   "desc": "The full pass 6b reel. Retail Revolution footage removed; Ironworkers, Flybits and Special Olympics back in the walls alongside Electrify; Legends focus, chapter constellations and the first mix kept.",
-   "time": "2026-10-18T02:15:00-07:00",
-   "badge": null
-  },
-  {
-   "section": "reel-v7",
-   "type": "video",
-   "file": "media/p6b-recap.mp4",
-   "poster": "posters/p6b-recap.jpg",
-   "title": "Pass 6b edit: recap",
-   "desc": "1:00-1:05. Recap cut on the music, now with the Special Olympics golf swing.",
-   "time": "2026-10-18T02:14:00-07:00",
-   "badge": null
-  },
-  {
-   "section": "reel-v7",
-   "type": "video",
-   "file": "media/p6b-ironworkers-weld-river.mp4",
-   "poster": "posters/p6b-ironworkers-weld-river.jpg",
-   "title": "Pass 6b edit: welder into the river",
-   "desc": "0:50-0:56. Ironworkers welder, wide then close, shrinking into the tile river on the hit.",
-   "time": "2026-10-18T02:13:00-07:00",
-   "badge": null
-  },
-  {
-   "section": "reel-v7",
-   "type": "video",
-   "file": "media/p6b-ironworkers-sparks.mp4",
-   "poster": "posters/p6b-ironworkers-sparks.jpg",
-   "title": "Pass 6b edit: Ironworkers sparks",
-   "desc": "0:35-0:40. Grinder sparks land on the 37.87 hit, then a vertical spark shower.",
-   "time": "2026-10-18T02:12:00-07:00",
-   "badge": null
-  },
-  {
-   "section": "reel-v7",
-   "type": "video",
-   "file": "media/p6b-strobe-electrify.mp4",
-   "poster": "posters/p6b-strobe-electrify.jpg",
-   "title": "Pass 6b edit: strobe into Electrify",
-   "desc": "0:22-0:31. The strobe now flashes Special Olympics and Flybits, into the Electrify i8 night run.",
-   "time": "2026-10-18T02:11:00-07:00",
-   "badge": null
-  },
-  {
-   "section": "site-v31-qa",
-   "type": "video",
-   "file": "media/v31-s24-pinch.mp4",
-   "poster": "posters/v31-s24-pinch.jpg",
-   "title": "S24 size: pinch on a film (fix 1)",
-   "desc": "Two-finger pinches on the work view: the film plays, stops, then pulls out to the grid of every work. The page zoom readout stays 1.00x (the v3 blocker is fixed in emulation).",
-   "time": "2026-10-18T01:04:00-07:00",
-   "badge": null
-  },
-  {
-   "section": "site-v31-qa",
-   "type": "video",
-   "file": "media/v31-s24-sheet.mp4",
-   "poster": "posters/v31-s24-sheet.jpg",
-   "title": "S24 size: one-sheet zoom out and in",
-   "desc": "Tap − to the whole sky, pinch into Photo and back out, + into Film where the stars travel into the grid, then − steps back out one level at a time, Back closes the sky.",
-   "time": "2026-10-18T01:03:00-07:00",
-   "badge": null
-  },
-  {
-   "section": "site-v31-qa",
-   "type": "video",
-   "file": "media/v31-s24-scroll.mp4",
-   "poster": "posters/v31-s24-scroll.jpg",
-   "title": "S24 size: slow scroll through the whole page",
-   "desc": "Emulated Galaxy S24 (384x832, Android Chrome, real finger drags). The whole Dive at rest, top to the whole-sky portal at the end.",
-   "time": "2026-10-18T01:02:00-07:00",
-   "badge": null
-  },
-  {
-   "section": "site-v3",
-   "type": "video",
-   "file": "media/v31_preview_3.mp4",
-   "poster": "posters/v31_preview_3.jpg",
-   "title": "v3.1 full one-sheet story",
-   "desc": "Now live at site-v3/. 38 s: whole sky, Film, grid, a work, pull out to the massive grid, back to the constellation, Photo.",
-   "time": "2026-10-18T00:21:48-07:00",
-   "badge": "Live"
-  },
-  {
-   "section": "reel-v7",
-   "type": "audio",
-   "file": "media/v7_audio_sample_pass5.m4a",
-   "poster": null,
-   "title": "Audio pass 5: first mix + Legends",
-   "desc": "Gill's favourite first mix, fitted to the new edit, with 'What are legends made of?' over the Legends focus.",
-   "time": "2026-10-18T00:21:08-07:00",
-   "badge": null
-  },
-  {
-   "section": "reel-v7",
-   "type": "audio",
-   "file": "media/v7_audio_sample_pass4.m4a",
-   "poster": null,
-   "title": "Audio mix pass 4, story order",
-   "desc": "Builds on pass 3: lines now run as one story, from 'What are legends made of?' to 'That's what I love to do'.",
-   "time": "2026-10-18T00:12:53-07:00",
-   "badge": null
-  },
-  {
-   "section": "reel-v7",
-   "type": "audio",
-   "file": "media/v7_audio_sample-2.m4a",
-   "poster": null,
-   "title": "Audio mix pass 3",
-   "desc": "Lost in Time, water, Legends and Stay Gold narration added.",
-   "time": "2026-10-17T23:54:16-07:00",
-   "badge": null
-  },
-  {
-   "section": "reel-v7",
-   "type": "video",
-   "file": "media/opening-water-to-constellation.mp4",
-   "poster": "posters/opening-water-to-constellation.jpg",
-   "title": "Edit clip: opening, water to constellation",
-   "desc": "0 to 8.5 s.",
-   "time": "2026-10-18T00:06:50-07:00",
-   "badge": null
-  },
-  {
-   "section": "reel-v7",
-   "type": "video",
-   "file": "media/stay-gold-hero.mp4",
-   "poster": "posters/stay-gold-hero.jpg",
-   "title": "Edit clip: AXE Stay Gold hero",
-   "desc": "With Stroman's 'When the stakes are high, I stay gold.'",
-   "time": "2026-10-18T00:07:21-07:00",
-   "badge": null
-  },
-  {
-   "section": "reel-v7",
-   "type": "video",
-   "file": "media/closing-cluster.mp4",
-   "poster": "posters/closing-cluster.jpg",
-   "title": "Edit clip: closing cluster",
-   "desc": "Render 8 edit clip.",
-   "time": "2026-10-18T00:07:38-07:00",
-   "badge": null
-  },
-  {
-   "section": "reel-v7",
-   "type": "video",
-   "file": "media/bmw-drift-hero.mp4",
-   "poster": "posters/bmw-drift-hero.jpg",
-   "title": "Edit clip: BMW Drift hero",
-   "desc": "Render 8 edit clip.",
-   "time": "2026-10-18T00:07:16-07:00",
-   "badge": null
-  },
-  {
-   "section": "reel-v7",
-   "type": "video",
-   "file": "media/flash-heroes.mp4",
-   "poster": "posters/flash-heroes.jpg",
-   "title": "Edit clip: flash heroes",
-   "desc": "Render 8 edit clip.",
-   "time": "2026-10-18T00:07:34-07:00",
-   "badge": null
-  },
-  {
-   "section": "reel-v7",
-   "type": "video",
-   "file": "media/heroes-jf-braun-arcteryx.mp4",
-   "poster": "posters/heroes-jf-braun-arcteryx.jpg",
-   "title": "Edit clip: heroes (JF Braun, Arc'teryx)",
-   "desc": "Render 8 edit clip.",
-   "time": "2026-10-18T00:07:24-07:00",
-   "badge": null
-  },
-  {
-   "section": "reel-v7",
-   "type": "video",
-   "file": "media/mosaic-infinite-zoom.mp4",
-   "poster": "posters/mosaic-infinite-zoom.jpg",
-   "title": "Edit clip: infinite-zoom mosaic",
-   "desc": "Render 8 edit clip.",
-   "time": "2026-10-18T00:07:31-07:00",
-   "badge": null
-  },
-  {
-   "section": "site-v3",
-   "type": "video",
-   "file": "media/v31_preview_2.mp4",
-   "poster": "posters/v31_preview_2.jpg",
-   "title": "v3.1 one-sheet camera, preview 2",
-   "desc": "Dive, then the whole sky, into the Film constellation where stars become the grid, push into BMW Legends, pull out to the massive grid.",
-   "time": "2026-10-17T23:57:49-07:00",
-   "badge": null
-  },
-  {
-   "section": "site-v3",
-   "type": "video",
-   "file": "media/v31_preview_1.mp4",
-   "poster": "posters/v31_preview_1.jpg",
-   "title": "v3.1 constellation sheet, early look",
-   "desc": "Work in progress: the whole site as one sky, zooming into the Film constellation. Moving thumbnails and the push into the grid are still being built.",
-   "time": "2026-10-17T23:47:47-07:00",
-   "badge": null
-  },
-  {
-   "section": "reel-v7",
-   "type": "video",
-   "file": "media/reel-v7-firstcut-newsound.mp4",
-   "poster": "posters/reel-v7-firstcut-newsound.jpg",
-   "title": "First cut + new sound mix",
-   "desc": "Lost Coffee ‘Lost in Time’, voice lines from 19 Crimes, BMW Drift and AXE, water ambience. Current direction. Legends X7 and extra sound layers coming next.",
-   "time": "2026-10-17T23:36:00-07:00",
-   "badge": "Current direction"
-  },
-  {
-   "section": "reel-v7",
-   "type": "video",
-   "file": "media/reel-v7-pass4-opening.mp4",
-   "poster": "posters/reel-v7-pass4-opening.jpg",
-   "title": "Pass 4 opening",
-   "desc": "First 27 s: rebuilt ocean, dense imagery in constellations, HUD titles. Not chosen; kept for reference.",
-   "time": "2026-10-17T23:27:00-07:00",
-   "badge": null
-  },
-  {
-   "section": "reel-v7",
-   "type": "video",
-   "file": "media/reel-v7-firstcut-preview.mp4",
-   "poster": "posters/reel-v7-firstcut-preview.jpg",
-   "title": "First cut preview",
-   "desc": "First cut, full 73 s, original track. Gill picked this look.",
-   "time": "2026-10-17T23:09:00-07:00",
-   "badge": null
-  },
-  {
-   "section": "reel-v7",
-   "type": "audio",
-   "file": "media/v7_audio_sample.m4a",
-   "poster": null,
-   "title": "First audio draft",
-   "desc": "Audio only, 73 s.",
-   "time": "2026-10-17T23:07:00-07:00",
-   "badge": null
-  },
-  {
-   "section": "reel-v7",
-   "type": "video",
-   "file": "media/v7_preview_clip1.mp4",
-   "poster": "posters/v7_preview_clip1.jpg",
-   "title": "Preview clip 1",
-   "desc": "Opening: water to constellation.",
-   "time": "2026-10-17T22:52:00-07:00",
-   "badge": null
-  },
-  {
-   "section": "reel-v7",
-   "type": "video",
-   "file": "media/v7_preview_clip2.mp4",
-   "poster": "posters/v7_preview_clip2.jpg",
-   "title": "Preview clip 2",
-   "desc": "Tile wall forms ᑕᐣᓯ, cut to heroes.",
-   "time": "2026-10-17T22:52:00-07:00",
-   "badge": null
-  },
-  {
-   "section": "reel-v7",
-   "type": "video",
-   "file": "media/v7_preview_clip3.mp4",
-   "poster": "posters/v7_preview_clip3.jpg",
-   "title": "Preview clip 3",
-   "desc": "Helmet pull-out to the close.",
-   "time": "2026-10-17T22:52:00-07:00",
-   "badge": null
-  },
-  {
-   "section": "site-v3",
-   "type": "video",
-   "file": "media/site-v3-zoom-preview.mp4",
-   "poster": "posters/site-v3-zoom-preview.jpg",
-   "title": "v3 film zoom",
-   "desc": "L0 → L1 → L2 → full-screen work → back out (live at site-v3/).",
-   "time": "2026-10-17T22:45:00-07:00",
-   "badge": null,
-   "link": {
-    "href": "https://jamesgillmedia.github.io/gilljames/site-v3/",
-    "label": "Open site v3"
-   }
-  }
- ]
+  "title": "Gill James · work-in-progress previews",
+  "sections": [
+    {
+      "id": "reel-v7",
+      "title": "Reel v7"
+    },
+    {
+      "id": "site-v3",
+      "title": "Site v3"
+    },
+    {
+      "id": "site-v31-qa",
+      "title": "Site v3.1 QA"
+    },
+    {
+      "id": "site-v32-qa",
+      "title": "Site v3.2 QA (emulated)"
+    },
+    {
+      "id": "site-v34-qa",
+      "title": "Site v3.4 QA (emulated)"
+    }
+  ],
+  "items": [
+    {
+      "section": "site-v3",
+      "type": "video",
+      "file": "media/live-v35-fixes.mp4",
+      "poster": "posters/live-v35-fixes.jpg",
+      "title": "v3.5 fixes: films keep playing in WebKit, landscape switcher, full screen, loading states",
+      "desc": "Emulated (Playwright WebKit at iPhone 15 size, Chromium at Galaxy S24 size). Films 05 and 17 now keep playing in WebKit (v3.4 stopped at 0.2 s). In landscape the 1/2/3/5 ripple switcher sits in the top bar on the first screen; ▶ fills the screen, the first ⤢ tap gives real full screen, and Back goes straight to the grid. On a slow line the reel shows its still and \"loading film\" at once; when YouTube can't be reached a film shows its still and \"watch on YouTube ↗\" after 8 s; each constellation names only its own works.",
+      "time": "2026-10-18T17:23:15-07:00",
+      "badge": "Latest"
+    },
+    {
+      "section": "site-v34-qa",
+      "type": "video",
+      "file": "media/v34-qa-iphone15-webkit.mp4",
+      "poster": "posters/v34-qa-iphone15-webkit.jpg",
+      "title": "iPhone 15 size (WebKit): arrival to Scope and back",
+      "desc": "Emulated in Playwright WebKit at iPhone 15 size. The arrival, a dive and a slow scroll, − to the whole sky, a tap into Film, BMW Legends in the native Scope player, ⤢ full screen, one ✕ back to the grid, and a \"coming soon\" film. WebKit has no real pinch here, so it uses the buttons.",
+      "time": "2026-10-18T16:03:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "site-v34-qa",
+      "type": "video",
+      "file": "media/v34-qa-s24-landscape-fullscreen.mp4",
+      "poster": "posters/v34-qa-s24-landscape-fullscreen.jpg",
+      "title": "S24 size, landscape: dive, switcher and full screen",
+      "desc": "Emulated in Chromium at Galaxy S24 landscape size. The landscape dive now works (the v3.2 bug is fixed). The 1/2/3/5 buttons are below the fold in landscape: you have to scroll down to reach them. Ripple 2 is kept back at the top and dives too. ▶ fills the screen by itself; the first ⤢/⤡ tap goes back to the framed view and a second tap gives real full screen; one ✕ goes straight to the grid; Back stops the film and leaves full screen. Two stretches of slow swiping were cut out to keep it short.",
+      "time": "2026-10-18T16:01:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "site-v34-qa",
+      "type": "video",
+      "file": "media/v34-qa-s24-ripple-switcher.mp4",
+      "poster": "posters/v34-qa-s24-ripple-switcher.jpg",
+      "title": "S24 size, portrait: ripple switcher 1 → 2 → 3 → 5",
+      "desc": "Emulated in Chromium at Galaxy S24 size. The 1/2/3/5 buttons under the poem switch the water live. For each one a finger ripple, then a tap on the water: 1, 2 and 5 dive and swipe back up; 3 is the dim backdrop and a tap does nothing, by design.",
+      "time": "2026-10-18T15:59:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "site-v34-qa",
+      "type": "video",
+      "file": "media/v34-qa-s24-portrait.mp4",
+      "poster": "posters/v34-qa-s24-portrait.jpg",
+      "title": "S24 size, portrait: arrival to Scope and back",
+      "desc": "Emulated in Chromium at Galaxy S24 size. Moonwater ripples, a tap to dive and a swipe back up, a slow scroll through the whole page, a pinch to the whole sky (the v3.3 constellations), one pinch into Film (one level), the stars become the grid, BMW Legends plays in the native Scope player, ⤢ full screen, one ✕ straight back to the grid, then a film with no file yet (poster plus \"coming soon\").",
+      "time": "2026-10-18T15:58:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "site-v3",
+      "type": "video",
+      "file": "media/live-native-films.mp4",
+      "poster": "posters/live-native-films.jpg",
+      "title": "v3.2.2 every film plays on the site",
+      "desc": "The films that used to open Vimeo now play in the site's own player from files on the site. Each one has its own cuts on the timeline and its own strip of shots. Turning the phone switches between the wide frame and full screen without restarting the film.",
+      "time": "2026-10-18T09:34:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "site-v3",
+      "type": "video",
+      "file": "media/sound-player-sketch.mp4",
+      "poster": "posters/sound-player-sketch.jpg",
+      "title": "Sound chapter player (sketch)",
+      "desc": "A sketch for the Sound chapter: the waveform constellation, tap to dive in, and Lost Coffee's “To Go” plays on the page with a moving star shape and a timeline you can drag. Not on the site yet.",
+      "time": "2026-10-18T09:27:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "site-v32-qa",
+      "type": "video",
+      "file": "media/v32-qa-iphone15-webkit.mp4",
+      "poster": "posters/v32-qa-iphone15-webkit.jpg",
+      "title": "iPhone 15 size (WebKit): arrival to Scope and back",
+      "desc": "Emulated in Playwright WebKit at iPhone 15 size. The arrival, dive and a slow scroll, then − to the whole sky, a tap into Film and the reel in Scope. WebKit has no real pinch here, so it uses the buttons.",
+      "time": "2026-10-18T09:15:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "site-v32-qa",
+      "type": "video",
+      "file": "media/v32-qa-s24-landscape.mp4",
+      "poster": "posters/v32-qa-s24-landscape.jpg",
+      "title": "S24 size, landscape: same flow",
+      "desc": "Emulated landscape run of the same flow. In landscape, the dive only moves the page a little and leaves the water dimmed (logged as an issue). The Scope shot strip is hidden in landscape by design.",
+      "time": "2026-10-18T09:14:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "site-v32-qa",
+      "type": "video",
+      "file": "media/v32-qa-s24-portrait.mp4",
+      "poster": "posters/v32-qa-s24-portrait.jpg",
+      "title": "S24 size, portrait: arrival to Scope and back",
+      "desc": "Emulated in Chromium at Galaxy S24 size. Moonwater ripples, tap to dive, swipe back up, a slow scroll through the page, pinch to the whole sky, a big pinch into Film (one level), the stars become the grid, the reel in the Scope player (strip, cut rail, next shot, play), then close back to the grid.",
+      "time": "2026-10-18T09:11:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "site-v3",
+      "type": "video",
+      "file": "media/live-v321-ripples.mp4",
+      "poster": "posters/live-v321-ripples.jpg",
+      "title": "v3.2.1 compare the ripples",
+      "desc": "The home page with a small switcher (1 2 3 5) at the bottom of the water, so Gill can compare the ripple versions on his own phone: 1 is the early mobile water, 2 is site v2, 3 is the dim v3 backdrop and 5 is the current v3.2 water.",
+      "time": "2026-10-18T08:38:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/reel-v7-pass7b-small.mp4",
+      "poster": "posters/reel-v7-pass7b-small.jpg",
+      "title": "Reel v7 pass 7b (full cut)",
+      "desc": "The whole 73-second reel, the newest cut. It is pass 7 with one change Gill asked for: the Weird Kid horse holds again, uninterrupted from 0:51 to 0:54, then shrinks into the river of moving tiles. The Ironworkers welder that used to cut into it is gone. Every tile is moving footage from Gill's own films.",
+      "time": "2026-10-18T08:34:00-07:00",
+      "badge": "Latest"
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/p7b-horse-hold.mp4",
+      "poster": "posters/p7b-horse-hold.jpg",
+      "title": "Pass 7b edit: the horse holds again",
+      "desc": "0:48 to 0:57 of the reel. The Weird Kid horse now stays full-frame from 0:51 to 0:53.5, like in pass 5, and then shrinks into the moving tile river. The welder shot is out of this spot.",
+      "time": "2026-10-18T08:16:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "site-v3",
+      "type": "video",
+      "file": "media/live-v32-moonwater.mp4",
+      "poster": "posters/live-v32-moonwater.jpg",
+      "title": "v3.2 Moonwater arrival",
+      "desc": "The bright water and moon at the top of the home page. Tap the water beside the name: a ripple opens, the poem melts away and the page glides down to the constellations. Scroll back to the top and the water comes back.",
+      "time": "2026-10-18T03:08:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "site-v3",
+      "type": "video",
+      "file": "media/live-v32-scope.mp4",
+      "poster": "posters/live-v32-scope.jpg",
+      "title": "v3.2 Scope film player",
+      "desc": "The reel in the new Scope player: a wide frame with a timecode, a timeline with one star per cut that you can drag, and a strip of shots you can swipe. › jumps to the next shot and ▶ plays.",
+      "time": "2026-10-18T03:07:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/p7-open-dive.mp4",
+      "poster": "posters/p7-open-dive.jpg",
+      "title": "Pass 7 edit: opening and dive into Film",
+      "desc": "0:00 to 0:12. The Moonwater opening is unchanged. On the dive into Film, the four frames waiting along the way now keep playing their shots instead of freezing.",
+      "time": "2026-10-18T02:56:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/p7-strobe-zoom-recap.mp4",
+      "poster": "posters/p7-strobe-zoom-recap.jpg",
+      "title": "Pass 7 edit: second strobe, endless zoom and recap",
+      "desc": "0:55 to 1:04. The second strobe is now 43 different moving shots instead of website stills, the endless zoom is all moving footage, and the recap opens on a Backward Fall portrait instead of a repeated BMW track shot.",
+      "time": "2026-10-18T02:55:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/p7-bmw-electrify-golden-moment.mp4",
+      "poster": "posters/p7-bmw-electrify-golden-moment.jpg",
+      "title": "Pass 7 edit: BMW Drift, Electrify and Golden Moment",
+      "desc": "0:25 to 0:36. A wall of moving tiles, then BMW Drift as one smooth drift toward the camera (it used to be three cuts off the beat), then BMW Electrify the Night, AXE Golden Moment and Stay Gold.",
+      "time": "2026-10-18T02:53:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/reel-v7-pass6b-small.mp4",
+      "poster": "posters/reel-v7-pass6b-small.jpg",
+      "title": "Reel v7 pass 6b (full cut)",
+      "desc": "The full pass 6b reel. Retail Revolution footage removed; Ironworkers, Flybits and Special Olympics back in the walls alongside Electrify; Legends focus, chapter constellations and the first mix kept.",
+      "time": "2026-10-18T02:15:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/p6b-recap.mp4",
+      "poster": "posters/p6b-recap.jpg",
+      "title": "Pass 6b edit: recap",
+      "desc": "1:00-1:05. Recap cut on the music, now with the Special Olympics golf swing.",
+      "time": "2026-10-18T02:14:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/p6b-ironworkers-weld-river.mp4",
+      "poster": "posters/p6b-ironworkers-weld-river.jpg",
+      "title": "Pass 6b edit: welder into the river",
+      "desc": "0:50-0:56. Ironworkers welder, wide then close, shrinking into the tile river on the hit.",
+      "time": "2026-10-18T02:13:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/p6b-ironworkers-sparks.mp4",
+      "poster": "posters/p6b-ironworkers-sparks.jpg",
+      "title": "Pass 6b edit: Ironworkers sparks",
+      "desc": "0:35-0:40. Grinder sparks land on the 37.87 hit, then a vertical spark shower.",
+      "time": "2026-10-18T02:12:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/p6b-strobe-electrify.mp4",
+      "poster": "posters/p6b-strobe-electrify.jpg",
+      "title": "Pass 6b edit: strobe into Electrify",
+      "desc": "0:22-0:31. The strobe now flashes Special Olympics and Flybits, into the Electrify i8 night run.",
+      "time": "2026-10-18T02:11:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "site-v31-qa",
+      "type": "video",
+      "file": "media/v31-s24-pinch.mp4",
+      "poster": "posters/v31-s24-pinch.jpg",
+      "title": "S24 size: pinch on a film (fix 1)",
+      "desc": "Two-finger pinches on the work view: the film plays, stops, then pulls out to the grid of every work. The page zoom readout stays 1.00x (the v3 blocker is fixed in emulation).",
+      "time": "2026-10-18T01:04:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "site-v31-qa",
+      "type": "video",
+      "file": "media/v31-s24-sheet.mp4",
+      "poster": "posters/v31-s24-sheet.jpg",
+      "title": "S24 size: one-sheet zoom out and in",
+      "desc": "Tap − to the whole sky, pinch into Photo and back out, + into Film where the stars travel into the grid, then − steps back out one level at a time, Back closes the sky.",
+      "time": "2026-10-18T01:03:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "site-v31-qa",
+      "type": "video",
+      "file": "media/v31-s24-scroll.mp4",
+      "poster": "posters/v31-s24-scroll.jpg",
+      "title": "S24 size: slow scroll through the whole page",
+      "desc": "Emulated Galaxy S24 (384x832, Android Chrome, real finger drags). The whole Dive at rest, top to the whole-sky portal at the end.",
+      "time": "2026-10-18T01:02:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "site-v3",
+      "type": "video",
+      "file": "media/v31_preview_3.mp4",
+      "poster": "posters/v31_preview_3.jpg",
+      "title": "v3.1 full one-sheet story",
+      "desc": "Now live at site-v3/. 38 s: whole sky, Film, grid, a work, pull out to the massive grid, back to the constellation, Photo.",
+      "time": "2026-10-18T00:21:48-07:00",
+      "badge": "Live"
+    },
+    {
+      "section": "reel-v7",
+      "type": "audio",
+      "file": "media/v7_audio_sample_pass5.m4a",
+      "poster": null,
+      "title": "Audio pass 5: first mix + Legends",
+      "desc": "Gill's favourite first mix, fitted to the new edit, with 'What are legends made of?' over the Legends focus.",
+      "time": "2026-10-18T00:21:08-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "audio",
+      "file": "media/v7_audio_sample_pass4.m4a",
+      "poster": null,
+      "title": "Audio mix pass 4, story order",
+      "desc": "Builds on pass 3: lines now run as one story, from 'What are legends made of?' to 'That's what I love to do'.",
+      "time": "2026-10-18T00:12:53-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "audio",
+      "file": "media/v7_audio_sample-2.m4a",
+      "poster": null,
+      "title": "Audio mix pass 3",
+      "desc": "Lost in Time, water, Legends and Stay Gold narration added.",
+      "time": "2026-10-17T23:54:16-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/opening-water-to-constellation.mp4",
+      "poster": "posters/opening-water-to-constellation.jpg",
+      "title": "Edit clip: opening, water to constellation",
+      "desc": "0 to 8.5 s.",
+      "time": "2026-10-18T00:06:50-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/stay-gold-hero.mp4",
+      "poster": "posters/stay-gold-hero.jpg",
+      "title": "Edit clip: AXE Stay Gold hero",
+      "desc": "With Stroman's 'When the stakes are high, I stay gold.'",
+      "time": "2026-10-18T00:07:21-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/closing-cluster.mp4",
+      "poster": "posters/closing-cluster.jpg",
+      "title": "Edit clip: closing cluster",
+      "desc": "Render 8 edit clip.",
+      "time": "2026-10-18T00:07:38-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/bmw-drift-hero.mp4",
+      "poster": "posters/bmw-drift-hero.jpg",
+      "title": "Edit clip: BMW Drift hero",
+      "desc": "Render 8 edit clip.",
+      "time": "2026-10-18T00:07:16-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/flash-heroes.mp4",
+      "poster": "posters/flash-heroes.jpg",
+      "title": "Edit clip: flash heroes",
+      "desc": "Render 8 edit clip.",
+      "time": "2026-10-18T00:07:34-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/heroes-jf-braun-arcteryx.mp4",
+      "poster": "posters/heroes-jf-braun-arcteryx.jpg",
+      "title": "Edit clip: heroes (JF Braun, Arc'teryx)",
+      "desc": "Render 8 edit clip.",
+      "time": "2026-10-18T00:07:24-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/mosaic-infinite-zoom.mp4",
+      "poster": "posters/mosaic-infinite-zoom.jpg",
+      "title": "Edit clip: infinite-zoom mosaic",
+      "desc": "Render 8 edit clip.",
+      "time": "2026-10-18T00:07:31-07:00",
+      "badge": null
+    },
+    {
+      "section": "site-v3",
+      "type": "video",
+      "file": "media/v31_preview_2.mp4",
+      "poster": "posters/v31_preview_2.jpg",
+      "title": "v3.1 one-sheet camera, preview 2",
+      "desc": "Dive, then the whole sky, into the Film constellation where stars become the grid, push into BMW Legends, pull out to the massive grid.",
+      "time": "2026-10-17T23:57:49-07:00",
+      "badge": null
+    },
+    {
+      "section": "site-v3",
+      "type": "video",
+      "file": "media/v31_preview_1.mp4",
+      "poster": "posters/v31_preview_1.jpg",
+      "title": "v3.1 constellation sheet, early look",
+      "desc": "Work in progress: the whole site as one sky, zooming into the Film constellation. Moving thumbnails and the push into the grid are still being built.",
+      "time": "2026-10-17T23:47:47-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/reel-v7-firstcut-newsound.mp4",
+      "poster": "posters/reel-v7-firstcut-newsound.jpg",
+      "title": "First cut + new sound mix",
+      "desc": "Lost Coffee ‘Lost in Time’, voice lines from 19 Crimes, BMW Drift and AXE, water ambience. Current direction. Legends X7 and extra sound layers coming next.",
+      "time": "2026-10-17T23:36:00-07:00",
+      "badge": "Current direction"
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/reel-v7-pass4-opening.mp4",
+      "poster": "posters/reel-v7-pass4-opening.jpg",
+      "title": "Pass 4 opening",
+      "desc": "First 27 s: rebuilt ocean, dense imagery in constellations, HUD titles. Not chosen; kept for reference.",
+      "time": "2026-10-17T23:27:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/reel-v7-firstcut-preview.mp4",
+      "poster": "posters/reel-v7-firstcut-preview.jpg",
+      "title": "First cut preview",
+      "desc": "First cut, full 73 s, original track. Gill picked this look.",
+      "time": "2026-10-17T23:09:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "audio",
+      "file": "media/v7_audio_sample.m4a",
+      "poster": null,
+      "title": "First audio draft",
+      "desc": "Audio only, 73 s.",
+      "time": "2026-10-17T23:07:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/v7_preview_clip1.mp4",
+      "poster": "posters/v7_preview_clip1.jpg",
+      "title": "Preview clip 1",
+      "desc": "Opening: water to constellation.",
+      "time": "2026-10-17T22:52:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/v7_preview_clip2.mp4",
+      "poster": "posters/v7_preview_clip2.jpg",
+      "title": "Preview clip 2",
+      "desc": "Tile wall forms ᑕᐣᓯ, cut to heroes.",
+      "time": "2026-10-17T22:52:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "reel-v7",
+      "type": "video",
+      "file": "media/v7_preview_clip3.mp4",
+      "poster": "posters/v7_preview_clip3.jpg",
+      "title": "Preview clip 3",
+      "desc": "Helmet pull-out to the close.",
+      "time": "2026-10-17T22:52:00-07:00",
+      "badge": null
+    },
+    {
+      "section": "site-v3",
+      "type": "video",
+      "file": "media/site-v3-zoom-preview.mp4",
+      "poster": "posters/site-v3-zoom-preview.jpg",
+      "title": "v3 film zoom",
+      "desc": "L0 → L1 → L2 → full-screen work → back out (live at site-v3/).",
+      "time": "2026-10-17T22:45:00-07:00",
+      "badge": null,
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/site-v3/",
+        "label": "Open site v3"
+      }
+    }
+  ]
 }
