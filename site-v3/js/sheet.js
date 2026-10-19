@@ -1,6 +1,7 @@
 /* gill james v3.1 · the constellation sheet. The whole site is one sky: ᑕᐣᓯ at the centre, five chapter constellations.
    One camera (canvas for the sky + a GPU-transformed DOM layer for near cards). Pinch drives the camera continuously,
-   anchored under the fingers; release snaps to a level. Zooming into a chapter makes its stars travel and grow into
+   anchored under the fingers; v3.6: release STAYS where the fingers left it (no snap), free pan at any depth; the level
+   (sky / constellation) is read from the zoom as a threshold, never forced. Zooming into a chapter makes its stars travel and grow into
    thumbnails until they ARE the v3 grid (the column underneath is lined up, then the sheet hands over).
    Levels:  #sky (L-1, whole site) · #sky/film (one constellation, names) · #all (every work as one massive grid).
    One finger on the sheet pans; on the column it scrolls natively (the sheet is a separate full-screen layer). */
@@ -212,7 +213,7 @@ function zoomAt(f,x,y,cap){var p=wp(x,y);cam.s=Math.max(fitS()*.7,Math.min(cap||
 sheet.addEventListener('pointerdown',function(e){if(e.target.closest('.sx,.shome'))return;try{sheet.setPointerCapture(e.pointerId)}catch(x){}PT.set(e.pointerId,{x:e.clientX,y:e.clientY});
   if(PT.size===1){moved=0;t0=Date.now();pinched=false}if(PT.size===2){var a=[...PT.values()];pd=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);pm={x:(a[0].x+a[1].x)/2,y:(a[0].y+a[1].y)/2};moved=99;pinched=true;tw=null;g0=mode}});
 sheet.addEventListener('pointermove',function(e){if(!PT.has(e.pointerId))return;var o=PT.get(e.pointerId),n={x:e.clientX,y:e.clientY};PT.set(e.pointerId,n);
-  if(PT.size===1&&!MP){var dx=n.x-o.x,dy=n.y-o.y;moved+=Math.abs(dx)+Math.abs(dy);if(moved>8){tw=null;cam.x-=dx/cam.s;cam.y-=dy/cam.s;clampCam();req()}}
+  if(PT.size===1&&!MP){var dx=n.x-o.x,dy=n.y-o.y;moved+=Math.abs(dx)+Math.abs(dy);if(moved>8){tw=null;cam.x-=dx/cam.s;cam.y-=dy/cam.s;clampCam();if(mode==='chap'&&M<.02)FK=nearest();req()}}
   else if(PT.size===2){var a=[...PT.values()],d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y),m={x:(a[0].x+a[1].x)/2,y:(a[0].y+a[1].y)/2};if(!pd){pd=d;pm=m;return}var f=d/pd;pd=d;pinch(f,m);pm=m;req()}});
 function clampCam(){var b=M>.5?{x0:C.film.bx-200,x1:C.about.bx+530,y0:-400,y1:1800}:BOUND;cam.x=Math.max(b.x0,Math.min(b.x1,cam.x));cam.y=Math.max(b.y0,Math.min(b.y1,cam.y))}
 /* continuous pinch. In the constellation, pinching past a chapter's own zoom starts the morph: the stars travel into its grid while you pinch */
@@ -222,14 +223,16 @@ function pinch(f,m){if(MP){MP.vs*=f;var p=Math.log(MP.vs/MP.s0)/Math.log(MP.R);i
     if(f>1&&cam.s>=cap*.995&&k!=='about'&&g0==='chap'){FK=k; /* v3.2 QA HIGH: only from a constellation the gesture started in */var c0={x:cam.x,y:cam.y,s:cam.s};prepHand(k);var c1=blockCam(k);MP={k:k,c0:c0,c1:c1,s0:cam.s,vs:cam.s,p:0,R:Math.max(1.7,c1.s/cam.s)}}}
   else{zoomAt(f,m.x,m.y);clampCam()}}
 function up(e){if(!PT.has(e.pointerId))return;var was=PT.size;PT.delete(e.pointerId);if(PT.size<2)pd=0;if(PT.size)return;
-  if(was===1&&moved<10&&Date.now()-t0<500){tap(e.clientX,e.clientY);return}if(pinched)release();else ui()}
+  if(was===1&&moved<10&&Date.now()-t0<500){tap(e.clientX,e.clientY);return}if(pinched)release();else if(moved>8&&M<.02&&open&&!tw)stay();else ui()}
 sheet.addEventListener('pointerup',up);sheet.addEventListener('pointercancel',function(e){PT.delete(e.pointerId);if(!PT.size)release()});
-/* release: snap to the nearest level */
+/* release (v3.6, Gill: non-locking): the camera STAYS exactly where the gesture left it. Levels are thresholds read from the zoom,
+   never snaps. Only a real hand-over (the pinch carried a constellation past its grid morph, or zoomed deep into the grid) moves on. */
+function stay(){var s=cam.s,f=fitS(),k=nearest(),cs=chapCam(k).s;var m=s<Math.sqrt(f*cs)?'sky':'chap';settle(m,m==='chap'?k:null,{replace:true});req()}
 function release(){if(MP){var mp=MP;MP=null;cam=interp(mp.c0,mp.c1,mp.p);M=mp.p;if(mp.p>.3){FK=mp.k;tween(mp.c1,1,Math.max(260,700*(1-mp.p)),function(){close({to:{k:mp.k,lv:2},hand:1})})}
-    else{HAND=null;tween(chapCam(mp.k),0,360,function(){settle('chap',mp.k)})}return}
+    else{HAND=null;tween(mp.c0,0,220,function(){settle('chap',mp.k,{replace:true})})}return} /* morph not committed: back to the last constellation view the fingers held (no level snap) */
   var s=cam.s;if(M>.5){var a=allS();if(s>a*1.7)dive(nearest());else if(s<a*.62)toSky();else{req();if(mode!=='all')settle('all')}return} /* v3.2 QA: reduced motion moved synchronously; no swallowed pinch */
-  var f=fitS(),k=nearest(),cs=chapCam(k).s;if(s<Math.sqrt(f*cs))toSky();else toChap(k)}
-function tap(x,y){var t=document.elementFromPoint(x,y);if(t&&t.closest('[data-sk]'))return; /* the name buttons handle their own click */
+  stay()}
+function tap(x,y){var t=document.elementFromPoint(x,y),sk=t&&t.closest('[data-sk]');if(sk){var k0=sk.dataset.sk;setTimeout(function(){if(Date.now()-hudT>400&&open)hudGo(k0)},80);return} /* the name buttons handle their own click; v3.6: with a mouse the sheet's pointer capture eats that click, so the tap acts for it (once) */
   if(M>.5){var hit=null,hd=1e9;ITEMS.forEach(function(it){var a=sp(it.gx,it.gy),b=sp(it.gx+104,it.gy+C[it.k].imgh);b[1]+=14; /* v3.2 QA: >= 44px tap target */
       var px=Math.max(0,(44-(b[0]-a[0]))/2),py=Math.max(0,(44-(b[1]-a[1]))/2);if(x>=a[0]-px&&x<=b[0]+px&&y>=a[1]-py&&y<=b[1]+py){var d=Math.hypot(x-(a[0]+b[0])/2,y-(a[1]+b[1])/2);if(d<hd){hd=d;hit=it}}});
     /* tiles smaller than a fingertip: the first tap magnifies the grid around the finger until tiles are >= 44px; the next tap opens one */
@@ -238,13 +241,14 @@ function tap(x,y){var t=document.elementFromPoint(x,y);if(t&&t.closest('[data-sk
   var fa=(cam.s/fitS()-1.25)/.9;ITEMS.forEach(function(it){if(!it.ring&&fa<.3)return;var p=sp(it.x,it.y),d=Math.hypot(p[0]-x,p[1]-y);if(d<Math.min(bd,24)){bd=d;best={k:it.k,w:it.w}}});
   if(!best){var o=sp(0,0);if(Math.hypot(o[0]-x,o[1]-y)<50){toSky()}return}
   if(best.w&&mode==='chap')dive(best.k,best.k==='about'?null:best.w);else if(mode==='sky')(best.k==='about'?toChap('about'):dive(best.k));else dive(best.k)}
-hud.addEventListener('click',function(e){var b=e.target.closest('[data-sk]');if(!b)return;e.preventDefault();var k=b.dataset.sk;if(k==='about'&&mode!=='chap')toChap(k);else dive(k)});
+var hudT=0;function hudGo(k){hudT=Date.now();if(k==='about'&&mode!=='chap')toChap(k);else dive(k)}
+hud.addEventListener('click',function(e){var b=e.target.closest('[data-sk]');if(!b)return;e.preventDefault();hudGo(b.dataset.sk)});
 sheet.addEventListener('wheel',function(e){e.preventDefault();tw=null;var f=Math.exp(-e.deltaY*(e.ctrlKey?.01:.0022));if(M<.02&&!MP){zoomAt(f,e.clientX,e.clientY);clampCam();req();clearTimeout(sheet._w);sheet._w=setTimeout(release,260)}
   else{pinch(f,{x:e.clientX,y:e.clientY});pm=null;req();clearTimeout(sheet._w);sheet._w=setTimeout(release,260)}},{passive:false});
 $('.sx',sheet).addEventListener('click',function(e){e.preventDefault();close()});
 $('.shome',sheet).addEventListener('click',function(e){e.preventDefault();from={y:0};close();__dive.go({k:null});scrollTo(0,0)});
 addEventListener('keydown',function(e){if(!open)return;if(e.key==='Escape')close();if(e.key==='+'||e.key==='='){e.stopImmediatePropagation();step(1)}if(e.key==='-'){e.stopImmediatePropagation();step(-1)}},true);
-addEventListener('resize',function(){if(open){size();if(!tw&&!MP){if(mode==='sky')cam=fitCam();else if(mode==='chap')cam=chapCam(FK)}req()}portalDraw()});
+addEventListener('resize',function(){if(open){var f0=fitS(),atFit=Math.abs(cam.s/f0-1)<.02;size();if(!tw&&!MP&&M<.02){if(atFit)cam=fitCam();else{cam.s=Math.max(fitS()*.7,cam.s);clampCam()}}req()}portalDraw()}); /* v3.6: the view stays put on resize (phone URL bar); only the untouched whole-sky fit refits */
 addEventListener('popstate',function(){var h=location.hash,m=h.match(/^#(sky|all)(?:\/(\w+))?/);if(m){show({mode:m[1]==='all'?'all':m[2]&&C[m[2]]?'chap':'sky',k:m[2],push:false})}else if(open){close({to:null,nopush:1})}});
 /* ---------- the portal: the Dive ends in this view of the whole sky (tap or pinch it to fly in) ---------- */
 var portal=$('.portal'),pcv=portal&&$('canvas',portal),pio=null,pvis=false;
