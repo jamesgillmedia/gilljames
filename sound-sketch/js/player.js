@@ -74,7 +74,24 @@ function cstar(k){var s=SOUND.s[k],sc=Math.min(W*.86,520),x=(s[0]-.5)*sc,y=(s[1]
 /* every tunnel particle remembers one constellation star it unfolds from */
 var SRC=[];for(var i=0;i<FAR*K+K;i++)SRC.push(Math.floor(rnd(i*3.3)*18));
 function ease(x){x=Math.max(0,Math.min(1,x));return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2}
-function proj(x,y,z,cz,cx,cy){var d=z-cz;if(d<.05)return null;var k=F/d;return[W/2+(x-cx)*k,H*.46+(y-cy)*k,k,d]}
+function proj(x,y,z,cz,cx,cy){var d=z-cz;if(d<.05)return null;var k=F/d;return[W/2+(x-cx)*k*VW.s+VW.x,H*.46+(y-cy)*k*VW.s+VW.y,k,d]}
+/* ---------- sky zoom + pan (ported from the sweep's zoom/pan) ----------
+   The constellation is one plane at DZ, so the sweep's camera dolly toward it is exactly a uniform scale about the
+   vanishing point (W/2, H*.46) plus a translate: V.z = zoom, V.x/V.y = pan in screen px. Applied in proj(), so stars,
+   strands and (during a dive) the unfolding tunnel all agree. The strand physics stays in unzoomed sky px.
+   Zoom STAYS exactly where a gesture leaves it: no levels, no velocity, no snap, no spring-back, ever.
+   Diving eases the view to 1x; rising brings the kept zoom/pan back. */
+var ZMIN=1,ZMAX=4;
+var V={z:1,x:0,y:0},VW={s:1,x:0,y:0};
+function setView(){var e=ease(dive);VW.s=1+(V.z-1)*(1-e);VW.x=V.x*(1-e);VW.y=V.y*(1-e)}
+function toBase(x,y){return[W/2+(x-W/2-VW.x)/VW.s,H*.46+(y-H*.46-VW.y)/VW.s]}
+function skyBox(){var x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;for(var k=0;k<SOUND.s.length;k++){var q=skyXY(k);x0=Math.min(x0,q[0]);x1=Math.max(x1,q[0]);y0=Math.min(y0,q[1]);y1=Math.max(y1,q[1])}return[x0,x1,y0,y1]}
+/* keep the centre of the screen over the constellation (+30 px) so a pan can't lose it */
+function clampPan(){var b=skyBox(),m=30,ox=W/2,oy=H*.46,z=V.z;
+  V.x=Math.max((ox-b[1]-m)*z,Math.min((ox-b[0]+m)*z,V.x));V.y=Math.max((oy-b[3]-m)*z,Math.min((oy-b[2]+m)*z,V.y))}
+/* zoom to z keeping the sky point under screen (mx,my) fixed */
+function zoomAt(z,mx,my){z=Math.max(ZMIN,Math.min(ZMAX,z));var bx=W/2+(mx-W/2-V.x)/V.z,by=H*.46+(my-H*.46-V.y)/V.z;
+  V.z=z;V.x=mx-W/2-(bx-W/2)*z;V.y=my-H*.46-(by-H*.46)*z;clampPan()}
 var last=performance.now(),LOG=[];
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.05,(now-last)/1000);last=now;tick(now,dt)}
 var VT=0,pauseAt=-1;function step(dt){VT+=dt;if(!au.paused&&au.currentTime!=null){au.currentTime+=dt;if(au.currentTime>=T.dur)au.currentTime=0}tick(VT*1000,dt)}
@@ -86,13 +103,13 @@ function tick(now,dt){if(REC&&pauseAt>0&&VT>=pauseAt){pauseAt=-1;if(mode!=='in'&
   var gap=tz-camZ;if(dragging||Math.abs(gap)>2.5)camZ+=gap*Math.min(1,dt*(dragging?5:3));else camZ+=gap*Math.min(1,dt*8);
   var ct=Math.max(0,Math.min(T.dur,camZ/(N*SP)*T.dur));if(!dragging)railT=au.paused?ct:au.currentTime;
   if(REC)LOG.push([VT,au.currentTime,au.paused?0:1,dragging?1:0,FG.v]);
-  chStep(dt);draw(now,dt);ui()}
-function draw(now,dt){var c=g;c.setTransform(DPR,0,0,DPR,0,0);
+  chStep(dt);draw(now,dt);introStep(dt);ui()}
+function draw(now,dt){var c=g;c.setTransform(DPR,0,0,DPR,0,0);setView();
   var m=ease(dive),cx=px(camZ)*m,cy=py(camZ)*m,cz=camZ;
   /* sky: navy radial + background star dust (parallax: drifts with the camera path inside) */
   c.fillStyle='#03050a';c.fillRect(0,0,W,H);var gr=c.createRadialGradient(W/2,H*.42,0,W/2,H*.42,Math.max(W,H)*.75);
   gr.addColorStop(0,'rgba(22,34,58,'+(.85-.45*m).toFixed(3)+')');gr.addColorStop(.6,'rgba(10,17,32,.6)');gr.addColorStop(1,'rgba(3,5,10,0)');c.fillStyle=gr;c.fillRect(0,0,W,H);
-  var bgA=1-.55*m;for(var i=0;i<BG.length;i++){var s=BG[i],x=((s[0]*W*1.4-cx*12-camZ*.6*s[2])%(W*1.4)+W*1.4)%(W*1.4)-W*.2,y=s[1]*H,b=.08+.75*s[2]*(.7+.3*Math.sin(tw*1.3+i));
+  var bgA=1-.55*m;for(var i=0;i<BG.length;i++){var s=BG[i],x=((s[0]*W*1.4-cx*12-camZ*.6*s[2]+VW.x*.12*s[2])%(W*1.4)+W*1.4)%(W*1.4)-W*.2,y=((s[1]*H+VW.y*.12*s[2])%H+H)%H,b=.08+.75*s[2]*(.7+.3*Math.sin(tw*1.3+i));
     c.fillStyle='rgba(225,232,250,'+(b*bgA).toFixed(3)+')';var r=.5+s[2]*1.3;c.fillRect(x-r/2,y-r/2,r,r)}
   /* water ripples on beats (the site's water, faint, centred on the vanishing point) */
   for(var i=ripples.length-1;i>=0;i--){var R=ripples[i],a=(now-R.t0)/1800;if(a>1){ripples.splice(i,1);continue}
@@ -142,12 +159,12 @@ function draw(now,dt){var c=g;c.setTransform(DPR,0,0,DPR,0,0);
   if(sa>.01){var sp=[],zc=cz+DZ*(1-ease(dive));
     for(var k=0;k<SOUND.s.length;k++){var cs=cstar(k);sp.push(proj(cs[0],cs[1],zc,cz,0,0))}
     var hz=Math.min(1,(sp[0]?sp[0][2]:F/DZ)/(F/DZ));
-    for(var i=0;i<CH.length;i++){var ch=CH[i],q=sp[ch.b];if(q&&ch.L){var bb=bob(ch);sp[ch.b]=[q[0]+(bb[0]-ch.rx)*hz,q[1]+(bb[1]-ch.ry)*hz,q[2],q[3]]}}
-    var gc=sp[7]||[W/2,H*.4];var nr=Math.min(W,520)*.55*hz;var gg=c.createRadialGradient(W/2,H*.46-H*.07*hz,0,W/2,H*.46-H*.07*hz,nr);
+    for(var i=0;i<CH.length;i++){var ch=CH[i],q=sp[ch.b];if(q&&ch.L){var bb=bob(ch);sp[ch.b]=[q[0]+(bb[0]-ch.rx)*hz*VW.s,q[1]+(bb[1]-ch.ry)*hz*VW.s,q[2],q[3]]}}
+    var gc=sp[7]||[W/2,H*.4];var nr=Math.min(W,520)*.55*hz*VW.s,gx=W/2+VW.x,gy=H*.46+(-H*.07*hz)*VW.s+VW.y;var gg=c.createRadialGradient(gx,gy,0,gx,gy,nr);
     gg.addColorStop(0,'rgba('+SOUND.t+','+(.09*sa).toFixed(3)+')');gg.addColorStop(1,'rgba('+SOUND.t+',0)');c.fillStyle=gg;c.fillRect(0,0,W,H);
     c.strokeStyle='rgba(255,214,208,'+(.5*sa*sa).toFixed(3)+')';c.lineWidth=1;c.beginPath();
     SOUND.e.forEach(function(e){var a=sp[e[0]],b=sp[e[1]];if(a&&b){c.moveTo(a[0],a[1]);c.lineTo(b[0],b[1])}});c.stroke();
-    for(var k=0;k<SOUND.s.length;k++){var p=sp[k];if(!p)continue;var s=SOUND.s[k],b=s[2]*(.85+.15*Math.sin(tw*1.7+k*1.3)),SF=1.35*hz;
+    for(var k=0;k<SOUND.s.length;k++){var p=sp[k];if(!p)continue;var s=SOUND.s[k],b=s[2]*(.85+.15*Math.sin(tw*1.7+k*1.3)),SF=1.35*hz*Math.sqrt(VW.s);
       var gs=(6+30*b*b)*SF;for(var i=0;i<CH.length;i++)if(CH[i].b===k)gs*=1+.7*CH[i].fl;c.globalAlpha=sa*(.35+.65*b)*(s[3]?.8:1);c.drawImage(GR,p[0]-gs/2,p[1]-gs/2,gs,gs);
       c.globalAlpha=sa*(.45+.55*b);c.fillStyle='#fff';c.beginPath();c.arc(p[0],p[1],(.5+1.9*b)*SF*.85,0,7);c.fill()}
     c.globalAlpha=1}
@@ -177,7 +194,7 @@ function chStep(dt){chGeo();var rm=RM.matches,damp=rm?1.5:.7,vmax=rm?34:68,h=1/1
   for(var i=0;i<CH.length;i++){var c=CH[i];c.fl*=Math.exp(-dt*3);if(Math.abs(c.th)<2e-4&&Math.abs(c.w)<2e-3){c.th=0;c.w=0}}}
 function chActive(){return mode==='sky'}
 function segD(x,y,c){var b=bob(c),dx=b[0]-c.px,dy=b[1]-c.py,t=Math.max(0,Math.min(1,((x-c.px)*dx+(y-c.py)*dy)/(dx*dx+dy*dy)));return Math.hypot(x-c.px-dx*t,y-c.py-dy*t)}
-function chHit(x,y){var best=null,bd=24;for(var i=0;i<CH.length;i++){var c=CH[i],b=bob(c),d=Math.min(segD(x,y,c)+(y<c.py+12?99:0),Math.hypot(x-b[0],y-b[1])-4);if(d<bd){bd=d;best=c}}return best}
+function chHit(sx,sy,r){var q=toBase(sx,sy),x=q[0],y=q[1],s=VW.s,best=null,bd=(r||24)/s;for(var i=0;i<CH.length;i++){var c=CH[i],b=bob(c),d=Math.min(segD(x,y,c)+(y<c.py+12/s?99:0),Math.hypot(x-b[0],y-b[1])-4/s);if(d<bd){bd=d;best=c}}return best}
 /* the breeze: wind = swipe velocity (capped low), felt most by the strand under the finger, a little by all of them */
 function wind(x,y,vx,vy,dt){var rm=RM.matches,cap=rm?320:640,sp=Math.hypot(vx,vy);if(sp>cap){vx*=cap/sp;vy*=cap/sp}
   for(var i=0;i<CH.length;i++){var c=CH[i],d=segD(x,y,c),wg=.12+.88*Math.exp(-d*d/(2*60*60)),f=vx+.25*Math.abs(vy)*(c.rx<x?-1:1);c.w+=f*.42*wg*(.3+1.4*rnd(i*7.1+chT*61))*dt/c.L}}
@@ -186,7 +203,7 @@ function pluck(c,x){var rm=RM.matches,dir=x<bob(c)[0]?1:-1;c.w+=dir*(rm?12:22)/c
 var CB=null,VOX=[],unl=false,CHN=0;
 function unlock(){if(REC)return;try{initAudio();if(AC.state==='suspended')AC.resume();if(!unl){var b=AC.createBuffer(1,1,22050),s=AC.createBufferSource();s.buffer=b;s.connect(AC.destination);s.start(0);unl=true}}catch(x){}}
 ['pointerdown','touchend','pointerup','keydown'].forEach(function(t){addEventListener(t,unlock,{capture:true,passive:true})});
-function chime(f,vel,vi,dl){if(REC){CHL.push([+(VT+dl).toFixed(4),f,+vel.toFixed(3),vi]);return}
+var NOTES=[];function chime(f,vel,vi,dl){NOTES.push([+performance.now().toFixed(1),vi]);if(NOTES.length>40)NOTES.shift();if(REC){CHL.push([+(VT+dl).toFixed(4),f,+vel.toFixed(3),vi]);return}
   if(!AC||AC.state!=='running')return;var t=AC.currentTime+dl;
   if(!CB){var cp=AC.createDynamicsCompressor();cp.threshold.value=-26;cp.ratio.value=6;cp.attack.value=.003;cp.release.value=.3;CB=AC.createGain();CB.gain.value=.3;CB.connect(cp);cp.connect(AC.destination)}
   CB.gain.setTargetAtTime(au.paused?.3:.13,AC.currentTime,.1);
@@ -211,20 +228,67 @@ $('dive').onclick=function(e){e.stopPropagation();goIn()};
 $('rise').onclick=function(e){e.stopPropagation();goOut()};
 $('pp').onclick=function(){if(au.paused){vol(1);au.play()}else au.pause()};
 addEventListener('popstate',function(){if(mode==='in'||mode==='diving')goOut(true)});
-addEventListener('keydown',function(e){if(e.key==='Escape')goOut();if(e.key===' '&&mode==='in'){e.preventDefault();$('pp').onclick()}});
-/* canvas: tap = dive (sky) / pause (inside); swipe down inside = rise */
-var p0=null,TAPD=12,TAPT=400;
+addEventListener('keydown',function(e){if(e.key==='Escape')goOut();if(e.key===' '&&mode==='in'){e.preventDefault();$('pp').onclick()}
+  if(e.target===rail||e.altKey||e.ctrlKey||e.metaKey)return;var k=e.key;
+  if(mode==='sky'){var st=e.shiftKey?120:48,ax=k==='ArrowLeft'?1:k==='ArrowRight'?-1:0,ay=k==='ArrowUp'?1:k==='ArrowDown'?-1:0;
+    if(ax||ay){e.preventDefault();V.x+=ax*st;V.y+=ay*st;clampPan()}
+    else if(k==='+'||k==='='||k==='-'||k==='_'){e.preventDefault();zoomAt(V.z*(k==='+'||k==='='?1.25:.8),W/2,H*.46)}}
+  else if(k==='ArrowUp'&&(mode==='in'||mode==='diving')){e.preventDefault();goOut()}});
+/* intro while zoomed: past ~1.05x the sub-line, picks and dive button fade out and stop taking pointers, so strand tips
+   under them are tappable; they ease back in near 1x. the SOUND heading stays, but softly fades while a strand passes over it. */
+var CVD=0,IN=$('intro'),HEAD=IN.querySelector('.sl b'),UIE=[IN.querySelector('.sl small'),$('picks'),$('dive')],IA=1,HA=1,HN=false,uiF=0,UR=null;
+function uiRects(){var f=function(e){var r=e.getBoundingClientRect();return[r.left,r.top,r.right,r.bottom]};
+  UR={head:f(HEAD),ui:UIE.map(f),hud:[].map.call(document.querySelectorAll('.hud a,.hud .crumb'),f)}}
+function inR(x,y,r,m){return x>r[0]-m&&x<r[2]+m&&y>r[1]-m&&y<r[3]+m}
+function introStep(dt){if(!UR||(uiF++%30)===0)uiRects();
+  var zf=Math.max(0,Math.min(1,(V.z-1.02)/.06)),k=Math.min(1,dt*(RM.matches?14:7));IA+=((1-zf)-IA)*k;if(Math.abs(IA-(1-zf))<.004)IA=1-zf;
+  HN=false;if(mode==='sky'&&dive<.01){var r=UR.head;
+    for(var i=0;i<CH.length&&!HN;i++){var c=CH[i],b=bob(c);for(var s=0;s<=6;s++){var f=s/6,sx=W/2+(c.px+(b[0]-c.px)*f-W/2)*VW.s+VW.x,sy=H*.46+(c.py+(b[1]-c.py)*f-H*.46)*VW.s+VW.y;
+      if(inR(sx,sy,r,10)){HN=true;break}}}}
+  HA+=((HN?.22:1)-HA)*Math.min(1,dt*10);
+  IN.style.setProperty('--ia',IA.toFixed(3));IN.style.setProperty('--ha',HA.toFixed(3));IN.classList.toggle('zoomed',IA<.6)}
+/* dead zone: a near miss on the visible UI (intro block when shown, the heading, the header) never counts as "tap empty sky to dive" */
+function nearUI(x,y){if(!UR)uiRects();if(inR(x,y,UR.head,22))return true;
+  if(IA>.4)for(var i=0;i<UR.ui.length;i++)if(inR(x,y,UR.ui[i],26))return true;
+  for(var i=0;i<UR.hud.length;i++)if(inR(x,y,UR.hud[i],16))return true;return false}
+/* canvas: tap = dive (sky) / pause (inside); swipe down inside = rise.
+   one finger = wind (sways the strands) at every zoom, never pans. two fingers = pinch-zoom + pan together (sky).
+   mouse/pen: drag from empty sky pans, drag from a strand blows wind; wheel zooms at the cursor. */
+var p0=null,TAPD=12,TAPT=400,PT={},PZ=null,afterPinch=false;
 function tnow(e){return REC?VT:e.timeStamp/1000}
-cv.addEventListener('pointerdown',function(e){p0={x:e.clientX,y:e.clientY,t:performance.now(),lx:e.clientX,ly:e.clientY,lt:tnow(e),sw:false,vx:0,vy:0};try{cv.setPointerCapture(e.pointerId)}catch(x){}
+function nPT(){return Object.keys(PT).length}
+function two(){var k=Object.keys(PT),a=PT[k[0]],b=PT[k[1]];return{d:Math.hypot(a.x-b.x,a.y-b.y),mx:(a.x+b.x)/2,my:(a.y+b.y)/2}}
+function zoomable(){return mode==='sky'}
+function pinchStart(t){var q=two();PZ={d0:Math.max(10,q.d),z0:V.z,b0:[W/2+(q.mx-W/2-V.x)/V.z,H*.46+(q.my-H*.46-V.y)/V.z]}}
+function pinchMove(t){var q=two(),z=Math.max(ZMIN,Math.min(ZMAX,PZ.z0*q.d/PZ.d0));
+  /* the sky point that was under the fingers' midpoint stays under it: spread = zoom, move together = pan */
+  V.z=z;V.x=q.mx-W/2-(PZ.b0[0]-W/2)*z;V.y=q.my-H*.46-(PZ.b0[1]-H*.46)*z;clampPan()}
+/* release: nothing to do. the view is already exactly where the fingers left it */
+function pinchEnd(t){PZ=null}
+cv.addEventListener('pointerdown',function(e){PT[e.pointerId]={x:e.clientX,y:e.clientY};try{cv.setPointerCapture(e.pointerId)}catch(x){}
+  if(nPT()>=2){p0=null;afterPinch=true;if(zoomable()&&!PZ)pinchStart(tnow(e));return}
+  if(afterPinch)return;
+  p0={x:e.clientX,y:e.clientY,t:performance.now(),lx:e.clientX,ly:e.clientY,lt:tnow(e),sw:false,vx:0,vy:0,pan:false};
+  if(e.pointerType!=='touch'&&zoomable()&&!chHit(e.clientX,e.clientY,40))p0.pan=true;
   if(REC)fing={x:e.clientX,y:e.clientY,a:.5,on:true}});
-cv.addEventListener('pointermove',function(e){if(!p0)return;if(fing){fing.x=e.clientX;fing.y=e.clientY}
-  if(!p0.sw&&Math.hypot(e.clientX-p0.x,e.clientY-p0.y)>=TAPD)p0.sw=true;
+cv.addEventListener('pointermove',function(e){var P=PT[e.pointerId];if(P){P.x=e.clientX;P.y=e.clientY}if(fing){fing.x=e.clientX;fing.y=e.clientY}
+  if(PZ){if(nPT()>=2&&zoomable())pinchMove(tnow(e));return}
+  if(!p0)return;
+  var sw0=p0.sw;if(!p0.sw&&Math.hypot(e.clientX-p0.x,e.clientY-p0.y)>=TAPD)p0.sw=true;
   var t=tnow(e),dt=Math.max(1/120,t-p0.lt),vx=(e.clientX-p0.lx)/dt,vy=(e.clientY-p0.ly)/dt;p0.vx=p0.vx*.4+vx*.6;p0.vy=p0.vy*.4+vy*.6;
-  if(p0.sw&&chActive())wind(e.clientX,e.clientY,p0.vx,p0.vy,Math.min(dt,.05));p0.lx=e.clientX;p0.ly=e.clientY;p0.lt=t});
-function cvUp(e){if(fing)fing.on=false;if(!p0)return;var dy=e.clientY-p0.y,dx=e.clientX-p0.x,tap=Math.abs(dx)+Math.abs(dy)<TAPD,hit=chActive()?chHit(p0.x,p0.y):null;
-  if(hit){if(tap&&performance.now()-p0.t<TAPT)pluck(hit,p0.x)}
-  else if(mode==='in'&&dy>80&&Math.abs(dx)<dy)goOut();else if(tap){if(mode==='sky')goIn();else if(mode==='in')$('pp').onclick()}p0=null}
-cv.addEventListener('pointerup',cvUp);cv.addEventListener('pointercancel',function(){if(fing)fing.on=false;p0=null});
+  if(p0.sw){if(p0.pan){if(zoomable()){var fx=sw0?p0.lx:p0.x,fy=sw0?p0.ly:p0.y;V.x+=e.clientX-fx;V.y+=e.clientY-fy;clampPan()}}
+    else if(chActive()){var q=toBase(e.clientX,e.clientY);wind(q[0],q[1],p0.vx,p0.vy,Math.min(dt,.05))}}
+  p0.lx=e.clientX;p0.ly=e.clientY;p0.lt=t});
+function cvUp(e){delete PT[e.pointerId];if(fing)fing.on=false;
+  if(PZ&&nPT()<2)pinchEnd(tnow(e));
+  if(afterPinch){if(nPT()===0)afterPinch=false;p0=null;return}
+  if(!p0)return;var dy=e.clientY-p0.y,dx=e.clientX-p0.x,tap=Math.abs(dx)+Math.abs(dy)<TAPD,hit=chActive()?chHit(p0.x,p0.y):null;
+  if(p0.pan&&p0.sw){p0=null;return}
+  if(hit){if(tap&&performance.now()-p0.t<TAPT)pluck(hit,toBase(p0.x,p0.y)[0])}
+  else if(mode==='in'&&dy>80&&Math.abs(dx)<dy)goOut();else if(tap){if(mode==='sky'){if(!nearUI(p0.x,p0.y)){CVD++;goIn()}}else if(mode==='in')$('pp').onclick()}p0=null}
+cv.addEventListener('pointerup',cvUp);cv.addEventListener('pointercancel',function(e){delete PT[e.pointerId];if(fing)fing.on=false;if(PZ&&nPT()<2)pinchEnd(tnow(e));if(nPT()===0)afterPinch=false;p0=null});
+cv.addEventListener('wheel',function(e){if(!zoomable())return;e.preventDefault();
+  var d=e.deltaY*(e.deltaMode===1?16:e.deltaMode===2?H:1);zoomAt(V.z*Math.exp(-d*(e.ctrlKey?.01:.0015)),e.clientX,e.clientY)},{passive:false});
 /* rail: drag flies the camera; audio follows on release (soft while dragging), like Scope's scrub */
 var dragging=false,PR=null,seekQ=0;
 function railTime(e){var r=rail.getBoundingClientRect();return Math.max(0,Math.min(T.dur-.05,(e.clientX-r.left)/r.width*T.dur))}
@@ -235,7 +299,7 @@ function pup(e){if(PR!==e.pointerId)return;PR=null;rail.classList.remove('drag')
 rail.addEventListener('pointerup',pup);rail.addEventListener('pointercancel',pup);
 rail.addEventListener('keydown',function(e){var d=e.key==='ArrowRight'?5:e.key==='ArrowLeft'?-5:0;if(d){au.currentTime=Math.max(0,Math.min(T.dur,au.currentTime+d));tz=ringAt(au.currentTime)}});
 au.addEventListener('ended',function(){au.currentTime=0;tz=0;au.play()});
-addEventListener('resize',rs);
+addEventListener('resize',function(){rs();clampPan();uiRects()});if(document.fonts&&document.fonts.ready)document.fonts.ready.then(uiRects);
 pickTrack(TK);rs();if(!REC)requestAnimationFrame(frame);else{last=0;tick(0,0)}
-window.__sk={played:function(){return{n:CHN,vox:VOX.length,ac:AC&&AC.state}},chimes:function(){var l=CHL;CHL=[];return l},ch:function(){return CH.map(function(c){var b=bob(c);return{x:b[0],y:b[1],px:c.px,py:c.py,th:c.th,w:c.w}})},step:function(n,dt){for(var i=0;i<n;i++)step(dt)},ready:function(){return !!PCM},goIn:goIn,goOut:goOut,log:function(){var l=LOG;LOG=[];return l},state:function(){return{mode:mode,t:au.currentTime,dive:dive}}};
+window.__sk={played:function(){return{n:CHN,vox:VOX.length,ac:AC&&AC.state}},chimes:function(){var l=CHL;CHL=[];return l},ch:function(){return CH.map(function(c){var b=bob(c);return{x:b[0],y:b[1],px:c.px,py:c.py,th:c.th,w:c.w}})},step:function(n,dt){for(var i=0;i<n;i++)step(dt)},ready:function(){return !!PCM},goIn:goIn,goOut:goOut,log:function(){var l=LOG;LOG=[];return l},state:function(){return{mode:mode,t:au.currentTime,dive:dive}},view:function(){return{z:V.z,x:V.x,y:V.y,pinch:!!PZ}},viewSet:function(z,x,y){V.z=Math.max(ZMIN,Math.min(ZMAX,z));V.x=x||0;V.y=y||0;clampPan()},ui:function(){return{ia:IA,ha:HA,headNear:HN,zoomed:IN.classList.contains('zoomed'),rects:UR}},nearUI:nearUI,cvDives:function(){return CVD},chHit:function(x,y,r){var c=chHit(x,y,r);return c?CH.indexOf(c):-1},tracks:function(){return KEYS.slice()},notes:function(){var l=NOTES;NOTES=[];return l}};
 })();
