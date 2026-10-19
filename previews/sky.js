@@ -26,7 +26,7 @@ function prep(data){DATA=data;var seen={};
   (data.items||[]).forEach(function(it){if(it&&it.section&&!seen[it.section]){seen[it.section]=1;SECS.push({id:it.section,title:it.section})}}); /* future sections show up even before sections[] lists them */
   var arr=(data.items||[]).filter(function(it){return it&&it.section}).map(function(it,i){return{it:it,i:i}});
   arr.sort(function(a,b){var ta=a.it.time?Date.parse(a.it.time):Infinity,tb=b.it.time?Date.parse(b.it.time):Infinity;return ta===tb?a.i-b.i:tb-ta}); /* newest first, undated (coming) on top, ties keep JSON order */
-  ITEMS=arr.map(function(x,k){var it=x.it;return{d:it,k:k,sec:it.section,stem:stem(it.file)||('item-'+x.i),title:it.title||'',time:it.time,type:it.type,badge:it.badge||null,poster:it.poster||null}});
+  ITEMS=arr.map(function(x,k){var it=x.it;return{d:it,k:k,sec:it.section,stem:it.id||stem(it.file)||('item-'+x.i),title:it.title||'',time:it.time,type:it.type,badge:it.badge||null,poster:it.poster||null}});
   SECS.forEach(function(s,si){s.si=si;s.items=ITEMS.filter(function(x){return x.sec===s.id});s.n=s.items.filter(function(x){return x.type!=='placeholder'}).length;SBY[s.id]=s;
     var base={id:s.id,sec:s,title:s.title,sub:null,items:[]},subs={};
     s.items.forEach(function(x){var m=/^v(\d+\.\d+)\b/i.exec(x.title);var g=base;if(m){var key='v'+m[1];g=subs[key]||(subs[key]={id:s.id+'--'+key.replace(/\W/g,'-'),sec:s,title:key,sub:key,items:[]})}g.items.push(x);x.g=g});
@@ -42,13 +42,14 @@ function card(x){var it=x.d,cls=[it.badge==='Current direction'?'cur':'',it.type
   var h='<li data-k="'+x.k+'"'+(cls?' class="'+cls+'"':'')+'><article class="card">';
   if(it.type==='video'&&it.file)h+='<div class="vbox"><video controls playsinline preload="metadata"'+(it.poster?' poster="'+esc(it.poster)+'"':'')+' src="'+esc(it.file)+'"></video><button type="button" class="push" aria-label="Play large: '+esc(it.title)+'">⤢</button></div>';
   if(it.type==='audio'&&it.file)h+='<audio controls preload="metadata" src="'+esc(it.file)+'"></audio>';
+  if(it.type==='live')h+=liveBox(it);
   h+='<div class="cb"><div class="meta">';
   if(it.time)h+='<time class="when" datetime="'+esc(it.time)+'">'+when(it.time)+'</time>';
   if(it.type==='audio')h+='<span class="kind">audio</span>';if(it.type==='placeholder')h+='<span class="kind">coming</span>';
   if(it.badge)h+='<span class="badge">'+esc(it.badge)+'</span>';
   h+='</div><h3 class="ct">'+esc(it.title)+'</h3>';if(it.desc)h+='<p class="cx">'+esc(it.desc)+'</p>';
   if(it.link&&it.link.href)h+='<a class="btn" href="'+esc(it.link.href)+'" target="_blank" rel="noopener">'+esc(it.link.label||'Open')+' <span aria-hidden="true">↗</span></a>';
-  if(it.file)h+='<span class="file"><a href="'+esc(it.file)+'" download>'+esc(it.file.split('/').pop())+'</a></span>';
+  if(it.file&&it.type!=='live')h+='<span class="file"><a href="'+esc(it.file)+'" download>'+esc(it.file.split('/').pop())+'</a></span>';
   if(it.file&&it.badge==='Latest'&&window.PVFB)h+=PVFB.form(it);
   return h+'</div></article></li>'}
 function band(s,asList){var nows=s.items.filter(isNow),rels=s.items.filter(isRelated),rest=s.items.filter(function(x){return !isNow(x)&&!isRelated(x)});
@@ -65,17 +66,54 @@ function kill(root){$$('video,audio',root).forEach(function(m){try{m.pause();m.r
 document.addEventListener('play',function(e){$$('video,audio').forEach(function(o){if(o!==e.target&&!o.paused)o.pause()})},true);
 function byK(k){return ITEMS[+k]}
 
+/* ================= BOARD-AB v1 (Oct 19) =================
+   - What's new shows every stream in sections[] order (not a fixed sound/site/reel), and EVERY Now item in a stream,
+     so an A/B pair (Site today vs yesterday) sits side by side. Each Now card and the player caption show the item's link.
+   - type "live": a real page (same origin) in a sandboxed iframe. Poster + tap to load keeps the board light; the iframe
+     gets its own gestures (chimes swipe), so Love / Needs work is a swipe on the strip above it (feedback.js LIVE-SWIPE v1). */
+function streamOrder(){return SECS.filter(function(s){return s.id!=='archive'}).map(function(s){return s.id})}
+function linkBtn(it){return it.link&&it.link.href?'<a class="btn nlink" href="'+esc(it.link.href)+'" target="_blank" rel="noopener">'+esc(it.link.label||'Open')+' <span aria-hidden="true">↗</span></a>':''}
+function liveBox(it){var bg=it.poster?' style="background-image:url(\''+esc(it.poster)+'\')"':'';
+  return'<div class="lbox" data-src="'+esc(it.src||it.file||'')+'" data-title="'+esc(it.title||'')+'"><div class="lstrip" aria-hidden="true"><span>‹ Needs work</span><b>swipe here</b><span>Love ›</span></div>'+
+    '<div class="lframe"><button type="button" class="lload"'+bg+' aria-label="Load the live player: '+esc(it.title||'')+'"><b>▶ Tap to load the live player</b></button></div></div>'}
+function loadLive(li){var b=li&&$('.lbox',li);if(!b)return null;var f=$('iframe',b);if(f)return f;var fr=$('.lframe',b);
+  f=document.createElement('iframe');f.src=b.dataset.src;f.title=b.dataset.title||'live preview';f.setAttribute('sandbox','allow-scripts allow-same-origin allow-popups');
+  f.setAttribute('allow','autoplay; fullscreen');f.setAttribute('loading','eager');var keep=fr.innerHTML;fr.innerHTML='';fr.appendChild(f);
+  /* scrolled out of view for 1.5 s (or its list/grid closed) -> back to the poster: no sound playing off screen, no hidden canvas eating the phone */
+  if('IntersectionObserver' in window){var tm=0,io=new IntersectionObserver(function(es){var v=es[es.length-1].isIntersecting;clearTimeout(tm);
+    if(!v)tm=setTimeout(function(){io.disconnect();if(f.parentNode===fr)fr.innerHTML=keep},1500)});io.observe(fr)}
+  return f}
+function openLive(x){var li=$('li[data-k="'+x.k+'"]',list),vis=li&&!list.hidden&&li.getClientRects().length;
+  if(!vis){li=$('li[data-k="'+x.k+'"]',grid);vis=li&&!grid.hidden&&li.getClientRects().length}
+  if(!vis){if(open&&x.g)dive(x.g.sec,x,{});return}
+  loadLive(li);try{li.scrollIntoView({block:'nearest',inline:'center'})}catch(e){}
+  /* the live card is tall: put its top (the swipe strip) just under the top bar, never under it */
+  if(grid.contains(li))grid.scrollTop=Math.max(0,li.offsetTop-70);else{var y=li.getBoundingClientRect().top+scrollY-90;scrollTo(0,Math.max(0,y))}}
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.lload');if(!b)return;e.preventDefault();loadLive(b.closest('li')||b.closest('.lbox').parentNode)});
+(function(){var st=document.createElement('style');st.textContent=
+  '.lbox{display:flex;flex-direction:column;border-radius:10px;overflow:hidden;background:#03050a}'+
+  '.lstrip{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:40px;padding:0 12px;font:300 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.08em;color:#93a1a6;background:rgba(85,218,161,.08);border-bottom:1px dashed rgba(85,218,161,.35);touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:grab}'+
+  '.lstrip b{font-weight:400;color:#55DAA1;text-transform:uppercase}'+
+  '.lframe{position:relative;width:100%;aspect-ratio:9/16;max-height:min(70svh,640px)}'+
+  '.lframe iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;background:#03050a}'+
+  '.lload{position:absolute;inset:0;width:100%;height:100%;border:0;padding:0;cursor:pointer;background:#03050a center/cover no-repeat;color:#fff;display:flex;align-items:flex-end;justify-content:center}'+
+  '.lload b{margin:0 0 18px;padding:10px 16px;border-radius:22px;background:rgba(3,5,10,.78);border:1px solid rgba(85,218,161,.6);font:300 12px/1 ui-monospace,Menlo,monospace;letter-spacing:.06em}'+
+  '.nowrow .btn.nlink{align-self:flex-start;margin:8px 0 2px}'+
+  '.pcap .plink{display:inline-block;margin-top:2px;font:300 11px/1.3 ui-monospace,Menlo,monospace;color:#55DAA1;text-decoration:none}';
+  document.head.appendChild(st)})();
+
 /* ================= list mode ================= */
 var list=$('#list'),jump=$('#jump'),foot=$('#foot');
 function miniCard(x){var it=x.d,bg=it.poster?' style="background-image:url(\''+esc(it.poster)+'\')"':'';
   return'<li data-k="'+x.k+'"><button type="button" class="relc"'+bg+' data-go="'+esc(x.sec+'/'+x.stem)+'" aria-label="Open: '+esc(it.title)+'"><span class="relt">'+esc(it.title)+'</span></button></li>'}
-function nowStrip(){var order=['sound','site','reel'],cards=[];
-  order.forEach(function(id){var sec=SBY[id];if(!sec)return;var x=sec.items.filter(isNow)[0];if(!x)return;
+function nowStrip(){var order=streamOrder(),cards=[];
+  order.forEach(function(id){var sec=SBY[id];if(!sec)return;sec.items.filter(isNow).forEach(function(x){
     var it=x.d,h='<li data-k="'+x.k+'" class="now"><article class="card"><span class="stream-tag">'+esc(sec.title)+'</span>';
     if(it.type==='video'&&it.file)h+='<div class="vbox"><video controls playsinline preload="metadata"'+(it.poster?' poster="'+esc(it.poster)+'"':'')+' src="'+esc(it.file)+'"></video><button type="button" class="push" aria-label="Play large: '+esc(it.title)+'">⤢</button></div>';
     if(it.type==='audio'&&it.file)h+='<audio controls preload="metadata" src="'+esc(it.file)+'"></audio>';
+    if(it.type==='live')h+=liveBox(it);
     h+='<div class="cb"><div class="meta">'+(it.time?'<time class="when" datetime="'+esc(it.time)+'">'+when(it.time)+'</time>':'')+'<span class="badge">Latest</span></div><h3 class="ct">'+esc(it.title)+'</h3>'+(it.desc?'<p class="cx clamp">'+esc(it.desc)+'</p>':'');
-    if(window.PVFB)h+=PVFB.form(it);h+='</div></article></li>';cards.push(h)});
+    h+=linkBtn(it);if(window.PVFB)h+=PVFB.form(it);h+='</div></article></li>';cards.push(h)})});
   if(!cards.length)return'';
   return'<section class="now" id="now" aria-label="What is new"><div class="nowh"><h2>What\'s new</h2><nav class="chips" aria-label="Streams">'+
     order.filter(function(id){return SBY[id]&&SBY[id].items.some(isNow)}).map(function(id){return'<a class="chip" href="#list/'+esc(id)+'">'+esc(SBY[id].title)+'</a>'}).join('')+
@@ -275,9 +313,9 @@ function firstCard(){var best=null;$$('li[data-k]',grid).forEach(function(li){if
 
 /* ---------------- L3: the player ---------------- */
 var PL=null,pcap=$('#pcap'),pdesc=$('#pdesc');
-function openPlayer(x,o){o=o||{};if(!x||x.type!=='video'||!x.d.file)return;var li=$('li[data-k="'+x.k+'"]',grid)||$('li[data-k="'+x.k+'"]',list),cvid=li&&$('video',li),t=cvid?cvid.currentTime:0,r=cvid?cvid.getBoundingClientRect():null;
+function openPlayer(x,o){o=o||{};if(x&&x.type==='live'){openLive(x);return}if(!x||x.type!=='video'||!x.d.file)return;var li=$('li[data-k="'+x.k+'"]',grid)||$('li[data-k="'+x.k+'"]',list),cvid=li&&$('video',li),t=cvid?cvid.currentTime:0,r=cvid?cvid.getBoundingClientRect():null;
   if(cvid)cvid.pause();PL={x:x,from:cvid};pv.poster=x.poster||'';if(pv.getAttribute('src')!==x.d.file)pv.src=x.d.file;pv.preload='metadata';
-  pcap.innerHTML='<b>'+esc(x.title)+'</b><small>'+(x.time?when(x.time):'')+(x.badge?' · ★ '+esc(x.badge):'')+'</small>';pdesc.textContent=x.d.desc||'';window.PVFB&&PVFB.mountPlayer(x.d);
+  pcap.innerHTML='<b>'+esc(x.title)+'</b><small>'+(x.time?when(x.time):'')+(x.badge?' · ★ '+esc(x.badge):'')+'</small>'+(x.d.link&&x.d.link.href?'<a class="plink" href="'+esc(x.d.link.href)+'" target="_blank" rel="noopener">'+esc(x.d.link.label||'Open')+' ↗</a>':'');pdesc.textContent=x.d.desc||'';window.PVFB&&PVFB.mountPlayer(x.d);
   player.hidden=false;player.getAnimations&&player.getAnimations().forEach(function(a){a.cancel()});D.classList.add('pl-on');try{if(t)pv.currentTime=t}catch(e){}
   var pv0=pv;var pr=pv0.play();if(pr&&pr.catch)pr.catch(function(){});
   if(r&&anim()&&pv.animate){var q=pv.getBoundingClientRect();if(q.width&&q.height){var sx=r.width/q.width,sy=r.height/q.height;
@@ -301,17 +339,23 @@ $('#pfs').addEventListener('click',function(){/* Android: real fullscreen on the
 var PT=new Map(),pd=0,pm=null,moved=0,t0=0,pinched=false,g0='sky';
 function zoomAt(f,x,y,cap){var p=wp(x,y);cam.s=Math.max(fitS()*.7,Math.min(cap||8,cam.s*f));cam.x=p[0]-(x-W/2)/cam.s;cam.y=p[1]-(y-VC)/cam.s}
 function clampCam(){var m=Math.max(60,40/cam.s);cam.x=Math.max(B.x0-m,Math.min(B.x1+m,cam.x));cam.y=Math.max(B.y0-m,Math.min(B.y1+m,cam.y))}
-sky.addEventListener('pointerdown',function(e){if(e.target.closest('.sl')||e.target.closest('.leg')||e.target.closest('.nowrail'))return;try{sky.setPointerCapture(e.pointerId)}catch(x){}PT.set(e.pointerId,{x:e.clientX,y:e.clientY});
+/* PINCH-ON-LABEL v1 (Oct 19): a finger that lands on a sky label is held back (it may be a tap on the label). If a second finger comes
+   down, both become a pinch and the label's click is swallowed; a lone finger on a label still taps it as before. */
+var LBP=new Map(),lbSwallow=0;
+sky.addEventListener('pointerdown',function(e){if(e.target.closest('.leg')||e.target.closest('.nowrail'))return;
+  if(e.target.closest('.sl')&&!PT.size&&!LBP.size){LBP.set(e.pointerId,{x:e.clientX,y:e.clientY});return}
+  if(LBP.size){LBP.forEach(function(p,id){PT.set(id,p)});LBP.clear();lbSwallow=Date.now()}
+  try{sky.setPointerCapture(e.pointerId)}catch(x){}PT.set(e.pointerId,{x:e.clientX,y:e.clientY});
   if(PT.size===1){moved=0;t0=Date.now();pinched=false}if(PT.size===2){var a=Array.from(PT.values());pd=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);pm={x:(a[0].x+a[1].x)/2,y:(a[0].y+a[1].y)/2};moved=99;pinched=true;tw=null;g0=mode}});
 sky.addEventListener('pointermove',function(e){if(!PT.has(e.pointerId)||mode==='grid')return;var o=PT.get(e.pointerId),n={x:e.clientX,y:e.clientY};PT.set(e.pointerId,n);
   if(PT.size===1){var dx=n.x-o.x,dy=n.y-o.y;moved+=Math.abs(dx)+Math.abs(dy);if(moved>8){tw=null;cam.x-=dx/cam.s;cam.y-=dy/cam.s;clampCam();req()}}
   else if(PT.size===2){var a=Array.from(PT.values()),d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y),m={x:(a[0].x+a[1].x)/2,y:(a[0].y+a[1].y)/2};if(!pd){pd=d;pm=m;return}
     var f=d/pd;pd=d;cam.x-=(m.x-pm.x)/cam.s;cam.y-=(m.y-pm.y)/cam.s;pm=m;
     var soft=chapS(nearest(m.x,m.y))*(g0==='chap'?1.85:1.45);zoomAt(f,m.x,m.y,soft);clampCam();req()}});
-function up(e){if(!PT.has(e.pointerId))return;var was=PT.size;PT.delete(e.pointerId);if(PT.size<2)pd=0;if(PT.size)return;
+function up(e){if(LBP.has(e.pointerId)){LBP.delete(e.pointerId);return}if(!PT.has(e.pointerId))return;var was=PT.size;PT.delete(e.pointerId);if(PT.size<2)pd=0;if(PT.size)return;if(pinched)lbSwallow=Date.now();
   if(was===1&&moved<10&&Date.now()-t0<500){tap(e.clientX,e.clientY);return}
   if(pinched)release();else if(moved>8)stayLevel();else{lastUi='';ui()}} /* pan stays (site-v3); zoom-stay: the level is re-read from the view, nothing moves */
-sky.addEventListener('pointerup',up);sky.addEventListener('pointercancel',function(e){PT.delete(e.pointerId);if(!PT.size&&pinched)release()});
+sky.addEventListener('pointerup',up);sky.addEventListener('pointercancel',function(e){LBP.delete(e.pointerId);PT.delete(e.pointerId);if(!PT.size&&pinched)release()});
 /* ZOOM-STAY v1 (Gill, Oct 19): release never snaps. The camera stays exactly where the fingers / wheel left it, pan stays free at
    any depth. Detail-by-zoom steps are THRESHOLDS read from the zoom (far = streams, mid = What's new + related, close = clip + feedback):
    far/mid only relabel (mode + hash, replaceState); close (zooming past 1.55x a constellation in a gesture that began at mid) opens the cards. */
@@ -327,7 +371,7 @@ function tap(x,y){if(tw)return;var lv=lvNow();
     if(best){dive(best.g.sec,best,{});return}}
   var bg=null,bd=1e9;GROUPS.forEach(function(g){var p=sp(g.x,g.y),d=Math.hypot(p[0]-x,p[1]-y)-g.r*cam.s;if(d<bd){bd=d;bg=g}});
   if(bg&&bd<40){if(mode==='chap'&&FG===bg)dive(bg.sec);else toChap(bg)}}
-slabs.addEventListener('click',function(e){var b=e.target.closest('[data-g]');if(!b)return;var g=GBY[b.dataset.g];if(g)toChap(g)});
+slabs.addEventListener('click',function(e){if(Date.now()-lbSwallow<900){e.preventDefault();return}var b=e.target.closest('[data-g]');if(!b)return;var g=GBY[b.dataset.g];if(g)toChap(g)});
 sky.addEventListener('wheel',function(e){e.preventDefault();if(mode==='grid')return;tw=null;g0=mode;var f=Math.exp(-e.deltaY*(e.ctrlKey?.01:.0022));
   zoomAt(f,e.clientX,e.clientY,chapS(nearest(e.clientX,e.clientY))*(mode==='chap'?1.85:1.45));clampCam();req();
   clearTimeout(sky._w);sky._w=setTimeout(function(){pinched=true;release();pinched=false},260)},{passive:false});
@@ -379,10 +423,10 @@ if(RM.addEventListener)RM.addEventListener('change',req);
 
 /* Hybrid What's new rail (always in Zoom) + dismissible legend. Stars stay. */
 function placeNowRail(){var rail=$('#nowrail');if(!rail||!open)return;
-  var order=['sound','site','reel'],D=dens(),bits=[];
-  order.forEach(function(id){var sec=SBY[id];if(!sec)return;var x=sec.items.filter(isNow)[0];if(!x)return;var it=x.d;
+  var order=streamOrder(),D=dens(),bits=[];
+  order.forEach(function(id){var sec=SBY[id];if(!sec)return;sec.items.filter(isNow).forEach(function(x){var it=x.d;
     var bg=it.poster?' style="background-image:url(\''+esc(it.poster)+'\')"':'';
-    bits.push('<button type="button" class="nrc" data-k="'+x.k+'" data-file="'+esc(it.file||'')+'" data-title="'+esc(it.title||'')+'"'+bg+' aria-label="'+esc(sec.title)+': '+esc(it.title)+'"><span class="nrt">'+esc(sec.title)+'</span><span class="nrl">'+esc(it.title)+'</span></button>')});
+    bits.push('<button type="button" class="nrc" data-k="'+x.k+'" data-file="'+esc(it.file||'')+'" data-title="'+esc(it.title||'')+'"'+bg+' aria-label="'+esc(sec.title)+': '+esc(it.title)+'"><span class="nrt">'+esc(sec.title)+'</span><span class="nrl">'+esc(it.title)+'</span></button>')})});
   if(!bits.length){rail.innerHTML='';rail.hidden=true;return}
   rail.className='nowrail'+(D.L===0?' far':' mid')+(D.phone?' phone':'');
   rail.innerHTML='<div class="nrh"><b>What\'s new</b><span>'+(D.L===0?'streams':D.L===1?'tap for related':'open + feedback')+'</span></div><div class="nrrow">'+bits.join('')+'</div>';

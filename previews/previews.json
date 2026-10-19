@@ -10,6 +10,10 @@
       "title": "Site"
     },
     {
+      "id": "board",
+      "title": "Board"
+    },
+    {
       "id": "reel",
       "title": "Reel"
     },
@@ -21,14 +25,97 @@
   "items": [
     {
       "section": "sound",
+      "type": "live",
+      "id": "sound-sketch-live",
+      "file": "../sound-sketch/",
+      "src": "../sound-sketch/",
+      "poster": "posters/sound-sketch-live.jpg",
+      "title": "Sound · live player (wind chimes)",
+      "desc": "The real Sound player running inside the board, not a clip. Tap ▶ to load it, then tap a strand to hear its note or swipe across the strands for wind. To react, swipe the strip above the player: right = Love, left = Needs work.",
+      "time": "2026-10-19T11:42:00-07:00",
+      "badge": "Latest",
+      "tier": "now",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/sound-sketch/",
+        "label": "Open the player on its own"
+      }
+    },
+    {
+      "section": "site",
+      "type": "video",
+      "file": "media/site-today-zoom-phone.mp4",
+      "poster": "posters/site-today-zoom-phone.jpg",
+      "title": "Site · today (stays-put zoom)",
+      "desc": "Today's site at phone size. When you let go of a zoom it stays where you left it (no snapping back), you can pan around while zoomed in, and one trackpad pinch moves one level. Compare it with yesterday's v3.5.1, live next to it.",
+      "time": "2026-10-19T12:06:00-07:00",
+      "badge": "Latest",
+      "tier": "now",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/site-v3/",
+        "label": "Open today's site"
+      }
+    },
+    {
+      "section": "site",
+      "type": "video",
+      "file": "media/site-v351-yesterday.mp4",
+      "poster": "posters/site-v351-yesterday.jpg",
+      "title": "Site · yesterday v3.5.1",
+      "desc": "Yesterday's site (v3.5.1), the zoom from before today's change. It's kept live at its own address so you can try both side by side.",
+      "time": "2026-10-19T12:05:00-07:00",
+      "badge": "Latest",
+      "tier": "now",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/site-v351/",
+        "label": "Open yesterday's v3.5.1"
+      }
+    },
+    {
+      "section": "site",
+      "type": "video",
+      "file": "media/site-today-zoom-desktop.mp4",
+      "poster": "posters/site-today-zoom-desktop.jpg",
+      "title": "Site · today (stays-put zoom), desktop",
+      "desc": "The same change on a laptop: trackpad pinch, mouse wheel and drag.",
+      "time": "2026-10-19T12:06:30-07:00",
+      "badge": null,
+      "tier": "related",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/site-v3/",
+        "label": "Open today's site"
+      }
+    },
+    {
+      "section": "board",
+      "type": "video",
+      "file": "media/board-option-c-phone.mp4",
+      "poster": "posters/board-option-c-phone.jpg",
+      "title": "Board · Option C dense sky (staged)",
+      "desc": "Option C for this board: a denser sky where the dots become clips as you pinch in. Staged only, not live yet. Tell us if it should replace this board.",
+      "time": "2026-10-19T13:10:00-07:00",
+      "badge": "Latest",
+      "tier": "now"
+    },
+    {
+      "section": "board",
+      "type": "video",
+      "file": "media/board-option-c-desktop.mp4",
+      "poster": "posters/board-option-c-desktop.jpg",
+      "title": "Board · Option C dense sky, desktop (staged)",
+      "desc": "Option C on a laptop screen. Staged only, not live yet.",
+      "time": "2026-10-19T12:34:00-07:00",
+      "badge": null,
+      "tier": "related"
+    },
+    {
+      "section": "archive",
       "type": "video",
       "file": "media/sound-player-sketch.mp4",
       "poster": "posters/sound-player-sketch.jpg",
-      "title": "Sound chapter player (sketch)",
+      "title": "Sound · chapter player clip (older sketch)",
       "desc": "A sketch for the Sound chapter: the waveform constellation, tap to dive in, and Lost Coffee's “To Go” plays on the page with a moving star shape and a timeline you can drag. Not on the site yet.",
       "time": "2026-10-18T09:27:00-07:00",
-      "badge": "Latest",
-      "tier": "now"
+      "badge": null
     },
     {
       "section": "site",
@@ -38,8 +125,8 @@
       "title": "v3.5 fixes: films keep playing in WebKit, landscape switcher, full screen, loading states",
       "desc": "Emulated (Playwright WebKit at iPhone 15 size, Chromium at Galaxy S24 size). Films 05 and 17 now keep playing in WebKit (v3.4 stopped at 0.2 s). In landscape the 1/2/3/5 ripple switcher sits in the top bar on the first screen; ▶ fills the screen, the first ⤢ tap gives real full screen, and Back goes straight to the grid. On a slow line the reel shows its still and \"loading film\" at once; when YouTube can't be reached a film shows its still and \"watch on YouTube ↗\" after 8 s; each constellation names only its own works.",
       "time": "2026-10-18T17:23:15-07:00",
-      "badge": "Latest",
-      "tier": "now"
+      "badge": null,
+      "tier": "related"
     },
     {
       "section": "reel",

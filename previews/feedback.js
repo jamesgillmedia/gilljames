@@ -29,7 +29,7 @@ function form(it,o){o=o||{};var f=it.file||'',d=getD(f),id='fb'+Math.random().to
 function compose(box){var f=box.dataset.file,d=getD(f),t=box.dataset.title,mark=window.PVFB&&PVFB.mark&&PVFB.mark(),
   body=['Preview: '+t,'Reaction: '+(d.r||'(none)'),'Note: '+(d.note||'(none)'),
   mark?('At: '+mark.tc+' (frame '+mark.frame+' @ '+mark.fps+'fps)'+(mark.held?' · marked':' · playhead')):null,
-  'Item file: '+fileUrl(f),'Page: '+BASE+'#'+(function(){var it=ITEMS.filter(function(i){return i.file===f})[0];return it?it.section+'/'+stem(f):''})(),
+  'Item file: '+fileUrl(f),'Page: '+BASE+'#'+(function(){var it=ITEMS.filter(function(i){return i.file===f})[0];return it?it.section+'/'+(it.id||stem(f)):''})(),
   box.dataset.time?'Item posted: '+box.dataset.time:'','Sent: '+nowStr()].filter(Boolean).join('\n'),subject='Preview feedback: '+t+(mark?' @ '+mark.tc:'');
   return{subject:subject,body:body}}
 function status(box,msg,cls){var s=$('.fbst',box);if(s){s.textContent=msg;s.className='fbst'+(cls?' '+cls:'')}}
@@ -56,7 +56,7 @@ function build(){var a=pick();if(!a.length){rail.innerHTML='';return}
   rail.innerHTML='<div class="frh"><h2>What\'s new<small>Love / Needs work / Note · Send opens mail</small></h2><button type="button" class="frx" aria-label="Close">✕</button></div><ul class="frt">'+a.map(function(it){
     var bg=it.poster?' style="background-image:url(\''+esc(it.poster)+'\')"':'';
     var stream=(it.section||'').replace(/^./,function(c){return c.toUpperCase()});
-    return'<li><article class="card"><span class="stream-tag">'+esc(stream)+'</span><button type="button" class="frp"'+bg+' data-go="'+esc(it.section+'/'+stem(it.file))+'" aria-label="Open large: '+esc(it.title)+'"><b>'+(it.type==='audio'?'▶ Listen':'▶ Play')+'</b></button><div class="cb"><div class="meta"><time class="when" datetime="'+esc(it.time)+'">'+when(it.time)+'</time><span class="badge">Latest</span></div><h3 class="ct">'+esc(it.title)+'</h3>'+(it.desc?'<p class="cx">'+esc(it.desc)+'</p>':'')+form(it,{noHead:1})+'</div></article></li>'}).join('')+'</ul>'}
+    return'<li><article class="card"><span class="stream-tag">'+esc(stream)+'</span><button type="button" class="frp"'+bg+' data-go="'+esc(it.section+'/'+(it.id||stem(it.file)))+'" aria-label="Open large: '+esc(it.title)+'"><b>'+(it.type==='audio'?'▶ Listen':'▶ Play')+'</b></button><div class="cb"><div class="meta"><time class="when" datetime="'+esc(it.time)+'">'+when(it.time)+'</time><span class="badge">Latest</span></div><h3 class="ct">'+esc(it.title)+'</h3>'+(it.desc?'<p class="cx">'+esc(it.desc)+'</p>':'')+form(it,{noHead:1})+'</div></article></li>'}).join('')+'</ul>'}
 rail.addEventListener('click',function(e){var g=e.target.closest('[data-go]');if(g){setSheet(false);location.hash='#'+g.dataset.go;return}if(e.target.closest('.frx'))setSheet(false,1)});
 function inList(){return!document.documentElement.classList.contains('sky-on')}
 function place(){/* hybrid: Zoom uses #nowrail; List uses sky.js nowStrip — this frail is backup only */
@@ -117,13 +117,14 @@ function unbindScrub(){if(SCR.raf)cancelAnimationFrame(SCR.raf);SCR.raf=0;SCR.v=
 
 /* Swipe on What's new cards: RIGHT = Love, LEFT = Needs work (card chrome only; sky pan untouched) */
 var SW={x0:0,y0:0,t0:0,el:null,locked:0};
-function swipeTarget(el){return el&&el.closest&&(el.closest('.nowrow > li')||el.closest('.nrc')||el.closest('.frt > li')||el.closest('#player .pstage'))}
+function swipeTarget(el){return el&&el.closest&&(el.closest('.lstrip')||el.closest('.nowrow > li')||el.closest('.nrc')||el.closest('.frt > li')||el.closest('#player .pstage'))} /* LIVE-SWIPE v1: the strip above a live player (first, so a mouse drag on it works too) */
 function flash(el,dir){if(!el)return;el.classList.remove('sw-love','sw-need');void el.offsetWidth;el.classList.add(dir>0?'sw-love':'sw-need')}
 function reactFile(file,react,el){if(!file)return;var d=getD(file);d.r=react;var mk=window.PVFB&&PVFB.mark&&PVFB.mark();if(mk){d.mark=mk.tc;if(!d.note)d.note='at '+mk.tc}else if(!d.note)d.note='swipe '+react;setD(file,d);
   $$('.fb').forEach(function(b){if(b.dataset.file===file){sync(b);status(b,react+(mk?' @ '+mk.tc:''),'ok')}});flash(el,react==='Love'?1:-1)}
 function applySwipe(el,dir){var react=dir>0?'Love':'Needs work';
   var card=el.closest('.nowrow > li, .frt > li');if(card){var box=$('.fb',card);if(box&&box.dataset.file){reactFile(box.dataset.file,react,card);return}}
   var nrc=el.closest('.nrc');if(nrc&&nrc.dataset.file){reactFile(nrc.dataset.file,react,nrc);return}
+  if(el.closest('.lstrip')){var lli=el.closest('li[data-k]'),lbox=lli&&$('.fb',lli);if(lbox&&lbox.dataset.file){reactFile(lbox.dataset.file,react,el);return}} /* LIVE-SWIPE v1 */
   if(el.closest('#player .pstage')){var fb=$('#pfb .fb');if(fb&&fb.dataset.file){reactFile(fb.dataset.file,react,$('#player .pstage'));return}}}
 document.addEventListener('pointerdown',function(e){if(e.pointerType==='mouse'&&e.button!==0)return;var t=swipeTarget(e.target);if(!t)return;
   if(e.target.closest('button:not(.nrc),input,a,.psrail,.psbtns,.fb,.push,video,audio')&&!clipSwipe(e.target))return; /* CLIP-SWIPE v1 */
