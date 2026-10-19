@@ -69,3 +69,12 @@ html.js:not(.ready) #plain{visibility:hidden;animation:pvshow 0s 4s forwards} /*
 .skyb{display:none}
 html.js .skyb{display:inline-grid;border-color:rgba(85,218,161,.6);color:var(--mint)}
 @media (prefers-reduced-motion:reduce){.sl,.grid,.fcap,.shint{transition:none}.tline>li.hit .card{animation:none;box-shadow:0 0 0 2px var(--mint)}}
+
+/* Zoom board: Archive muted, What's-new streams emphasized */
+.sl.mute{opacity:.55}
+.sl.mute b{color:#93a1a6;letter-spacing:.14em}
+.sl.nowg b{color:var(--here);text-shadow:0 0 8px rgba(255,216,74,.35)}
+.modeflip{gap:6px}
+.modeflip .hb.on{border-color:var(--mint);color:var(--mint);background:var(--mint-tint)}
+.grid .relh{margin:14px 0 8px;font:300 11px/1 Poppins,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--meta)}
+.grid .nowline>li.now .card{border-color:rgba(85,218,161,.55)}
