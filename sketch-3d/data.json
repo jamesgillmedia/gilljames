@@ -1,0 +1,219 @@
+[
+ {
+  "k": "film",
+  "nm": "film",
+  "ct": "36 films",
+  "sum": "22 commercial · 7 music video · 3 brand film · 3 reels + shorts",
+  "cards": [
+   {
+    "t": "Reel 2026",
+    "m": "reel · 01:13",
+    "src": "img/film-00.jpg",
+    "w": 320,
+    "h": 180
+   },
+   {
+    "t": "Coca-Cola · Celebraciones",
+    "m": "commercial",
+    "src": "img/film-02.jpg",
+    "w": 320,
+    "h": 180
+   },
+   {
+    "t": "AXE · Stay Gold",
+    "m": "commercial",
+    "src": "img/film-03.jpg",
+    "w": 320,
+    "h": 180
+   },
+   {
+    "t": "BMW Legends",
+    "m": "commercial · 00:33",
+    "src": "img/film-04.jpg",
+    "w": 320,
+    "h": 180
+   },
+   {
+    "t": "Hey Ocean! · Sleepwalker",
+    "m": "music video · 04:06",
+    "src": "img/film-13.jpg",
+    "w": 320,
+    "h": 180
+   },
+   {
+    "t": "Flower Crown · Claritin",
+    "m": "commercial · 00:15",
+    "src": "img/film-16.jpg",
+    "w": 320,
+    "h": 180
+   },
+   {
+    "t": "Old Man Canyon · Back to the Start",
+    "m": "music video · 03:58",
+    "src": "img/film-19.jpg",
+    "w": 320,
+    "h": 180
+   },
+   {
+    "t": "ALLAN RAYMAN · VERONA'S OBSESSION",
+    "m": "music video · 09:15",
+    "src": "img/film-22.jpg",
+    "w": 320,
+    "h": 180
+   }
+  ]
+ },
+ {
+  "k": "photo",
+  "nm": "photo",
+  "ct": "39 photographs",
+  "sum": "portraits, landscapes and squares · tap one to see it large",
+  "cards": [
+   {
+    "t": "photograph 01",
+    "m": "portrait",
+    "src": "img/photo-00.jpg",
+    "w": 256,
+    "h": 320
+   },
+   {
+    "t": "photograph 05",
+    "m": "landscape",
+    "src": "img/photo-04.jpg",
+    "w": 320,
+    "h": 135
+   },
+   {
+    "t": "photograph 07",
+    "m": "landscape",
+    "src": "img/photo-06.jpg",
+    "w": 320,
+    "h": 213
+   },
+   {
+    "t": "photograph 14",
+    "m": "landscape",
+    "src": "img/photo-13.jpg",
+    "w": 320,
+    "h": 180
+   },
+   {
+    "t": "photograph 23",
+    "m": "landscape",
+    "src": "img/photo-22.jpg",
+    "w": 320,
+    "h": 137
+   },
+   {
+    "t": "photograph 32",
+    "m": "landscape",
+    "src": "img/photo-31.jpg",
+    "w": 320,
+    "h": 180
+   }
+  ]
+ },
+ {
+  "k": "objects",
+  "nm": "objects",
+  "ct": "13 works",
+  "sum": "joio.co ceramics (8) · carving + industrial / spatial design (5)",
+  "cards": [
+   {
+    "t": "joio.co cup from above",
+    "m": "joio.co",
+    "src": "img/objects-00.jpg",
+    "w": 256,
+    "h": 320
+   },
+   {
+    "t": "glazed joio.co cup in hand",
+    "m": "joio.co",
+    "src": "img/objects-01.jpg",
+    "w": 256,
+    "h": 320
+   },
+   {
+    "t": "latte in a joio.co cup",
+    "m": "joio.co",
+    "src": "img/objects-02.jpg",
+    "w": 256,
+    "h": 320
+   },
+   {
+    "t": "hand-carved piece",
+    "m": "carving + design",
+    "src": "img/objects-08.jpg",
+    "w": 240,
+    "h": 320
+   },
+   {
+    "t": "carved spoon",
+    "m": "carving + design",
+    "src": "img/objects-09.jpg",
+    "w": 256,
+    "h": 320
+   },
+   {
+    "t": "design board",
+    "m": "carving + design",
+    "src": "img/objects-10.jpg",
+    "w": 147,
+    "h": 320
+   }
+  ]
+ },
+ {
+  "k": "sound",
+  "nm": "sound",
+  "ct": "2 projects · 4 players",
+  "sum": "lofi music as Mothers Moniker and Lost Coffee · licensing: imjamesgill@gmail.com",
+  "cards": [
+   {
+    "t": "Mothers Moniker",
+    "m": "Spotify",
+    "src": "img/sound-00.jpg",
+    "w": 320,
+    "h": 180
+   },
+   {
+    "t": "Lost Coffee",
+    "m": "Spotify",
+    "src": "img/sound-01.jpg",
+    "w": 320,
+    "h": 320
+   },
+   {
+    "t": "Lost Coffee · To Go",
+    "m": "YouTube",
+    "src": "img/sound-03.jpg",
+    "w": 320,
+    "h": 180
+   }
+  ]
+ },
+ {
+  "k": "about",
+  "nm": "about",
+  "ct": "bio · contact · poem",
+  "sum": "",
+  "cards": [
+   {
+    "t": "bio",
+    "m": "coming · they/them"
+   },
+   {
+    "t": "imjamesgill@gmail.com",
+    "m": "contact"
+   },
+   {
+    "t": "joio.co",
+    "m": "ceramics shop ↗"
+   },
+   {
+    "t": "the poem",
+    "m": "15 lines · ᑕᐣᓯ"
+   }
+  ]
+ }
+]
