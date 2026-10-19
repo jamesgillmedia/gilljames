@@ -24,6 +24,18 @@
   ],
   "items": [
     {
+      "section": "reel",
+      "type": "video",
+      "id": "reel-v7-pass8",
+      "file": "media/reel-v7-pass8.mp4",
+      "poster": "posters/reel-v7-pass8.jpg",
+      "title": "Reel v7 pass 8 (all Cinema notes)",
+      "desc": "The whole reel, now 70 seconds, with every Cinema note in. Gill's footage starts at 1.6 s instead of about 7 s. The tile grid is cut down to one beat. The BMW run, the warehouse walk into the light and the Weird Kid horse get stronger shots and more time, and the candles and welder are gone. The end card says producer, and the Hey Ocean! and Kiesza films carry Gill's producer and director credits. Also in: the stray voice under the golf swing is gone, the credits are bigger for phones, and the shampoo bottle is shorter. Not on /reel-v7/ yet; that page still plays 7b.",
+      "time": "2026-10-19T15:00:00-07:00",
+      "badge": "Latest",
+      "tier": "now"
+    },
+    {
       "section": "sound",
       "type": "live",
       "id": "sound-sketch-live",
@@ -133,11 +145,15 @@
       "type": "video",
       "file": "media/reel-v7-pass7b-small.mp4",
       "poster": "posters/reel-v7-pass7b-small.jpg",
-      "title": "Reel v7 pass 7b (full cut)",
-      "desc": "The whole 73-second reel, the newest cut. It is pass 7 with one change Gill asked for: the Weird Kid horse holds again, uninterrupted from 0:51 to 0:54, then shrinks into the river of moving tiles. The Ironworkers welder that used to cut into it is gone. Every tile is moving footage from Gill's own films.",
+      "title": "Reel v7 7b (previous full cut)",
+      "desc": "The previous 73-second cut, 7b, which is still the one playing at /reel-v7/. It is pass 7 with one change Gill asked for: the Weird Kid horse holds again, uninterrupted from 0:51 to 0:54, then shrinks into the river of moving tiles. The Ironworkers welder that used to cut into it is gone. Every tile is moving footage from Gill's own films.",
       "time": "2026-10-18T08:34:00-07:00",
-      "badge": "Latest",
-      "tier": "now"
+      "badge": null,
+      "tier": "related",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/reel-v7/",
+        "label": "Open 7b at /reel-v7/"
+      }
     },
     {
       "section": "site",
