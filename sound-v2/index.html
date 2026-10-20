@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><base href="../site-v3/sound/"><meta name="robots" content="noindex"><script>/* sound-v2 only: <base> points assets at the live player's folder (../site-v3/sound/). Keep every address write on THIS page: "" and "#..." URLs given to pushState/replaceState would otherwise resolve against <base> and land on today's player. */(function(){var P=function(u){return typeof u==="string"&&(u===""||u.charAt(0)==="#")?location.pathname+location.search+u:u};["pushState","replaceState"].forEach(function(n){var f=history[n];history[n]=function(s,t,u){if(arguments.length>2)return f.call(history,s,t,P(u));return f.apply(history,arguments)}})})()</script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#03050a">
+<title>sound · Gill James · v2 (compare)</title><meta name="description" content="Gill James · sound: inside the waveform. Lofi music as Mothers Moniker and Lost Coffee.">
+<script>/* old deep links (sound/#w1 … #w4) still open that work on the Sound constellation */(function(){function w(){if(/^#w\d+$/.test(location.hash))location.replace('../#sound/'+location.hash.slice(1))}w();addEventListener('hashchange',w)})()</script>
+<link rel="preload" href="../fonts/julius-sans-one.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png"><link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="stylesheet" href="../../sound-v2/css/sound.css?v=sv2-1019">
+</head><body>
+<main class="sk" id="sk" data-mode="sky">
+  <canvas id="cv" aria-label="the Sound constellation: six song stars and five wind-chime strands; tap a star to choose its song, tap a strand to ring it, tap empty sky to dive into the waveform; pinch or scroll to zoom; drag with one finger or arrow keys to pan; a quick swipe that starts on a strand sways the strands; drag or twist with two fingers (or Shift+drag) to tilt the constellation in 3D; double-tap the sky or the home mark to fly home"></canvas>
+  <header class="hud">
+    <a class="shome" id="home" href="../../site-sound-open/#sky/sound" aria-label="back to the sky on the site">‹</a>
+    <p class="crumb"><span class="sig off">ᑕᐣᓯ</span> &nbsp;sound<span id="crumbSec"></span></p>
+    <button type="button" class="shome homev" id="homev" aria-label="home: fly back to the front view of the constellation" title="home (double-tap the sky)"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-width="1"/><path d="M4.5 13.2L7.6 11.4L10.4 8.6L13.6 9.9L16.6 8.2L19.5 11.6M10.4 8.6V15.6M16.6 8.2V14.4" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"/><circle cx="10.4" cy="8.6" r="1.4" fill="currentColor"/><circle cx="16.6" cy="8.2" r="1.3" fill="currentColor"/><circle cx="13.6" cy="9.9" r="1" fill="currentColor"/><circle cx="10.4" cy="15.6" r="1" fill="currentColor"/><circle cx="16.6" cy="14.4" r="1" fill="currentColor"/></svg></button><button type="button" class="shome rise" id="rise" aria-label="rise out to the constellation">↑</button>
+  </header>
+  <section class="intro" id="intro">
+    <p class="sl"><b>SOUND</b><small>6 songs · tap a star · pinch to zoom · two fingers to tilt · dive in</small></p>
+    <div class="picks" id="picks" role="radiogroup" aria-label="track"></div>
+    <button type="button" class="dive" id="dive">▶ dive in</button>
+  </section>
+  <section class="player" id="player" aria-label="player">
+    <div class="sc-row">
+      <button type="button" class="ib sc-b" id="pp" aria-label="pause">❚❚</button>
+      <div class="sc-lab"><span class="l1"><b id="ttl">TO GO</b> <span id="art">LOST COFFEE</span></span>
+        <span class="l2"><span class="tc" id="tc">00:00 / 00:00</span> <span class="sn" id="sn"></span></span></div>
+    </div>
+    <div class="sc-rail" id="rail" role="slider" tabindex="0" aria-label="timeline: drag to fly through the song" aria-valuemin="0" aria-valuemax="80" aria-valuenow="0">
+      <canvas class="wf" id="wf"></canvas><span class="sc-line"></span><span class="sc-fill" id="fill"></span><b class="sc-head" id="head"></b>
+    </div>
+    <p class="gest">drag the rail to fly · tap to pause · swipe down or ↑ to rise</p>
+  </section>
+  <audio id="au" preload="auto" crossorigin="anonymous"></audio>
+  <noscript><div class="ns"><p><b>SOUND</b> · lofi music as Mothers Moniker and Lost Coffee</p><ul>
+    <li><a href="https://open.spotify.com/artist/4NLF1yvahl2gE91fWHxkDc" rel="noopener">Mothers Moniker · Spotify</a></li>
+    <li><a href="https://open.spotify.com/artist/5boqZWhWg5ZwPAURnNQDYK" rel="noopener">Lost Coffee · Spotify</a></li>
+    <li><a href="https://music.apple.com/ca/artist/lost-coffee/1690001432" rel="noopener">Lost Coffee · Apple Music</a></li>
+    <li><a href="https://www.youtube.com/watch?v=ClRfnH52kFU" rel="noopener">Lost Coffee · To Go · YouTube</a></li></ul>
+    <p><a href="mailto:imjamesgill@gmail.com?subject=music%20licensing">licensing · imjamesgill@gmail.com</a> · <a href="../list/">list</a></p></div></noscript>
+</main>
+<script src="../js/tracks.js?v=sv2-1019"></script>
+<script src="../../sound-v2/js/player.js?v=sv2-1019"></script>
+<script>/* ‹ : when you came from a page of the site, go back to exactly where you were (same sky / scroll); otherwise open the sky over Sound */
+(function(){var h=document.getElementById('home');h.addEventListener('click',function(e){try{var r=document.referrer&&new URL(document.referrer);
+  if(r&&r.origin===location.origin&&r.pathname!==location.pathname&&history.state!=='in'&&history.length>1){e.preventDefault();history.back()}}catch(x){}})})();</script>
+</body></html>
