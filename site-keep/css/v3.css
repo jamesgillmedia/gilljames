@@ -1,0 +1,333 @@
+/* site-keep: frozen copy of live site-v3/css/v3.css (Oct 19); fonts load from ../../site-v3/fonts/ */
+/* gill james v3 · The Dive + constellations. One column in normal flow. Rules (C-11 home-first):
+   1 one column in flow · 2 nothing absolute except the backdrop (plus decorative constellation lines and the two full-screen
+   dialogs: the work view and the fly sky) · 3 the poem wraps/scrolls, never overlaps · 4 the bar reserves its own height ·
+   5 landscape phones use 2 columns · 6 sized with dvh + safe areas. */
+@font-face{font-family:"Poppins";font-weight:300;font-display:swap;src:url(../../site-v3/fonts/poppins-300.woff2) format("woff2")}
+@font-face{font-family:"Poppins";font-weight:200;font-display:swap;src:url(../../site-v3/fonts/poppins-200.woff2) format("woff2")}
+@font-face{font-family:"Julius Sans One";font-display:swap;src:url(../../site-v3/fonts/julius-sans-one.woff2) format("woff2")}
+@font-face{font-family:"Syl";font-weight:700;font-display:block;src:url(../../site-v3/fonts/noto-canadian-aboriginal-subset.woff2) format("woff2");unicode-range:U+1400-167F}
+:root{--mint:#55DAA1;--ink:#eef3f5;--dim:#c9d3d6;--line:rgba(255,255,255,.18);--cy:rgba(10,189,240,.45);--rd:rgba(254,1,1,.45);--here:#ffd84a;
+  --tabs:52px;--zoom:52px;--dock:calc(var(--tabs) + var(--zoom));--depth:0;--night:0;
+  --sl:env(safe-area-inset-left,0px);--sr:env(safe-area-inset-right,0px);--st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px);
+  --ease:cubic-bezier(.2,.8,.2,1)}
+*{box-sizing:border-box}
+html{overflow-x:clip;background:#04070b;color:var(--ink);-webkit-text-size-adjust:100%;scroll-padding-top:8px}
+body{margin:0;min-height:100dvh;font:300 14px/1.4 Poppins,"Syl",system-ui,sans-serif;-webkit-font-smoothing:antialiased;
+  padding:var(--st) max(16px,var(--sr)) calc(var(--dock) + var(--sb) + 12px) max(16px,var(--sl))}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--mint);outline-offset:2px;border-radius:6px}
+.off{text-shadow:2px 2px 0 var(--cy),-2px -2px 0 var(--rd)}
+.sig{font-family:"Syl",sans-serif;font-weight:700;line-height:1}
+.label{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.ph{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:#c4ccc8;border:1px dashed #5d6764;border-radius:5px;padding:1px 6px}
+/* ---------- the backdrop: the only decorative fixed layer. No text, no taps. ---------- */
+.backdrop{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;background:#04070b}
+.backdrop img,.backdrop canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%}
+.backdrop canvas{opacity:0;transition:opacity .9s}.backdrop canvas.on{opacity:1}
+.backdrop::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,6,10,.50),rgba(3,6,10,.70) 55%,rgba(3,6,10,.86))}
+.backdrop .deep{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(2,10,20,.55),rgba(1,5,12,.92));opacity:var(--depth)}
+.backdrop .night{position:absolute;inset:0;z-index:2;opacity:var(--night);background:
+  radial-gradient(1px 1px at 12% 18%,#fff,transparent),radial-gradient(1px 1px at 72% 12%,#fff,transparent),radial-gradient(1.5px 1.5px at 40% 40%,#fff,transparent),
+  radial-gradient(1px 1px at 85% 55%,#fff,transparent),radial-gradient(1px 1px at 22% 70%,#fff,transparent),radial-gradient(1.5px 1.5px at 60% 82%,#fff,transparent),
+  radial-gradient(1px 1px at 92% 88%,#fff,transparent),radial-gradient(1px 1px at 8% 92%,#fff,transparent),
+  radial-gradient(ellipse at 50% 30%,#13202e,#04070b 70%)}
+.plain-p .backdrop{background:radial-gradient(ellipse at 50% 0,#15212c,#04070b 70%)}.plain-p .backdrop::after{display:none}
+/* ---------- header ---------- */
+header.top{display:flex;justify-content:space-between;align-items:center;min-height:48px}
+.home{display:inline-flex;align-items:center;gap:10px;min-height:44px;min-width:44px;padding-right:8px;font-size:11px;letter-spacing:.16em;text-transform:uppercase}
+.home i{width:20px;height:20px;border-radius:50%;box-shadow:inset -6px 2px 0 0 #f2f5f7;flex:none}
+.list{display:inline-grid;place-items:center;min-height:44px;min-width:64px;padding:0 14px;border:1px solid var(--line);border-radius:22px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;background:rgba(3,7,12,.4)}
+/* ---------- intro: name, roles, the whole poem ---------- */
+.id{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px}
+.name{margin:0;font:400 26px/1.1 "Julius Sans One",sans-serif;letter-spacing:.06em;color:var(--mint);text-transform:uppercase;transform:rotate(-3deg);transform-origin:left center}
+.moon{width:40px;height:40px;flex:none;border-radius:50%;box-shadow:inset -11px 3px 0 0 #f2f5f7;filter:drop-shadow(1.5px 1.5px 0 var(--cy)) drop-shadow(-1.5px -1.5px 0 var(--rd))}
+.roles{margin:4px 0 6px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.poem{margin:0 0 6px;padding:6px 12px;border-radius:12px;background:rgba(3,7,12,.58);font-size:13px;line-height:1.32}
+.poem span{display:block;will-change:opacity}
+.hint{margin:4px 0 8px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+/* ---------- chapters: each a constellation row; levels expand in place ---------- */
+.chs{touch-action:pan-y}
+.ch{border-top:1px solid var(--line);scroll-margin-top:4px}
+.ch:last-child{border-bottom:1px solid var(--line)}
+.ch .head{display:flex;align-items:center;gap:12px;min-height:44px;padding:2px 0}
+.glyph{width:56px;height:28px;flex:none;overflow:visible}
+.glyph polyline{fill:none;stroke:rgba(220,235,245,.5);stroke-width:1}
+/* v3.3 constellations: hairlines + stars tinted per chapter (--t, --lt set on the svg) */
+.glyph path{fill:none;stroke:rgba(var(--lt,220,235,245),.5);stroke-width:1;stroke-linecap:round}
+.glyph circle{fill:#fff;filter:drop-shadow(0 0 2px rgb(var(--t,191,224,255)))}.glyph circle.f{filter:none}
+.ch .nm{font:400 16px/1 "Julius Sans One",sans-serif;letter-spacing:.16em;text-transform:uppercase}
+.ch .ct{margin-left:auto;font-size:11px;letter-spacing:.06em;color:var(--dim);text-align:right}
+.ch .head[aria-expanded=true] .nm{color:var(--mint)}
+.ch .body{display:none;padding:0 0 14px}
+.ch.lv1 .body,.ch.lv2 .body{display:block}
+.sum{margin:0 0 8px;font-size:11.5px;line-height:1.5;color:var(--dim);background:rgba(3,7,12,.5);border-radius:8px;padding:4px 8px}
+.links{margin:0 0 8px;display:flex;flex-wrap:wrap;gap:6px}
+.lk{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border:1px solid var(--line);border-radius:22px;font-size:12px;background:rgba(3,7,12,.45)}
+.about-l1{background:rgba(3,7,12,.5);border-radius:10px;padding:6px 10px;margin-bottom:8px}
+.about-l1 p{margin:6px 0}
+.sky-wrap{position:relative}
+.lines{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:0}
+.lines path{fill:none;stroke:rgba(190,220,245,.38);stroke-width:1}
+.stars{list-style:none;margin:0;padding:0;position:relative;z-index:1}
+.it .tile{display:flex;align-items:center;gap:12px;min-height:44px}
+.vis{position:relative;flex:none;display:block;width:9px;height:9px;border-radius:50%;background:#fff;box-shadow:0 0 8px 2px rgba(190,225,255,.75);overflow:hidden;transform-origin:0 0}
+.vis img,.vis video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;display:block}
+.cap{min-width:0;display:flex;align-items:baseline;gap:8px}
+.cap b{font-weight:300;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 0 6px #000}
+.cap small{font-size:10.5px;color:var(--dim);white-space:nowrap;letter-spacing:.04em}
+/* L1: a star chart running down the column, one 44 px row per star (labels can never collide) */
+.ch.lv1 .it .tile{padding-left:var(--jx)}
+/* L2: the stars bloom into a dense grid of frames; lines still join them */
+.ch.lv2 .stars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 8px}
+.ch.lv2 .it .tile{display:block;padding:0}
+.ch.lv2 .vis{width:100%;height:auto;aspect-ratio:16/9;border-radius:3px;background:#0d151c;box-shadow:0 0 12px rgba(150,200,255,.25)}
+.ch.g-sq.lv2 .vis{aspect-ratio:1}
+.ch.lv2 .vis img,.ch.lv2 .vis video{opacity:1;transition:opacity .4s}
+.ch.lv2 .vis img:not([src]){opacity:0}
+.ch.lv2 .cap{display:block;margin-top:4px}
+.ch.lv2 .cap b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;white-space:normal;font-size:11px;line-height:1.3}
+.ch.lv2 .cap small{display:block;font-size:9.5px;margin-top:1px;overflow:hidden;text-overflow:ellipsis}
+.ch.lv2 .it.cur .vis{outline:2px solid var(--mint);outline-offset:2px}
+.fresh .cap{animation:capin .45s .22s both}
+@keyframes capin{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.more{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}
+.more button{min-height:44px;min-width:88px;padding:0 14px;border:1px solid var(--line);border-radius:22px;background:rgba(3,7,12,.55);font-size:12px;letter-spacing:.06em}
+.more button[hidden]{display:none}
+/* ---------- the sky at the bottom ---------- */
+.sky{min-height:calc(78dvh - var(--dock));display:grid;place-items:center;text-align:center;padding:40px 0 10px}
+.pole{margin:6px 0;font-size:46px}.pole .sig{text-shadow:2px 2px 0 var(--cy),-2px -2px 0 var(--rd),0 0 22px rgba(200,230,255,.85)}
+.sky-t{margin:4px 0 14px;font-size:13px;color:var(--dim)}
+.sky-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;max-width:420px;margin:0 auto}
+.sky-nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:64px;border-radius:12px;font:400 11px/1 "Julius Sans One";letter-spacing:.12em;text-transform:uppercase}
+.fly-btn{margin-top:16px;min-height:48px;padding:0 20px;border:1px solid rgba(85,218,161,.6);border-radius:24px;background:rgba(3,7,12,.5);font-size:12px;letter-spacing:.12em}
+/* ---------- the dock: fixed, solid, never hides; body padding reserves its height ---------- */
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:30;background:#05080c;border-top:1px solid var(--line);padding:0 var(--sr) var(--sb) var(--sl)}
+.zoom{display:flex;justify-content:flex-end;align-items:center;gap:6px;height:var(--zoom);padding:0 12px}
+.zoom button{min-width:48px;min-height:44px;border:1px solid var(--line);border-radius:22px;background:#0b1015;color:var(--ink);font:300 20px/1 Poppins}
+.zoom button:disabled{opacity:.4}
+.zoom .lv{font-size:10.5px;letter-spacing:.1em;color:var(--dim);padding:0 6px;min-width:120px;text-align:center}
+.zoom .dots{color:var(--mint);font-weight:300;letter-spacing:2px}
+.tabs{display:flex;height:var(--tabs)}
+.tabs a{flex:1;display:grid;place-items:center;min-height:44px;min-width:44px;font-size:12px;letter-spacing:.04em;color:var(--dim);position:relative}
+.tabs a.here,.tabs a[aria-current]{color:var(--mint)}
+.tabs a.here::before,.tabs a[aria-current]::before{content:"";position:absolute;top:6px;width:5px;height:5px;border-radius:50%;background:var(--here)}
+/* ---------- the work view (L3): the frame zooms up from its tile; Scope 2.39 chrome fades in ---------- */
+.imm{position:fixed;left:0;right:0;top:0;bottom:calc(var(--dock) + var(--sb));z-index:40;display:grid;grid-template-rows:auto minmax(0,1fr) auto;grid-template-columns:minmax(0,1fr);background:rgba(0,0,0,0);transition:background .45s}
+.imm[hidden]{display:none}
+.imm.on{background:#000}
+.imm-top,.imm-bot{opacity:0;transition:opacity .35s;padding:0 max(10px,var(--sr)) 0 max(10px,var(--sl))}
+.imm.in .imm-top,.imm.in .imm-bot{opacity:1;transition-delay:.18s}
+.imm-top{display:flex;align-items:center;gap:8px;min-height:56px;padding-top:var(--st)}
+.imm-t{flex:1;min-width:0;margin:0;font-size:12px;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.imm-stage{display:grid;place-items:center;min-height:0;overflow:hidden;position:relative}
+.imm-stage>*{grid-area:1/1}
+.amb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(22px) brightness(.45) saturate(1.2);transform:scale(1.25);opacity:0;transition:opacity .6s .2s}.imm.in .amb{opacity:1}.amb:not([src]){display:none}
+.frame{position:relative;width:100%;aspect-ratio:2.39/1;max-height:100%;background:#000;overflow:hidden;transform-origin:0 0}
+.frame>video,.frame>img,.frame>iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0;display:block}
+.frame.pic{aspect-ratio:auto;height:100%;width:100%}.frame.pic>img{object-fit:contain}
+.frame.emb{aspect-ratio:auto;height:min(100%,452px);width:min(100%,560px)}
+.frame.ext>iframe{object-fit:contain}
+.imm-bot{padding-bottom:8px}
+.imm-f{display:flex;gap:4px;margin-top:8px}.imm-f:empty{display:none}.imm-f img{flex:1;min-width:0;height:auto;aspect-ratio:2.39;object-fit:cover;border-radius:2px}
+.imm-m{margin:8px 0 4px;font-size:11.5px;letter-spacing:.06em;color:var(--dim)}
+.imm-c{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:0 0 6px;font-size:11.5px}
+.imm-c dt{color:var(--dim);letter-spacing:.12em;text-transform:uppercase;font-size:10px;padding-top:2px}.imm-c dd{margin:0}
+.imm-b{display:flex;align-items:center;gap:8px}
+.ib{display:inline-grid;place-items:center;min-width:44px;min-height:44px;padding:0 12px;border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.06);font-size:14px}
+.ib.play{flex:1 1 auto;min-width:0;background:var(--mint);color:#04140d;border-color:var(--mint);font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+.ib[hidden]{display:none}
+.ib.ext{font-size:12px}
+.tc{font-family:ui-monospace,Menlo,monospace}
+/* ---------- fly through the stars (isolated full-screen zone, opt-in) ---------- */
+.fly{position:fixed;inset:0;z-index:50;background:#03060b;touch-action:none}
+.fly[hidden]{display:none}
+.fly canvas{position:absolute;inset:0;width:100%;height:100%}
+.fly .x{position:absolute;top:calc(8px + var(--st));right:calc(10px + var(--sr))}
+.fly-h{position:absolute;left:0;right:0;bottom:calc(14px + var(--sb));margin:0;text-align:center;font-size:11px;letter-spacing:.12em;color:var(--dim)}
+/* ---------- plain pages (JS off, list) ---------- */
+.plain .ptitle{font:400 22px/1.2 "Julius Sans One";letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin:10px 0}
+.plain .ptitle small{font:300 12px Poppins;letter-spacing:.04em;color:var(--dim);margin-left:8px}
+.pgrid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 10px}
+.pgrid a{display:block;min-height:44px}.pgrid img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:3px;display:block}
+.pgrid.g-sq img{aspect-ratio:1}.pgrid b{display:block;font-weight:300;font-size:12.5px;margin-top:4px}.pgrid small{color:var(--dim);font-size:10.5px}
+.plist{list-style:none;padding:0;margin:0 0 14px}.plist li{display:flex;align-items:center;gap:8px;min-height:44px;border-top:1px solid var(--line)}
+.plist a{display:flex;align-items:center;min-height:44px;flex:1}.plist small{color:var(--dim);font-size:11px}
+.plain h2{font:400 15px/1.2 "Julius Sans One";letter-spacing:.14em;text-transform:uppercase;margin:18px 0 6px}
+.plain h2 small{font:300 11px Poppins;color:var(--dim);letter-spacing:.04em}
+.plainpoem{background:none;padding:0}
+/* ---------- wider screens ---------- */
+@media (min-width:700px){.ch.lv2 .stars{grid-template-columns:repeat(4,minmax(0,1fr))}.pgrid{grid-template-columns:repeat(3,1fr)}
+  body{padding-left:max(28px,var(--sl));padding-right:max(28px,var(--sr))}.main{max-width:1100px;margin:0 auto}}
+@media (min-width:1000px) and (min-height:501px){.ch.lv2 .stars{grid-template-columns:repeat(6,minmax(0,1fr))}
+  .main.home{display:block}.intro{max-width:560px}}
+/* ---------- landscape phones: two columns (poem left, chapters right), everything in flow and scrollable ---------- */
+@media (orientation:landscape) and (max-height:500px){
+  :root{--zoom:0px;--tabs:48px}
+  .main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);column-gap:22px;align-items:start}
+  .intro{grid-column:1}.chs,.sky{grid-column:2}
+  .home-p .main>.chs{grid-row:1}
+  .poem{font-size:12px;line-height:1.3}
+  .dock{display:flex;align-items:center}.tabs{flex:1}
+  .zoom{height:var(--tabs);order:2;padding:0 8px}.zoom .lv{min-width:96px}
+  .imm-top{min-height:48px}
+  .imm{grid-template-rows:minmax(0,1fr)}.imm-top,.imm-bot{position:absolute;left:0;right:0;z-index:2;background:linear-gradient(rgba(0,0,0,.75),transparent)}
+  .imm-top{top:0;background:linear-gradient(rgba(0,0,0,.9),rgba(0,0,0,.55) 70%,transparent)}.imm-bot{bottom:0;padding-top:18px;background:linear-gradient(transparent,rgba(0,0,0,.88) 35%,rgba(0,0,0,.94))}
+  .imm .ib:not(.play){background:rgba(0,0,0,.72)}
+  .imm-stage{grid-row:1}.imm .imm-c,.imm .imm-f{display:none}
+  .imm-bot{display:flex;align-items:center;gap:12px}.imm-m{flex:1;margin:0}
+  .frame{width:auto;height:100%;max-width:100%}
+  .sky{min-height:auto}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+html.gl .moon{visibility:hidden}
+
+/* ---------- v3.1 · the constellation sheet (a full-screen layer like the work view; the column stays in flow under it) ---------- */
+html.sheet-on,html.sheet-on body{overflow:hidden}
+.sheet{position:fixed;left:0;right:0;top:0;bottom:calc(var(--dock) + var(--sb));z-index:35;background:#03050a;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none;contain:strict}
+.sheet[hidden]{display:none}
+.sheet{background:radial-gradient(120% 75% at 50% 42%,#16223a 0%,#0a1120 55%,#03050a 100%)}
+.sf{position:absolute;left:0;top:0;width:calc(100vw / .8 + 1024px);height:calc(100vh / .8 + 1024px);transform-origin:0 0;will-change:transform;background-repeat:repeat;background-size:512px 512px;pointer-events:none}
+.sheet>canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.sw{position:absolute;left:0;top:0;width:1px;height:1px;transform-origin:0 0;will-change:transform,opacity;opacity:0;pointer-events:none}
+.card{position:absolute;left:0;top:0;width:104px;will-change:transform;display:block;color:var(--ink);text-decoration:none}
+.card .cv{position:relative;display:block;height:58.5px;border-radius:3px;overflow:hidden;background:#0d151c;box-shadow:0 0 12px rgba(150,200,255,.25)}
+.card.sq .cv{height:104px}
+.card .cv{background-repeat:no-repeat}.sw.far .cc{visibility:hidden}.sw .cc{transition:opacity .3s}.sw.big .cc{opacity:0}.sw.far .card .cv{box-shadow:none}
+.card .cv img,.card .cv video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.card .cv.tx{display:grid;place-items:center;font:400 10px/1.2 "Julius Sans One";letter-spacing:.12em;text-transform:uppercase;color:var(--mint);border:1px solid rgba(85,218,161,.35)}
+.card .cc{display:block;margin-top:4px}.card .cc b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-weight:300;font-size:11px;line-height:1.3}
+.card .cc small{display:block;font-size:9.5px;margin-top:1px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.slabs{position:absolute;inset:0;pointer-events:none}
+.sl{position:absolute;left:0;top:0;min-width:92px;min-height:44px;padding:4px 8px;border:0;background:none;color:#e6edf0;pointer-events:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:opacity .25s;will-change:transform}
+.sl b{font:400 11px/1 "Julius Sans One";letter-spacing:.24em;text-transform:uppercase;padding-left:.24em;text-shadow:0 0 6px #03050a,0 0 2px #03050a}
+.sl small{font:300 10px/1.1 Poppins;color:#c3ccd0;letter-spacing:.06em;text-shadow:0 0 4px #03050a}
+.shud{position:absolute;left:0;right:0;top:0;display:flex;align-items:center;gap:8px;padding:calc(6px + var(--st)) max(8px,var(--sr)) 6px max(8px,var(--sl));background:linear-gradient(rgba(3,5,10,.9),rgba(3,5,10,0))}
+.shome{min-width:44px;min-height:44px;border:0;background:none;color:#fff;font-size:18px;text-shadow:-1px 0 rgba(10,189,240,.7),1px 0 rgba(254,1,1,.6)}
+.crumb{flex:1;min-width:0;margin:0;text-align:center;font:300 11px/1.2 Poppins;letter-spacing:.22em;text-transform:uppercase;color:#d3dbde;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sheet .sx{flex:none}
+.shint{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);margin:0;padding:6px 12px;border-radius:14px;background:rgba(3,5,10,.75);font:300 11px/1.3 Poppins;letter-spacing:.06em;color:#d3dbde;white-space:nowrap;pointer-events:none}
+.portal{display:block;width:100%;max-width:520px;margin:6px auto 18px;padding:0;border:1px solid rgba(160,200,240,.28);border-radius:18px;background:#03050a;overflow:hidden;color:var(--dim);cursor:zoom-in}
+.portal canvas{display:block;width:100%;height:min(52dvh,380px)}
+.portal span{display:block;padding:12px 8px;font:300 11px/1.3 Poppins;letter-spacing:.14em;text-transform:uppercase;color:#d3dbde}
+.js .portal[hidden]{display:block}
+@media (orientation:landscape) and (max-height:500px){.portal canvas{height:62dvh}}
+@media (prefers-reduced-motion:reduce){.sl{transition:none}}
+
+/* QA fixes (v3.1) */
+.imm{touch-action:none} /* the work view never scrolls: two fingers there are always ours, the page can never zoom under it */
+.imm.fv{bottom:0;z-index:60;background:#000}.imm.fv .imm-bot{display:none}.imm.fv .imm-top{position:absolute;left:0;right:0;top:0;z-index:3;background:linear-gradient(rgba(0,0,0,.85),transparent)}
+.imm.fv .imm-stage{grid-row:1/-1}.imm.fv .frame{width:100%;height:100%;max-height:none;aspect-ratio:auto}.imm.fv .amb{display:none}
+@media (orientation:portrait){.imm.playing:not(.fv) .frame.ext{aspect-ratio:16/10}} /* a bigger player in portrait (was a 151px sliver) */
+.ch.lv1 .head,.ch.lv2 .head{position:sticky;top:0;z-index:6;background:linear-gradient(rgba(4,7,11,.96),rgba(4,7,11,.9));box-shadow:0 6px 12px -6px rgba(0,0,0,.6)} /* the chapter name stays while you are deep inside it */
+
+/* ---------- v3.2 · Scope: the film player at L3 / play (js/scope.js). Constellation language: cuts are stars on a hairline ---------- */
+.scope{display:flex;flex-direction:column;gap:2px;margin:6px 0 2px}.scope[hidden]{display:none}
+.imm.scoped .imm-f,.imm.scoped .imm-m{display:none}
+.sc-row{display:flex;align-items:center;gap:6px}
+.sc-b{flex:none;font-size:16px;padding:0}
+.sc-lab{flex:1;min-width:0;min-height:44px;display:flex;flex-direction:column;justify-content:center;gap:1px;padding:0 4px;color:var(--dim);text-decoration:none;font-size:10.5px;letter-spacing:.08em;border-radius:12px}
+.sc-lab .l1{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc-lab .tc{color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:.12em}
+.sc-lab .l2{color:var(--ink);font-size:11.5px;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc-lab .ff,.sc-lab .pl{color:var(--mint)}
+a.sc-lab[href]{cursor:pointer}
+.sc-rail{position:relative;height:26px;margin:0 8px;touch-action:none;cursor:ew-resize;-webkit-user-select:none;user-select:none;outline-offset:0}
+.sc-rail>*{position:absolute;pointer-events:none}
+.sc-line{left:0;right:0;top:50%;height:1px;background:var(--line)}
+.sc-fill{left:0;top:50%;height:1px;width:0;background:linear-gradient(90deg,rgba(85,218,161,.1),rgba(85,218,161,.75))}
+.sc-rail .tk{top:50%;width:3px;height:3px;margin:-1.5px 0 0 -1.5px;border-radius:50%;background:#8fa3aa;box-shadow:0 0 3px rgba(190,225,255,.55)}
+.sc-rail .tk.f{background:#e8f1f4}
+.sc-rail .tk.on{width:7px;height:7px;margin:-3.5px 0 0 -3.5px;background:var(--mint);box-shadow:0 0 6px 2px rgba(85,218,161,.65),0 0 14px 4px rgba(85,218,161,.25);animation:twk 2.4s ease-in-out infinite}
+@keyframes twk{50%{box-shadow:0 0 4px 1px rgba(85,218,161,.5),0 0 10px 2px rgba(85,218,161,.15)}}
+.sc-head{top:3px;bottom:3px;width:1px;margin-left:-.5px;background:rgba(255,255,255,.85);box-shadow:0 0 6px rgba(255,255,255,.7)}
+.sc-head::after{content:"";position:absolute;left:-2.5px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:#fff;box-shadow:0 0 8px 2px rgba(255,255,255,.75),2px 2px 0 -1px var(--cy),-2px -2px 0 -1px var(--rd)}
+.sc-rail.drag .sc-head::after{transform:scale(1.5)}
+.sc-strip{display:flex;gap:6px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scroll-snap-type:x proximity;touch-action:pan-x;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  padding:4px calc(50% - 43px) 6px;background:linear-gradient(var(--line),var(--line)) 0 50%/100% 1px no-repeat;background-attachment:local}
+.sc-strip::-webkit-scrollbar{display:none}
+.sc-strip .th{flex:none;position:relative;width:86px;height:36px;border-radius:2px;overflow:hidden;background:#0b1015;scroll-snap-align:center;opacity:.42;transition:opacity .25s,box-shadow .25s;cursor:pointer}
+.sc-strip .th img,.sc-strip .th canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.sc-strip .th.on{opacity:1;outline:1px solid var(--mint);outline-offset:1px;box-shadow:0 0 12px rgba(85,218,161,.45)}
+.scope.nostrip .sc-strip{display:none}
+.scope.ext .sc-rail .tk{display:none}
+.frame>video.rv{background:#000}
+@media (orientation:landscape) and (max-height:500px){
+  .imm.scoped .imm-bot{flex-wrap:wrap;row-gap:0;padding-top:14px;background:linear-gradient(transparent,rgba(0,0,0,.9) 14px,rgba(0,0,0,.95))}
+  .imm.scoped .imm-m{display:block;flex:1}
+  .imm-bot .scope{flex:1 0 100%;flex-direction:row;align-items:center;gap:6px;margin:0}
+  .scope .sc-row{display:contents}.scope .sc-lab{order:1;flex:0 1 220px}.scope [data-s=prev]{order:0}.scope .sc-rail{order:2;flex:1;margin:0 6px}.scope [data-s=snd]{order:3}.scope [data-s=next]{order:4}
+  .scope .sc-strip{display:none}
+}
+
+/* ---------- v3.2 · Moonwater arrival (js/arrival.js): bright, full-strength water + moon at the top; dims as you sink ---------- */
+.backdrop{--arr:1}
+.backdrop::after{opacity:calc(1 - var(--arr))}
+.backdrop::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;opacity:var(--arr);background:linear-gradient(180deg,rgba(3,6,10,.04),rgba(3,6,10,.10) 40%,rgba(3,6,10,.46) 64%,rgba(3,6,10,.66))}
+.plain-p .backdrop::before{display:none}
+.id .moon{width:64px;height:64px;margin:-8px 0;box-shadow:inset -17px 4px 0 0 #f2f5f7} /* bigger moon, same row height (no layout change) */
+.home-p .hint{display:table;background:rgba(3,7,12,.58);border-radius:8px;padding:3px 8px;margin-left:0}
+.intro .name,.intro .roles,.intro .poem,.intro .hint{transition:opacity .5s var(--ease),filter .5s var(--ease)}
+.intro.melt .name,.intro.melt .roles,.intro.melt .poem,.intro.melt .hint{opacity:0;filter:blur(8px)}
+.bd-hole{position:absolute;z-index:3;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;transform:scale(0);
+  background:radial-gradient(circle,#0a1424 0,#050a14 62%,rgba(5,10,20,0) 70%);box-shadow:0 0 0 1px rgba(190,220,245,.55),0 0 24px rgba(190,220,245,.35);transition:transform .62s cubic-bezier(.5,0,.75,0),opacity .45s}
+.bd-hole.open{transform:scale(260)}.bd-hole.gone{opacity:0}
+.backdrop.sink::before,.backdrop.sink::after{transition:opacity .8s var(--ease)}
+.home-p .main,.home-p header.top{-webkit-tap-highlight-color:transparent}.home-p .main a,.home-p .main button,.home-p header.top a{-webkit-tap-highlight-color:initial} /* the water listens for taps (iOS needs a listener below <body>): no grey flash over the page, links keep theirs */
+/* v3.2 QA L2: the chapter the dock names (+ / − act on it) glows */
+.ch.inv>.head .glyph polyline,.ch.inv>.head .glyph path{stroke:rgba(150,240,210,.85)}.ch.inv>.head .glyph circle{filter:drop-shadow(0 0 3px #7ef0c8)}
+
+/* v3.2.1 arrival switcher (1 2 3 5) + version looks */
+.arv{display:flex;justify-content:flex-end;align-items:center;height:44px;margin:-6px -10px 0 0;color:#c9d3d6;opacity:.62;transition:opacity .3s}
+.arv span{font:300 9.5px/1 Poppins,sans-serif;letter-spacing:.16em;text-transform:uppercase;margin-right:2px}
+.arv button{width:44px;height:44px;padding:0;border:0;background:none;color:inherit;font:400 13px/1 Poppins,sans-serif;cursor:pointer;border-radius:50%;-webkit-tap-highlight-color:transparent}
+.arv button[aria-pressed=true]{color:#55DAA1;text-decoration:underline;text-underline-offset:5px}
+.arv button:focus-visible{outline:1px solid #55DAA1;outline-offset:-6px}
+.intro.melt .arv{opacity:0;pointer-events:none}
+html[data-arv=v1] .backdrop::before{opacity:0}
+.bd-flash{position:absolute;z-index:4;width:160px;height:160px;margin:-80px 0 0 -80px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(10,189,240,.55),rgba(10,189,240,.18) 40%,rgba(10,189,240,0) 70%);animation:bdflash .6s ease-out forwards}
+@keyframes bdflash{from{opacity:1;transform:scale(.3)}to{opacity:0;transform:scale(1.4)}}
+@media (prefers-reduced-motion:reduce){.bd-flash{display:none}}
+
+/* ---------- v3.2.2 · native films in Scope + format morph (js/scope.js fmt()): the frame gets a pixel size and morphs between the 2.39
+   cut screen and full screen (the film's own aspect); the <video> inside is never moved or reloaded, it just fills the frame ---------- */
+.frame.fit.sized{aspect-ratio:auto;max-width:none;max-height:none;transition:width .55s cubic-bezier(.2,.7,.2,1),height .55s cubic-bezier(.2,.7,.2,1)}
+.frame.fit.nofit{transition:none}
+.frame.fit>video{background:transparent}
+.frame.fit.tall>video,.frame.fit.tall>img{object-fit:contain}
+.imm.sfull{bottom:0;z-index:60;background:#000}
+.imm.sfull .imm-stage{grid-row:1/-1}
+.imm.sfull .amb{display:none}
+.imm.sfull .imm-top{position:absolute;left:0;right:0;top:0;z-index:3;transition:opacity .35s}
+.imm.sfull .imm-bot{display:flex;flex-wrap:wrap;position:absolute;left:0;right:0;bottom:0;z-index:3;padding-bottom:max(8px,env(safe-area-inset-bottom));background:linear-gradient(transparent,rgba(0,0,0,.72) 30%,rgba(0,0,0,.85));transition:opacity .35s}
+.imm.sfull.calm .imm-top,.imm.sfull.calm .imm-bot{opacity:0;pointer-events:none}
+.imm.sfull.calm{cursor:none}
+.sc-lab .soon{color:var(--dim);font-style:italic}
+@media (orientation:landscape) and (max-height:500px){.imm.sfull .scope .sc-strip{display:none}}
+@media (prefers-reduced-motion:reduce){.frame.fit.sized{transition:none}}
+.imm.sfull .imm-c,.imm.sfull .imm-f{display:none}
+/* v3.4 · the dive lands fully dark at any depth (js/arrival.js --sunk: 0 top .. 1 landed): the deep water and the night come up with the
+   dive even when it is short (landscape: the chapters sit beside the poem, the dive travels ~44 px). Fades back on the way up. */
+.backdrop{--sunk:0}
+.backdrop .deep{opacity:max(var(--depth,0),var(--sunk))}
+.backdrop .night{opacity:max(var(--night,0),calc(var(--sunk) * .75))}
+.backdrop.rise::before,.backdrop.rise::after,.backdrop.rise .deep,.backdrop.rise .night{transition:opacity .8s var(--ease)}
+/* v3.4 · full screen is always black behind the film (no white frame while the browser enters/leaves it, or after Back) */
+.imm:fullscreen{background:#000}
+.imm:-webkit-full-screen{background:#000}
+.imm::backdrop{background:#000}
+
+/* ---------- v3.5 fixes ---------- */
+/* QA M2: on a short landscape phone the ripple switcher sits in the top bar (between home and list), so it is on the first screen */
+@media (orientation:landscape) and (max-height:500px){.home-p .arv{position:absolute;top:2px;left:50%;transform:translateX(-50%);margin:0;z-index:5}}
+/* QA L2: a film asked to play with no picture yet shows its still + a quiet "loading film" note (js/scope.js ld()) */
+.frame.ld{background:#000 var(--ldp,none) center/cover no-repeat}
+.frame.ld::after{content:'loading film';position:absolute;z-index:6;left:50%;top:50%;transform:translate(-50%,-50%);padding:10px 16px 10px 34px;border-radius:22px;background:rgba(3,7,12,.66);color:#e6edf0;font:300 10px/1 Poppins,sans-serif;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;pointer-events:none}
+.frame.ld::before{content:'';position:absolute;z-index:7;left:50%;top:50%;width:10px;height:10px;margin:-6px 0 0 -54px;border:1px solid rgba(85,218,161,.35);border-top-color:#55DAA1;border-radius:50%;animation:ldspin .9s linear infinite;pointer-events:none}
+@keyframes ldspin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.frame.ld::before{animation:none;border-color:#55DAA1}}
+/* QA L3: YouTube could not be reached: the film's still + a link out (js/scope.js ytFail()) */
+.yt-fb{position:absolute;inset:0;z-index:5;background:#000}
+.yt-fb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.8}
+.yt-fb .yt-go{grid-auto-flow:column;gap:8px;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(3,7,12,.66);font-size:11px;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap}
