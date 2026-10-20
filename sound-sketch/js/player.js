@@ -206,7 +206,7 @@ var skyProj=[],DBG={stars:0,songPos:[],labels:[]};
 function rHit(a,b){return !(a[0]+a[2]<=b[0]||b[0]+b[2]<=a[0]||a[1]+a[3]<=b[1]||b[1]+b[3]<=a[1])}
 function segRect(x0,y0,x1,y1,r){for(var s=0;s<=10;s++){var f=s/10,x=x0+(x1-x0)*f,y=y0+(y1-y0)*f;if(x>r[0]&&x<r[0]+r[2]&&y>r[1]&&y<r[1]+r[3])return true}return false}
 function drawLabels(c,sp,sa){var sb=safeBand(),zs=VW.s,fsT=9.5*Math.min(1.25,.9+zs*.1),fsA=8*Math.min(1.2,.9+zs*.08),labs=[],placed=[],segs=[],hd=UR?UR.head:null;
-  for(var i=0;i<SOUND.e.length;i++){var ed=SOUND.e[i],pa=sp[ed[0]],pb=sp[ed[1]];if(pa&&pb)segs.push([pa[0],pa[1],pb[0],pb[1],i<CH.length?60:40])}
+  for(var i=0;i<SOUND.e.length;i++){var ed=SOUND.e[i],pa=sp[ed[0]],pb=sp[ed[1]];if(pa&&pb)segs.push([pa[0],pa[1],pb[0],pb[1],i<CH.length?150:120])}
   for(var k in STAR2K){var ki=+k,p=sp[ki];if(!p)continue;var tr=TRACKS[STAR2K[ki]];
     labs.push({ki:ki,p:p,tr:tr,pri:(ki===highlight?100:0)+(tr.artist==='Mothers Moniker'?8:0)+SOUND.s[ki][2]*10})}
   labs.sort(function(a,b){return b.pri-a.pri});c.textBaseline='middle';
@@ -216,17 +216,19 @@ function drawLabels(c,sp,sa){var sb=safeBand(),zs=VW.s,fsT=9.5*Math.min(1.25,.9+
     c.font='300 '+fsT.toFixed(2)+'px Poppins,system-ui,sans-serif';var tW=c.measureText(ttl).width;
     c.font='300 '+fsA.toFixed(2)+'px Poppins,system-ui,sans-serif';var aW=c.measureText(tr.artist).width;
     var best=null,bp=1e9,lh=22,ox=9+3*Math.min(1.5,zs),lw,cand;
-    /* two sizes: full, and 90% when that is the only way to keep lines off the text (tight 1x clusters, e.g. ii) */
-    for(var si=0;si<2;si++){var scl=si?.9:1;lw=Math.max(tW,aW)*scl+6;cand=[];
+    /* sizes: full, 90% when that is the only way to keep lines off the text (tight 1x clusters, e.g. ii), and 80% for edge-pinned labels only */
+    for(var si=0;si<(off?3:2);si++){var scl=1-si*.1;lw=Math.max(tW,aW)*scl+6;cand=[];
     if(!off)cand=[[p[0]-lw/2,p[1]-31,0],[p[0]+ox,p[1]-25,1],[p[0]-ox-lw,p[1]-25,-1],[p[0]+ox,p[1]-8,1],[p[0]-ox-lw,p[1]-8,-1],
       [p[0]-lw/2,p[1]-49,0],[p[0]+ox,p[1]+9,1],[p[0]-ox-lw,p[1]+9,-1],[p[0]+ox+12,p[1]-42,1],[p[0]-ox-lw-12,p[1]-42,-1],[p[0]-lw/2,p[1]+14,0],[p[0]-lw*.25,p[1]-56,0],[p[0]-lw*.75,p[1]-56,0],[p[0]-lw/2,p[1]-72,0],[p[0]+ox,p[1]+30,1],[p[0]-ox-lw,p[1]+30,-1],[p[0]-lw/2-9,p[1]+14,0],[p[0]-lw/2+9,p[1]+14,0],[p[0]-lw/2-9,p[1]-31,0],[p[0]-lw/2+9,p[1]-31,0],[p[0]-lw/2-16,p[1]+14,0],[p[0]-lw/2+16,p[1]+14,0],[p[0]-lw/2-3,p[1]+14,0],[p[0]-lw/2+3,p[1]+14,0],[p[0]-lw/2-6,p[1]+14,0],[p[0]-lw/2+6,p[1]+14,0],[p[0]-lw/2-12,p[1]+14,0],[p[0]-lw/2+12,p[1]+14,0]];
+     /* zoomed views: a wider ring (leader tick joins it to the star), so a line-free spot is nearly always available */
+     if(!off)for(var rg=0;rg<5;rg++)for(var an=0;an<12;an++){var rad=44+rg*20,aa=an*Math.PI/6,qx=p[0]+Math.cos(aa)*rad,qy=p[1]+Math.sin(aa)*rad*.8;cand.push([Math.cos(aa)>.3?qx:Math.cos(aa)<-.3?qx-lw:qx-lw/2,qy-lh/2,Math.cos(aa)>.3?1:Math.cos(aa)<-.3?-1:0])}
     else{var cx0=offX<0?sb.left:offX>0?sb.right-lw:Math.max(sb.left,Math.min(sb.right-lw,p[0]-lw/2)),
         cy0=offX?Math.max(sb.top,Math.min(sb.bot-lh,p[1]-lh/2)):offY<0?sb.top:sb.bot-lh,al=offX<0?1:offX>0?-1:0;
       if(offX)for(var j=0;j<31;j++){var o=((j+1)>>1)*(j%2?1:-1);cand.push([cx0,cy0+o*25,al])}
-      else for(var row=0;row<3;row++)for(var j2=0;j2<15;j2++){var o2=((j2+1)>>1)*(j2%2?1:-1);cand.push([cx0+o2*(lw*.55+4),cy0-offY*row*25,0])}}
+      else for(var row=0;row<3;row++)for(var j2=0;j2<21;j2++){var o2=((j2+1)>>1)*(j2%2?1:-1);cand.push([cx0+o2*24,cy0-offY*row*25,0])}}
     for(var ci=0;ci<cand.length;ci++){var tx=Math.max(sb.left,Math.min(sb.right-lw,cand[ci][0])),ty=Math.max(sb.top,Math.min(sb.bot-lh,cand[ci][1])),
         rr=[tx,ty,lw,lh],tr0=[tx+3,ty+1,lw-6,lh-2],pen=(off?ci*.6:ci*2)+si*8,hit=0;
-      for(var pj=0;pj<placed.length;pj++)if(rHit(rr,[placed[pj][0]-3,placed[pj][1]-3,placed[pj][2]+6,placed[pj][3]+6])){hit++;pen+=140}
+      for(var pj=0;pj<placed.length;pj++)if(rHit(rr,[placed[pj][0]-3,placed[pj][1]-3,placed[pj][2]+6,placed[pj][3]+6])){hit++;pen+=400}
       for(var oj=0;oj<labs.length;oj++){var q=labs[oj].p;if(labs[oj]!==Lb&&q[0]>tx-7&&q[0]<tx+lw+7&&q[1]>ty-7&&q[1]<ty+lh+7)pen+=35}
       var sh=0;for(var sj=0;sj<segs.length;sj++){var sg=segs[sj];if(segRect(sg[0],sg[1],sg[2],sg[3],tr0)){pen+=sg[4];sh++}}
       if(hd&&rHit(rr,[hd[0]-4,hd[1]-4,hd[2]-hd[0]+8,hd[3]-hd[1]+8]))pen+=60;
@@ -236,13 +238,16 @@ function drawLabels(c,sp,sa){var sb=safeBand(),zs=VW.s,fsT=9.5*Math.min(1.25,.9+
     var labA=sa*(sel?.95:off?.5:.66),shrink=best.sc;
     if(!sel&&best.hit>=1){labA*=Math.max(.6,1-.18*best.hit);shrink*=.88} /* last resort only: fade + shrink, never drop */
     placed.push([best.x,best.y,lw,lh]);
-    DBG.labels.push({k:STAR2K[Lb.ki],x:+best.x.toFixed(1),y:+best.y.toFixed(1),w:+lw.toFixed(1),h:lh,a:+labA.toFixed(3),off:off,offX:offX,offY:offY,hit:best.hit,seg:best.seg,sx:+p[0].toFixed(1),sy:+p[1].toFixed(1)});
+    DBG.labels.push({k:STAR2K[Lb.ki],x:+best.x.toFixed(1),y:+best.y.toFixed(1),w:+lw.toFixed(1),h:lh,a:+labA.toFixed(3),off:off,offX:offX,offY:offY,hit:best.hit,seg:best.seg,halo:best.seg>0,sx:+p[0].toFixed(1),sy:+p[1].toFixed(1)});
+    /* last resort for a line the solver could not avoid (rare: the long Gone title in crowded zoomed views): the text gets a
+       sky-coloured halo so the line breaks around the letters instead of running through them */
     /* leader tick: a faint hairline from the star toward its label when the label sits more than ~14 px away (1x clusters) */
     if(!off){var nx=Math.max(best.x,Math.min(best.x+lw,p[0])),ny=Math.max(best.y,Math.min(best.y+lh,p[1])),ld=Math.hypot(nx-p[0],ny-p[1]);
       if(ld>14){var ux=(nx-p[0])/ld,uy=(ny-p[1])/ld;c.globalAlpha=labA*.38;c.strokeStyle='rgba(220,232,240,.9)';c.lineWidth=.7;c.beginPath();c.moveTo(p[0]+ux*6,p[1]+uy*6);c.lineTo(nx-ux*3,ny-uy*3);c.stroke();c.lineWidth=1}}
     c.textAlign=best.al>0?'left':best.al<0?'right':'center';var ax=best.al>0?best.x+3:best.al<0?best.x+lw-3:best.x+lw/2;
-    c.globalAlpha=labA;c.font='300 '+(fsT*shrink).toFixed(2)+'px Poppins,system-ui,sans-serif';c.fillStyle=sel?'rgba(170,240,210,.98)':'rgba(220,232,240,.95)';c.fillText(ttl,ax,best.y+6);
-    c.font='300 '+(fsA*shrink).toFixed(2)+'px Poppins,system-ui,sans-serif';c.fillStyle='rgba(201,211,214,.72)';c.fillText(tr.artist,ax,best.y+17)}
+    c.globalAlpha=labA;c.font='300 '+(fsT*shrink).toFixed(2)+'px Poppins,system-ui,sans-serif';var HL=best.seg>0;if(HL){c.lineJoin='round';c.lineWidth=3.2;c.strokeStyle='rgba(9,14,27,.92)';c.strokeText(ttl,ax,best.y+6)}
+    c.fillStyle=sel?'rgba(170,240,210,.98)':'rgba(220,232,240,.95)';c.fillText(ttl,ax,best.y+6);
+    c.font='300 '+(fsA*shrink).toFixed(2)+'px Poppins,system-ui,sans-serif';c.fillStyle='rgba(201,211,214,.72)';if(HL){c.strokeText(tr.artist,ax,best.y+17);c.lineWidth=1}c.fillText(tr.artist,ax,best.y+17)}
   c.globalAlpha=1;c.textAlign='left';c.textBaseline='alphabetic'}
 /* nearest song star within r screen px of (x,y), or -1 */
 function starHit(x,y,r){var best=-1,bd=r||28;for(var k in STAR2K){var p=skyProj[+k];if(!p)continue;var d=Math.hypot(x-p[0],y-p[1]);if(d<bd){bd=d;best=+k}}return best}
@@ -289,7 +294,7 @@ function chStep(dt){chGeo();var rm=RM.matches,damp=rm?1.5:.7,vmax=rm?34:68,h=1/1
   for(var i=0;i<CH.length;i++){var c=CH[i];c.fl*=Math.exp(-dt*3);if(Math.abs(c.th)<2e-4&&Math.abs(c.w)<2e-3){c.th=0;c.w=0}}}
 function chActive(){return mode==='sky'}
 function segD(x,y,c){var b=bob(c),dx=b[0]-c.px,dy=b[1]-c.py,t=Math.max(0,Math.min(1,((x-c.px)*dx+(y-c.py)*dy)/(dx*dx+dy*dy)));return Math.hypot(x-c.px-dx*t,y-c.py-dy*t)}
-function chHit(sx,sy,r){var q=toBase(sx,sy),x=q[0],y=q[1],s=VW.s,best=null,bd=(r||24)/s;for(var i=0;i<CH.length;i++){var c=CH[i],b=bob(c),d=Math.min(segD(x,y,c)+(y<c.py+12/s?99:0),Math.hypot(x-b[0],y-b[1])-4/s);if(d<bd){bd=d;best=c}}return best}
+function chHit(sx,sy,r){var q=toBase(sx,sy),x=q[0],y=q[1],s=VW.s,best=null,bd=(r||24)/s;for(var i=0;i<CH.length;i++){var c=CH[i],b=bob(c),d=Math.min(segD(x,y,c)+(y<c.py+8/s?99:0),Math.hypot(x-b[0],y-b[1])-4/s);if(d<bd){bd=d;best=c}}return best}
 /* the breeze: wind = swipe velocity (capped low), felt most by the strand under the finger, a little by all of them */
 function wind(x,y,vx,vy,dt){var rm=RM.matches,cap=rm?320:640,sp=Math.hypot(vx,vy);if(sp>cap){vx*=cap/sp;vy*=cap/sp}
   for(var i=0;i<CH.length;i++){var c=CH[i],d=segD(x,y,c),wg=.12+.88*Math.exp(-d*d/(2*60*60)),f=vx+.25*Math.abs(vy)*(c.rx<x?-1:1);c.w+=f*.42*wg*(.3+1.4*rnd(i*7.1+chT*61))*dt/c.L}}
@@ -334,7 +339,9 @@ document.addEventListener('click',function(e){var el=e.target&&e.target.closest?
   if(el&&!realClick(el,e)){e.preventDefault();e.stopImmediatePropagation();FFX++}},true);
 /* any touch, drag, wheel or key freezes the sweep where it is */
 ['pointerdown','wheel','keydown'].forEach(function(t){addEventListener(t,poke,{capture:true,passive:true})});
-['pointerdown','keydown'].forEach(function(t){addEventListener(t,function(){RC=0},{capture:true,passive:true})});
+/* the recentre after zooming back to 1x is cancelled only by a new touch/click or an arrow-key pan (not by -, +, Ctrl, key repeat) */
+addEventListener('pointerdown',function(){RC=0},{capture:true,passive:true});
+addEventListener('keydown',function(e){if(/^Arrow/.test(e.key)&&!e.altKey&&!e.ctrlKey&&!e.metaKey&&e.target!==rail)RC=0},{capture:true,passive:true});
 addEventListener('pointermove',function(e){if(e.buttons||e.pointerType==='touch')poke()},{capture:true,passive:true});
 addEventListener('keydown',function(e){if(e.key==='Escape')goOut();if(e.key===' '&&mode==='in'){e.preventDefault();$('pp').onclick()}
   if(e.target===rail||e.altKey||e.ctrlKey||e.metaKey)return;var k=e.key;
@@ -367,6 +374,7 @@ function nearUI(x,y){if(!UR)uiRects();if(inR(x,y,UR.head,22))return true;if(inR(
    one that starts on empty sky = pan. two fingers = pinch-zoom + pan together. wheel zooms at the cursor. */
 var p0=null,TAPD=12,TAPT=400,TAPS=280,PT={},PZ=null,afterPinch=false;
 function tnow(e){return REC?VT:e.timeStamp/1000}
+function pressMs(e){var d=(tnow(e)-p0.t0)*1000;return d>=0&&d<60000?d:performance.now()-p0.t}
 function nPT(){return Object.keys(PT).length}
 function two(){var k=Object.keys(PT),a=PT[k[0]],b=PT[k[1]];return{d:Math.hypot(a.x-b.x,a.y-b.y),mx:(a.x+b.x)/2,my:(a.y+b.y)/2}}
 function zoomable(){return mode==='sky'}
@@ -379,7 +387,7 @@ function pinchEnd(t){PZ=null}
 cv.addEventListener('pointerdown',function(e){PT[e.pointerId]={x:e.clientX,y:e.clientY};try{cv.setPointerCapture(e.pointerId)}catch(x){}
   if(nPT()>=2){p0=null;afterPinch=true;if(zoomable()&&!PZ)pinchStart(tnow(e));return}
   if(afterPinch)return;
-  p0={x:e.clientX,y:e.clientY,t:performance.now(),lx:e.clientX,ly:e.clientY,lt:tnow(e),sw:false,vx:0,vy:0,pan:false};
+  p0={x:e.clientX,y:e.clientY,t:performance.now(),t0:tnow(e),lx:e.clientX,ly:e.clientY,lt:tnow(e),sw:false,vx:0,vy:0,pan:false};
   if(zoomable()&&!chHit(e.clientX,e.clientY,40))p0.pan=true;
   if(REC)fing={x:e.clientX,y:e.clientY,a:.5,on:true}});
 cv.addEventListener('pointermove',function(e){var P=PT[e.pointerId];if(P){P.x=e.clientX;P.y=e.clientY}if(fing){fing.x=e.clientX;fing.y=e.clientY}
@@ -393,9 +401,11 @@ cv.addEventListener('pointermove',function(e){var P=PT[e.pointerId];if(P){P.x=e.
 function cvUp(e){delete PT[e.pointerId];if(fing)fing.on=false;
   if(PZ&&nPT()<2)pinchEnd(tnow(e));
   if(afterPinch){if(nPT()===0)afterPinch=false;p0=null;return}
-  if(!p0)return;var dy=e.clientY-p0.y,dx=e.clientX-p0.x,tap=Math.abs(dx)+Math.abs(dy)<TAPD,quick=performance.now()-p0.t<TAPT;
+  if(!p0)return;var dy=e.clientY-p0.y,dx=e.clientX-p0.x,tap=Math.abs(dx)+Math.abs(dy)<TAPD,pd=pressMs(e),quick=pd<TAPT;
   if(p0.pan&&p0.sw){p0=null;return}
-  if(chActive()){if(tap&&quick){var sq=performance.now()-p0.t<TAPS,hs=starHit(p0.x,p0.y,12),hit=hs<0?chHit(p0.x,p0.y):null;if(hs<0&&!hit)hs=starHit(p0.x,p0.y,28);
+  if(chActive()){if(tap&&quick){var sq=pd<TAPS,hs=starHit(p0.x,p0.y,12),hc=chHit(p0.x,p0.y),hit=null;
+      /* a tap on the strand just below its star (>= 11 px down) rings the strand, not the star */
+      if(hs>=0&&hc&&p0.y-skyProj[hs][1]>=11)hs=-1;if(hs<0)hit=hc;if(hs<0&&!hit)hs=starHit(p0.x,p0.y,28);
       if(hs>=0){if(sq){SPK++;pickTrack(STAR2K[hs],true)}}else if(hit)pluck(hit,toBase(p0.x,p0.y)[0]);else if(sq&&!nearUI(p0.x,p0.y)){CVD++;goIn()}}}
   else if(mode==='in'&&dy>80&&Math.abs(dx)<dy)goOut();else if(tap&&mode==='in')$('pp').onclick();p0=null}
 cv.addEventListener('pointerup',cvUp);cv.addEventListener('pointercancel',function(e){delete PT[e.pointerId];if(fing)fing.on=false;if(PZ&&nPT()<2)pinchEnd(tnow(e));if(nPT()===0)afterPinch=false;p0=null});
