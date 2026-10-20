@@ -107,13 +107,14 @@ var list=$('#list'),jump=$('#jump'),foot=$('#foot');
 function miniCard(x){var it=x.d,bg=it.poster?' style="background-image:url(\''+esc(it.poster)+'\')"':'';
   return'<li data-k="'+x.k+'"><button type="button" class="relc"'+bg+' data-go="'+esc(x.sec+'/'+x.stem)+'" aria-label="Open: '+esc(it.title)+'"><span class="relt">'+esc(it.title)+'</span></button></li>'}
 function nowStrip(){var order=streamOrder(),cards=[];
-  order.forEach(function(id){var sec=SBY[id];if(!sec)return;sec.items.filter(isNow).forEach(function(x){
+  order.forEach(function(id){var sec=SBY[id];if(!sec||id==='earlier')return;sec.items.filter(isNow).forEach(function(x){
     var it=x.d,h='<li data-k="'+x.k+'" class="now"><article class="card"><span class="stream-tag">'+esc(sec.title)+'</span>';
     if(it.type==='video'&&it.file)h+='<div class="vbox"><video controls playsinline preload="metadata"'+(it.poster?' poster="'+esc(it.poster)+'"':'')+' src="'+esc(it.file)+'"></video><button type="button" class="push" aria-label="Play large: '+esc(it.title)+'">⤢</button></div>';
     if(it.type==='audio'&&it.file)h+='<audio controls preload="metadata" src="'+esc(it.file)+'"></audio>';
     if(it.type==='live')h+=liveBox(it);
-    h+='<div class="cb"><div class="meta">'+(it.time?'<time class="when" datetime="'+esc(it.time)+'">'+when(it.time)+'</time>':'')+'<span class="badge">Latest</span></div><h3 class="ct">'+esc(it.title)+'</h3>'+(it.desc?'<p class="cx clamp">'+esc(it.desc)+'</p>':'');
-    h+=linkBtn(it);if(window.PVFB)h+=PVFB.form(it);h+='</div></article></li>';cards.push(h)})});
+    h+='<div class="cb"><div class="meta">'+(it.time?'<time class="when" datetime="'+esc(it.time)+'">'+when(it.time)+'</time>':'')+'<span class="badge">'+esc(it.badge||'Latest')+'</span></div><h3 class="ct">'+esc(it.title)+'</h3>'+(it.desc?'<p class="cx clamp">'+esc(it.desc)+'</p>':'');
+    h+=linkBtn(it);if(window.PVFB&&it.file)h+=PVFB.form(it);h+='</div></article></li>';cards.push({t:Date.parse(it.time||0)||0,h:h})})});
+  cards.sort(function(p,q){return q.t-p.t});cards=cards.map(function(c){return c.h}); /* BOARD-1020: What's new is newest first across every stream */
   if(!cards.length)return'';
   return'<section class="now" id="now" aria-label="What is new"><div class="nowh"><h2>What\'s new</h2><nav class="chips" aria-label="Streams">'+
     order.filter(function(id){return SBY[id]&&SBY[id].items.some(isNow)}).map(function(id){return'<a class="chip" href="#list/'+esc(id)+'">'+esc(SBY[id].title)+'</a>'}).join('')+
@@ -124,9 +125,10 @@ function streamBand(s){var related=s.items.filter(isRelated);
   else h+='<span class="mnote">What\'s new is up top</span>';
   return h+'</section>'}
 function archiveBand(s){return'<section class="band archive" id="archive"><details class="arch"><summary class="bh"><span class="L">'+(s.si+1)+'</span>Archive <small>'+s.n+' older</small></summary><ol class="tline muted">'+s.items.map(card).join('')+'</ol></details></section>'}
+function earlierBand(s){return'<section class="band stream earlier" id="earlier"><h2 class="bh"><span class="L">'+(s.si+1)+'</span>'+esc(s.title)+'</h2><span class="mnote">'+s.items.length+' older versions · still live, tap Open</span><ol class="tline">'+s.items.map(card).join('')+'</ol></section>'} /* BOARD-1020 */
 function renderList(){var latest=0;ITEMS.forEach(function(x){if(x.time)latest=Math.max(latest,Date.parse(x.time))});
   jump.innerHTML='<a href="#now">What\'s new</a>'+SECS.map(function(s){return'<a href="#list/'+esc(s.id)+'">'+esc(s.title)+'</a>'}).join('');
-  var body=nowStrip();SECS.forEach(function(sec){if(sec.id==='archive')body+=archiveBand(sec);else body+=streamBand(sec)});
+  var body=nowStrip();SECS.forEach(function(sec){if(sec.id==='archive')body+=archiveBand(sec);else if(sec.id==='earlier')body+=earlierBand(sec);else body+=streamBand(sec)});
   list.innerHTML=body;wire(list);
   list.onclick=function(e){var g=e.target.closest&&e.target.closest('[data-go]');if(!g)return;var p=g.dataset.go.split('/'),sec=SBY[p[0]],x=sec&&sec.items.filter(function(i){return i.stem===p[1]})[0];if(x){e.preventDefault();openPlayer(x)}};
   if(latest)foot.textContent='newest preview '+when(new Date(latest).toISOString())+' · times are Vancouver time'}

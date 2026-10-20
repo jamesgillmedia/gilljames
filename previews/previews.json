@@ -18,11 +18,107 @@
       "title": "Reel"
     },
     {
+      "id": "earlier",
+      "title": "Earlier versions"
+    },
+    {
       "id": "archive",
       "title": "Archive"
     }
   ],
   "items": [
+    {
+      "section": "site",
+      "type": "placeholder",
+      "id": "site-v4",
+      "title": "site-v4 prototype · sketch-3d zoom across the whole site",
+      "desc": "Status: prototype, just added. building; Gill: sketch-3d is closest; closer together, locked main screens, clear way back",
+      "time": "2026-10-19T19:00:00-07:00",
+      "badge": "Prototype",
+      "tier": "now",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/site-v4/",
+        "label": "Open site-v4 prototype"
+      }
+    },
+    {
+      "section": "site",
+      "type": "video",
+      "id": "site-sound-one",
+      "file": "media/site-sound-one-phone.mp4",
+      "poster": "posters/site-sound-one-phone.jpg",
+      "title": "site-sound-one · Sound in the same sky",
+      "desc": "Status: in QA. Sound sits in the same sky as the rest of the site, no turning. Phone-size clip.",
+      "time": "2026-10-19T18:50:30-07:00",
+      "badge": "Latest",
+      "tier": "now",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/site-sound-one/",
+        "label": "Open site-sound-one"
+      }
+    },
+    {
+      "section": "sound",
+      "type": "live",
+      "id": "sound-v2b",
+      "file": "../sound-v2b/",
+      "src": "../sound-v2b/",
+      "title": "sound-v2b · player, no orbit, subtle parallax",
+      "desc": "Status: in QA. The Sound player without the 3D orbit, only a subtle parallax. Tap ▶ to load it here, or open it on its own.",
+      "time": "2026-10-19T18:50:11-07:00",
+      "badge": "Latest",
+      "tier": "now",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/sound-v2b/",
+        "label": "Open sound-v2b"
+      }
+    },
+    {
+      "section": "site",
+      "type": "video",
+      "id": "site-v38",
+      "file": "media/site-v38-phone.mp4",
+      "poster": "posters/site-v38-phone.jpg",
+      "title": "site-v38 · current look + twinkle, depth, key-moment locks",
+      "desc": "Status: QA passed. The current-look preview with twinkle, depth and locks on the key moments. Phone-size clip.",
+      "time": "2026-10-19T17:22:55-07:00",
+      "badge": "Latest",
+      "tier": "now",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/site-v38/",
+        "label": "Open site-v38"
+      }
+    },
+    {
+      "section": "site",
+      "type": "link",
+      "id": "site-keep",
+      "title": "site-keep · saved copy of the current site",
+      "desc": "Status: saved for comparison. A frozen copy of site-v3 as it was on Oct 19, so new versions can be compared against it.",
+      "time": "2026-10-19T17:04:38-07:00",
+      "badge": "Latest",
+      "tier": "now",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/site-keep/",
+        "label": "Open site-keep"
+      }
+    },
+    {
+      "section": "site",
+      "type": "video",
+      "id": "sketch-3d",
+      "file": "media/sketch-3d-phone.mp4",
+      "poster": "posters/sketch-3d-phone.jpg",
+      "title": "sketch-3d · the direction Gill picked",
+      "desc": "Status: picked by Gill; site-v4 is being built from it. The interactive 3D fly-through sketch. Phone-size clip.",
+      "time": "2026-10-19T15:57:02-07:00",
+      "badge": "Current direction",
+      "tier": "now",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/sketch-3d/",
+        "label": "Open sketch-3d"
+      }
+    },
     {
       "section": "reel",
       "type": "video",
@@ -53,45 +149,45 @@
       }
     },
     {
-      "section": "site",
+      "section": "earlier",
       "type": "video",
       "file": "media/site-today-zoom-phone.mp4",
       "poster": "posters/site-today-zoom-phone.jpg",
-      "title": "Site · today (stays-put zoom)",
-      "desc": "Today's site at phone size. When you let go of a zoom it stays where you left it (no snapping back), you can pan around while zoomed in, and one trackpad pinch moves one level. Compare it with yesterday's v3.5.1, live next to it.",
+      "title": "site-v3 · stays-put zoom (Oct 19 noon)",
+      "desc": "Status: replaced. The site-v3 zoom from Oct 19 noon; that afternoon site-v3 went back to v3.5.1 zoom (Gill's pick). Today's site at phone size. When you let go of a zoom it stays where you left it (no snapping back), you can pan around while zoomed in, and one trackpad pinch moves one level. Compare it with yesterday's v3.5.1, live next to it.",
       "time": "2026-10-19T12:06:00-07:00",
-      "badge": "Latest",
-      "tier": "now",
+      "badge": null,
+      "tier": "earlier",
       "link": {
         "href": "https://jamesgillmedia.github.io/gilljames/site-v3/",
         "label": "Open today's site"
       }
     },
     {
-      "section": "site",
+      "section": "earlier",
       "type": "video",
       "file": "media/site-v351-yesterday.mp4",
       "poster": "posters/site-v351-yesterday.jpg",
-      "title": "Site · yesterday v3.5.1",
-      "desc": "Yesterday's site (v3.5.1), the zoom from before today's change. It's kept live at its own address so you can try both side by side.",
+      "title": "site-v351 · v3.5.1 compare copy",
+      "desc": "Status: compare copy, still live. Yesterday's site (v3.5.1), the zoom from before today's change. It's kept live at its own address so you can try both side by side.",
       "time": "2026-10-19T12:05:00-07:00",
-      "badge": "Latest",
-      "tier": "now",
+      "badge": null,
+      "tier": "earlier",
       "link": {
         "href": "https://jamesgillmedia.github.io/gilljames/site-v351/",
         "label": "Open yesterday's v3.5.1"
       }
     },
     {
-      "section": "site",
+      "section": "earlier",
       "type": "video",
       "file": "media/site-today-zoom-desktop.mp4",
       "poster": "posters/site-today-zoom-desktop.jpg",
-      "title": "Site · today (stays-put zoom), desktop",
+      "title": "site-v3 · stays-put zoom, desktop (Oct 19 noon)",
       "desc": "The same change on a laptop: trackpad pinch, mouse wheel and drag.",
       "time": "2026-10-19T12:06:30-07:00",
       "badge": null,
-      "tier": "related",
+      "tier": "earlier",
       "link": {
         "href": "https://jamesgillmedia.github.io/gilljames/site-v3/",
         "label": "Open today's site"
@@ -624,6 +720,332 @@
       "link": {
         "href": "https://jamesgillmedia.github.io/gilljames/site-v3/",
         "label": "Open site v3"
+      }
+    },
+    {
+      "section": "earlier",
+      "type": "video",
+      "id": "sound-v2",
+      "title": "sound-v2 · 3D orbit player",
+      "desc": "Status: set aside. Gill: 3D turning feels wrong. The Sound player orbiting in 3D; sound-v2b keeps it flat.",
+      "time": "2026-10-19T17:38:10-07:00",
+      "badge": null,
+      "tier": "earlier",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/sound-v2/",
+        "label": "Open sound-v2"
+      },
+      "file": "media/sound-v2-phone.mp4",
+      "poster": "posters/sound-v2-phone.jpg"
+    },
+    {
+      "section": "earlier",
+      "type": "link",
+      "id": "site-sound-open",
+      "title": "site-sound-open · Sound opens straight into the player",
+      "desc": "Status: compare copy, replaced by site-sound-one.",
+      "time": "2026-10-19T17:38:19-07:00",
+      "badge": null,
+      "tier": "earlier",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/site-sound-open/",
+        "label": "Open site-sound-open"
+      }
+    },
+    {
+      "section": "earlier",
+      "type": "link",
+      "id": "site-v3-sound",
+      "title": "site-v3/sound · live Sound player on the main site",
+      "desc": "Status: live on the main site (player r3).",
+      "time": "2026-10-19T17:49:20-07:00",
+      "badge": null,
+      "tier": "earlier",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/site-v3/sound/",
+        "label": "Open site-v3/sound"
+      }
+    },
+    {
+      "section": "earlier",
+      "type": "link",
+      "id": "site-v3",
+      "title": "site-v3 · the live main site",
+      "desc": "Status: live main site (v3.5.1 zoom, Sound dives into the player).",
+      "time": "2026-10-19T17:49:20-07:00",
+      "badge": null,
+      "tier": "earlier",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/site-v3/",
+        "label": "Open site-v3"
+      }
+    },
+    {
+      "section": "earlier",
+      "type": "video",
+      "id": "site-flythrough",
+      "title": "site-flythrough · cinematic fly-through",
+      "desc": "Status: compare copy, replaced by sketch-3d and site-v38. Phone-size clip.",
+      "time": "2026-10-19T16:11:27-07:00",
+      "badge": null,
+      "tier": "earlier",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/site-flythrough/",
+        "label": "Open site-flythrough"
+      },
+      "file": "media/site-flythrough-phone.mp4",
+      "poster": "posters/site-flythrough-phone.jpg"
+    },
+    {
+      "section": "earlier",
+      "type": "link",
+      "id": "site-hybrid-y",
+      "title": "site-hybrid-y · yesterday zoom + hybrid snap",
+      "desc": "Status: compare copy, replaced. No clip.",
+      "time": "2026-10-19T16:11:15-07:00",
+      "badge": null,
+      "tier": "earlier",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/site-hybrid-y/",
+        "label": "Open site-hybrid-y"
+      }
+    },
+    {
+      "section": "earlier",
+      "type": "link",
+      "id": "site-fast",
+      "title": "site-fast · faster zoom",
+      "desc": "Status: compare copy, replaced. No clip.",
+      "time": "2026-10-19T14:49:59-07:00",
+      "badge": null,
+      "tier": "earlier",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/site-fast/",
+        "label": "Open site-fast"
+      }
+    },
+    {
+      "section": "earlier",
+      "type": "link",
+      "id": "site-hybrid",
+      "title": "site-hybrid · hybrid zoom",
+      "desc": "Status: compare copy, replaced. No clip.",
+      "time": "2026-10-19T14:49:24-07:00",
+      "badge": null,
+      "tier": "earlier",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/site-hybrid/",
+        "label": "Open site-hybrid"
+      }
+    },
+    {
+      "section": "earlier",
+      "type": "link",
+      "id": "reel-v7",
+      "title": "reel-v7 · 7b, the cut playing live",
+      "desc": "Status: live at /reel-v7/ (7b); pass 8 is in What's new and not on /reel-v7/ yet.",
+      "time": "2026-10-18T10:26:01-07:00",
+      "badge": null,
+      "tier": "earlier",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/reel-v7/",
+        "label": "Open reel-v7"
+      }
+    },
+    {
+      "section": "earlier",
+      "type": "link",
+      "id": "progress",
+      "title": "progress · the first progress page",
+      "desc": "Status: older board, still live.",
+      "time": "2026-10-18T16:06:52-07:00",
+      "badge": null,
+      "tier": "earlier",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/progress/",
+        "label": "Open progress"
+      }
+    },
+    {
+      "section": "earlier",
+      "type": "link",
+      "id": "site-v2",
+      "title": "site-v2 · full poem, home pinch",
+      "desc": "Status: older site version, still live.",
+      "time": "2026-10-17T21:27:44-07:00",
+      "badge": null,
+      "tier": "earlier",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/site-v2/",
+        "label": "Open site-v2"
+      }
+    },
+    {
+      "section": "earlier",
+      "type": "link",
+      "id": "home-first",
+      "title": "home-first · first screen, nothing collides",
+      "desc": "Status: design sheet (C-11), older.",
+      "time": "2026-10-17T22:00:33-07:00",
+      "badge": null,
+      "tier": "earlier",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/home-first/",
+        "label": "Open home-first"
+      }
+    },
+    {
+      "section": "earlier",
+      "type": "link",
+      "id": "nav-overhaul",
+      "title": "nav-overhaul · 3 semantic-zoom navigation concepts",
+      "desc": "Status: concept sheet, older.",
+      "time": "2026-10-17T21:45:32-07:00",
+      "badge": null,
+      "tier": "earlier",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/nav-overhaul/",
+        "label": "Open nav-overhaul"
+      }
+    },
+    {
+      "section": "earlier",
+      "type": "link",
+      "id": "semantic-zoom",
+      "title": "semantic-zoom · pinch to see more",
+      "desc": "Status: design sheet (C-10), older.",
+      "time": "2026-10-17T21:37:53-07:00",
+      "badge": null,
+      "tier": "earlier",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/semantic-zoom/",
+        "label": "Open semantic-zoom"
+      }
+    },
+    {
+      "section": "earlier",
+      "type": "link",
+      "id": "reel-v6",
+      "title": "reel-v6",
+      "desc": "Status: older reel version, still live.",
+      "time": "2026-10-17T19:07:03-07:00",
+      "badge": null,
+      "tier": "earlier",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/reel-v6/",
+        "label": "Open reel-v6"
+      }
+    },
+    {
+      "section": "earlier",
+      "type": "link",
+      "id": "reel-v5",
+      "title": "reel-v5",
+      "desc": "Status: older reel version, still live.",
+      "time": "2026-10-17T18:05:48-07:00",
+      "badge": null,
+      "tier": "earlier",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/reel-v5/",
+        "label": "Open reel-v5"
+      }
+    },
+    {
+      "section": "earlier",
+      "type": "link",
+      "id": "nav-visible",
+      "title": "nav-visible · magic but obvious",
+      "desc": "Status: navigation sheet (C-09), older.",
+      "time": "2026-10-17T18:03:13-07:00",
+      "badge": null,
+      "tier": "earlier",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/nav-visible/",
+        "label": "Open nav-visible"
+      }
+    },
+    {
+      "section": "earlier",
+      "type": "link",
+      "id": "reel-v4",
+      "title": "reel-v4",
+      "desc": "Status: older reel version, still live.",
+      "time": "2026-10-17T17:34:52-07:00",
+      "badge": null,
+      "tier": "earlier",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/reel-v4/",
+        "label": "Open reel-v4"
+      }
+    },
+    {
+      "section": "earlier",
+      "type": "link",
+      "id": "reel-v3",
+      "title": "reel-v3",
+      "desc": "Status: older reel version, still live.",
+      "time": "2026-10-17T12:56:38-07:00",
+      "badge": null,
+      "tier": "earlier",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/reel-v3/",
+        "label": "Open reel-v3"
+      }
+    },
+    {
+      "section": "earlier",
+      "type": "link",
+      "id": "preview",
+      "title": "preview · first site direction",
+      "desc": "Status: first direction preview, older.",
+      "time": "2026-10-17T12:43:24-07:00",
+      "badge": null,
+      "tier": "earlier",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/preview/",
+        "label": "Open preview"
+      }
+    },
+    {
+      "section": "earlier",
+      "type": "link",
+      "id": "nav-water-sky",
+      "title": "nav-water-sky · water + sky navigation",
+      "desc": "Status: navigation sheet, older.",
+      "time": "2026-10-17T13:39:10-07:00",
+      "badge": null,
+      "tier": "earlier",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/nav-water-sky/",
+        "label": "Open nav-water-sky"
+      }
+    },
+    {
+      "section": "earlier",
+      "type": "link",
+      "id": "nav-concepts",
+      "title": "nav-concepts · v2 navigation, pick one",
+      "desc": "Status: navigation sheet, older.",
+      "time": "2026-10-17T13:31:15-07:00",
+      "badge": null,
+      "tier": "earlier",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/nav-concepts/",
+        "label": "Open nav-concepts"
+      }
+    },
+    {
+      "section": "earlier",
+      "type": "link",
+      "id": "gilljames-v1",
+      "title": "gilljames-v1 · first rebuild",
+      "desc": "Status: first version, older.",
+      "time": "2026-10-17T11:39:46-07:00",
+      "badge": null,
+      "tier": "earlier",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/gilljames-v1/",
+        "label": "Open gilljames-v1"
       }
     }
   ]
