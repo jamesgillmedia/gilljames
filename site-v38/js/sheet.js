@@ -17,6 +17,8 @@
      A pan that ends close to a locked view (same depth, within ~1/5 screen) eases back onto it; further = rests.
    SOUND  the Sound constellation goes straight to the player (sound/): tap its name or star in the sky, + from it, or pinch past it.
      Its works (and the waveform tile) are unchanged.
+   v38b (Oct 20, QA fixes): a plain wheel notch skips the detent (rests or steps, never snaps back) · constellation/opened windows split at
+     sqrt(1.25) ~ x1.118 · dust tilt settles by time (exp(-dt/150)) · tilt gain .035 (a brisk swipe ~1.3 deg, cap 1.5).
    DIMENSION  a sparse twinkling dust layer (own small canvas, its own parallax, a gentle turn of at most 1.5 deg while you swipe that
      settles back), a slight dim on the constellations you are not looking at, a faint glow on the one you are, 1:1 pan with a short
      (<=520 ms) ease-out. Reduced motion: no twinkle, no turn, no ease-out (locks still snap, instantly). */
@@ -97,7 +99,7 @@ var EXS=1.25,TB=.3;function thAt(r){return ease((r-1.05)/(EXS-1.05))}
 function expCam(k){var c=chapCam(k),s2=c.s*EXS;return{x:C[k].x,y:C[k].y-(TOP/2)/s2+10/s2,s:s2}}
 function toExp(k,d){crumbFor('chap',k);tween(expCam(k),0,d||800,function(){settle('chap',k)})}
 /* a soft detent: the zoom runs at 55% speed right on a key moment, back to full within ~5% of it (never stops, never reverses) */
-function detent(f){if(!anim())return f;var s=cam.s,k=nearest(),cs=chapCam(k).s,ks=[fitS(),cs,cs*EXS],g=1;ks.forEach(function(q){var u=Math.log(s/q)/.05;g=Math.min(g,1-.45*Math.exp(-u*u))});return Math.exp(Math.log(f)*g)}
+var NODET=0;function detent(f){if(NODET||!anim())return f; /* v38b MED-2: never for a plain mouse-wheel notch */var s=cam.s,k=nearest(),cs=chapCam(k).s,ks=[fitS(),cs,cs*EXS],g=1;ks.forEach(function(q){var u=Math.log(s/q)/.05;g=Math.min(g,1-.45*Math.exp(-u*u))});return Math.exp(Math.log(f)*g)}
 /* Sound goes straight to the player: the camera keeps falling into the constellation while sound-dive.js darkens the sky and leaves */
 var PL=0;function toPlayer(){if(PL)return;PL=1;crumb.textContent='sound · player';var c=chapCam('sound');tween({x:C.sound.x,y:C.sound.y,s:Math.max(cam.s,c.s)*1.9},0,anim()?900:0);
   try{history.pushState(history.state,'','#sound/wave')}catch(e){}if(!window.__soundDive)location.assign('sound/')}
@@ -201,11 +203,11 @@ function frame(){var now=performance.now();raf=0; /* one clock for start and pro
   if(MP){cam=interp(MP.c0,MP.c1,MP.p);if(MP.pl){M=0;crumb.textContent='sound · player'}else{M=MP.p;crumbFor('dive',MP.k)}} /* FLY-SITE v1: Sound's morph is a fall into the player, not the grid */
   if(anim()&&now-lastTick>650){tick++;lastTick=now}
   if(CO&&!tw&&!MP&&!PT.size){var ce=now-CO.t0,k1=Math.exp(-ce/CO.tau),dd=(CO.k-k1)*CO.tau;CO.k=k1;cam.x-=CO.vx*dd/cam.s;cam.y-=CO.vy*dd/cam.s;clampCam();if(ce>=CO.end){CO=null;panRest()}}else if(CO&&(tw||MP))CO=null; /* FLY-SITE v1 ease-out */
-  if(!PT.size&&ROT){ROT*=.93;if(Math.abs(ROT)<.0004)ROT=0}
+  var rdt=Math.min(100,now-(LFT||now));LFT=now;if(!PT.size&&ROT){ROT*=Math.exp(-rdt/150);if(Math.abs(ROT)<.0004)ROT=0} /* v38b LOW-2: time-based settle */
   layout();field();dust(now);var hr=placeHud();ctx.setTransform(dpr,0,0,dpr,0,0);draw(ctx,W,H,cam,{cards:true,hud:hr});cards();
   if(tw||MP||CO||(ROT&&!PT.size))req();else twk()}
 /* FLY-SITE v1: idle twinkle: only the dust canvas redraws (~12 fps, 8 on low-end), only while the sky is open and nothing moves */
-var CO=null,TWT=0;function twk(){if(TWT||!open||!anim())return;TWT=setTimeout(function(){TWT=0;if(!open||raf||tw||MP||CO)return;dust(performance.now());twk()},LOW?125:80)}
+var CO=null,TWT=0,LFT=0;function twk(){if(TWT||!open||!anim())return;TWT=setTimeout(function(){TWT=0;if(!open||raf||tw||MP||CO)return;dust(performance.now());twk()},LOW?125:80)}
 /* ---------- state ⇄ URL ---------- */
 function hashOf(){return mode==='all'?'#all':mode==='chap'?'#sky/'+FK:'#sky'}
 function crumbFor(m,k){crumb.textContent=m==='all'?'all work · '+ITEMS.length:m==='chap'?k+' · '+C[k].count:m==='dive'?k+' · '+C[k].count:'the whole sky'}
@@ -264,7 +266,7 @@ sheet.addEventListener('pointermove',function(e){var lb=LBP.get(e.pointerId);if(
   if(!PT.has(e.pointerId))return;var o=PT.get(e.pointerId),n={x:e.clientX,y:e.clientY};PT.set(e.pointerId,n);
   if(PT.size===1&&!MP){var dx=n.x-o.x,dy=n.y-o.y;moved+=Math.abs(dx)+Math.abs(dy);if(moved>8){tw=null;if(PS){dx=n.x-PS.x;dy=n.y-PS.y;PS=null} /* FLY-SITE v1: the first 8 px are not lost */
     var nt=performance.now(),dt=Math.max(1,nt-VEL.t),a2=VEL.t&&dt<80?.4:1;VEL={x:VEL.x*(1-a2)+dx/dt*a2,y:VEL.y*(1-a2)+dy/dt*a2,t:nt};
-    if(anim())ROT=Math.max(-.026,Math.min(.026,ROT+dx/(W||360)*.02)); /* <= 1.5 deg turn of the dust while you swipe */
+    if(anim())ROT=Math.max(-.026,Math.min(.026,ROT+dx/(W||360)*.035)); /* v38b LOW-3: was .02 */ /* <= 1.5 deg turn of the dust while you swipe */
     cam.x-=dx/cam.s;cam.y-=dy/cam.s;clampCam();req()}}
   else if(PT.size===2){var a=[...PT.values()],d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y),m={x:(a[0].x+a[1].x)/2,y:(a[0].y+a[1].y)/2};if(!pd){pd=d;pm=m;return}var f=d/pd;pd=d;pinch(f,m);pm=m;req()}});
 function clampCam(){var b=M>.5?{x0:C.film.bx-200,x1:C.about.bx+530,y0:-400,y1:1800}:BOUND;cam.x=Math.max(b.x0,Math.min(b.x1,cam.x));cam.y=Math.max(b.y0,Math.min(b.y1,cam.y))}
@@ -292,7 +294,7 @@ function release(){if(MP&&MP.pl){var mq=MP;MP=null;cam=interp(mq.c0,mq.c1,mq.p);
   var s=cam.s;if(M>.5){var a=allS();if(s>a*1.7)dive(nearest());else if(s<a*.62)toSky();else{req();if(mode!=='all')settle('all')}return} /* v3.2 QA: reduced motion moved synchronously; no swallowed pinch */
   var f=fitS(),k=nearest(),cs=chapCam(k).s,L=Math.log(NEAR); /* HYBRID-Y v1: was if(s<Math.sqrt(f*cs))toSky();else toChap(k) (always snap) */
   var de=Math.log(s/(cs*EXS)),dc=Math.log(s/cs); /* FLY-SITE v1: + the opened constellation (from x EXS/1.1 up to the cap) */
-  if(Math.abs(Math.log(s/f))<L)toSky();else if(de>-Math.log(1.1))toExp(k);else if(Math.abs(dc)<L)toChap(k);else stay()}
+  if(Math.abs(Math.log(s/f))<L)toSky();else if(dc>=Math.log(EXS)/2)toExp(k);else if(dc>-L)toChap(k);else stay()} /* v38b LOW-1: constellation | opened split at sqrt(EXS) ~ x1.118 */
 /* HYBRID-Y v1: near a level = yesterday's snap; otherwise rest here (no camera move), naming the level by depth */
 var NEAR=1.15;function stay(){var s=cam.s,f=fitS(),k=nearest(),cs=chapCam(k).s,m=s<Math.sqrt(f*cs)?'sky':'chap';settle(m,m==='chap'?k:null,{replace:true});req()}
 function tap(x,y){var t=document.elementFromPoint(x,y);if(t&&t.closest('[data-sk]'))return; /* the name buttons handle their own click */
@@ -306,7 +308,7 @@ function tap(x,y){var t=document.elementFromPoint(x,y);if(t&&t.closest('[data-sk
   if(best.k==='sound'&&!best.w){toPlayer();return} /* FLY-SITE v1: the Sound star = the player */
   if(best.w&&mode==='chap')dive(best.k,best.k==='about'?null:best.w);else if(mode==='sky')(best.k==='about'?toChap('about'):dive(best.k));else dive(best.k)}
 hud.addEventListener('click',function(e){var b=e.target.closest('[data-sk]');if(!b)return;e.preventDefault();if(Date.now()-lbSwallow<900)return; /* HYBRID-Y v1 */var k=b.dataset.sk;if(k==='sound'){toPlayer();return} /* FLY-SITE v1 */if(k==='about'&&mode!=='chap')toChap(k);else dive(k)});
-sheet.addEventListener('wheel',function(e){e.preventDefault();tw=null;CO=null;var f=Math.exp(-e.deltaY*(e.ctrlKey?.01:.0022));if(M<.02&&!MP){if(!sheet._w)g0=mode;pm=null;pinch(f,{x:e.clientX,y:e.clientY});pm=null;req();clearTimeout(sheet._w);sheet._w=setTimeout(function(){sheet._w=0;release()},260)} /* FLY-SITE v1: was zoomAt(f) (no cap, no detent, no morph) */
+sheet.addEventListener('wheel',function(e){e.preventDefault();tw=null;CO=null;var f=Math.exp(-e.deltaY*(e.ctrlKey?.01:.0022));if(M<.02&&!MP){if(!sheet._w)g0=mode;pm=null;NODET=!e.ctrlKey;pinch(f,{x:e.clientX,y:e.clientY});NODET=0;pm=null;req();clearTimeout(sheet._w);sheet._w=setTimeout(function(){sheet._w=0;release()},260)} /* FLY-SITE v1: was zoomAt(f) (no cap, no detent, no morph) */
   else{pinch(f,{x:e.clientX,y:e.clientY});pm=null;req();clearTimeout(sheet._w);sheet._w=setTimeout(function(){sheet._w=0;release()},260)}},{passive:false});
 $('.sx',sheet).addEventListener('click',function(e){e.preventDefault();close()});
 $('.shome',sheet).addEventListener('click',function(e){e.preventDefault();from={y:0};close();__dive.go({k:null});scrollTo(0,0)});
