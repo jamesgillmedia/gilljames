@@ -21,16 +21,13 @@ html,body{margin:0;height:100%;background:#04060c;color:#cfd8e6;overflow:hidden;
 #vw[hidden],#space[hidden]{display:none}#vw .m img,#vw .m video{max-width:100vw;max-height:80vh;display:block}
 #vw .c{font-size:12px;letter-spacing:.1em;opacity:.7;text-align:center;padding:0 16px}
 #vw .x{position:absolute;right:10px;top:max(8px,env(safe-area-inset-top));font:300 30px/1 Poppins,sans-serif;color:#cfd8e6;background:none;border:0;padding:8px 12px;cursor:pointer}
-#where{position:fixed;left:50%;transform:translateX(-50%);top:max(16px,env(safe-area-inset-top));z-index:3;font:400 12px/1 Julius,sans-serif;letter-spacing:.18em;opacity:.8;pointer-events:none;white-space:nowrap}
-#home{position:fixed;right:12px;bottom:max(12px,env(safe-area-inset-bottom));z-index:3;color:#cfd8e6;background:none;border:0;font-size:20px;opacity:.7;padding:8px;cursor:pointer}
 </style>
 </head><body>
 <canvas id="c" aria-label="a 3d sky of gill james's chapters"></canvas>
 <a id="back" href="../site-v3/">‹ site</a>
-<div id="where">everything</div><button id="home" aria-label="everything">ᑕᐣᓯ</button>
 <button id="space" hidden>← space</button>
 <div id="vw" hidden><button class="x" aria-label="close">×</button><div class="m"></div><div class="c"></div></div>
-<div id="hint">tap a constellation to land · pinch out to step back<br>double-tap sky or ᑕᐣᓯ for everything</div>
+<div id="hint">pinch / scroll to fly · drag to turn<br>tap a constellation to land on its board · double-tap to pull back</div>
 <div id="fb"><a href="../site-v3/">gill james</a><span style="font-size:12px;opacity:.6">‹ site-v3</span></div>
 <script>
 (function(){try{var c=document.createElement('canvas');if(!(c.getContext('webgl2')||c.getContext('webgl')))throw 0}catch(e){document.documentElement.className='nogl'}})();
