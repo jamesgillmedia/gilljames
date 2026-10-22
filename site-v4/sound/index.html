@@ -16,7 +16,7 @@
     <button type="button" class="shome homev" id="homev" aria-label="home: fly back to the front view of the constellation" title="home (double-tap the sky)"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-width="1"/><path d="M4.5 13.2L7.6 11.4L10.4 8.6L13.6 9.9L16.6 8.2L19.5 11.6M10.4 8.6V15.6M16.6 8.2V14.4" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"/><circle cx="10.4" cy="8.6" r="1.4" fill="currentColor"/><circle cx="16.6" cy="8.2" r="1.3" fill="currentColor"/><circle cx="13.6" cy="9.9" r="1" fill="currentColor"/><circle cx="10.4" cy="15.6" r="1" fill="currentColor"/><circle cx="16.6" cy="14.4" r="1" fill="currentColor"/></svg></button><button type="button" class="shome rise" id="rise" aria-label="rise out to the constellation">↑</button>
   </header>
   <section class="intro" id="intro">
-    <p class="sl"><b>SOUND</b><small>6 songs · tap a star · pinch to zoom · dive in</small></p>
+    <p class="sl"><b>SOUND</b><small>6 songs · tap a song · tap again to play</small></p>
     <div class="picks" id="picks" role="radiogroup" aria-label="track"></div>
     <button type="button" class="dive" id="dive">▶ dive in</button>
   </section>
@@ -44,4 +44,17 @@
 <script>/* ‹ : when you came from a page of the site, go back to exactly where you were (same sky / scroll); otherwise open the sky over Sound */
 (function(){var h=document.getElementById('home');h.addEventListener('click',function(e){try{var r=document.referrer&&new URL(document.referrer);
   if(r&&r.origin===location.origin&&r.pathname!==location.pathname&&history.state!=='in'&&history.length>1){e.preventDefault();history.back()}}catch(x){}})})();</script>
+<script>/* v4b SOUND TAP-TAP: a song (its button or its star) is chosen with one tap and played with a second tap on the same song */
+(function(){var sk=window.__sk;if(!sk)return;var ARM=null,sm=document.querySelector('#intro .sl small'),base=sm?sm.textContent:'',pre=0;
+function hint(k){if(!sm)return;var T=window.TRACKS&&TRACKS[k];sm.textContent=T?T.title+' · tap again to play':base}
+/* the first tap also plays a ~9 s preview of that song (soft fade in/out, one at a time); the full song stops it */
+var PV=null;function stopPv(){if(!PV)return;var a=PV;PV=null;cancelAnimationFrame(a._r);a.pause();a.removeAttribute('src');a.load()}
+function preview(k){stopPv();var T=window.TRACKS&&TRACKS[k];if(!T||!T.file)return;var a=PV=new Audio(T.file),L=9,F=1.2,t0=0,st=Math.max(0,Math.min((T.dur||60)*.3,(T.dur||60)-L-1));a.volume=0;a.preload='auto';
+  a.addEventListener('loadedmetadata',function(){try{a.currentTime=st}catch(e){}},{once:true});a.play().catch(function(){});
+  (function f(){if(PV!==a)return;if(sk.state().mode!=='sky'){stopPv();return}var t=a.currentTime-st;if(!a.paused&&t>=0){var v=Math.max(0,Math.min(1,t/F,(L-t)/F));a.volume=.8*v;if(t>=L){stopPv();return}}a._r=requestAnimationFrame(f)})()}
+function tapped(k){if(ARM===k){ARM=null;hint(null);stopPv();sk.goIn();return true}ARM=k;hint(k);preview(k)}
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('#picks button');if(b&&!e.defaultPrevented&&tapped(b.dataset.k)){e.preventDefault();e.stopPropagation()}},true);
+addEventListener('pointerdown',function(){pre=sk.sel().picks},true);
+addEventListener('pointerup',function(){var q=sk.sel();if(q.picks>pre){pre=q.picks;tapped(q.k)}});
+addEventListener('popstate',function(){ARM=null;hint(null);stopPv()});document.getElementById('dive').addEventListener('click',stopPv,true);document.addEventListener('visibilitychange',function(){if(document.hidden)stopPv()});window.__v4pv=function(){return PV?{t:PV.currentTime,v:PV.volume,paused:PV.paused}:null}})();</script>
 </body></html>
