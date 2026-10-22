@@ -180,12 +180,12 @@ links('arm',.32*fitA*sky*sky);links('grid',.3*M*M);
   /* chapter stars */
   if(sky>0)ORDER.forEach(function(k){var c2=C[k];if(!c2)return;var p=P(c2.x,c2.y),gs=Math.max(46,Math.min(150,110*c.s/.3));if(k===LK0&&fitA>.02){var bl=gs*2.2;g.globalAlpha=.18*fitA*sky;g.drawImage(c2.glow,p[0]-bl/2,p[1]-bl/2,bl,bl)} /* FLY-SITE v1: faint glow in focus */g.globalAlpha=sky*DK(k);g.drawImage(GLOW,p[0]-gs/2,p[1]-gs/2,gs,gs);g.fillStyle='#fff';g.beginPath();g.arc(p[0],p[1],Math.max(2.2,Math.min(5,3.2*c.s/.3)),0,7);g.fill();g.globalAlpha=1});
   /* works: a star (dot) that grows into its thumbnail as it travels into the grid */
-  if(!opt.full)SELR=null;ITEMS.forEach(function(it){var p=P(it.x,it.y);if(p[0]<-140||p[0]>w+140||p[1]<-140||p[1]>h+140)return;var a=(it.ring?1:Math.max(fitA,it.mi))*(it.mi<.02?DK(it.k):1);if(a<.02)return; /* FLY-SITE v1 */
+  if(!opt.full)SELR=null;TR=[];ITEMS.forEach(function(it){var p=P(it.x,it.y);if(p[0]<-140||p[0]>w+140||p[1]<-140||p[1]>h+140)return;var a=(it.ring?1:Math.max(fitA,it.mi))*(it.mi<.02?DK(it.k):1);if(a<.02)return; /* FLY-SITE v1 */
     if(it.mi<.98||!opt.cards||!cardsOn()){var c2=C[it.k],cw=lerp(5/c.s,104,it.mz),chh=lerp(5/c.s,c2.imgh,it.mz) /* FLY-SITE v1 */,sw=cw*c.s,sh=chh*c.s;
       var xf=cl1((sw-5)/10),av=(1-it.lum)*.8*(1-M),sa0=a;a=sa0*(1-xf)*(.82+.18*it.lum); /* v4c GROW: the star fades out as its thumbnail fades in · AGE: a star is at most ~5% dimmer */
       if(xf<1&&a>.01){if(it.b>=0){var gb=(6+30*it.b*it.b)*SF;g.globalAlpha=a*(.4+.6*it.b);g.drawImage(c2.glow,p[0]-gb/2,p[1]-gb/2,gb,gb);g.globalAlpha=a;g.fillStyle='#fff';g.beginPath();g.arc(p[0],p[1],Math.max(1.1,(.6+1.9*it.b)*SF),0,7);g.fill()}
         else{var gs=Math.max(10,Math.min(26,16*c.s/.3));g.globalAlpha=a;if(it.ring||c.s>.5)g.drawImage(GLOW,p[0]-gs/2,p[1]-gs/2,gs,gs);g.fillStyle='#f4f8ff';g.beginPath();g.arc(p[0],p[1],Math.max(1.1,Math.min(2.6,1.6*c.s/.3)),0,7);g.fill()}}
-      if(it===SELI&&!opt.full)SELR={x:p[0],y:p[1],w:sw,h:sh};
+      if(it===SELI&&!opt.full)SELR={x:p[0],y:p[1],w:sw,h:sh};if(xf>.5)TR.push({x:p[0]-sw/2-2,y:p[1]-sh/2-2,w:sw+4,h:sh+4,it:it}); /* v4c LOW-2: pictures that a name must not run under */
       if(xf>0){var f=ATL&&frameOf(it);g.globalAlpha=sa0*xf;if(f)g.drawImage(ATL,f[0],f[1],f[2],f[3],p[0]-sw/2,p[1]-sh/2,sw,sh);else{g.fillStyle='rgba(30,44,60,.9)';g.fillRect(p[0]-sw/2,p[1]-sh/2,sw,sh)}
         if(av>.005){g.fillStyle='rgba(3,5,10,'+av.toFixed(3)+')';g.fillRect(p[0]-sw/2,p[1]-sh/2,sw,sh)} /* v4c AGE: veil <= .2 */
         g.strokeStyle='rgba(200,225,255,.22)';g.strokeRect(p[0]-sw/2+.5,p[1]-sh/2+.5,sw-1,sh-1)}
@@ -203,13 +203,18 @@ links('arm',.32*fitA*sky*sky);links('grid',.3*M*M);
     var lk=FK||nearest();if(lk==='sound')nameA*=SNDA; /* v3.5: only the chapter in view names its works (no labels from the neighbouring constellations) */
     var nL=0,LB={film:7,photo:3,objects:6,about:4,sound:6}[lk]||6;C[lk].items.slice().sort(function(a,b){var pa=P(a.x,a.y),pb=P(b.x,b.y);return Math.hypot(pa[0]-w/2,pa[1]-h/2)-Math.hypot(pb[0]-w/2,pb[1]-h/2)}).forEach(function(it){if(nL>=LB)return;var p=P(it.x,it.y);if(p[0]<0||p[0]>w-30||p[1]<TOP||p[1]>h-10)return;var lab=it.lab.length>24?it.lab.slice(0,23)+'…':it.lab,tw2=g.measureText(lab).width,mt=EX>.02&&it.meta?(it.meta.length>32?it.meta.slice(0,31)+'…':it.meta):'',mw=0;if(mt){g.font='300 10.5px Poppins, sans-serif';mw=g.measureText(mt).width*EX;g.font=EF}
       var hw=Math.max(7,lerp(5/c.s,104,it.mz)*c.s/2+5),r={x:p[0]+hw,y:p[1]-9-EX,w:Math.max(tw2,mw)+6,h:18+2*EX+(mt?14*EX:0)}; /* FLY-SITE v1 */
-      if(r.x+r.w>w-4)r.x=Math.max(4,p[0]-hw-r.w);if(!free(r)){var r2={x:r.x>p[0]?p[0]-hw-r.w:p[0]+hw,y:r.y,w:r.w,h:r.h};if(r2.x<4||r2.x+r2.w>w-4||!free(r2))return;r=r2}nL++;g.globalAlpha=nameA;g.fillStyle='rgba(3,5,10,.62)';g.fillRect(r.x-2,r.y,r.w+2,r.h);g.fillStyle='#e6edf0';g.fillText(lab,r.x+2,p[1]+4*(1-nameA)); /* v4c GROW: names rise as they fade in */
+      var aR=w-4-(p[0]+hw),aL=p[0]-hw-4; /* v4c LOW-2: the label always sits fully inside the screen, beside its star (never under the edge or over its own picture) */
+      if(r.w>aR&&r.w>aL){var av=Math.max(aR,aL);if(av<64)return;lab=clipT(g,lab,av-6);tw2=g.measureText(lab).width;if(mt){g.font='300 10.5px Poppins, sans-serif';mt=clipT(g,mt,av-6);mw=g.measureText(mt).width*EX;g.font=EF}r.w=Math.min(av,Math.max(tw2,mw)+6)}
+      var rs=[];if(r.w<=aR)rs.push(p[0]+hw);if(r.w<=aL)rs.push(p[0]-hw-r.w);var ok=false;for(var ri=0;ri<rs.length&&!ok;ri++){var r2={x:rs[ri],y:r.y,w:r.w,h:r.h};if(clearOf(r2,it)&&free(r2)){r=r2;ok=true}}if(!ok)return;nL++;g.globalAlpha=nameA;g.fillStyle='rgba(3,5,10,.62)';g.fillRect(r.x-2,r.y,r.w+2,r.h);g.fillStyle='#e6edf0';g.fillText(lab,r.x+2,p[1]+4*(1-nameA)); /* v4c GROW: names rise as they fade in */
       if(mt){g.globalAlpha=nameA*EX;g.font='300 10.5px Poppins, sans-serif';g.fillStyle='#9fb6c4';g.fillText(mt,r.x+2,p[1]+10+5*EX);g.font=EF}g.globalAlpha=1})} /* FLY-SITE v1: the detail line */
   /* block headers in the grid */
   if(M>.6){g.textAlign='left';g.textBaseline='alphabetic';ORDER.forEach(function(k){var c2=C[k];if(!c2)return;var p=P(c2.bx,c2.by-14),fs=Math.max(11,Math.min(22,16*c.s));if(p[0]>w||p[0]+328*c.s<0)return;
     g.globalAlpha=(M-.6)/.4;g.font='400 '+fs.toFixed(0)+'px "Julius Sans One", sans-serif';g.fillStyle='#55DAA1';g.fillText(k.toUpperCase(),p[0],p[1]);var nw=g.measureText(k.toUpperCase()).width;
     g.font='300 '+(fs*.72).toFixed(0)+'px Poppins, sans-serif';g.fillStyle='#c9d3d6';g.fillText('  '+c2.count,p[0]+nw,p[1]);g.globalAlpha=1})}
   if(opt.labels){g.textAlign='center';g.textBaseline='alphabetic';ORDER.forEach(function(k){var c2=C[k];if(!c2)return;var p=P(c2.x,c2.y);g.font='400 11px "Julius Sans One", sans-serif';g.fillStyle='#e6edf0';g.fillText(k.toUpperCase(),p[0],p[1]+22)})}}
+var TR=[];function clearOf(r,own){for(var i=0;i<TR.length;i++){var t=TR[i];if(t.it!==own&&r.x<t.x+t.w&&r.x+r.w>t.x&&r.y<t.y+t.h&&r.y+r.h>t.y)return false}return true} /* v4c LOW-2 */
+var CT={},CTN=0;function clipT(g,t,mx){var ck=g.font+'|'+t+'|'+(mx>>4);if(CT[ck]!==undefined)return CT[ck];if(++CTN>400){CT={};CTN=0}return CT[ck]=clipT0(g,t,(mx>>4)<<4)} /* memo: no per-frame measuring */
+function clipT0(g,t,mx){var W0=g.measureText(t).width;if(W0<=mx)return t;var n=Math.max(1,Math.floor(t.length*mx/W0)),u;for(var q=0;q<6;q++){u=t.slice(0,n).replace(/[\s·…]+$/,'')+'…';if(g.measureText(u).width<=mx||n<=2)break;n--}return u} /* v4c LOW-2: proportional cut, 2-3 measures */
 function free(r){for(var i=0;i<labRects.length;i++){var t=labRects[i];if(r.x<t.x+t.w&&r.x+r.w>t.x&&r.y<t.y+t.h&&r.y+r.h>t.y)return false}labRects.push(r);return true}
 function chapS(){var k=FK||nearest();return chapCam(k).s}
 function nearest(px,py){var p=wp(px==null?W/2:px,py==null?(H+TOP)/2:py),best='film',bd=1e18;ORDER.forEach(function(k){var c=C[k];if(!c)return;var x=M>.5?c.bx+164:c.x,y=M>.5?c.by+Math.min(260,c.pitch*Math.ceil(c.n/3)/2):c.y,d=(x-p[0])*(x-p[0])+(y-p[1])*(y-p[1]);if(d<bd){bd=d;best=k}});return best}
@@ -363,9 +368,7 @@ var PS=null,VEL={x:0,y:0,t:0};function coast(){var v=Math.hypot(VEL.x,VEL.y),cap
   CO={vx:VEL.x*cap,vy:VEL.y*cap,tau:90,end:520,t0:performance.now(),k:1};VEL.t=0;req()}
 /* after a pan: at a key moment's depth and within ~1/5 of the screen of its framing = ease back onto it; otherwise rest right here */
 function panRest(){if(window.__soundOne&&__soundOne.release())return; /* SOUND-ONE */var k=nearest(),c=null,t=null;if(Math.abs(Math.log(cam.s/lockS()))<.06){var bx=C[k].box,inb=cam.x>=bx.x0&&cam.x<=bx.x1&&cam.y>=bx.y0&&cam.y<=bx.y1;if(inb){FK=k;settle('chap',k,{replace:true})}else toExp(k,420,{x:cam.x,y:cam.y});return} /* v4b: pan around at the lock; rests where you let go */
-  [['sky',fitCam()],['chap',chapCam(k)],['exp',expCam(k)]].forEach(function(q){if(!c&&Math.abs(Math.log(cam.s/q[1].s))<.04){c=q[1];t=q[0]}});
-  if(c){var d=Math.hypot((c.x-cam.x)*cam.s,(c.y-cam.y)*cam.s);if(d<Math.min(W,H)*.2){var du=Math.round(Math.max(320,Math.min(800,d*5)));if(t==='sky'){FK=null;crumbFor('sky');tween(c,0,du,function(){settle('sky')})}else if(t==='chap'){crumbFor('chap',k);tween(c,0,du,function(){settle('chap',k)})}else toExp(k,du);return}}
-  var rr=Math.log(cam.s/fitS())/Math.log(lockS()/fitS());if(rr<.5){FK=null;crumbFor('sky');tween(fitCam(),0,520,function(){settle('sky',null,{replace:true})})}else toExp(k,560,{x:cam.x,y:cam.y})} /* v4a: never rests between screens */
+  rest()} /* v4c FREE REST: off the lock a pan rests where it is let go (v4a eased back onto sky / constellation / lock) */
 sheet.addEventListener('pointerup',up);sheet.addEventListener('pointercancel',function(e){LBP.delete(e.pointerId); /* HYBRID-Y v1 */PT.delete(e.pointerId);if(!PT.size)release()});
 /* release: snap to the nearest level */
 function release(){if(INTO){var I=INTO;if(I.done)return;if(I.u>.3)flyInto(I.it);else{INTO=null;tween(expCam(I.it.k,{x:cam.x,y:cam.y}),0,420,function(){settle('chap',I.it.k)})}return} /* v4b PINCH-THROUGH: past ~1/3 = open it, else back to the lock */
@@ -375,8 +378,10 @@ function release(){if(INTO){var I=INTO;if(I.done)return;if(I.u>.3)flyInto(I.it);
   var s=cam.s;if(M>.5){var a=allS();if(s>a*1.7)dive(nearest());else if(s<a*.62)toSky();else{req();if(mode!=='all')settle('all')}return} /* v3.2 QA: reduced motion moved synchronously; no swallowed pinch */
   var f=fitS(),k=nearest(),cs=chapCam(k).s,L=Math.log(NEAR); /* HYBRID-Y v1: was if(s<Math.sqrt(f*cs))toSky();else toChap(k) (always snap) */
   var de=Math.log(s/(cs*EXS)),dc=Math.log(s/cs); /* FLY-SITE v1: + the opened constellation (from x EXS/1.1 up to the cap) */
-  var rr=Math.log(s/f)/Math.log(lockS()/f),dir=GS0?s/GS0:1,cut=dir>1.03?.3:dir<.97?.7:.5;if(rr<cut)toSky();else toExp(k,null,{x:cam.x,y:cam.y})} /* v4a: always settle on a main screen, the direction of the pinch decides */ /* v38b LOW-1: constellation | opened split at sqrt(EXS) ~ x1.118 */
+  rest()} /* v4c FREE REST (Gill, ZOOM-STAY Oct 19): a released pinch rests where the fingers left it, no ease to the lock (was: rr<cut ? toSky() : toExp(k)) */ /* v4a: always settle on a main screen, the direction of the pinch decides */ /* v38b LOW-1: constellation | opened split at sqrt(EXS) ~ x1.118 */
 /* HYBRID-Y v1: near a level = yesterday's snap; otherwise rest here (no camera move), naming the level by depth */
+/* v4c FREE REST: name the level by depth and stay put (no camera move); the address is pushed, v4.js turns it into a replace inside one chapter */
+function rest(){var s=cam.s,f=fitS(),k=nearest(),cs=chapCam(k).s,m=s<Math.sqrt(f*cs)?'sky':'chap';if(m==='sky'){FK=null;settle('sky')}else{FK=k;settle('chap',k)}req()}
 var NEAR=1.15,GS0=0;function stay(){var s=cam.s,f=fitS(),k=nearest(),cs=chapCam(k).s,m=s<Math.sqrt(f*cs)?'sky':'chap';settle(m,m==='chap'?k:null,{replace:true});req()}
 /* v4c SELECT (Gill: the sound player's press-to-select, on the boards): one press selects a work (mint frame + its title),
    a press on the selected one opens it exactly as v4b did, a press on another moves the selection. Only a clean single-finger

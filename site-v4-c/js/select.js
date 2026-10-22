@@ -23,3 +23,25 @@ window.addEventListener('click',function(e){if(e.defaultPrevented||e.button||e.m
 addEventListener('hashchange',clear);addEventListener('popstate',clear);
 window.__v4cSel=function(){return SEL?SEL.dataset.k:null};
 })();
+
+/* v4c MED-1 safety net: index.html, list/ and the chapter pages already link inside site-v4-c. Any link added later by shared
+   v4 code that still points into /site-v4/ (a page, not its js/ css/) is pointed at the same place in /site-v4-c/ just before
+   it is used (press, click, middle-click, keyboard focus, long-press menu). Runs on window in the capture phase, before the page's own handlers. */
+(function(){
+  var RE=/\/site-v4\/(?!js\/|css\/)/;
+  function fix(a){if(!a||!a.getAttribute)return;var h=a.getAttribute('href');if(!h)return;
+    if(h.indexOf('../site-v4/')===0&&!/^\.\.\/site-v4\/(js|css)\//.test(h)){a.setAttribute('href','../site-v4-c/'+h.slice(11));return}
+    try{var u=new URL(a.href);if(u.origin===location.origin&&RE.test(u.pathname)){u.pathname=u.pathname.replace('/site-v4/','/site-v4-c/');a.href=u.href}}catch(e){}}
+  function on(e){var t=e.target;if(t&&t.closest)fix(t.closest('a[href]'))}
+  ['pointerdown','click','auxclick','focusin','contextmenu'].forEach(function(n){addEventListener(n,on,true)});
+  function all(){[].forEach.call(document.querySelectorAll('a[href]'),fix)}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',all);else all();
+  window.__v4cLinks={fix:fix,all:all};
+})();
+
+/* v4c LOW-1: the work sheet's caption / credits list. Rows that only hold the "[Gill writes]" placeholder are hidden by CSS in index.html;
+   when no row has real text, the whole list is hidden too (no empty box). */
+(function(){
+  function chk(){[].forEach.call(document.querySelectorAll('.imm-c'),function(d){var real=[].some.call(d.querySelectorAll('dd'),function(dd){var c=dd.cloneNode(true);[].forEach.call(c.querySelectorAll('.ph'),function(x){x.remove()});return c.textContent.trim().length>0});d.classList.toggle('v4c-empty',!real)})}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',chk);else chk();
+})();
