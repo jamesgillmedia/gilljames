@@ -75,7 +75,7 @@ function go1(r,o){
     /* the camera: when a constellation opens low on the screen, glide it up so what just appeared is in view */
     if(r.lv>was&&o.glide){var ht=c.head.getBoundingClientRect().top;if(ht>innerHeight*.34)scrollBy({top:ht-8,behavior:anim()?'smooth':'auto'})}}
   if(o.push!==false)push(r,o.replace);ui()}
-function back3(){var wasFs=unfullAll();if(!S.w)return;var k=S.k,g='#'+k+'/l2';if(window.__v4&&__v4.prevIs(g)){history.back();return}go({k:k,lv:2},{anchor:item(CH[k],S.w),noAnim:wasFs,replace:true})}
+function back3(){var wasFs=unfullAll();if(!S.w)return;var k=S.k,g='#'+k+'/l2';if(window.__v4&&(__v4.prevIs(g)||__v4.prevIs('#sky/'+k))){history.back();return} /* v4b: opened from the sky = back out into the sky */go({k:k,lv:2},{anchor:item(CH[k],S.w),noAnim:wasFs,replace:true})}
 function cur(){if(S.w)return{k:S.k,lv:3,w:S.w,play:S.play};var k=inView();return{k:k,lv:CH[k].lv}} /* QA: the chapter in view, never an off-screen open one */
 function step(dir,anchor,k){if(SH()){__sheet.step(dir);return}var s=cur();if(k&&!S.w&&k!==s.k)s={k:k,lv:CH[k].lv};var c=CH[s.k];
   if(dir>0){if(s.lv===3){if(!S.play&&c.k==='film'&&playable(s.w))go({k:s.k,lv:3,w:s.w,play:true});return}
@@ -120,7 +120,7 @@ function openWork(c,key,play,o){var it=item(c,key);if(!it)return;var first=imm.h
   if(!first&&S.w===key&&play!==S.play){fill(c,it,play);S.play=play;ui();return}
   $$('.it.cur').forEach(function(x){x.classList.remove('cur')});it.classList.add('cur');
   /* the tile must be on screen so the frame can grow out of it (and shrink back into it) */
-  var r=visR(it);if(!onScreen(r,-40)){it.scrollIntoView({block:'center'});r=visR(it)}
+  var r=o&&o.rect||visR(it);if(!(o&&o.rect)&&!onScreen(r,-40)){it.scrollIntoView({block:'center'});r=visR(it)} /* v4b: o.rect = the sky tile it was flown into from */
   openTile=it;S.w=key;S.play=play;fill(c,it,play);amb.src=it.dataset.big;
   if(first){imm.hidden=false;D.classList.add('modal');back2=document.activeElement;
     if(anim()&&!o.noAnim){var b=frame.getBoundingClientRect(),sx=r.width/b.width,sy=r.height/b.height;

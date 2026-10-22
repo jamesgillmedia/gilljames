@@ -30,6 +30,10 @@
    player's 1x view IS Sound "opened". Zooming the player back out below 1x flies the same camera back out into the sky.
    Changes here: Sound's stars/lines/nebula/names fade by SNDA (set by sound-one.js), no thumbnails in place for Sound, toPlayer()
    and the pinch/wheel/pan release near Sound hand over to sound-one.js, the frame hook, and window.__sheetOne. */
+/* v4b (Oct 22; Gill's v4 feedback): LOCK  one lock depth for every chapter, ~8.25 thumbnails across the screen (lockS), pan around
+   at it (rests where you let go, clamped to the chapter: never lost) · IMAGE FIRST  thumbnails grow in on the approach, a near tile
+   shows its real image or a tiny once-played clip (DOM layer .snear), names fade in only close to the lock · PINCH-THROUGH  past the
+   lock a pinch/wheel keeps flying into the item under it and opens the work from that tile (INTO); pinch out goes back to the lock. */
 (function(){
 'use strict';
 var D=document.documentElement,$=function(s,r){return(r||document).querySelector(s)},$$=function(s,r){return[].slice.call((r||document).querySelectorAll(s))};
@@ -53,6 +57,7 @@ ORDER.forEach(function(k,ci){var sec=document.getElementById(k);if(!sec)return;v
     var it={k:k,i:i,ring:i<ring,w:el.dataset.k,el:el,lab:(($('.cap b',el)||{}).textContent||'').trim(),meta:(($('.cap small',el)||{}).textContent||'').trim(),
       row:row,pv:el.dataset.pv||'',sc:el.dataset.sc||'',thumb:(($('.vis img',el)||{}).dataset||{}).src||'',sx:sx,sy:sy,gx:gx,gy:gy,stg:n>1?i/(n-1):0,x:sx,y:sy,mi:0,card:null,b:pb};
     if(i<ring)c.node[spt[i]]=it;c.rad=Math.max(c.rad,Math.hypot(sx-cx,sy-cy));c.items.push(it);ITEMS.push(it)});
+  c.box={x0:Math.min.apply(0,c.items.map(function(q){return q.sx}).concat(cx)),x1:Math.max.apply(0,c.items.map(function(q){return q.sx}).concat(cx)),y0:Math.min.apply(0,c.items.map(function(q){return q.sy}).concat(cy)),y1:Math.max.apply(0,c.items.map(function(q){return q.sy}).concat(cy))};
   S.s.forEach(function(p,i){if(c.node[i])return;var d={x:cx+(p[0]-.5)*SBW,y:cy+(p[1]-.5)*SBH,b:p[2],st:p[3]};c.node[i]=d;c.dec.push(d);c.rad=Math.max(c.rad,Math.hypot(d.x-cx,d.y-cy))})});
 ORDER.forEach(function(k){var c=C[k];if(!c)return;var its=c.items,ring=its.filter(function(i){return i.ring}),ex=its.filter(function(i){return !i.ring});c.sky=[];c.arm=[];c.grid=[];
   SH[k].e.forEach(function(e){var p=c.node[e[0]],q=c.node[e[1]];if(p&&q)c.sky.push([p,q])});
@@ -104,10 +109,12 @@ var KN=1;function layout(){var any=false;KN=kAt(cam.s);var lk=FK||nearest(),th=l
   ITEMS.forEach(function(it){it.gy=gyAt(it,cam.s);var mi=ease(Math.max(0,Math.min(1,M*1.3-it.stg*.3)));it.mi=mi;var b=it.k===lk?th:0;it.mz=b+(1-b)*(1-(1-mi)*(1-mi));var mp=Math.pow(mi,1.4);it.x=lerp(it.sx,it.gx+52,mp);it.y=lerp(it.sy,it.gy+C[it.k].imgh/2,mp)})} /* FLY-SITE v1: size leads, travel follows */
 /* FLY-SITE v1 key moments: the whole sky (fitS), a constellation (chapCam), that constellation opened (x EXS), the grid handover (morph p .3) */
 var EXS=1.25,TB=.3;function thAt(r){return ease((r-1.05)/(EXS-1.05))}
-function expCam(k){var c=chapCam(k),s2=c.s*EXS;return{x:C[k].x,y:C[k].y-(TOP/2)/s2+10/s2,s:s2}}
-function toExp(k,d){crumbFor('chap',k);tween(expCam(k),0,d||800,function(){settle('chap',k)})}
+/* v4b LOCK: the same depth for every chapter: a thumbnail (mz = TB) is 1/ACROSS of the screen width */
+var ACROSS=8.25;function lockS(){return Math.max(.3,(Math.min(W,H*1.9)/ACROSS-3.5)/(104*TB))}
+function expCam(k,at){var s2=lockS(),x=C[k].x,y=C[k].y-(TOP/2)/s2+10/s2;if(at){var b=C[k].box;x=Math.max(b.x0,Math.min(b.x1,at.x));y=Math.max(b.y0,Math.min(b.y1,at.y))}return{x:x,y:y,s:s2}}
+function toExp(k,d,at){crumbFor('chap',k);tween(expCam(k,at),0,d||800,function(){settle('chap',k)})}
 /* a soft detent: the zoom runs at 55% speed right on a key moment, back to full within ~5% of it (never stops, never reverses) */
-var NODET=0;function detent(f){if(NODET||!anim())return f; /* v38b MED-2: never for a plain mouse-wheel notch */var s=cam.s,k=nearest(),cs=chapCam(k).s,ks=[fitS(),cs,cs*EXS],g=1;ks.forEach(function(q){var u=Math.log(s/q)/.05;g=Math.min(g,1-.45*Math.exp(-u*u))});return Math.exp(Math.log(f)*g)}
+var NODET=0;function detent(f){if(NODET||!anim())return f; /* v38b MED-2: never for a plain mouse-wheel notch */var s=cam.s,k=nearest(),cs=chapCam(k).s,ks=[fitS(),cs,lockS()],g=1;ks.forEach(function(q){var u=Math.log(s/q)/.05;g=Math.min(g,1-.45*Math.exp(-u*u))});return Math.exp(Math.log(f)*g)}
 /* Sound goes straight to the player: the camera keeps falling into the constellation while sound-dive.js darkens the sky and leaves */
 var SNDA=1,PL=0;function toPlayer(){if(window.__soundOne){__soundOne.enter();return} /* SOUND-ONE */if(PL)return;PL=1;crumb.textContent='sound · player';var c=chapCam('sound');tween({x:C.sound.x,y:C.sound.y,s:Math.max(cam.s,c.s)*1.9},0,anim()?900:0);
   try{history.pushState(history.state,'','#sound/wave')}catch(e){}if(!window.__soundDive)location.assign('sound/')}
@@ -152,8 +159,8 @@ links('arm',.32*fitA*sky*sky);links('grid',.3*M*M);
       g.globalAlpha=1}});
   /* names, only where they help: work names once a constellation is big enough, decluttered (a name shows only if its box is free) */
   labRects=[];if(opt.hud)opt.hud.forEach(function(r){labRects.push(r)});if(GR&&GR.x<w&&GR.x+GR.w>0&&GR.y<h&&GR.y+GR.h>0)labRects.push(GR);
-  var nameA=Math.max(0,Math.min(1,(c.s/chapS()-.62)/.25))*(1-Math.min(1,M*3));
-  var EX=Math.max(0,Math.min(1,(c.s/chapS()-1.04)/(EXS-1.04))),EF='300 '+(12+2*EX).toFixed(1)+'px Poppins, sans-serif'; /* FLY-SITE v1: 0 at the constellation (as live), 1 when opened */
+  var LSN=lockS(),nameA=Math.max(0,Math.min(1,(c.s/LSN-.7)/.22))*(1-Math.min(1,M*3)); /* v4b IMAGE FIRST: names only close to the lock */
+  var EX=Math.max(0,Math.min(1,(c.s/LSN-.92)/.08)),EF='300 '+(12+2*EX).toFixed(1)+'px Poppins, sans-serif'; /* FLY-SITE v1: 0 at the constellation (as live), 1 when opened */
   if(nameA>.02){g.font=EF;g.textAlign='left';g.textBaseline='middle';
     var lk=FK||nearest();if(lk==='sound')nameA*=SNDA; /* v3.5: only the chapter in view names its works (no labels from the neighbouring constellations) */
     var nL=0,LB={film:7,photo:3,objects:6,about:4,sound:6}[lk]||6;C[lk].items.slice().sort(function(a,b){var pa=P(a.x,a.y),pb=P(b.x,b.y);return Math.hypot(pa[0]-w/2,pa[1]-h/2)-Math.hypot(pb[0]-w/2,pb[1]-h/2)}).forEach(function(it){if(nL>=LB)return;var p=P(it.x,it.y);if(p[0]<0||p[0]>w-30||p[1]<TOP||p[1]>h-10)return;var lab=it.lab.length>24?it.lab.slice(0,23)+'…':it.lab,tw2=g.measureText(lab).width,mt=EX>.02&&it.meta?(it.meta.length>32?it.meta.slice(0,31)+'…':it.meta):'',mw=0;if(mt){g.font='300 10.5px Poppins, sans-serif';mw=g.measureText(mt).width*EX;g.font=EF}
@@ -205,6 +212,28 @@ function clips(){if(!anim()||(navigator.connection||{}).saveData)return;var list
   list.sort(function(a,b){return a[0]-b[0]});var live=0;list.forEach(function(x){var el=x[1],v=$('video',el);if(v&&!v.paused&&!v.ended)live++});
   list.forEach(function(x){var el=x[1],v=$('video',el);if(el._done||v||live>=6)return;live++;el._done=1;v=document.createElement('video');v.muted=true;v.playsInline=true;v.setAttribute('playsinline','');v.setAttribute('aria-hidden','true');v.preload='auto';v.src=x[2].sc;
     v.addEventListener('ended',function(){clips()});$('.cv',el).appendChild(v);v.play().catch(function(){})})}
+/* v4b IMAGE FIRST: the nearest constellation tiles (>= 30 px) get their real image, and a tiny clip plays ONCE where one exists
+   (max 4, holds its last frame; never on reduced motion / save-data; never Retail Revolution footage) */
+var NL=document.createElement('div');NL.className='snear';NL.setAttribute('aria-hidden','true');NL.style.cssText='position:absolute;inset:0;pointer-events:none;overflow:hidden';cv.insertAdjacentElement('afterend',NL);
+var NT=new Map(),NOCLIP=/retail\s*revolution/i;
+function tileOf(it){var c2=C[it.k],p=sp(it.x,it.y);return{p:p,w:lerp(5/cam.s,104,it.mz)*cam.s,h:lerp(5/cam.s,c2.imgh,it.mz)*cam.s}}
+function nearTiles(){var want=[],lk=open&&M<.02?(FK||nearest()):null;if(NL._top!==TOP){NL._top=TOP;NL.style.clipPath='inset('+TOP+'px 0 0 0)'} /* never over the top bar */
+  if(lk&&lk!=='sound'&&C[lk])C[lk].items.forEach(function(it){if(!it.thumb)return;var t=tileOf(it);if(t.w<30)return;var p=t.p;if(p[0]+t.w/2<0||p[0]-t.w/2>W||p[1]+t.h/2<TOP||p[1]-t.h/2>H)return;t.it=it;t.d=Math.hypot(p[0]-W/2,p[1]-H/2);want.push(t)});
+  want.sort(function(a,b){return a.d-b.d});want=want.slice(0,8);var keep=new Set(),nv=0;NT.forEach(function(el){if(el._v)nv++});
+  want.forEach(function(q){var it=q.it,el=NT.get(it);if(!el){el=document.createElement('span');el.style.cssText='position:absolute;left:0;top:0;overflow:hidden;outline:1px solid rgba(200,225,255,.22);outline-offset:-1px;will-change:transform';
+      var im=new Image();im.alt='';im.decoding='async';im.style.cssText='width:100%;height:100%;object-fit:cover;display:block';im.src=it.thumb;el.appendChild(im);NL.appendChild(el);NT.set(it,el)}
+    if(!el._v&&it.sc&&nv<4&&anim()&&!(navigator.connection||{}).saveData&&!NOCLIP.test(it.lab)){nv++;var v=el._v=document.createElement('video');v.muted=true;v.playsInline=true;v.setAttribute('playsinline','');v.preload='auto';v.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover';v.src=it.sc;el.appendChild(v);v.play().catch(function(){})}
+    el.style.width=q.w.toFixed(1)+'px';el.style.height=q.h.toFixed(1)+'px';el.style.transform='translate3d('+(q.p[0]-q.w/2).toFixed(1)+'px,'+(q.p[1]-q.h/2).toFixed(1)+'px,0)';el.style.opacity=Math.min(1,(q.w-30)/10).toFixed(2);keep.add(it)});
+  NT.forEach(function(el,it){if(keep.has(it))return;if(el._v){el._v.pause();el._v.removeAttribute('src');el._v.load()}el.remove();NT.delete(it)})}
+/* v4b PINCH-THROUGH: past the lock the camera keeps flying into the item; it opens from its tile */
+var INTO=null,RET=null;
+function deepS(){return Math.max(lockS()*2.2,.62*W/(104*TB))}
+function pickInto(k,x,y){var best=null,bd=1e9;C[k].items.forEach(function(it){var p=sp(it.x,it.y);if(p[0]<0||p[0]>W||p[1]<TOP||p[1]>H)return;var d=Math.hypot(p[0]-x,p[1]-y);if(d<bd){bd=d;best=it}});return best}
+function intoAt(s){var I=INTO,L=lockS(),u=Math.max(0,Math.min(1,Math.log(s/L)/Math.log(deepS()/L))),e=1-(1-u)*(1-u),qx=lerp(I.q[0],W/2,e),qy=lerp(I.q[1],(H+TOP)/2,e);cam.s=s;cam.x=I.it.x-(qx-W/2)/s;cam.y=I.it.y-(qy-H/2)/s;I.u=u;return u}
+function openItem(it){var t=tileOf(it),r={left:t.p[0]-t.w/2,top:t.p[1]-t.h/2,width:t.w,height:t.h};r.right=r.left+r.width;r.bottom=r.top+r.height;
+  RET={k:it.k,deep:{x:cam.x,y:cam.y,s:cam.s},lock:expCam(it.k,{x:it.x,y:it.y})};INTO=null;tw=null;
+  __dive.go({k:it.k,lv:3,w:it.w},{rect:r});setTimeout(function(){if(open)close({quick:1})},anim()?640:0)}
+function flyInto(it){if(!it)return;INTO=null;FK=it.k;tween({x:it.x,y:it.y-(TOP/2)/deepS(),s:deepS()},0,anim()?720:0,function(){openItem(it)})}
 /* ---------- render loop (only while something moves) ---------- */
 function req(){if(!raf&&open)raf=requestAnimationFrame(frame)}
 function frame(){var now=performance.now();raf=0; /* one clock for start and progress */if(tw){var u=Math.min(1,(now-tw.t0)/tw.dur),e=ease(u);cam=interp(tw.c0,tw.c1,e);M=lerp(tw.m0,tw.m1,e);if(u>=1){var d=tw.done;tw=null;d&&d()}}
@@ -212,7 +241,7 @@ function frame(){var now=performance.now();raf=0; /* one clock for start and pro
   if(anim()&&now-lastTick>650){tick++;lastTick=now}
   if(CO&&!tw&&!MP&&!PT.size){var ce=now-CO.t0,k1=Math.exp(-ce/CO.tau),dd=(CO.k-k1)*CO.tau;CO.k=k1;cam.x-=CO.vx*dd/cam.s;cam.y-=CO.vy*dd/cam.s;clampCam();if(ce>=CO.end){CO=null;panRest()}}else if(CO&&(tw||MP))CO=null; /* FLY-SITE v1 ease-out */
   var rdt=Math.min(100,now-(LFT||now));LFT=now;if(!PT.size&&ROT){ROT*=Math.exp(-rdt/150);if(Math.abs(ROT)<.0004)ROT=0} /* v38b LOW-2: time-based settle */
-  layout();field();dust(now);var hr=placeHud();ctx.setTransform(dpr,0,0,dpr,0,0);draw(ctx,W,H,cam,{cards:true,hud:hr});cards();if(window.__soundOne)__soundOne.sky(cam); /* SOUND-ONE */
+  layout();field();dust(now);var hr=placeHud();ctx.setTransform(dpr,0,0,dpr,0,0);draw(ctx,W,H,cam,{cards:true,hud:hr});cards();nearTiles();if(window.__soundOne)__soundOne.sky(cam); /* SOUND-ONE */
   if(tw||MP||CO||(ROT&&!PT.size))req();else twk()}
 /* FLY-SITE v1: idle twinkle: only the dust canvas redraws (~12 fps, 8 on low-end), only while the sky is open and nothing moves */
 var CO=null,TWT=0,LFT=0;function twk(){if(TWT||!open||!anim())return;TWT=setTimeout(function(){TWT=0;if(!open||raf||tw||MP||CO)return;dust(performance.now());twk()},LOW?125:80)}
@@ -234,7 +263,7 @@ function prepHand(k){if(k==='about'){HAND=null;return}__dive.go({k:k,lv:2},{push
   var wr=first.getBoundingClientRect(),want=TOP+76;scrollBy(0,wr.top-want);wr=first.getBoundingClientRect();HAND={k:k,x:wr.left,y:wr.top,w:wr.width}}
 function dive(k,w){if(k==='about'){close({to:{k:'about',lv:1}});return}crumbFor('dive',k);prepHand(k);FK=k;
   tween(blockCam(k),1,(M<.5?1400:650),function(){close({to:w?{k:k,lv:3,w:w}:{k:k,lv:2},hand:1})})}
-function step(dir){if(tw||MP)return;if(dir>0){if(mode==='sky')toChap(Math.abs(cam.s-fitS())<.02?'film':nearest());else if(mode==='chap'){if(FK==='sound')toPlayer();else dive(FK)}else dive(nearest())} /* FLY-SITE v1 */
+function step(dir){if(tw||MP)return;if(dir>0){if(mode==='sky')toChap(Math.abs(cam.s-fitS())<.02?'film':nearest());else if(mode==='chap'){if(FK==='sound')toPlayer();else if(FK!=='about'&&Math.abs(Math.log(cam.s/lockS()))<.08)flyInto(pickInto(FK,W/2,(H+TOP)/2)); /* v4b */else dive(FK)}else dive(nearest())} /* FLY-SITE v1 */
   else{if(mode==='chap'||mode==='all')toSky();else close()}}
 /* ---------- open / close ---------- */
 function size(){dpr=Math.min(1.5,devicePixelRatio||1);var r=sheet.getBoundingClientRect();W=r.width;H=r.height;cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);TOP=Math.min(64,Math.max(52,H*.07))}
@@ -247,12 +276,13 @@ function show(o){o=o||{};var was=open;from=from||{y:scrollY};if(!was){sheet.hidd
   if(o.mode==='all'){M=1;var it=o.w&&C[o.k]?C[o.k].items.filter(function(x){return x.w===o.w})[0]:null;
     if(it&&!was){var s0=Math.min(W,H*1.6)/104;cam={x:it.gx+52,y:gyAt(it,s0)+C[o.k].imgh/2,s:s0};layout()}else if(!was){cam={x:C.film.bx+164*3,y:C.film.by+300,s:allS()*2}}
     toAll(o.k,o.w)}
-  else if(o.mode==='chap'){if(!was){M=0;cam=fitCam()}toChap(o.k)}
+  else if(o.mode==='chap'){if(!was&&RET&&RET.k===o.k){var rt=RET;RET=null;M=0;cam={x:rt.deep.x,y:rt.deep.y,s:rt.deep.s};crumbFor('chap',o.k);tween(rt.lock,0,anim()?760:0,function(){settle('chap',o.k)})} /* v4b: back out of the work you flew into */
+    else{if(!was){M=0;cam=fitCam()}toChap(o.k)}}
   else{if(!was){M=0;cam=o.k&&C[o.k]?(function(){var c=chapCam(o.k);c.s*=1.6;return c})():o.rect?fitCam():(function(){var f=fitCam();f.s*=.82;return f})()}toSky()}
   hint.hidden=false;clearTimeout(hint._t);hint._t=setTimeout(function(){hint.hidden=true},4200);req()}
 var quietNext=null;
 var _settle=settle;settle=function(m,k,o){if(quietNext){o=Object.assign({},o||{},{push:false});quietNext=null}_settle(m,k,o)};
-function close(o){o=o||{};if(!open)return;tw=null;MP=null;var go=o.to;if(o.quick){sheet.hidden=true;D.classList.remove('sheet-on');open=false;CARDS.forEach(function(el){killPv(el)});__dive.quiet(false);from=null;HAND=null;return}
+function close(o){o=o||{};if(!open)return;tw=null;MP=null;INTO=null;var go=o.to;setTimeout(function(){if(!open)nearTiles()},o.quick?0:300);if(o.quick){sheet.hidden=true;D.classList.remove('sheet-on');open=false;CARDS.forEach(function(el){killPv(el)});__dive.quiet(false);from=null;HAND=null;return}
   function end(){sheet.hidden=true;D.classList.remove('sheet-on');open=false;CARDS.forEach(function(el){killPv(el)});__dive.quiet(false);from=null;HAND=null;
     if(go){if(go.lv===3)__dive.go(go,{replace:false});else __dive.go(go,{noAnim:true})}else __dive.sync();}
   if(o.hand){/* the column is already lined up underneath: the sheet just lets go */ if(anim()){sheet.animate([{opacity:1},{opacity:0}],{duration:320,easing:'ease-out'}).onfinish=end}else end();return}
@@ -261,7 +291,7 @@ function close(o){o=o||{};if(!open)return;tw=null;MP=null;var go=o.to;if(o.quick
   if(anim())sheet.animate([{opacity:1},{opacity:0}],{duration:260}).onfinish=end;else end()}
 /* ---------- gestures on the sheet: one finger pans, two fingers drive the camera, tap zooms into what is under it ---------- */
 var PT=new Map(),pd=0,pm=null,moved=0,t0=0,MP=null,lastTap=0,pinched=false,g0='sky'; /* g0: the level this two-finger gesture started at */
-function zoomAt(f,x,y,cap){var p=wp(x,y);cam.s=Math.max(fitS()*.7,Math.min(cap||3.2,cam.s*f));cam.x=p[0]-(x-W/2)/cam.s;cam.y=p[1]-(y-H/2)/cam.s}
+function zoomAt(f,x,y,cap){var p=wp(x,y);cam.s=Math.max(fitS()*.7,Math.min(cap||Math.max(3.2,deepS()),cam.s*f));cam.x=p[0]-(x-W/2)/cam.s;cam.y=p[1]-(y-H/2)/cam.s}
 /* HYBRID-Y v1 PINCH-ON-LABEL: a finger that lands on a sky name is held back (it may be a tap on the name). A second finger turns both
    into a pinch and the name's click is ignored for 900 ms (yesterday could dive mid-pinch); a drag from a name pans; a lone tap still clicks it. */
 var LBP=new Map(),lbSwallow=0;function lbPromote(){LBP.forEach(function(p,id){PT.set(id,p)});LBP.clear();lbSwallow=Date.now()}
@@ -281,6 +311,9 @@ function clampCam(){var b=M>.5?{x0:C.film.bx-200,x1:C.about.bx+530,y0:-400,y1:18
 /* continuous pinch. In the constellation, pinching past a chapter's own zoom starts the morph: the stars travel into its grid while you pinch */
 function pinch(f,m){if(MP){MP.vs*=f;var p=Math.log(MP.vs/MP.s0)/Math.log(MP.R);if(p<0){var c0=MP.c0;MP=null;HAND=null;M=0;cam={x:c0.x,y:c0.y,s:c0.s};return}MP.p=Math.min(1,p);return}
   var px=pm?m.x-pm.x:0,py=pm?m.y-pm.y:0;cam.x-=px/cam.s;cam.y-=py/cam.s;
+  if(INTO){var ns=INTO.s=INTO.s*f;if(ns<lockS()){INTO=null;cam.s=lockS();zoomAt(ns/cam.s,m.x,m.y);clampCam();return}if(intoAt(Math.min(ns,deepS()))>=1&&!INTO.done){INTO.done=1;openItem(INTO.it)}return} /* v4b PINCH-THROUGH */
+  if(M<.02&&!(nearest(m.x,m.y)==='sound'&&window.__soundOne)){var k1=nearest(m.x,m.y),L=lockS(),cap1=k1==='about'||g0!=='chap'?L*1.03:L;zoomAt(detent(f),m.x,m.y,Math.max(cap1,chapCam(k1).s*1.3));clampCam();
+    if(f>1&&cam.s>=L*.999&&k1!=='about'&&g0==='chap'){var it1=pickInto(k1,m.x,m.y);if(it1){FK=k1;INTO={it:it1,q:sp(it1.x,it1.y),s:cam.s,u:0}}}return} /* v4b: was a cap + the grid morph */
   if(M<.02){var k=nearest(m.x,m.y),cap=k==='sound'&&window.__soundOne&&__soundOne.ready()?__soundOne.capS():chapCam(k).s*1.3; /* SOUND-ONE */zoomAt(detent(f),m.x,m.y,cap);clampCam(); /* FLY-SITE v1: detent */
     if(f>1&&cam.s>=cap*.995&&k==='sound'&&g0==='chap'&&!PL&&!window.__soundOne){FK=k;var c0={x:cam.x,y:cam.y,s:cam.s};MP={k:k,pl:1,c0:c0,c1:{x:C.sound.x,y:C.sound.y,s:cam.s*2},s0:cam.s,vs:cam.s,p:0,R:2}} /* FLY-SITE v1 */
     else if(f>1&&cam.s>=cap*.995&&k!=='about'&&g0==='chap'&&!(k==='sound'&&window.__soundOne)){FK=k; /* v3.2 QA HIGH: only from a constellation the gesture started in */var c0={x:cam.x,y:cam.y,s:cam.s};prepHand(k);var c1=blockCam(k);MP={k:k,c0:c0,c1:c1,s0:cam.s,vs:cam.s,p:0,R:Math.max(1.7,c1.s/cam.s)}}}
@@ -291,18 +324,20 @@ function up(e){if(LBP.has(e.pointerId)){LBP.delete(e.pointerId);return} /* HYBRI
 var PS=null,VEL={x:0,y:0,t:0};function coast(){var v=Math.hypot(VEL.x,VEL.y),cap=Math.min(1,1.4/(v||1));if(!anim()||!VEL.t||performance.now()-VEL.t>100||v<.12){VEL.t=0;panRest();return}
   CO={vx:VEL.x*cap,vy:VEL.y*cap,tau:90,end:520,t0:performance.now(),k:1};VEL.t=0;req()}
 /* after a pan: at a key moment's depth and within ~1/5 of the screen of its framing = ease back onto it; otherwise rest right here */
-function panRest(){if(window.__soundOne&&__soundOne.release())return; /* SOUND-ONE */var k=nearest(),c=null,t=null;[['sky',fitCam()],['chap',chapCam(k)],['exp',expCam(k)]].forEach(function(q){if(!c&&Math.abs(Math.log(cam.s/q[1].s))<.04){c=q[1];t=q[0]}});
+function panRest(){if(window.__soundOne&&__soundOne.release())return; /* SOUND-ONE */var k=nearest(),c=null,t=null;if(Math.abs(Math.log(cam.s/lockS()))<.06){var bx=C[k].box,inb=cam.x>=bx.x0&&cam.x<=bx.x1&&cam.y>=bx.y0&&cam.y<=bx.y1;if(inb){FK=k;settle('chap',k,{replace:true})}else toExp(k,420,{x:cam.x,y:cam.y});return} /* v4b: pan around at the lock; rests where you let go */
+  [['sky',fitCam()],['chap',chapCam(k)],['exp',expCam(k)]].forEach(function(q){if(!c&&Math.abs(Math.log(cam.s/q[1].s))<.04){c=q[1];t=q[0]}});
   if(c){var d=Math.hypot((c.x-cam.x)*cam.s,(c.y-cam.y)*cam.s);if(d<Math.min(W,H)*.2){var du=Math.round(Math.max(320,Math.min(800,d*5)));if(t==='sky'){FK=null;crumbFor('sky');tween(c,0,du,function(){settle('sky')})}else if(t==='chap'){crumbFor('chap',k);tween(c,0,du,function(){settle('chap',k)})}else toExp(k,du);return}}
-  var rr=Math.log(cam.s/fitS())/Math.log(chapCam(k).s*EXS/fitS());if(rr<.5){FK=null;crumbFor('sky');tween(fitCam(),0,520,function(){settle('sky',null,{replace:true})})}else toExp(k,560)} /* v4a: never rests between screens */
+  var rr=Math.log(cam.s/fitS())/Math.log(lockS()/fitS());if(rr<.5){FK=null;crumbFor('sky');tween(fitCam(),0,520,function(){settle('sky',null,{replace:true})})}else toExp(k,560,{x:cam.x,y:cam.y})} /* v4a: never rests between screens */
 sheet.addEventListener('pointerup',up);sheet.addEventListener('pointercancel',function(e){LBP.delete(e.pointerId); /* HYBRID-Y v1 */PT.delete(e.pointerId);if(!PT.size)release()});
 /* release: snap to the nearest level */
-function release(){if(window.__soundOne&&!MP&&M<.02&&__soundOne.release())return; /* SOUND-ONE */if(MP&&MP.pl){var mq=MP;MP=null;cam=interp(mq.c0,mq.c1,mq.p);M=0;if(mq.p>.3)toPlayer();else toExp('sound',360);return} /* FLY-SITE v1 */
+function release(){if(INTO){var I=INTO;if(I.done)return;if(I.u>.3)flyInto(I.it);else{INTO=null;tween(expCam(I.it.k,{x:cam.x,y:cam.y}),0,420,function(){settle('chap',I.it.k)})}return} /* v4b PINCH-THROUGH: past ~1/3 = open it, else back to the lock */
+  if(window.__soundOne&&!MP&&M<.02&&__soundOne.release())return; /* SOUND-ONE */if(MP&&MP.pl){var mq=MP;MP=null;cam=interp(mq.c0,mq.c1,mq.p);M=0;if(mq.p>.3)toPlayer();else toExp('sound',360);return} /* FLY-SITE v1 */
   if(MP){var mp=MP;MP=null;cam=interp(mp.c0,mp.c1,mp.p);M=mp.p;if(mp.p>.3){FK=mp.k;tween(mp.c1,1,Math.max(260,700*(1-mp.p)),function(){close({to:{k:mp.k,lv:2},hand:1})})}
     else{HAND=null;tween(expCam(mp.k),0,360,function(){settle('chap',mp.k)})}return} /* FLY-SITE v1: springs back to the opened constellation (was chapCam) */
   var s=cam.s;if(M>.5){var a=allS();if(s>a*1.7)dive(nearest());else if(s<a*.62)toSky();else{req();if(mode!=='all')settle('all')}return} /* v3.2 QA: reduced motion moved synchronously; no swallowed pinch */
   var f=fitS(),k=nearest(),cs=chapCam(k).s,L=Math.log(NEAR); /* HYBRID-Y v1: was if(s<Math.sqrt(f*cs))toSky();else toChap(k) (always snap) */
   var de=Math.log(s/(cs*EXS)),dc=Math.log(s/cs); /* FLY-SITE v1: + the opened constellation (from x EXS/1.1 up to the cap) */
-  var rr=Math.log(s/f)/Math.log(cs*EXS/f),dir=GS0?s/GS0:1,cut=dir>1.03?.3:dir<.97?.7:.5;if(rr<cut)toSky();else toExp(k)} /* v4a: always settle on a main screen, the direction of the pinch decides */ /* v38b LOW-1: constellation | opened split at sqrt(EXS) ~ x1.118 */
+  var rr=Math.log(s/f)/Math.log(lockS()/f),dir=GS0?s/GS0:1,cut=dir>1.03?.3:dir<.97?.7:.5;if(rr<cut)toSky();else toExp(k,null,{x:cam.x,y:cam.y})} /* v4a: always settle on a main screen, the direction of the pinch decides */ /* v38b LOW-1: constellation | opened split at sqrt(EXS) ~ x1.118 */
 /* HYBRID-Y v1: near a level = yesterday's snap; otherwise rest here (no camera move), naming the level by depth */
 var NEAR=1.15,GS0=0;function stay(){var s=cam.s,f=fitS(),k=nearest(),cs=chapCam(k).s,m=s<Math.sqrt(f*cs)?'sky':'chap';settle(m,m==='chap'?k:null,{replace:true});req()}
 var DT={t:0,x:0,y:0};function tap(x,y){var t=document.elementFromPoint(x,y);if(t&&t.closest('[data-sk]'))return; /* the name buttons handle their own click */
@@ -311,9 +346,10 @@ var DT={t:0,x:0,y:0};function tap(x,y){var t=document.elementFromPoint(x,y);if(t
     /* tiles smaller than a fingertip: the first tap magnifies the grid around the finger until tiles are >= 44px; the next tap opens one */
     if(hit){var ta=sp(hit.gx,hit.gy),tb=sp(hit.gx+104,hit.gy+C[hit.k].imgh+14),tm=Math.min(tb[0]-ta[0],tb[1]-ta[1]);if(tm<43.5&&cam.s<allS()*1.68){var s2=Math.min(allS()*1.69,cam.s*46/tm),q=wp(x,y);tween({x:q[0]-(x-W/2)/s2,y:q[1]-(y-H/2)/s2,s:s2},1,320);return}}if(hit)dive(hit.k,hit.k==='about'?null:hit.w);return}
   var best=null,bd=30;ORDER.forEach(function(k){var p=sp(C[k].x,C[k].y),d=Math.hypot(p[0]-x,p[1]-y);if(d<bd){bd=d;best={k:k}}});
-  var fa=(cam.s/fitS()-1.25)/.9;ITEMS.forEach(function(it){if(!it.ring&&fa<.3)return;var p=sp(it.x,it.y),d=Math.hypot(p[0]-x,p[1]-y);if(d<Math.min(bd,24)){bd=d;best={k:it.k,w:it.w}}});
+  var fa=(cam.s/fitS()-1.25)/.9;ITEMS.forEach(function(it){if(!it.ring&&fa<.3)return;var p=sp(it.x,it.y),d=Math.hypot(p[0]-x,p[1]-y),hr=Math.max(24,tileOf(it).w*.55);if(d<Math.min(Math.max(bd,hr),hr)){bd=d;best={k:it.k,w:it.w}}});
   if(!best){var o=sp(0,0),nt=performance.now();if(Math.hypot(o[0]-x,o[1]-y)<50){toSky();return}if(nt-DT.t<380&&Math.hypot(x-DT.x,y-DT.y)<40){DT.t=0;home();return}DT={t:nt,x:x,y:y};return} /* v4a: double-tap the sky = home */
   if(best.k==='sound'&&!best.w){toPlayer();return} /* FLY-SITE v1: the Sound star = the player */
+  if(best.w&&mode==='chap'&&best.k!=='about'&&best.k!=='sound'){flyInto(C[best.k].items.filter(function(x){return x.w===best.w})[0]);return} /* v4b: tap = fly into it */
   if(best.w&&mode==='chap')dive(best.k,best.k==='about'?null:best.w);else if(mode==='sky')(best.k==='about'?toChap('about'):dive(best.k));else dive(best.k)}
 hud.addEventListener('click',function(e){var b=e.target.closest('[data-sk]');if(!b)return;e.preventDefault();if(Date.now()-lbSwallow<900)return; /* HYBRID-Y v1 */var k=b.dataset.sk;if(k==='sound'){toPlayer();return} /* FLY-SITE v1 */if(k==='about'&&mode!=='chap')toChap(k);else dive(k)});
 sheet.addEventListener('wheel',function(e){e.preventDefault();tw=null;CO=null;var f=Math.exp(-e.deltaY*(e.ctrlKey?.01:.0022));if(M<.02&&!MP){if(!sheet._w){g0=mode;GS0=cam.s}pm=null;NODET=!e.ctrlKey;pinch(f,{x:e.clientX,y:e.clientY});NODET=0;pm=null;req();clearTimeout(sheet._w);sheet._w=setTimeout(function(){sheet._w=0;release()},260)} /* FLY-SITE v1: was zoomAt(f) (no cap, no detent, no morph) */
@@ -322,7 +358,7 @@ $('.sx',sheet).addEventListener('click',function(e){e.preventDefault();if(window
 $('.shome',sheet).addEventListener('click',function(e){e.preventDefault();home()});
 function home(){if(window.__soundOne&&__soundOne.state().state==='player'){__soundOne.leave();return}tw=null;MP=null;FK=null;crumbFor('sky');tween(fitCam(),0,M>.5?1100:700,function(){settle('sky')})} /* v4a */
 addEventListener('keydown',function(e){if(!open)return;if(e.key==='Escape'){if(mode==='sky')close();else step(-1)}if(e.key==='+'||e.key==='='){e.stopImmediatePropagation();step(1)}if(e.key==='-'){e.stopImmediatePropagation();step(-1)}},true);
-addEventListener('resize',function(){if(open){size();if(!tw&&!MP){if(mode==='sky')cam=fitCam();else if(mode==='chap')cam=chapCam(FK)}req()}portalDraw()});
+addEventListener('resize',function(){if(open){size();if(!tw&&!MP){if(mode==='sky')cam=fitCam();else if(mode==='chap')cam=FK==='sound'?chapCam(FK):expCam(FK,{x:cam.x,y:cam.y})}req()}portalDraw()});
 addEventListener('popstate',function(){var h=location.hash,m=h.match(/^#(sky|all)(?:\/(\w+))?/);if(m){show({mode:m[1]==='all'?'all':m[2]&&C[m[2]]?'chap':'sky',k:m[2],push:false})}else if(open){close({to:null,nopush:1})}});
 /* ---------- the portal: the Dive ends in this view of the whole sky (tap or pinch it to fly in) ---------- */
 var portal=$('.portal'),pcv=portal&&$('canvas',portal),pio=null,pvis=false;
@@ -336,7 +372,7 @@ window.__sheetOne={cam:function(){return{x:cam.x,y:cam.y,s:cam.s}},setCam:functi
   chap:function(){return chapCam('sound')},nearest:function(){return nearest()},rect:function(){return{w:W,h:H}},open:function(){return open},moving:function(){return !!(tw||MP||PT.size)},
   setA:function(a){if(a!==SNDA){SNDA=a;req()}},settleChap:function(o){FK='sound';settle('chap','sound',o||{replace:true})},
   show:function(o){show(o)},crumb:function(t){crumb.textContent=t||'';},redraw:function(){req()}};
-window.__sheet={keys:function(){var k=nearest(),c=chapCam(k);return{k:k,fit:fitS(),chap:c.s,exp:c.s*EXS,rot:ROT,pl:PL}},bench:function(n){var t=performance.now();for(var i=0;i<n;i++){layout();ctx.setTransform(dpr,0,0,dpr,0,0);draw(ctx,W,H,cam,{cards:true,hud:[]})}return (performance.now()-t)/n},open:function(o){show(o||{})},close:close,step:step,isOpen:function(){return open},ui:ui,
+window.__sheet={keys:function(){var k=nearest(),c=chapCam(k);return{k:k,fit:fitS(),chap:c.s,exp:lockS(),lock:lockS(),deep:deepS(),into:INTO?{w:INTO.it.w,u:INTO.u}:null,near:NL.children.length,clips:NL.querySelectorAll('video').length,rot:ROT,pl:PL}},bench:function(n){var t=performance.now();for(var i=0;i<n;i++){layout();ctx.setTransform(dpr,0,0,dpr,0,0);draw(ctx,W,H,cam,{cards:true,hud:[]})}return (performance.now()-t)/n},open:function(o){show(o||{})},close:close,step:step,isOpen:function(){return open},ui:ui,
   state:function(){return{open:open,mode:mode,k:FK,m:+M.toFixed(3),s:+cam.s.toFixed(4),fit:+fitS().toFixed(4),all:+allS().toFixed(4),moving:!!(tw||MP),
     chapters:ORDER.map(function(k){var p=sp(C[k].x,C[k].y);return{k:k,x:+p[0].toFixed(1),y:+p[1].toFixed(1)}}),w:W,h:H,top:TOP,cards:[].slice.call(world.querySelectorAll('.card')).filter(function(c){var r=c.getBoundingClientRect();return r.bottom>0&&r.top<H&&r.right>0&&r.left<W&&+getComputedStyle(world).opacity>.5}).length,labels:labRects.length}},
   cell:function(k,w){var it=C[k].items.filter(function(x){return x.w===w})[0];var a=sp(it.x,it.y);return a}};
