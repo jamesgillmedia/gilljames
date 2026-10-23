@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<base href="../../../site-v3/"><meta name="robots" content="noindex"><meta name="theme-color" content="#04070b">
+<link rel="icon" href="img/favicon-32.png"><link rel="preload" href="fonts/poppins-300.woff2" as="font" type="font/woff2" crossorigin>
+<title>Coca-Cola · case study · Gill James</title><meta name="description" content="Coca-Cola · Celebraciones, the commercial as it appears on the site: one still and the published film on Vimeo.">
+<style>
+@font-face{font-family:"Poppins";font-weight:300;font-display:swap;src:url(fonts/poppins-300.woff2) format("woff2")}
+@font-face{font-family:"Julius Sans One";font-display:swap;src:url(fonts/julius-sans-one.woff2) format("woff2")}
+@font-face{font-family:"Syl";font-weight:700;font-display:block;src:url(fonts/noto-canadian-aboriginal-subset.woff2) format("woff2");unicode-range:U+1400-167F}
+:root{--bg:#04070b;--mint:#55DAA1;--mint-tint:rgba(85,218,161,.10);--ink:#eef3f5;--dim:#c9d3d6;--meta:#93a1a6;--line:rgba(255,255,255,.14);
+ --sl:env(safe-area-inset-left,0px);--sr:env(safe-area-inset-right,0px);--st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html{background:var(--bg);color:var(--ink);-webkit-text-size-adjust:100%}
+body{margin:0;font:300 15px/1.55 Poppins,"Syl",system-ui,sans-serif;-webkit-font-smoothing:antialiased;
+ background:radial-gradient(1px 1px at 12% 8%,#fff,transparent),radial-gradient(1px 1px at 72% 4%,#fff,transparent),radial-gradient(1.5px 1.5px at 40% 14%,#fff,transparent),
+ radial-gradient(1px 1px at 85% 22%,#fff,transparent),radial-gradient(1px 1px at 22% 30%,#fff,transparent),radial-gradient(1.5px 1.5px at 60% 38%,#fff,transparent),
+ radial-gradient(1px 1px at 92% 48%,#fff,transparent),radial-gradient(1px 1px at 8% 58%,#fff,transparent),radial-gradient(1px 1px at 50% 70%,#fff,transparent),
+ radial-gradient(1px 1px at 78% 84%,#fff,transparent),radial-gradient(ellipse at 50% 0,#13202e,var(--bg) 70%) fixed}
+a{color:inherit}
+.top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:8px;padding:calc(var(--st) + 6px) max(10px,var(--sr)) 6px max(10px,var(--sl));background:linear-gradient(#04070bee,#04070bcc 70%,#04070b00)}
+.top .brand{font:700 20px/1 Syl,sans-serif;text-decoration:none;display:grid;place-items:center;min-width:44px;min-height:44px}
+.top .back{font:300 12px/1 Poppins,sans-serif;letter-spacing:.08em;color:var(--dim);text-decoration:none;min-height:44px;display:inline-grid;place-items:center;padding:0 6px}
+.top .sp{flex:1}
+.pill{display:inline-grid;place-items:center;min-height:40px;padding:0 14px;border:1px solid var(--line);border-radius:20px;background:rgba(3,7,12,.7);font:300 12px/1 Poppins,sans-serif;letter-spacing:.06em;text-decoration:none;color:var(--ink)}
+.pill.m{color:var(--mint);border-color:rgba(85,218,161,.45)}.pill:active{background:var(--mint-tint)}
+main{max-width:980px;margin:0 auto;padding:0 max(16px,var(--sr)) calc(var(--sb) + 40px) max(16px,var(--sl))}
+.hero{position:relative;margin:4px auto 0;width:min(100%,calc(70vh * 16 / 9));border-radius:6px;overflow:hidden;aspect-ratio:16/9;background:#000;box-shadow:0 0 22px rgba(150,200,255,.18)}
+.hero video,.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 55%,rgba(3,5,10,.85))}
+.htext{position:absolute;left:0;right:0;bottom:0;z-index:1;padding:14px 16px}
+.kicker{margin:0;font:300 11px/1 Poppins,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--mint)}
+h1{margin:6px 0 0;font:400 clamp(28px,6vw,54px)/1.05 "Julius Sans One",sans-serif;letter-spacing:.06em}
+.lede{max-width:640px;margin:16px 0 0;color:var(--dim);font-size:16px}
+h2{margin:44px 0 4px;font:400 20px/1.2 "Julius Sans One",sans-serif;letter-spacing:.08em;display:flex;align-items:center;gap:10px}
+h2 .L{display:inline-grid;place-items:center;width:28px;height:28px;border:1px solid var(--mint);border-radius:50%;font:300 12px/1 Poppins,sans-serif;color:var(--mint)}
+.summary{margin:2px 0 14px;color:var(--meta);font-size:13px}
+.arc{list-style:none;margin:22px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.arc a{display:block;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:rgba(6,11,17,.6);text-decoration:none;min-height:44px}
+.arc b{display:block;font:400 13px/1.3 "Julius Sans One",sans-serif;letter-spacing:.06em}.arc span{font-size:12px;color:var(--meta)}.arc a:active{background:var(--mint-tint)}
+.works{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.works a{display:block;text-decoration:none}
+.works img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:3px;box-shadow:0 0 12px rgba(150,200,255,.25)}
+.works b{display:block;margin-top:6px;font-weight:300;font-size:13px}.works small{color:var(--meta);font-size:11px}
+.frames{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px 8px}
+.frames button{all:unset;display:block;width:100%;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.frames img{display:block;width:100%;aspect-ratio:12/5;object-fit:cover;border-radius:2px;background:#0d151c}
+.frames .atag{display:block;margin-top:3px;font:300 10px/1.35 ui-monospace,Menlo,monospace;color:var(--meta)}
+.frames .atag b{font-weight:400;color:var(--dim);font-family:Poppins,sans-serif}
+.frames .sel img{outline:2px solid var(--mint);outline-offset:2px}.frames .sel .atag{color:var(--mint)}
+.frames .sel .atag::after{content:" · press again to watch from here"}
+.watch{position:relative;border-radius:6px;overflow:hidden;background:#000;aspect-ratio:16/9}
+.watch video,.watch img{width:100%;height:100%;display:block;object-fit:contain;background:#000}
+.watch .note{position:absolute;left:0;right:0;bottom:0;padding:12px;text-align:center;background:linear-gradient(transparent,rgba(0,0,0,.85))}
+.wlist{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
+.pull{margin:34px 0;padding:0 0 0 16px;border-left:2px solid var(--mint)}
+.pull p{margin:0;font:400 clamp(20px,4vw,30px)/1.25 "Julius Sans One",sans-serif;letter-spacing:.04em}
+.pull cite{display:block;margin-top:8px;font-style:normal;font-size:12px;color:var(--meta)}
+.file{margin:0;display:grid;grid-template-columns:max-content 1fr;gap:6px 16px;font-size:14px}
+.file dt{color:var(--meta);font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding-top:2px}.file dd{margin:0}
+.bridge{margin:18px 0 0;font-size:13px;color:var(--meta)}.bridge a{color:var(--mint);text-decoration:none}
+.sources{font-size:12px;color:var(--meta)}.sources li{margin:2px 0}
+.next{display:flex;flex-wrap:wrap;gap:8px;margin:44px 0 0;padding-top:18px;border-top:1px solid var(--line)}
+@media (prefers-reduced-motion:reduce){.hero video{display:none}}
+</style></head><body>
+<!-- site-v5 case study, generated by qa/site-v5/_tools/case.py from material already on the site. Structure after Roads Not Taken's story page: hero, the story in brief, sections, frames with captions, sources. -->
+<nav class="top"><a class="brand" href="../site-v5/" aria-label="Gill James, home">ᑕᐣᓯ</a><a class="back" href="../site-v5/#film/w2">← Film board</a><span class="sp"></span><a class="pill m" href="mailto:imjamesgill@gmail.com?subject=Hiring%20Gill%20James">hire ✉</a></nav>
+<main><figure class="hero"><img src="img/films/02-720.webp" alt="Coca-Cola · Celebraciones, a still" fetchpriority="high"><div class="htext"><p class="kicker">Commercial</p><h1>Coca-Cola</h1></div></figure><p class="lede">Coca-Cola · Celebraciones, the commercial as it appears on the site: one still and the published film on Vimeo.</p><ol class="arc"><li><a href="#work"><b>The work</b><span>Coca-Cola · Celebraciones</span></a></li><li><a href="#watch"><b>Watch</b><span>the full film</span></a></li><li><a href="#credits"><b>On file</b><span>title, kind, running time, link</span></a></li></ol><section id="work"><h2><span class="L">1</span>The work</h2><p class="summary">as listed on the site</p><ul class="works"><li><a href="../site-v5/#film/w2"><img src="img/films/02-720.webp" alt="Coca-Cola · Celebraciones" loading="lazy"><b>Coca-Cola · Celebraciones</b><small>commercial</small></a></li></ul><p class="bridge">It opens on the Film board of the site. <a href="#watch">Watch →</a></p></section><section id="watch"><h2><span class="L">2</span>Watch</h2><p class="summary">the full film</p><div class="watch"><img src="img/films/02-720.webp" alt="Coca-Cola · Celebraciones"><div class="note"><a class="pill m" href="https://vimeo.com/321571712" target="_blank" rel="noopener">watch on Vimeo ↗</a></div></div></section><section id="credits"><h2><span class="L">3</span>On file</h2><p class="summary">what the site records about this work; nothing more is claimed here</p><dl class="file"><dt>Coca-Cola · Celebraciones</dt><dd>commercial · <a href="https://vimeo.com/321571712" target="_blank" rel="noopener">published on Vimeo ↗</a></dd><dt>Portfolio</dt><dd>Gill James (they/them) · Cinematographer + Artist + Spatial Designer</dd></dl><ul class="sources"><li>Titles, kinds and links: the site’s Film chapter (site-v3, site-v4-d).</li><li>Frames and timecodes: scene cuts in the site’s own encodes (media/films/NN/shots.json).</li></ul></section>
+<nav class="next" aria-label="More"><a class="pill" href="../site-v5/#film">← all films</a><a class="pill m" href="../site-v5/case/bmw/">next case: BMW →</a></nav></main>
+<script>/* frames: one press selects, a press on the selected frame plays the film from that moment (no hover states) */
+(function(){var v=document.getElementById('wv'),sel=null;document.addEventListener('click',function(e){var b=e.target.closest('.frames button');if(!b)return;
+  if(sel!==b){if(sel)sel.parentNode.classList.remove('sel');sel=b;b.parentNode.classList.add('sel');return}
+  var src=b.dataset.src,t=+b.dataset.t;if(!v||!src)return;if(v.getAttribute('src')!==src){v.src=src}
+  var go=function(){try{v.currentTime=t}catch(x){}var p=v.play();if(p&&p.catch)p.catch(function(){})};if(v.readyState>0)go();else v.addEventListener('loadedmetadata',go,{once:true});
+  document.getElementById('watch').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'center'})});
+  document.addEventListener('play',function(e){[].forEach.call(document.querySelectorAll('video'),function(o){if(o!==e.target&&!o.paused&&!o.muted)o.pause()})},true)})()</script><script>[].forEach.call(document.querySelectorAll('[data-play]'),function(b){b.addEventListener('click',function(){var v=document.getElementById('wv');v.poster=b.dataset.poster;v.src=b.dataset.play;var p=v.play();if(p&&p.catch)p.catch(function(){})})})</script>
+</body></html>
