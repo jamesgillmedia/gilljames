@@ -1,0 +1,140 @@
+/* site-v5 · the previews page's constellation camera (previews/sky.css) with Gill's chapters. Loaded with JS; the plain list stays the no-JS page.
+   v5 additions are at the end (board tiles = site-v3's landed grid, the work view, the now-playing bar, the selected row). */
+html.sky-on,html.sky-on body{overflow:hidden;overscroll-behavior:none}
+html.sky-on body{padding:0}
+html.sky-on #plain{display:none}
+html.js:not(.ready) #plain{visibility:hidden;animation:pvshow 0s 4s forwards} /* no flash of the list before the sky; shows anyway if sky.js never runs */
+@keyframes pvshow{to{visibility:visible}}
+.sky,.shud,.sbar,.grid,.player,.np,.feat{-webkit-tap-highlight-color:transparent}
+.sky[hidden],.shud[hidden],.sbar[hidden],.grid[hidden],.player[hidden],.fcap[hidden],.np[hidden],.feat[hidden],.player [hidden]{display:none!important}
+/* the camera surface: the browser never gets a pinch here */
+.sky{position:fixed;inset:0;z-index:20;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none;contain:strict;
+  background:radial-gradient(120% 75% at 50% 42%,#16223a 0%,#0a1120 55%,#03050a 100%);cursor:grab}
+.sky canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.slabs{position:absolute;inset:0;pointer-events:none}
+.sl{position:absolute;left:0;top:0;min-width:96px;min-height:46px;padding:4px 10px;border:0;background:none;color:#e6edf0;pointer-events:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;transition:opacity .25s;will-change:transform;font:inherit;cursor:pointer}
+.sl b{font:400 12px/1 "Julius Sans One",sans-serif;letter-spacing:.22em;text-transform:uppercase;padding-left:.22em;white-space:nowrap;text-shadow:0 0 6px #03050a,0 0 2px #03050a}
+.sl small{font:300 10.5px/1.15 Poppins,sans-serif;color:#c3ccd0;letter-spacing:.05em;white-space:nowrap;text-shadow:0 0 4px #03050a}
+.sl.sub b{color:var(--mint)}
+/* frame: top HUD + bottom bar carry the context while the camera moves */
+.shud,.sbar{position:fixed;left:0;right:0;z-index:40;display:flex;align-items:center;gap:6px;touch-action:none;padding-left:max(6px,var(--sl));padding-right:max(6px,var(--sr))}
+.shud{top:0;padding-top:calc(4px + var(--st));padding-bottom:4px;background:linear-gradient(rgba(3,5,10,.94),rgba(3,5,10,.6) 70%,rgba(3,5,10,0))}
+.sbar{bottom:0;padding-top:6px;padding-bottom:calc(8px + var(--sb));background:linear-gradient(rgba(3,5,10,0),rgba(3,5,10,.85) 30%,rgba(3,5,10,.96))}
+.hb{flex:none;min-width:44px;min-height:44px;display:inline-grid;place-items:center;border:1px solid transparent;border-radius:22px;background:none;color:#eef3f5;font:300 11px/1 Poppins,sans-serif;letter-spacing:.16em;text-transform:uppercase;padding:0 12px;cursor:pointer}
+.hb.o{border-color:var(--line);background:rgba(3,7,12,.55)}
+.hb:disabled{opacity:.3}
+.hb:active{background:var(--mint-tint)}
+.home{font:700 17px/1 "Syl",sans-serif;text-shadow:-1px 0 rgba(10,189,240,.7),1px 0 rgba(254,1,1,.6);padding:0 8px}
+.crumb{flex:1;min-width:0;margin:0;text-align:center;font:300 11px/1.25 Poppins,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#d3dbde;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crumb small{display:block;letter-spacing:.08em;text-transform:none;color:var(--meta);font-size:10.5px;overflow:hidden;text-overflow:ellipsis}
+.zb{width:48px;height:48px;padding:0;border:1px solid var(--line);border-radius:50%;font:200 26px/1 Poppins,sans-serif;letter-spacing:0;background:rgba(3,7,12,.6)}
+.lvl{flex:1;min-width:0;text-align:center;line-height:1.2}
+.lvl .dots{display:block;font-size:9px;letter-spacing:.5em;padding-left:.5em;color:var(--mint)}
+.lvl .zn{display:block;font:300 11.5px/1.3 Poppins,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#e6edf0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* level-1 frame captions: section context on top, the item in the middle of the view at the bottom */
+.fcap{position:fixed;left:0;right:0;z-index:30;pointer-events:none;padding:0 max(12px,var(--sr)) 0 max(12px,var(--sl));text-align:center;transition:opacity .2s}
+.fcap.t{top:calc(52px + var(--st));font:300 10.5px/1.4 var(--mono);color:var(--meta)}
+.fcap.b{bottom:calc(66px + var(--sb));font:300 12px/1.35 Poppins,sans-serif;color:#e6edf0}
+.fcap.b b{display:block;font:400 14px/1.25 "Julius Sans One",sans-serif;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fcap.b span{font-family:var(--mono);font-size:11px;color:var(--meta)}
+.fcap .badge{margin-left:6px;font-size:9.5px;padding:1px 6px}
+.shint{position:fixed;left:50%;top:calc(56px + var(--st));z-index:31;transform:translateX(-50%);margin:0;padding:6px 12px;border-radius:14px;background:rgba(3,5,10,.78);font:300 11px/1.3 Poppins,sans-serif;letter-spacing:.05em;color:#d3dbde;white-space:nowrap;pointer-events:none;transition:opacity .4s}
+.shint.off{opacity:0}
+.shint i{font-style:normal;color:var(--here)}.shint u{text-decoration:none;color:var(--mint)}
+/* level 2: the section's cards (native scrolling, vertical only, so two fingers never zoom the page) */
+.grid{position:fixed;left:0;right:0;top:0;bottom:0;z-index:25;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;
+  padding:calc(var(--st) + 58px) max(16px,var(--sr)) calc(var(--sb) + 84px) max(16px,var(--sl));background:rgba(3,5,10,.86);opacity:1}
+.grid.pre{opacity:0;pointer-events:none;transition:none}
+.grid .band{margin:0 auto;max-width:1100px}
+.grid .bh{position:sticky;top:-58px;z-index:3;padding:8px 0 4px;margin:0 0 2px;background:linear-gradient(rgba(3,5,10,.96) 75%,rgba(3,5,10,0))}
+.card{-webkit-backdrop-filter:none;backdrop-filter:none} /* the blur was invisible on the night sky and stalls WebKit frames (fixed scroller, list scrolling) */
+.vbox{position:relative}
+.push{position:absolute;right:6px;top:6px;z-index:2;width:44px;height:44px;border:0;border-radius:50%;background:rgba(3,5,10,.62);color:#fff;font:300 19px/1 Poppins,sans-serif;display:grid;place-items:center;cursor:zoom-in}
+.push:active{background:rgba(85,218,161,.4)}
+.card .cb{cursor:zoom-in}
+.ph .card .cb{cursor:default}
+.tiles>li.hit .vis{animation:hit 1.6s ease-out 1}
+@keyframes hit{0%{box-shadow:0 0 0 3px var(--mint),0 0 24px rgba(85,218,161,.6)}100%{box-shadow:0 0 12px rgba(150,200,255,.25)}}
+/* level 3: one card pushed in to a full-viewport player (CSS full-viewport mode works on iPhone too) */
+.player{position:fixed;inset:0;z-index:60;background:#000;display:grid;grid-template-rows:auto 1fr auto;touch-action:none}
+.pstage{position:relative;min-height:0;overflow:hidden}
+.player video{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain;background:#000}
+.ptop,.pbot{display:flex;align-items:center;gap:8px;padding:calc(6px + var(--st)) max(8px,var(--sr)) 6px max(8px,var(--sl));background:#000}
+.pbot{padding:6px max(12px,var(--sr)) calc(10px + var(--sb)) max(12px,var(--sl));color:var(--dim);font-size:13px;line-height:1.4;display:block;max-height:22svh;overflow:hidden}
+.pcap{flex:1;min-width:0}
+.pcap b{display:block;font:400 14px/1.25 "Julius Sans One",sans-serif;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pcap small{display:block;font-family:var(--mono);font-size:11px;color:var(--meta)}
+.px{font-size:20px;letter-spacing:0}
+/* list mode: a way back to the sky */
+.skyb{display:none}
+html.js .skyb{display:inline-grid;border-color:rgba(85,218,161,.6);color:var(--mint)}
+@media (prefers-reduced-motion:reduce){.sl,.grid,.fcap,.shint{transition:none}.tiles>li.hit .vis{animation:none}}
+
+/* ================= v5 ================= */
+/* the board: site-v3's landed grid (phone 3 columns ~114x64, 700px+ 4, desktop 6 columns ~177x99; Photo + Objects square) */
+.grid .bh small,#list .bh small{margin-left:auto;font:300 11px/1 Poppins,sans-serif;letter-spacing:.06em;text-transform:none;color:var(--meta)}
+.grid .mnote{margin-left:0}
+.bw{position:relative}
+.blines{position:absolute;left:0;top:0;z-index:0;pointer-events:none;overflow:visible}
+.blines path{stroke:rgba(185,215,248,.16);stroke-width:1;fill:none}
+.tiles{position:relative;z-index:1;list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 8px}
+@media (min-width:700px){.tiles{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (min-width:1000px) and (min-height:501px){.tiles{grid-template-columns:repeat(6,minmax(0,1fr))}}
+.tl{min-width:0}
+.tile{display:block;text-decoration:none;color:inherit;-webkit-touch-callout:none}
+.vis{position:relative;display:block;width:100%;aspect-ratio:16/9;border-radius:3px;overflow:hidden;background:#0d151c;box-shadow:0 0 12px rgba(150,200,255,.25)}
+.sq .vis{aspect-ratio:1}
+.vis img,.vis video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.vis img{transition:opacity .4s}.vis img:not([src]){opacity:0}
+.vis::after{content:"";position:absolute;inset:0;background:rgba(3,5,10,var(--age,0));pointer-events:none} /* AGE: veil <= .2, never hidden */
+.vis .wv{position:absolute;inset:12% 6%;width:88%;height:76%;fill:rgba(85,218,161,.85);z-index:1}
+.t-audio .vis img{opacity:.55}
+.vis .tx{position:absolute;inset:0;display:grid;place-items:center;padding:6px 8px;text-align:center;font:400 11px/1.35 "Julius Sans One",sans-serif;letter-spacing:.04em;color:#e6edf0;background:radial-gradient(ellipse at 50% 30%,#16223a,#0a1120)}
+.vis .badge{position:absolute;left:5px;top:5px;z-index:2;font-size:8.5px;padding:1px 5px;letter-spacing:.1em}
+.b-selected .vis .badge{background:#0abdf0}
+.b-new .vis,.b-selected .vis{box-shadow:0 0 0 1px rgba(85,218,161,.55),0 0 14px rgba(85,218,161,.3)}
+.b-selected .vis{box-shadow:0 0 0 1px rgba(10,189,240,.6),0 0 14px rgba(10,189,240,.28)}
+.cap{display:block;margin-top:4px}
+.cap b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;white-space:normal;font:300 11px/1.3 Poppins,sans-serif;letter-spacing:.02em;color:#e6edf0}
+.cap small{display:block;font:300 9.5px/1.3 Poppins,sans-serif;margin-top:1px;color:var(--meta);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* SELECT: one press selects (mint frame + title), a press on the selected work opens it. No hover states anywhere. */
+.tl.sel .vis{outline:2px solid var(--mint);outline-offset:2px}
+.tl.sel .cap b{color:var(--mint)}
+.tl.sel .cap small::after{content:" · press again to open";color:var(--mint)}
+.tl.t-audio.sel .cap small::after{content:" · press again to play"}
+.tl.t-link.sel .cap small::after{content:" · press again to go"}
+.tl.playing .cap b::before{content:"♪ ";color:var(--mint)}
+.grid:not(.pre) .cap{animation:capin .35s ease-out}
+@keyframes capin{from{opacity:0}to{opacity:1}}
+.fcap.b.sel b{color:var(--mint)}
+/* list mode uses the same tiles */
+#list .band .bh{margin-top:6px}
+#list .tiles{margin-top:6px}
+/* the top bar: hire is always one press away */
+.hire{color:var(--mint);border-color:rgba(85,218,161,.45)!important;text-decoration:none;letter-spacing:.06em;text-transform:none;font-size:12px}
+.crumb small{letter-spacing:.06em}
+/* the whole sky: the selected row (case studies) */
+.feat{position:fixed;left:0;right:0;bottom:calc(66px + var(--sb));z-index:41;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;padding:0 10px 6px;opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s .3s}
+html.lv0 .feat{opacity:1;visibility:visible;transition:opacity .3s}
+html.pl-on .feat{display:none}
+.feat .fl{font:300 10px/1 Poppins,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-right:2px}
+.feat a{display:inline-grid;place-items:center;min-height:36px;padding:0 12px;border:1px solid rgba(85,218,161,.45);border-radius:18px;background:rgba(3,7,12,.7);color:#e6edf0;font:300 11.5px/1 Poppins,sans-serif;letter-spacing:.06em;text-decoration:none}
+.feat a:active{background:var(--mint-tint)}
+html.lv0 .fcap.b{opacity:0}
+/* the work view */
+.player .pimg{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000}
+.player .pemb{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+.player .ptext{position:absolute;inset:0;overflow:auto;padding:24px max(22px,var(--sr)) 24px max(22px,var(--sl));display:flex;flex-direction:column;justify-content:center;max-width:620px;margin:0 auto;color:var(--dim);font-size:15px;line-height:1.6;background:radial-gradient(ellipse at 50% 20%,#13202e,#000 75%);touch-action:pan-y}
+.player .ptext.lines p{margin:0;font:400 17px/1.7 "Julius Sans One",sans-serif;letter-spacing:.04em;color:#e6edf0}
+.player .pnote{position:absolute;left:0;right:0;bottom:14px;text-align:center;font:300 12px/1.4 Poppins,sans-serif;color:var(--dim)}
+.player .pnote a{color:var(--mint)}
+.case{color:#04130c!important;background:var(--mint)!important;border-color:var(--mint)!important;text-decoration:none;letter-spacing:.08em}
+.pbot[hidden]{display:none}
+/* Sound: the song plays here after the second press */
+.np{position:fixed;left:max(8px,var(--sl));right:max(8px,var(--sr));bottom:calc(70px + var(--sb));z-index:45;display:flex;align-items:center;gap:6px;padding:4px 6px;border:1px solid rgba(85,218,161,.45);border-radius:26px;background:rgba(3,7,12,.92);max-width:520px;margin:0 auto}
+.npt{flex:1;min-width:0;line-height:1.2}.npt b{display:block;font:400 13px/1.2 "Julius Sans One",sans-serif;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.npt small{display:block;font:300 10.5px/1.3 Poppins,sans-serif;color:var(--meta)}
+.npr{display:block;height:2px;margin-top:4px;background:rgba(255,255,255,.12);border-radius:1px;overflow:hidden}.npr i{display:block;height:100%;background:var(--mint);transform-origin:0 0;transform:scaleX(0)}
+.npb{color:var(--mint);font-size:13px;letter-spacing:0}
+html.np-on .feat{bottom:calc(124px + var(--sb))}
+@media (prefers-reduced-motion:reduce){.feat,.grid:not(.pre) .cap{transition:none;animation:none}}

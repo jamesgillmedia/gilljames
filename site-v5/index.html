@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en" class="nojs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<base href="../site-v3/">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#04070b">
+<script>/* site-v5 (compare copy): the previews page's engine (sky.js) with Gill's chapters as its sky. <base> points shared assets at ../site-v3/;
+  every "#..." address written by this page is kept on THIS page (pushState/replaceState and in-page "#" links would otherwise resolve against <base>). */
+(function(){var P=function(u){return typeof u==="string"&&u.charAt(0)==="#"?location.pathname+location.search+u:u};["pushState","replaceState"].forEach(function(n){var f=history[n];history[n]=function(s,t,u){if(arguments.length>2)return f.call(history,s,t,P(u));return f.apply(history,arguments)}});
+addEventListener("click",function(e){if(e.defaultPrevented||e.button)return;var a=e.target.closest&&e.target.closest("a[href^='#']");if(!a||a.target)return;e.preventDefault();location.hash=a.getAttribute("href")})})()</script>
+<link rel="icon" href="img/favicon-32.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="preload" href="fonts/poppins-300.woff2" as="font" type="font/woff2" crossorigin>
+<title>Gill James · ᑕᐣᓯ · film, photo, objects, sound</title>
+<meta name="description" content="Gill James (they/them), Cree multidisciplinary artist: cinematography and commercial film (Coca-Cola, BMW, AXE), photography, objects and spatial design, lofi music as Mothers Moniker and Lost Coffee.">
+<!-- Content lives in ../site-v5/works.json (built by qa/site-v5/_tools/build.py from site-v4-d / site-v3 data).
+     sky.js is the previews page's sky: whole sky → a chapter's constellation → its board → one work full screen.
+     The plain list below is the no-JS page and the "List" view. -->
+<script>document.documentElement.className="js"</script>
+<style>
+@font-face{font-family:"Poppins";font-weight:300;font-display:swap;src:url(fonts/poppins-300.woff2) format("woff2")}
+@font-face{font-family:"Poppins";font-weight:200;font-display:swap;src:url(fonts/poppins-200.woff2) format("woff2")}
+@font-face{font-family:"Julius Sans One";font-display:swap;src:url(fonts/julius-sans-one.woff2) format("woff2")}
+@font-face{font-family:"Syl";font-weight:700;font-display:block;src:url(fonts/noto-canadian-aboriginal-subset.woff2) format("woff2");unicode-range:U+1400-167F}
+:root{--bg:#04070b;--mint:#55DAA1;--mint-tint:rgba(85,218,161,.10);--ink:#eef3f5;--dim:#c9d3d6;--meta:#93a1a6;--line:rgba(255,255,255,.18);
+  --cy:rgba(10,189,240,.45);--rd:rgba(254,1,1,.45);--here:#ffd84a;--card:rgba(6,11,17,.78);--r:12px;
+  --mono:ui-monospace,"SF Mono",Menlo,monospace;
+  --sl:env(safe-area-inset-left,0px);--sr:env(safe-area-inset-right,0px);--st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html{background:var(--bg);color:var(--ink);-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100dvh;font:300 15px/1.45 Poppins,"Syl",system-ui,sans-serif;-webkit-font-smoothing:antialiased;
+  padding:calc(var(--st) + 14px) max(14px,var(--sr)) calc(var(--sb) + 28px) max(14px,var(--sl));
+  background:radial-gradient(1px 1px at 12% 8%,#fff,transparent),radial-gradient(1px 1px at 72% 4%,#fff,transparent),radial-gradient(1.5px 1.5px at 40% 14%,#fff,transparent),
+  radial-gradient(1px 1px at 85% 22%,#fff,transparent),radial-gradient(1px 1px at 22% 30%,#fff,transparent),radial-gradient(1.5px 1.5px at 60% 38%,#fff,transparent),
+  radial-gradient(1px 1px at 92% 48%,#fff,transparent),radial-gradient(1px 1px at 8% 58%,#fff,transparent),radial-gradient(1px 1px at 50% 70%,#fff,transparent),
+  radial-gradient(1px 1px at 78% 84%,#fff,transparent),radial-gradient(ellipse at 50% 0,#13202e,var(--bg) 70%) fixed}
+main{max-width:640px;margin:0 auto}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--mint);outline-offset:2px;border-radius:6px}
+.sig{font-family:"Syl",sans-serif;font-weight:700}
+/* header */
+.ttl{margin:0 0 18px}
+.kick{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.id{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px}
+h1{margin:6px 0 0;font:400 28px/1.1 "Julius Sans One",sans-serif;letter-spacing:.06em;color:var(--mint);text-transform:uppercase;transform:rotate(-3deg);transform-origin:left center;
+  text-shadow:2px 2px 0 var(--cy),-2px -2px 0 var(--rd)}
+.moon{width:40px;height:40px;flex:none;border-radius:50%;box-shadow:inset -11px 3px 0 0 #f2f5f7;filter:drop-shadow(1.5px 1.5px 0 var(--cy)) drop-shadow(-1.5px -1.5px 0 var(--rd))}
+.sub{margin:10px 0 0;color:var(--dim);font-size:14px}
+.jump{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.jump a{display:inline-grid;place-items:center;min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:22px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;background:rgba(3,7,12,.5)}
+.jump a:active{background:var(--mint-tint)}
+/* sections */
+.band{margin:26px 0 0;scroll-margin-top:12px}
+.bh{display:flex;align-items:center;gap:10px;margin:0 0 4px;font:400 21px/1.15 "Julius Sans One",sans-serif;letter-spacing:.06em;text-transform:uppercase}
+.L{flex:0 0 34px;width:34px;height:34px;border-radius:50%;border:1px solid var(--mint);color:var(--mint);display:inline-flex;align-items:center;justify-content:center;font:400 13px/1 Poppins,sans-serif;letter-spacing:.04em}
+.mnote{display:block;margin:0 0 12px 44px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--meta)}
+/* vertical timeline */
+.tline{list-style:none;margin:0;padding:0;position:relative;display:flex;flex-direction:column;gap:16px}
+.tline::before{content:"";position:absolute;left:8px;top:14px;bottom:14px;border-left:1.5px dashed rgba(255,255,255,.28)}
+.tline>li{position:relative;padding-left:26px;min-width:0}
+.tline>li::before{content:"";position:absolute;left:3px;top:15px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:1.5px solid var(--dim);z-index:1}
+.tline>li.cur::before{background:var(--mint);border-color:var(--mint);box-shadow:0 0 0 4px rgba(85,218,161,.22),0 0 12px rgba(85,218,161,.6)}
+.tline>li.ph::before{border-style:dashed;background:transparent}
+/* cards */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.35);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.cur .card{border-color:rgba(85,218,161,.7);box-shadow:0 0 0 1px rgba(85,218,161,.25),0 8px 24px rgba(0,0,0,.45)}
+.ph .card{border-style:dashed;background:rgba(3,7,12,.35);box-shadow:none}
+.card video{display:block;width:100%;max-height:72svh;background:#000;aspect-ratio:var(--ar,16/9);object-fit:contain}
+.card audio{display:block;width:calc(100% - 26px);margin:14px 13px 2px;height:44px}
+.cb{padding:11px 13px 13px}
+.meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:0 0 6px}
+.when{font-family:var(--mono);font-size:11.5px;color:var(--meta);white-space:nowrap}
+.kind{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);border:1px solid var(--line);border-radius:10px;padding:0 7px;line-height:1.7}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:#04130c;background:var(--mint);border-radius:4px;padding:2px 8px;line-height:1.45;transform:rotate(-2deg);box-shadow:1.5px 1.5px 0 var(--cy),-1.5px -1.5px 0 var(--rd);white-space:nowrap}
+.badge::before{content:"★";font-size:10px}
+.ct{margin:0 0 4px;font:400 17px/1.25 "Julius Sans One",sans-serif;letter-spacing:.04em}
+.cx{margin:0;color:var(--dim);font-size:14.5px;line-height:1.5;overflow-wrap:anywhere}
+.btn{display:inline-flex;align-items:center;gap:8px;margin-top:12px;min-height:44px;padding:0 18px;border-radius:22px;background:var(--mint);color:#04130c;text-decoration:none;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:300}
+.btn:active{transform:translateY(1px)}
+.file{display:block;margin-top:8px;font-family:var(--mono);font-size:11px;color:var(--meta);overflow-wrap:anywhere}
+.file a{color:var(--meta)}
+.foot{margin:30px 0 0;text-align:center;font-family:var(--mono);font-size:11px;color:var(--meta);line-height:1.6}
+.modes{display:flex;gap:8px;margin-top:10px}
+.feat0{margin:12px 0 0;font-size:13px;color:var(--dim)}.feat0 a{color:var(--mint)}
+.nl{list-style:none;margin:0;padding:0 0 0 44px}.nl li{padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06)}.nl small{color:var(--meta);font-size:11px}
+.err{border:1px dashed var(--rd);border-radius:var(--r);padding:12px;color:var(--dim)}
+@media (min-width:480px){h1{font-size:34px}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+<link rel="stylesheet" href="../site-v5/sky.css?v=5a">
+</head>
+<body>
+<main id="plain">
+<header class="ttl">
+  <div class="kick">Cinematographer + Artist + Spatial Designer</div>
+  <div class="id"><h1>Gill James <span class="sig">ᑕᐣᓯ</span></h1><i class="moon" aria-hidden="true"></i></div>
+  <p class="sub">Film, photo, objects and sound. they/them · Cree.</p>
+  <nav class="jump" id="jump" aria-label="Chapters"><a href="#film">Film</a><a href="#photo">Photo</a><a href="#objects">Objects</a><a href="#sound">Sound</a><a href="#about">About</a></nav>
+  <p class="feat0">Selected: <a href="../site-v5/case/reel-2026/">Reel 2026</a> · <a href="../site-v5/case/coca-cola/">Coca-Cola</a> · <a href="../site-v5/case/bmw/">BMW</a> · <a href="../site-v5/case/axe/">AXE</a> · <a href="mailto:imjamesgill@gmail.com?subject=Hiring%20Gill%20James">hire · imjamesgill@gmail.com</a></p>
+  <div class="modes"><button type="button" class="hb o skyb" id="toSky">✦ Sky view</button></div>
+</header>
+<div id="list"><noscript><!--static-list--><section class="band" id="film"><h2 class="bh"><span class="L">1</span>Film</h2><span class="mnote">22 commercial · 7 music video · 3 brand film · 3 reels + shorts</span><ul class="nl"><li><a href="../site-v5/case/reel-2026/">Reel 2026</a> <small>reel · 01:13</small></li><li><a href="https://vimeo.com/1084122637">Gill Cinematography Demo Reel 2025</a> <small>reel · 04:20</small></li><li><a href="../site-v5/case/coca-cola/">Coca-Cola · Celebraciones</a> <small>commercial</small></li><li><a href="../site-v5/case/axe/">AXE · Stay Gold</a> <small>commercial</small></li><li><a href="../site-v5/case/bmw/">BMW Legends</a> <small>commercial · 00:33</small></li><li><a href="../site-v5/case/bmw/">BMW · Drift</a> <small>commercial</small></li><li><a href="../site-v5/case/axe/">AXE · Golden Moment [Dir. Cut]</a> <small>commercial</small></li><li><a href="media/films/07/film-720.mp4">Cover With Love · Isabelle · Band-Aid</a> <small>commercial</small></li><li><a href="media/films/08/film-720.mp4">Big Brothers Big Sisters of Canada · No Place Like Home</a> <small>commercial · 00:30</small></li><li><a href="media/films/09/film-720.mp4">Yara · The Smell Needs To Go</a> <small>commercial</small></li><li><a href="media/films/10/film-720.mp4">A&amp;W Brew Bar: Coffee Teaser</a> <small>commercial · 00:36</small></li><li><a href="media/films/11/film-720.mp4">Explorers · Huggies</a> <small>commercial · 00:30</small></li><li><a href="media/films/12/film-720.mp4">Sun Kissed · John Frieda</a> <small>commercial · 00:30</small></li><li><a href="https://www.youtube.com/watch?v=8NhUtjMM_p0">Hey Ocean! · Sleepwalker</a> <small>music video · 04:06</small></li><li><a href="https://vimeo.com/730875677">REEL ‘24</a> <small>reel</small></li><li><a href="media/films/16/film-720-1.mp4">Allan Rayman · Repeat</a> <small>music video · 03:36</small></li><li><a href="media/films/17/film-720.mp4">Flower Crown · Claritin</a> <small>commercial · 00:15</small></li><li><a href="media/films/18/film-720-1.mp4">Backward Fall</a> <small>short · 10:14</small></li><li><a href="media/films/19/film-720.mp4">Arc&#x27;teryx S18</a> <small>brand film · 01:00</small></li><li><a href="https://www.youtube.com/watch?v=UYSYNTPSHaA">Old Man Canyon · Back to the Start</a> <small>music video · 03:58</small></li><li><a href="media/films/21/film-720.mp4">Lets Grow Good Together · Brand Film</a> <small>brand film · 02:57</small></li><li><a href="https://www.youtube.com/watch?v=pFlum-_TfMk">Chris Malinchak and Kiesza · &#x27;Weird Kid&#x27;</a> <small>music video · 03:44</small></li><li><a href="media/films/23/film-720-1.mp4">ALLAN RAYMAN · VERONA&#x27;S OBSESSION</a> <small>music video · 09:15</small></li><li><a href="media/films/24/film-720.mp4">19 Crimes x Malamen · Obedience Gets You Nowhere</a> <small>commercial · 00:58</small></li><li><a href="media/films/25/film-720.mp4">Wild Leaf · Fire · IG (4x5)</a> <small>commercial · 00:12</small></li><li><a href="media/films/26/film-720.mp4">Modern Man · Braun</a> <small>commercial · 00:52</small></li><li><a href="https://www.youtube.com/watch?v=hzIGIBQXVqA">Old Man Canyon · Phantoms &amp; Friends</a> <small>music video · 03:54</small></li><li><a href="media/films/28/film-720.mp4">Summer Is Here · Shock Top</a> <small>commercial · 00:30</small></li><li><a href="media/films/29/film-720.mp4">Eat Well · Westin Hotels &amp; Resorts</a> <small>commercial · 00:41</small></li><li><a href="media/films/30/film-720.mp4">Buddy Time: Grandpa&#x27;s Story · LEGO · 15s cut</a> <small>commercial · 00:19</small></li><li><a href="https://vimeo.com/387891228">Wild Leaf · Hike · IG (4x5)</a> <small>commercial · 00:17</small></li><li><a href="media/films/32/film-720.mp4">Wild Leaf · Canoe · IG (4x5)</a> <small>commercial · 00:15</small></li><li><a href="media/films/33/film-720-1.mp4">Mandie</a> <small>brand film · 05:51</small></li><li><a href="media/films/34/film-720.mp4">BONSAI · Just The Beginning</a> <small>commercial · 00:55</small></li><li><a href="media/films/35/film-720-1.mp4">Mansions · Ltl Dstryr</a> <small>music video · 04:53</small></li><li><a href="media/films/36/film-720.mp4">FIAT · Journeys x Todd</a> <small>commercial</small></li></ul></section><section class="band" id="photo"><h2 class="bh"><span class="L">2</span>Photo</h2><span class="mnote">portraits, landscapes and squares · tap one to see it large</span><ul class="nl"><li><a href="img/photo/85ea7aa1-960.webp">photograph 01</a> <small>portrait</small></li><li><a href="img/photo/9b41ba33-960.webp">photograph 02</a> <small>portrait</small></li><li><a href="img/photo/069ab99d-960.webp">photograph 03</a> <small>portrait</small></li><li><a href="img/photo/e257bd8f-960.webp">photograph 04</a> <small>portrait</small></li><li><a href="img/photo/night-car-960.webp">photograph 05</a> <small>landscape</small></li><li><a href="img/photo/5f537dc1-960.webp">photograph 06</a> <small>square</small></li><li><a href="img/photo/efb2a65e-960.webp">photograph 07</a> <small>landscape</small></li><li><a href="img/photo/6a1d5ad8-960.webp">photograph 08</a> <small>portrait</small></li><li><a href="img/photo/1bb06b0e-960.webp">photograph 09</a> <small>portrait</small></li><li><a href="img/photo/65f2df29-960.webp">photograph 10</a> <small>portrait</small></li><li><a href="img/photo/b6fbb6e7-960.webp">photograph 11</a> <small>portrait</small></li><li><a href="img/photo/d31bb070-960.webp">photograph 12</a> <small>portrait</small></li><li><a href="img/photo/7eac6539-960.webp">photograph 13</a> <small>portrait</small></li><li><a href="img/photo/hands-board-960.webp">photograph 14</a> <small>landscape</small></li><li><a href="img/photo/ee53bae3-960.webp">photograph 15</a> <small>portrait</small></li><li><a href="img/photo/b24ccdb3-960.webp">photograph 16</a> <small>portrait</small></li><li><a href="img/photo/6640a426-960.webp">photograph 17</a> <small>portrait</small></li><li><a href="img/photo/2594e6ea-960.webp">photograph 18</a> <small>portrait</small></li><li><a href="img/photo/ca7fbd8f-960.webp">photograph 19</a> <small>portrait</small></li><li><a href="img/photo/14af9fc6-960.webp">photograph 20</a> <small>portrait</small></li><li><a href="img/photo/2316871b-960.webp">photograph 21</a> <small>portrait</small></li><li><a href="img/photo/e1cf2ee5-960.webp">photograph 22</a> <small>portrait</small></li><li><a href="img/photo/redcar-960.webp">photograph 23</a> <small>landscape</small></li><li><a href="img/photo/8c86eb46-960.webp">photograph 24</a> <small>portrait</small></li><li><a href="img/photo/27a361ce-960.webp">photograph 25</a> <small>portrait</small></li><li><a href="img/photo/388e4910-960.webp">photograph 26</a> <small>portrait</small></li><li><a href="img/photo/0fcf2a21-960.webp">photograph 27</a> <small>portrait</small></li><li><a href="img/photo/0f25314d-960.webp">photograph 28</a> <small>portrait</small></li><li><a href="img/photo/e3407300-960.webp">photograph 29</a> <small>portrait</small></li><li><a href="img/photo/0d93c0c1-960.webp">photograph 30</a> <small>portrait</small></li><li><a href="img/photo/1e3bd8c6-960.webp">photograph 31</a> <small>portrait</small></li><li><a href="img/photo/purple-960.webp">photograph 32</a> <small>landscape</small></li><li><a href="img/photo/e6f29c5f-960.webp">photograph 33</a> <small>portrait</small></li><li><a href="img/photo/f51e0021-960.webp">photograph 34</a> <small>portrait</small></li><li><a href="img/photo/e2aa7ba0-960.webp">photograph 35</a> <small>portrait</small></li><li><a href="img/photo/27a4c19d-960.webp">photograph 36</a> <small>portrait</small></li><li><a href="img/photo/89abb22f-960.webp">photograph 37</a> <small>portrait</small></li><li><a href="img/photo/93f33c31-960.webp">photograph 38</a> <small>portrait</small></li><li><a href="img/photo/60f9e1c4-960.webp">photograph 39</a> <small>portrait</small></li></ul></section><section class="band" id="objects"><h2 class="bh"><span class="L">3</span>Objects</h2><span class="mnote">joio.co ceramics (8) · carving + industrial / spatial design (5)</span><ul class="nl"><li><a href="img/objects/cup-top-960.webp">joio.co cup from above</a> <small>joio.co</small></li><li><a href="img/objects/cup-glaze-960.webp">glazed joio.co cup in hand</a> <small>joio.co</small></li><li><a href="img/objects/joio-latte-960.webp">latte in a joio.co cup</a> <small>joio.co</small></li><li><a href="img/objects/cup-moss-960.webp">planter cup with moss</a> <small>joio.co</small></li><li><a href="img/objects/joio-pour-960.webp">joio.co cup</a> <small>joio.co</small></li><li><a href="img/objects/cup-rim-960.webp">crescent rim of a cup</a> <small>joio.co</small></li><li><a href="img/objects/joio-hold-960.webp">holding a joio.co cup</a> <small>joio.co</small></li><li><a href="img/objects/joio-board-960.webp">joio.co cup on a board</a> <small>joio.co</small></li><li><a href="img/objects/carve-960.webp">hand-carved piece</a> <small>carving + design</small></li><li><a href="img/objects/spoon-960.webp">carved spoon</a> <small>carving + design</small></li><li><a href="img/objects/boards-960.webp">design board</a> <small>carving + design</small></li><li><a href="img/objects/wire-960.webp">wireframe board</a> <small>carving + design</small></li><li><a href="img/objects/materials-960.webp">materials board</a> <small>carving + design</small></li></ul></section><section class="band" id="sound"><h2 class="bh"><span class="L">4</span>Sound</h2><span class="mnote">lofi music as Mothers Moniker and Lost Coffee · licensing: imjamesgill@gmail.com</span><ul class="nl"><li><a href="../sound-sketch/audio/to-go.m4a">To Go</a> <small>Lost Coffee · 1:20</small></li><li><a href="../sound-sketch/audio/gone-are-the-days.m4a">Gone Are the Days of Yesterday</a> <small>Mothers Moniker · 1:20</small></li><li><a href="../sound-sketch/audio/no-problem.m4a">No Problem</a> <small>Lost Coffee · 1:20</small></li><li><a href="../sound-sketch/audio/lost-in-time.m4a">Lost in Time</a> <small>Lost Coffee · 1:30</small></li><li><a href="../sound-sketch/audio/equals.m4a">=</a> <small>Lost Coffee · 1:30</small></li><li><a href="../sound-sketch/audio/ii.m4a">ii</a> <small>Lost Coffee · 1:09</small></li><li><a href="https://open.spotify.com/artist/4NLF1yvahl2gE91fWHxkDc">Mothers Moniker</a> <small>Spotify ↗</small></li><li><a href="https://open.spotify.com/artist/5boqZWhWg5ZwPAURnNQDYK">Lost Coffee</a> <small>Spotify ↗</small></li><li><a href="https://music.apple.com/ca/artist/lost-coffee/1690001432">Lost Coffee</a> <small>Apple Music ↗</small></li></ul></section><section class="band" id="about"><h2 class="bh"><span class="L">5</span>About</h2><span class="mnote"></span><ul class="nl"><li><a href="">Gill James</a> <small>they/them · Cree</small></li><li><a href="mailto:imjamesgill@gmail.com?subject=Hiring%20Gill%20James">Hire Gill</a> <small>imjamesgill@gmail.com</small></li><li><a href="https://www.joioco.com">joio.co</a> <small>ceramics shop ↗</small></li><li><a href="">the poem</a> <small>15 lines · ᑕᐣᓯ</small></li></ul></section><!--/static-list--></noscript></div>
+<p class="foot" id="foot">ᑕᐣᓯ · All my relations, in all my creations</p>
+</main>
+<div class="sky" id="sky" hidden aria-label="Gill's work as a sky: pinch, tap or use + and − to fly in"><canvas aria-hidden="true"></canvas><div class="slabs"></div></div>
+<p class="fcap t" id="fcapT" hidden></p>
+<p class="fcap b" id="fcapB" hidden aria-live="polite"></p>
+<p class="shint off" id="shint" aria-hidden="true">pinch or tap a chapter · press once to select, twice to open</p>
+<nav class="feat" id="feat" hidden aria-label="Selected work"><span class="fl">selected</span><a href="../site-v5/case/reel-2026/">Reel 2026</a><a href="../site-v5/case/coca-cola/">Coca-Cola</a><a href="../site-v5/case/bmw/">BMW</a><a href="../site-v5/case/axe/">AXE</a></nav>
+<section class="grid pre" id="grid" hidden aria-label="Chapter board"></section>
+<header class="shud" id="shud" hidden><button type="button" class="hb home" id="home" aria-label="Whole sky">ᑕᐣᓯ</button><p class="crumb" id="crumb">Gill James</p><a class="hb o hire" id="hire" href="mailto:imjamesgill@gmail.com?subject=Hiring%20Gill%20James">hire ✉</a><button type="button" class="hb o" id="toList">List</button></header>
+<nav class="sbar" id="sbar" hidden aria-label="Zoom"><button type="button" class="hb zb" id="zout" aria-label="Zoom out">−</button><div class="lvl"><span class="dots" id="dots" aria-hidden="true">●○○○</span><span class="zn" id="zn" aria-live="polite">whole sky · L0</span></div><button type="button" class="hb zb" id="zin" aria-label="Zoom in">+</button></nav>
+<div class="player" id="player" hidden role="dialog" aria-modal="true" aria-label="Work"><div class="ptop"><button type="button" class="hb px" id="pclose" aria-label="Close">✕</button><div class="pcap" id="pcap"></div><a class="hb o case" id="pcase" hidden href="#">case study →</a><button type="button" class="hb o" id="pfs" aria-label="Full screen">⛶</button></div><div class="pstage"><video controls playsinline preload="metadata"></video><img class="pimg" alt="" hidden><div class="ptext" hidden></div><iframe class="pemb" hidden title="film" allow="autoplay; fullscreen; encrypted-media"></iframe><div class="pnote" hidden></div></div><p class="pbot" id="pdesc"></p></div>
+<div class="np" id="np" hidden aria-label="Now playing"><button type="button" class="hb npb" id="npb" aria-label="Pause">❚❚</button><div class="npt"><b id="npn"></b><small id="npa"></small><i class="npr"><i id="npf"></i></i></div><button type="button" class="hb px" id="npx" aria-label="Stop">✕</button><audio preload="none"></audio></div>
+<script src="../site-v5/sky.js?v=5a" defer></script>
+</body>
+</html>
