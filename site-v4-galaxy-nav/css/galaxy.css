@@ -1,0 +1,68 @@
+/* site-v4-galaxy-nav · galaxy.css — the navigable galaxy layer that sits around and in front of site-v4-c. Nothing here touches v4-c's own
+   boards, chapter pages, player, sky sheet or dock; it only styles the new .gx layer, its labels and the "‹ galaxy" pill. */
+html.gx-boot body::after{content:"";position:fixed;left:0;right:0;top:0;bottom:calc(var(--dock) + var(--sb));z-index:34;
+  background:radial-gradient(120% 75% at 50% 42%,#16223a 0%,#0a1120 55%,#03050a 100%);pointer-events:auto}
+.gx{position:fixed;left:0;right:0;top:0;bottom:calc(var(--dock) + var(--sb));z-index:34;overflow:hidden;background:#03050a;
+  touch-action:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;contain:strict;
+  opacity:0;visibility:hidden;transition:opacity .45s ease,visibility 0s linear .45s}
+html.gx-on .gx{opacity:1;visibility:visible;transition:opacity .45s ease,visibility 0s}
+.gx.gx-slow{transition-duration:.9s,0s}
+.gx.gx-now{transition:none!important}
+.gx-c{position:absolute;inset:0;width:100%;height:100%;display:block}
+.gx-ls{position:absolute;inset:0;pointer-events:none}
+.gx-l{position:absolute;left:0;top:0;min-width:84px;min-height:40px;padding:2px 8px;border:0;background:none;color:#e6edf0;
+  pointer-events:auto;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:3px;cursor:default;
+  opacity:.62;transition:opacity .35s ease;will-change:transform;-webkit-tap-highlight-color:transparent;outline-offset:4px}
+.gx-l b{font:400 11px/1 "Julius Sans One",sans-serif;letter-spacing:.24em;text-transform:uppercase;padding-left:.24em;
+  text-shadow:0 0 6px #03050a,0 0 2px #03050a}
+.gx-l small{font:300 10px/1.1 Poppins,sans-serif;color:#c3ccd0;letter-spacing:.06em;text-shadow:0 0 4px #03050a}
+.gx-l i{font:300 10px/1.1 Poppins,sans-serif;font-style:normal;color:var(--mint,#55DAA1);letter-spacing:.06em;opacity:0;
+  transition:opacity .35s ease;text-shadow:0 0 4px #03050a}
+.gx-l.on{opacity:1}.gx-l.on b{color:var(--mint,#55DAA1)}.gx-l.on i{opacity:1}
+.gx-l.dim{opacity:.38}
+.gx-p{position:absolute;left:0;top:0;font:300 10px/1.1 Poppins,sans-serif;color:#e6edf0;letter-spacing:.05em;white-space:nowrap;
+  pointer-events:none;opacity:0;transition:opacity .35s ease;text-shadow:0 0 5px #03050a,0 0 2px #03050a;will-change:transform}
+.gx-p.on{opacity:.92}
+.gx-crumb{position:absolute;left:0;right:0;top:calc(14px + env(safe-area-inset-top,0px));margin:0;text-align:center;
+  font:400 12px/1 "Julius Sans One",sans-serif;letter-spacing:.3em;text-transform:uppercase;color:#dfe8ec;pointer-events:none;
+  text-shadow:0 0 6px #03050a}
+.gx-hint{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);margin:0;padding:7px 14px;border-radius:16px;
+  background:rgba(5,8,12,.72);font:300 12px/1.2 Poppins,sans-serif;letter-spacing:.04em;color:#dfe8ec;white-space:nowrap;
+  pointer-events:none;transition:opacity .4s ease}
+.gx-surf{position:absolute;right:12px;top:calc(6px + env(safe-area-inset-top,0px));min-height:40px;padding:0 12px;border:0;
+  background:none;color:#c3ccd0;font:300 11px/1 Poppins,sans-serif;letter-spacing:.08em;-webkit-tap-highlight-color:transparent}
+html.gx-fly .gx-ls,html.gx-fly .gx-hint,html.gx-fly .gx-crumb,html.gx-fly .gx-surf{opacity:0;transition:opacity .3s ease}
+.gx-ls,.gx-crumb,.gx-surf{transition:opacity .4s ease}
+.gx-back{position:fixed;left:calc(14px + env(safe-area-inset-left,0px));bottom:calc(var(--sb) + 60px);z-index:31;height:40px;box-sizing:border-box;display:flex;align-items:center;
+  padding:0 14px 0 12px;border-radius:20px;border:1px solid var(--line,rgba(255,255,255,.18));
+  background:rgba(5,8,12,.84);color:#e6edf0;font:300 12px/1 Poppins,sans-serif;letter-spacing:.08em;
+  -webkit-tap-highlight-color:transparent;transition:opacity .3s ease}
+.gx-back b{color:var(--mint,#55DAA1);font-weight:300;margin-right:6px}
+.gx-back[hidden]{display:none}
+html.gx-on .gx-back,html.sheet-on .gx-back,html.one-on .gx-back,html.modal .gx-back{display:none}
+html.gx-on .zoom .lv>*{display:none}
+html.gx-on .zoom .lv::after{content:attr(data-gx)}
+/* the mark (the galaxy's two arms): top-left on the galaxy, and inside the pill that returns to it */
+.gx-mark{position:absolute;left:calc(10px + env(safe-area-inset-left,0px));top:calc(6px + env(safe-area-inset-top,0px));width:56px;height:40px;padding:0;border:0;background:none;color:#e6eeff;-webkit-tap-highlight-color:transparent;z-index:2}
+.gx-mark .gx-mk{width:48px;height:26px;display:block;margin:7px 4px}
+.gx-back .gx-mk{width:28px;height:15px;margin-right:8px;color:#e6eeff;flex:none}
+html.gx-fly .gx-mark{opacity:0;transition:opacity .3s ease}
+/* case studies: a quiet row on the galaxy, and a link in the opened work */
+.gx-cases{position:absolute;left:12px;right:12px;top:calc(46px + env(safe-area-inset-top,0px));display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:0 11px;padding:0;font:300 10.5px/1 Poppins,sans-serif;letter-spacing:.03em}
+.gx-cases span{color:var(--dim,#c9d3d6);opacity:.6}
+.gx-cases a{color:var(--mint,#55DAA1);text-decoration:none;min-height:32px;display:inline-flex;align-items:center}
+html.gx-fly .gx-cases{opacity:0;transition:opacity .3s ease}
+.imm .gx-case{display:inline-flex;align-items:center;min-height:36px;margin:2px 0 4px;color:var(--mint,#55DAA1);font:300 12px/1 Poppins,sans-serif;letter-spacing:.06em;text-decoration:none}
+.imm .gx-case[hidden]{display:none}
+/* nav: the hint shows the gestures at once (a finger that travels, then two that spread), and quietens once you have moved */
+.gx-hint{display:flex;align-items:center;gap:9px}
+.gx-gest{position:relative;width:22px;height:12px;flex:none}
+.gx-gest i{position:absolute;top:3px;left:8px;width:6px;height:6px;border-radius:50%;background:var(--mint,#55DAA1);box-shadow:0 0 6px rgba(85,218,161,.7)}
+.gx-hint.gx-new .gx-gest i:first-child{animation:gxDrag 2.6s ease-in-out infinite}
+.gx-hint.gx-new .gx-gest i:last-child{animation:gxSpread 2.6s ease-in-out infinite}
+.gx-hint:not(.gx-new) .gx-gest{display:none}
+.gx-hint:not(.gx-new){opacity:.8}
+@keyframes gxDrag{0%,100%{transform:translateX(-7px)}25%{transform:translateX(7px)}50%,75%{transform:translateX(-3px)}}
+@keyframes gxSpread{0%,25%{transform:translateX(-7px);opacity:0}30%{opacity:1}50%{transform:translateX(-3px)}75%{transform:translateX(7px);opacity:1}100%{transform:translateX(-7px);opacity:0}}
+@media (prefers-reduced-motion:reduce){.gx-gest i{animation:none!important}}
+.gx{cursor:grab}.gx:active{cursor:grabbing}
