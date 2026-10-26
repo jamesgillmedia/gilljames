@@ -13,7 +13,7 @@
 const D=document.documentElement,RM=matchMedia('(prefers-reduced-motion: reduce)'),QS=new URLSearchParams(location.search);
 const homeHash=h=>{h=h==null?location.hash:h;return h===''||h==='#'||h==='#galaxy'};
 const off=()=>D.classList.remove('gx-boot');
-if(RM.matches||QS.get('gx')==='0'){off()}else{boot().catch(e=>{console.warn('galaxy off:',e&&e.message);off();D.classList.remove('gx-on')})}
+if(QS.get('gx')==='0'){off()}else{boot().catch(e=>{console.warn('galaxy off:',e&&e.message);off();D.classList.remove('gx-on');try{const n=document.createElement('div');n.textContent='galaxy could not start: '+(e&&e.message||e);n.style.cssText='position:fixed;left:8px;bottom:8px;z-index:99999;font:11px sans-serif;color:#9fe;background:#0009;padding:4px 8px;border-radius:6px';document.body.appendChild(n)}catch(_){}})}
 
 async function boot(){
 const THREE=await import('../vendor/three.module.min.js');
