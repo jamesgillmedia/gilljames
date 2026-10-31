@@ -1,0 +1,47 @@
+/* gill james · site-v3-pro · the film page under v3's player (credits, frame grid, previous / next). v3's own fonts (Poppins,
+   Julius Sans One) and colours (--ink, --dim, --mint); mint = new. Phone landscape and full screen stay exactly v3. */
+:root{--pf-peek:58px}
+@media (min-height:501px),(orientation:portrait){
+  .imm.pro:not(.sfull):not(.fv){overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch;
+    grid-template-rows:auto max(140px,calc(var(--pf-ih,100vh) - var(--pf-th,56px) - var(--pf-bh,160px) - var(--pf-peek))) auto auto;scrollbar-width:thin;scrollbar-color:rgba(230,237,240,.18) transparent}
+  .imm.pro:not(.sfull):not(.fv) .pf{display:block}
+  .imm.pro:not(.sfull):not(.fv) .imm-c{display:none!important} /* v3's caption / credits placeholders: the credits block below replaces them */
+}
+.imm .pf{display:none;grid-row:4;grid-column:1;width:100%;max-width:980px;margin:0 auto;box-sizing:border-box;
+  padding:6px max(14px,var(--sr,0px)) calc(36px + env(safe-area-inset-bottom)) max(14px,var(--sl,0px));color:var(--ink,#eef3f5)}
+.pf [hidden]{display:none!important}
+.pf-cr{padding:10px 0 16px;border-top:1px solid rgba(85,218,161,.28)}
+.pf-t{margin:8px 0 3px;font:400 15px/1.35 Poppins,system-ui,sans-serif;letter-spacing:.01em}
+.pf-t .pf-b{color:var(--dim,#c9d3d6)}
+.pf-k{margin:0 0 8px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(201,211,214,.7)}
+.pf-l{margin:2px 0;font-size:12px;line-height:1.5;color:rgba(238,243,245,.88)}
+.pf-l span{display:inline-block;min-width:5em;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(201,211,214,.62)}
+.pf-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:2px 0 8px;font:400 11px/1.3 "Julius Sans One",Poppins,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--mint,#55DAA1)}
+.pf-h small{font:400 10px/1.3 Poppins,sans-serif;letter-spacing:.06em;text-transform:none;color:rgba(201,211,214,.55)}
+.pf-g{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px}
+.pf-g li{margin:0;padding:0;position:relative;contain:layout paint}
+.pf-g button{display:block;width:100%;height:auto;padding:0;margin:0;border:0;border-radius:0;background:#0b1218;cursor:pointer;aspect-ratio:var(--ar,2.39);overflow:hidden;position:relative;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.pf-g img{display:block;width:100%;height:100%;object-fit:cover}
+.pf-g .pf-tc{position:absolute;left:5px;bottom:4px;font:500 9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.04em;color:var(--mint,#55DAA1);opacity:0;text-shadow:0 1px 3px #000}
+.pf-g li.sel button{outline:2px solid var(--mint,#55DAA1);outline-offset:-2px}
+.pf-g li.sel .pf-tc{opacity:1}
+.pf-g li.sel button::after{content:'open ›';position:absolute;right:5px;bottom:4px;font:400 9.5px/1 Poppins,sans-serif;letter-spacing:.08em;color:#04070b;background:var(--mint,#55DAA1);padding:3px 5px;border-radius:2px}
+.pf-g button:focus-visible{outline:2px solid var(--mint,#55DAA1);outline-offset:-2px}
+.pf-nav{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start;margin-top:22px;padding-top:12px;border-top:1px solid rgba(230,237,240,.1)}
+.pf-nav button{display:flex;flex-direction:column;justify-content:flex-start;background:none;border:0;padding:8px 0;color:inherit;text-align:left;cursor:pointer;font:inherit;min-height:44px;-webkit-tap-highlight-color:transparent}
+.pf-nav button+button{text-align:right;align-items:flex-end}
+.pf-nav small{display:block;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--mint,#55DAA1)}
+.pf-nav b{display:block;font-weight:400;font-size:12.5px;line-height:1.35;color:rgba(238,243,245,.86);margin-top:3px}
+.imm .frame .pf-open{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;animation:pfIn .3s ease}
+@keyframes pfIn{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.imm .frame .pf-open{animation:none}}
+@media (min-width:900px){.pf-t{font-size:17px}.pf-g{gap:3px}.pf{padding-top:12px}}
+/* joio grid: the feed is portrait (4:5 / 9:16), so tiles are 4:5 and the picture is cropped to fill; clips carry a small mint ▶ */
+.pf-gj button{aspect-ratio:4/5}
+.pf-gj .pf-pl{position:absolute;right:5px;top:5px;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:9px;color:#04070b;background:var(--mint,#55DAA1);padding-left:1px;box-sizing:border-box}
+.imm .frame .pf-jo-open{object-fit:contain;background:#000}
+
+/* pro2: a selected joio clip plays inside its tile */
+.pf-g button{position:relative}
+.pf-g video.pf-live{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;background:#03050a}
+.pf-g li.sel .pf-pl{opacity:0}

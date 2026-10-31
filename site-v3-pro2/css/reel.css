@@ -1,0 +1,25 @@
+/* site-v3-pro2 · Demo Reel card */
+.reel-on,.reel-on body{overflow:hidden}
+.rl{position:fixed;inset:0;z-index:90;background:#03060a;color:#e6eeff;opacity:0;visibility:hidden;transition:opacity .35s cubic-bezier(.2,.7,.2,1),visibility 0s linear .35s}
+.rl.on{opacity:1;visibility:visible;transition:opacity .35s cubic-bezier(.2,.7,.2,1)}
+.rl-sc{position:absolute;inset:0;overflow-y:scroll;overflow-x:hidden;scroll-snap-type:y mandatory;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;outline:0}
+.rl-sc::-webkit-scrollbar{display:none}
+.rl-c{height:100%;scroll-snap-align:start;scroll-snap-stop:always;display:grid;place-items:center;contain:strict;position:relative}
+.rl-f{position:relative;width:min(100vw,calc((100vh - 150px) * var(--ar)));aspect-ratio:var(--ar);background:#0b1218;overflow:hidden}
+@supports (height:100dvh){.rl-f{width:min(100vw,calc((100dvh - 150px) * var(--ar)))}}
+@media (min-width:900px){.rl-f{width:min(92vw,calc((100vh - 120px) * var(--ar)))}}
+.rl-f img,.rl-f video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.rl-f video{opacity:0;transition:opacity .22s linear}
+.rl-c.live video{opacity:1}
+.rl-ui{position:absolute;inset:0;pointer-events:none;font-family:Poppins,sans-serif}
+.rl-k{position:absolute;left:max(16px,env(safe-area-inset-left));top:max(14px,env(safe-area-inset-top));margin:0;font:400 11px/1 "Julius Sans One",Poppins,sans-serif;letter-spacing:.2em;color:#55DAA1}
+.rl-k::before{content:'demo reel';color:#9fb0c4;margin-right:12px}
+.rl-b{position:absolute;left:max(16px,env(safe-area-inset-left));right:70px;bottom:max(22px,env(safe-area-inset-bottom));margin:0;display:flex;flex-direction:column;gap:4px;transition:opacity .2s}
+.rl-b b{font-weight:400;font-size:15px;letter-spacing:.02em;color:#e6eeff}
+.rl-b small{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#7f91a6}
+.rl.nob .rl-b b{display:none}
+.rl-x{pointer-events:auto;position:absolute;right:max(8px,env(safe-area-inset-right));top:max(4px,env(safe-area-inset-top));width:44px;height:44px;border:0;background:transparent;color:#e6eeff;font:300 26px/1 Poppins,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.rl-x:focus-visible{outline:2px solid #55DAA1;outline-offset:-6px;border-radius:50%}
+.rl-h{position:absolute;right:max(16px,env(safe-area-inset-right));bottom:max(24px,env(safe-area-inset-bottom));margin:0;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#55DAA1;opacity:.8;transition:opacity .4s}
+.rl.moving .rl-h,.rl.seen .rl-h{opacity:0}
+@media (prefers-reduced-motion:reduce){.rl,.rl.on{transition:none}.rl-f video{transition:none}}
