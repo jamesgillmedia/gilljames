@@ -70,19 +70,9 @@ a{color:inherit;text-decoration:none}
 /* site-v3: JS off = the plain links (the player needs JS) */
 .ns{position:absolute;left:0;right:0;top:30%;padding:0 24px;text-align:center;font-size:12px;letter-spacing:.06em;color:var(--dim)}
 .ns ul{list-style:none;margin:12px 0;padding:0;line-height:2.4}.ns a{color:var(--ink);border-bottom:1px solid rgba(85,218,161,.5)}
-/* pro2 · picture for each song (sync imagery): faint, behind the stars, screen-blended over the dark sky */
-.syn{position:absolute;inset:0;z-index:1;pointer-events:none;mix-blend-mode:screen;opacity:.15;transition:opacity 1.6s ease;
-  -webkit-mask-image:radial-gradient(ellipse 80% 70% at 50% 45%,#000 35%,transparent 100%);mask-image:radial-gradient(ellipse 80% 70% at 50% 45%,#000 35%,transparent 100%)}
-.syn[data-m=diving],.syn[data-m=in]{opacity:.2}.syn.play{opacity:.27}
-.syn-s{position:absolute;inset:0;opacity:0;transition:opacity 2s ease}
-.syn-s.on{opacity:1}
-.syn-s img,.syn-s video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.7) brightness(.9)}
-.syn-s video{opacity:0;transition:opacity .8s linear}.syn-s.live video{opacity:1}
-.syn-s.kb img,.syn-s.kb video{animation:synkb 14s linear both}
-@keyframes synkb{from{transform:scale(1.02)}to{transform:scale(1.1)}}
+/* pro2 · the sync / licensing line (r4: the per-song picture behind the stars is removed) */
 .syn-l{margin:4px 0 0;font:300 10.5px/1.4 Poppins,sans-serif;letter-spacing:.08em;color:#8a9bb0;text-align:center;pointer-events:auto}
 .syn-l a{color:#55DAA1;text-decoration:none;border-bottom:1px solid rgba(85,218,161,.35);padding:6px 0}
 .syn-l a:focus-visible{outline:2px solid #55DAA1;outline-offset:3px}
 .syn-lp{margin-top:6px}
-@media (prefers-reduced-motion:reduce){.syn-s,.syn{transition:none}}
 .hud{z-index:4}
