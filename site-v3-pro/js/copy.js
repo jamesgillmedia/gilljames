@@ -1,0 +1,42 @@
+/* gill james · site-v3-pro · per-film credits (the one editable place for the film pages).
+   t = title, b = brand / artist: both already on the site. dir / prod (production company) / agency / cam (camera) stay '' until
+   Gill confirms them; an empty field renders nothing (no placeholder anywhere). Only credits published with the film itself are
+   filled in (w13 and w22: from the film's own YouTube description). Example once known: dir:'Jane Doe', prod:'Prod Co', agency:'Agency', cam:'Alexa 35'. */
+window.GJ_COPY={credits:{
+  w0:{t:'Reel 2026',b:''},
+  w1:{t:'Cinematography Demo Reel 2025',b:''},
+  w2:{t:'Celebraciones',b:'Coca-Cola'},
+  w3:{t:'Stay Gold',b:'AXE'},
+  w4:{t:'Legends',b:'BMW'},
+  w5:{t:'Drift',b:'BMW'},
+  w6:{t:'Golden Moment (director’s cut)',b:'AXE'},
+  w7:{t:'Cover With Love: Isabelle',b:'Band-Aid'},
+  w8:{t:'No Place Like Home',b:'Big Brothers Big Sisters of Canada'},
+  w9:{t:'The Smell Needs To Go',b:'Yara'},
+  w10:{t:'Brew Bar: Coffee Teaser',b:'A&W'},
+  w11:{t:'Explorers',b:'Huggies'},
+  w12:{t:'Sun Kissed',b:'John Frieda'},
+  w13:{t:'Sleepwalker',b:'Hey Ocean!',dir:'Nano Clow',cam:'Gill James (director of photography)'},
+  w15:{t:'Reel ’24',b:''},
+  w16:{t:'Repeat (feat. Jessie Reyez)',b:'Allan Rayman'},
+  w17:{t:'Flower Crown',b:'Claritin'},
+  w18:{t:'Backward Fall',b:''},
+  w19:{t:'S18',b:'Arc’teryx'},
+  w20:{t:'Back to the Start',b:'Old Man Canyon'},
+  w21:{t:'Let’s Grow Good Together',b:''},
+  w22:{t:'Weird Kid',b:'Chris Malinchak and Kiesza',dir:'Gill James & Kiesza',cam:'Gill James (director of photography)'},
+  w23:{t:'Verona’s Obsession',b:'Allan Rayman'},
+  w24:{t:'Obedience Gets You Nowhere',b:'19 Crimes x Malamen'},
+  w25:{t:'Fire',b:'Wild Leaf'},
+  w26:{t:'Modern Man',b:'Braun'},
+  w27:{t:'Phantoms & Friends',b:'Old Man Canyon'},
+  w28:{t:'Summer Is Here',b:'Shock Top'},
+  w29:{t:'Eat Well',b:'Westin Hotels & Resorts'},
+  w30:{t:'Buddy Time: Grandpa’s Story',b:'LEGO'},
+  w31:{t:'Hike',b:'Wild Leaf'},
+  w32:{t:'Canoe',b:'Wild Leaf'},
+  w33:{t:'Mandie',b:''},
+  w34:{t:'Just The Beginning',b:'BONSAI'},
+  w35:{t:'Ltl Dstryr',b:'Mansions'},
+  w36:{t:'Journeys x Todd',b:'FIAT'}
+}};
