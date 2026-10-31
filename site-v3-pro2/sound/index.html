@@ -6,7 +6,7 @@
 <script>/* old deep links (sound/#w1 … #w4) still open that work on the Sound constellation */(function(){function w(){if(/^#w\d+$/.test(location.hash))location.replace('../#sound/'+location.hash.slice(1))}w();addEventListener('hashchange',w)})()</script>
 <link rel="preload" href="../fonts/julius-sans-one.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png"><link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
-<link rel="stylesheet" href="../css/sound.css?v=s3">
+<link rel="stylesheet" href="../css/sound.css?v=s4">
 <script>/* pro2 nav: opened as a layer over the site (../index.html#sound/wave loads sound/?in=1 in a frame): the site's own ‹ + "ᑕᐣᓯ › sound" bar
    sits where this page's ‹ and crumb were, so those hide; ‹ / Esc here hand back to the site, which closes the layer onto the Sound grid */
 (function(){var e=false;try{e=/[?&]in=1/.test(location.search)&&parent!==window&&!!parent.__soundOv}catch(x){}if(e)document.documentElement.classList.add('embed')})()</script>
@@ -45,7 +45,7 @@
 </main>
 <script src="../js/tracks.js?v=2"></script>
 <script src="../js/player.js?v=2"></script>
-<script src="../js/reelshots.js?v=r2"></script><script src="../js/sync.js?v=s2"></script>
+<script src="../js/sync.js?v=s3"></script>
 <script>/* ‹ : when you dove in from the site (or a same-origin compare copy under /gilljames/site-: v38b MED-1), go back to exactly where you were (the sound grid, same scroll); otherwise open it */
 (function(){var h=document.getElementById('home'),EMB=document.documentElement.classList.contains('embed');function out(){try{parent.__soundOv.back()}catch(x){}}
   if(EMB)addEventListener('keydown',function(e){if(e.key==='Escape'&&history.state!=='in'){e.preventDefault();out()}});
