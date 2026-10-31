@@ -12,14 +12,20 @@ var S={k:null,w:null,play:false}; /* the open chapter, the open work, playing? *
 var busy=0;function SH(){return window.__sheet&&__sheet.isOpen()}var QUIET=false;
 function anim(){return !RM.matches}
 /* ---------- hash ⇄ state ---------- */
-function parse(h){if(/^#(sky|all)(\/|$)/.test(h||''))return{k:null,sheet:1};var m=(h||'').match(/^#(\w+)(?:\/(l[0-3]|w\w+))?(?:\/(play))?$/);if(!m||!CH[m[1]])return{k:null};
+function parse(h){if(/^#(sky|all)(\/|$)/.test(h||''))return{k:null,sheet:1};
+  if(/^#(film\/)?reel$/.test(h||'')&&CH.film)return{k:'film',lv:2,w:null,play:false,reel:1}; /* pro2 nav: the Demo Reel is a layer over film L2 */
+  var m=(h||'').match(/^#(\w+)(?:\/(l[0-3]|w\w+))?(?:\/(play))?$/);
+  if(!m){var m2=(h||'').match(/^#(\w+)\//);if(m2&&CH[m2[1]])return{k:m2[1],lv:1,w:null,play:false}} /* pro2 nav: an unknown sub-level (about/#bio) opens the chapter, it never collapses the sky */
+  if(!m||!CH[m[1]])return{k:null};
   var c=CH[m[1]],r={k:m[1],lv:1,w:null,play:false};
   if(m[2]&&m[2][0]==='l')r.lv=Math.min(+m[2][1],c.max);
   else if(m[2]&&m[2][0]==='w'&&c.max>=3&&item(c,m[2])){r.lv=3;r.w=m[2];r.play=!!m[3]}
   return r}
 function fmt(r){if(!r.k||r.lv===0&&!r.w)return location.pathname+location.search;return '#'+r.k+'/'+(r.lv===3?r.w+(r.play?'/play':''):'l'+r.lv)}
 function item(c,key){for(var i=0;i<c.items.length;i++)if(c.items[i].dataset.k===key)return c.items[i];return null}
-function push(r,replace){var u=fmt(r);if(u===location.pathname+location.search+location.hash)return;history[replace?'replaceState':'pushState']({gj:1},'',u)}
+function push(r,replace){var u=fmt(r);if(u===location.pathname+location.search+location.hash)return;var hs=history.state&&history.state.gj?history.state:null;
+  /* pro2 nav: every entry remembers the view it was opened from, so the one back control can be the browser's Back (same spot, no forward entries) */
+  var st=replace?{gj:1,from:hs?hs.from:null,from2:hs?hs.from2:null}:{gj:1,from:location.hash||'',from2:hs?hs.from:null};history[replace?'replaceState':'pushState'](st,'',u)}
 /* ---------- images: only what is near the screen gets a src ---------- */
 var io=('IntersectionObserver' in window)?new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;var im=e.target;if(!im.getAttribute('src')&&im.dataset.src)im.src=im.dataset.src;io.unobserve(im)})},{rootMargin:'320px 0px'}):null;
 function wantImgs(c){$$('.vis img',c.el).forEach(function(im){if(im.getAttribute('src'))return;if(io)io.observe(im);else im.src=im.dataset.src})}
@@ -83,7 +89,7 @@ function step(dir,anchor,k){if(SH()){__sheet.step(dir);return}var s=cur();if(k&&
     go({k:s.k,lv:s.lv+1},{anchor:anchor||centerItem(c)});
   }else{if(s.lv===3){if(S.play){go({k:s.k,lv:3,w:s.w,play:false});return}
       /* pull out of the work: through the frame into the massive grid of everything */
-      if(window.__sheet){var kk=s.k,ww=s.w;closeWork(true,true);__sheet.open({mode:'all',k:kk,w:ww});return}go({k:s.k,lv:2},{anchor:item(c,s.w)});return}
+      back();return} /* pro2 nav: pinch-out / − from a work = the same as ‹ / Esc / Back: you land where you opened it */
     if(s.lv===0){if(window.__sheet)__sheet.open({k:s.k});return}go({k:s.k,lv:s.lv-1},{anchor:s.lv-1===0?c.head:anchor||centerItem(c)})}}
 function centerItem(c){var best=null,bd=1e9,mid=innerHeight*.45;c.items.forEach(function(it){var r=visR(it);if(!r.width||!onScreen(r,0))return;var d=Math.abs(r.top+r.height/2-mid);if(d<bd){bd=d;best=it}});return best}
 function inView(){var mid=innerHeight*.5,best=ORDER[0],bd=1e9;ORDER.forEach(function(k){var r=CH[k].el.getBoundingClientRect();var d=r.top<=mid&&r.bottom>=mid?0:Math.min(Math.abs(r.top-mid),Math.abs(r.bottom-mid));if(d<bd){bd=d;best=k}});return best}
@@ -153,7 +159,7 @@ function neighbour(dir){var c=CH[S.k],i=c.items.indexOf(item(c,S.w)),n=c.items[(
   if(anim())frame.animate([{opacity:0,transform:'translateX('+(dir*30)+'px)'},{opacity:1,transform:'none'}],{duration:320,easing:EASE});
   fill(c,n,false);push({k:S.k,lv:3,w:S.w},true);ui()}
 imm.addEventListener('click',function(e){var b=e.target.closest('[data-a]');if(!b)return;var a=b.dataset.a;
-  if(a==='out'){e.preventDefault();var wasFs=unfullAll();if(S.w)go({k:S.k,lv:2},{anchor:item(CH[S.k],S.w),noAnim:wasFs})} /* ✕ always lands on the chapter grid. v3.4: in full screen too, in ONE tap (it used to only leave full screen first) */
+  if(a==='out'){e.preventDefault();var wasFs=unfullAll();if(S.w){backNoAnim=wasFs;back()}} /* ✕ always lands on the chapter grid. v3.4: in full screen too, in ONE tap (it used to only leave full screen first) */
   else if(a==='play'){e.preventDefault();if(!S.play)go({k:S.k,lv:3,w:S.w,play:true});else if(window.__scope&&__scope.owns())__scope.toggle();else if(window.__scope&&__scope.retry&&__scope.retry()){}else if(vidEl&&S.play){vidEl.paused?vidEl.play():vidEl.pause()}else{var ifr=$('iframe',frame);if(ifr&&/vimeo/.test(ifr.src))vimeo(ifr,/playing/.test(b.textContent)?'pause':'play')}}
   else if(a==='prev'||a==='next'){e.preventDefault();neighbour(a==='next'?1:-1)}
   else if(a==='full'){e.preventDefault();full()}});
@@ -189,7 +195,8 @@ addEventListener('message',function(e){if(!/player\.vimeo\.com$/.test((e.origin|
 document.addEventListener('click',function(e){if(e.defaultPrevented||e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;var t=e.target;
   var h=t.closest('.ch .head');if(h){e.preventDefault();var c=CH[h.parentNode.dataset.k];go({k:c.k,lv:c.lv?0:1},{anchor:c.head,glide:1});return}
   var tile=t.closest('.ch .tile');if(tile){var it=tile.parentNode,c2=CH[it.closest('.ch').dataset.k];
-    if(c2.k==='about'){return} /* about stars are real links (mail, joio, bio) */
+    if(c2.k==='about'){var hr=tile.getAttribute('href')||'';if(/^about\/#bio/.test(hr)){e.preventDefault();var al=$('.about-l1',c2.el);if(c2.lv<1)go({k:'about',lv:1},{anchor:c2.head});if(al)al.scrollIntoView({behavior:anim()?'smooth':'auto',block:'center'});return}
+      if(/^about\/#poem/.test(hr)){e.preventDefault();var pm=$('.poem');if(pm)pm.scrollIntoView({behavior:anim()?'smooth':'auto',block:'center'});return}return} /* about stars: mail + joio are real links; bio + poem stay in the sky (pro2 nav) */
     e.preventDefault();if(c2.lv===1)go({k:c2.k,lv:2},{anchor:it});else go({k:c2.k,lv:3,w:it.dataset.k},{anchor:it});return}
   var m=t.closest('.more button');if(m){e.preventDefault();var c3=CH[m.closest('.ch').dataset.k];S.k=c3.k;
     if(m.classList.contains('zin'))go({k:c3.k,lv:c3.lv+1},{anchor:centerItem(c3)});else go({k:c3.k,lv:c3.lv-1},{anchor:c3.lv-1===0?c3.head:centerItem(c3)});return}
@@ -198,7 +205,7 @@ document.addEventListener('click',function(e){if(e.defaultPrevented||e.metaKey||
     go({k:k,lv:Math.min(2,c4.max)},{anchor:c4.head});c4.el.scrollIntoView({behavior:anim()?'smooth':'auto',block:'start'});return}
   var g=t.closest('[data-goto]');if(g){e.preventDefault();var c5=CH[g.dataset.goto];go({k:c5.k,lv:1},{anchor:c5.head});c5.el.scrollIntoView({behavior:anim()?'smooth':'auto',block:'start'});return}
   var hm=t.closest('a.home');if(hm){if(SH())__sheet.close({quick:1});e.preventDefault();go({k:null});scrollTo({top:0,behavior:anim()?'smooth':'auto'});return}});
-addEventListener('keydown',function(e){if(e.key==='Escape'&&(fsEl()||Date.now()-fsOffT<500))return; /* Esc only leaves full screen */if(e.key==='Escape'&&S.w){go({k:S.k,lv:2},{anchor:item(CH[S.k],S.w)})}
+addEventListener('keydown',function(e){if(e.key==='Escape'&&(fsEl()||Date.now()-fsOffT<500))return; /* Esc only leaves full screen */if(e.key==='Escape'&&S.w){back()}
   if(e.key==='Tab'&&S.w){var f=$$('button:not([hidden]),a[href]:not([hidden]),iframe,video',imm).filter(function(x){return x.getClientRects().length});if(!f.length)return;
     var a=f[0],z=f[f.length-1];if(!imm.contains(document.activeElement)){e.preventDefault();a.focus()}else if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}}
   if((e.key==='+'||e.key==='=')&&!e.target.closest('input'))step(1);if(e.key==='-'&&!e.target.closest('input'))step(-1)});
@@ -255,14 +262,27 @@ addEventListener('scroll',onScroll,{passive:true});
 addEventListener('resize',function(){measure();ORDER.forEach(function(k){if(CH[k].lv)drawLines(CH[k])});onScroll()});
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){measure();ORDER.forEach(function(k){if(CH[k].lv)drawLines(CH[k])})});
 /* ---------- Back / Forward and deep links: every level is a hash ---------- */
-addEventListener('popstate',function(){if(location.hash==='#reel')return; /* pro2: the Demo Reel card owns #reel */var pk=S.k,pw=S.w,pp=S.play,land=innerWidth>innerHeight&&innerHeight<=500,wasFs=unfullAll(),r=parse(location.hash);
+addEventListener('popstate',function(){var r0=parse(location.hash);if(r0.reel){backAnchor=null;if(S.w)closeWork(true,true);if(CH.film.lv<2)go({k:'film',lv:2},{push:false,noAnim:true});ui();return} /* pro2: the Demo Reel layer (js/reel.js) owns #film/reel; film L2 stays under it */
+  var pk=S.k,pw=S.w,pp=S.play,land=innerWidth>innerHeight&&innerHeight<=500,wasFs=unfullAll()||backNoAnim,r=parse(location.hash),ba=backAnchor;backNoAnim=false;backAnchor=null;
   /* v3.5: Back from a film playing full screen (a landscape phone always plays full) lands on the chapter grid, like ✕ (it used to stop on the still) */
   if(pp&&pw&&(wasFs||land)&&!r.sheet&&r.k===pk&&r.lv===3&&r.w===pw&&!r.play){go({k:pk,lv:2},{replace:true,anchor:item(CH[pk],pw),noAnim:true});return} /* v3.4: Back in full screen = out of full screen + the film closes, together (no stills left in full screen) */
-  if(wasFs&&!r.sheet){go(r,{push:false,anchor:r.k?CH[r.k].head:null,noAnim:true});return}if(r.sheet){if(S.w)closeWork(true,true);return} /* v3.2: never leave a work open under/over the sheet */go(r,{push:false,anchor:r.k?CH[r.k].head:null})});
+  if(wasFs&&!r.sheet){go(r,{push:false,anchor:r.k?CH[r.k].head:null,noAnim:true});return}if(r.sheet){if(S.w)closeWork(true,true);return} /* v3.2: never leave a work open under/over the sheet */go(r,{push:false,anchor:ba&&document.contains(ba)?ba:r.k?CH[r.k].head:null})});
+/* ---------- pro2 nav: ONE back. ‹ (js/nav.js), ✕, Esc and pinch-out all call this. It is the browser's Back whenever this page opened the
+   view you are in (so Back and ‹ always agree and you land on the same spot); after a deep link it steps out in place (replace, no new entry). ---------- */
+var backAnchor=null,backNoAnim=false;
+function back(){if(SH()){var sx=$('.sheet .sx');if(sx)sx.click();return true}
+  var hs=history.state&&history.state.gj?history.state:{},from=hs.from;
+  if(S.w){if(S.play&&from===fmt({k:S.k,lv:3,w:S.w})&&hs.from2!=null){history.go(-2);return true} /* playing: out of the film in one press */
+    if(from!=null){backAnchor=item(CH[S.k],S.w);history.back();return true}
+    go({k:S.k,lv:2},{anchor:item(CH[S.k],S.w),replace:true,noAnim:backNoAnim});backNoAnim=false;return true}
+  var s=cur(),c=CH[s.k];if(!c||!c.lv)return false;
+  var ph=c.lv===1?'':'#'+s.k+'/l'+(c.lv-1),an=c.lv===1?c.head:centerItem(c)||c.head;
+  if(from===ph&&S.k===s.k){backAnchor=an;history.back();return true}
+  go({k:s.k,lv:c.lv-1},{anchor:an,replace:true});return true}
 function boot(){measure();var r=parse(location.hash);if(r.sheet){onScroll();ui();return}if(r.k){var a=anim;anim=function(){return false};go(r,{push:false,replace:true,noAnim:true});
     if(r.lv<3)CH[r.k].el.scrollIntoView({block:'start'});anim=a}
-  else if(location.hash&&location.hash!=='#'&&location.hash!=='#reel')history.replaceState(null,'',location.pathname+location.search);
+  else if(location.hash&&location.hash!=='#')history.replaceState(null,'',location.pathname+location.search);
   onScroll();ui()}
 boot();
-window.__dive={quiet:function(q){QUIET=q;pv();ui()},sync:function(){push(cur().lv?cur():{k:null});ui()},go:go,step:step,state:function(){return{k:S.k,w:S.w,play:S.play,lv:S.k?(S.w?3:CH[S.k].lv):0,levels:ORDER.map(function(k){return CH[k].lv})}},parse:parse};
+window.__dive={back:back,cur:function(){return cur()},title:function(k,w){var it=CH[k]&&item(CH[k],w),b=it&&$('.cap b',it);return b?b.textContent:''},quiet:function(q){QUIET=q;pv();ui()},sync:function(){push(cur().lv?cur():{k:null});ui()},go:go,step:step,state:function(){return{k:S.k,w:S.w,play:S.play,lv:S.k?(S.w?3:CH[S.k].lv):0,levels:ORDER.map(function(k){return CH[k].lv})}},parse:parse};
 })();

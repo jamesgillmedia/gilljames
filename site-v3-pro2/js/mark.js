@@ -3,7 +3,9 @@
    (scroll / trackpad / wheel, a swipe up, a two-finger spread, a tap, Enter or ↓) is one continuous, scrubbable move: the mark grows, its
    lines let go, and every star flies to its place in the five chapter constellations (film, photo, objects, sound, about) on the page
    itself, which shows through as the sky clears. The stars land exactly on the real glyph stars, so the hand-off is seamless and the
-   site reads as one page. Reverse the gesture before it lands and it zooms back out. Once a session (?mark=1 shows it again, ?mark=0 never). */
+   site reads as one page. Reverse the gesture before it lands and it zooms back out. Once a session (?mark=1 shows it again, ?mark=0 never).
+   pro2 nav: it never waits for you. After a short beat (the mark drawn, the name read) it zooms in by itself and lands you in the sky;
+   any gesture before that just takes over (or speeds it up). */
 (function(){
 'use strict';
 var D=document.documentElement,B=document.body;if(!B||!B.classList.contains('home-p'))return;
@@ -87,8 +89,9 @@ function finish(){if(done)return;done=true;try{sessionStorage.setItem('gj-mark',
   if(!jumped)scrollTo(0,dest);el.classList.add('gone');D.classList.remove('mk-on');
   setTimeout(function(){el.remove()},400);removeEventListener('keydown',onKey,true);removeEventListener('resize',onRs);
   if(kb){var f=document.querySelector('#film>.head');if(f&&f.focus)try{f.focus({preventScroll:true})}catch(e){}}}
-function go(){auto=1;kick()}
-function nudge(d){if(auto)return;tp=Math.max(0,Math.min(1,tp+d));kick();clearTimeout(rel);rel=setTimeout(release,260)}
+function go(){auto=1;clearTimeout(autoT);kick()}
+var autoT=0,HOLD=RM?500:1300;function autoGo(){clearTimeout(autoT);autoT=setTimeout(function(){if(done||auto)return;if(!T)go();else autoGo()},HOLD)}
+function nudge(d){if(auto)return;autoGo();tp=Math.max(0,Math.min(1,tp+d));kick();clearTimeout(rel);rel=setTimeout(release,260)}
 var rel=0;function release(){if(auto||done)return;if(tp>.3)go();else{tp=0;kick()}}
 /* input: wheel / trackpad, one-finger swipe up, two-finger spread, tap, keys */
 el.addEventListener('wheel',function(e){e.preventDefault();var dy=e.deltaMode===1?e.deltaY*32:e.deltaY;nudge((dy-(e.ctrlKey?dy*2:0))/1100)},{passive:false});
@@ -107,6 +110,6 @@ function onRs(){measure();kick()}addEventListener('resize',onRs);
 /* stop the arrival's own taps + scroll under the sky */
 function start(){measure();kick()}
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){if(!done){measure();kick()}});
-scrollTo(0,0);start();
+scrollTo(0,0);start();autoGo();
 window.__mark={state:function(){return{p:p,tp:tp,done:done,jumped:jumped,n:pts.length,dest:dest,W:W,H:H,sc:this_mk.sc}},go:go,set:function(v){auto=0;tp=v;kick()}};
 })();
