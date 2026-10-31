@@ -4,7 +4,7 @@
 (function(){
 'use strict';
 var R=window.GJ_REEL||[],sk=document.getElementById('sk');if(!R.length||!sk||!window.__sk)return;
-var PICS={togo:[56,53,13,59,71],gone:[50,37,72,81,77],noproblem:[14,29,43,69,28],lostintime:[9,62,66,58,85,24],equals:[35,36,86,87,2],ii:[11,10,15,1,52]};
+var PICS={togo:[161,152,52,165,58],gone:[149,134,179,190,187],noproblem:[93,123,141,175,82],lostintime:[48,169,174,163,194,115],equals:[131,133,195,199,4],ii:[50,49,94,3,151]}; /* indices into GJ_REEL (201-shot reel, r2) */
 var RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 var L=document.createElement('div');L.className='syn';L.setAttribute('aria-hidden','true');
 L.innerHTML='<div class="syn-s"><img alt=""><video muted loop playsinline preload="none" disablepictureinpicture></video></div><div class="syn-s"><img alt=""><video muted loop playsinline preload="none" disablepictureinpicture></video></div>';
