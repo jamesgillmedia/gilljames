@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#03050a">
+<title>sound · Gill James</title><meta name="description" content="Gill James · sound: inside the waveform. Lofi music as Mothers Moniker and Lost Coffee.">
+<script>/* old deep links (sound/#w1 … #w4) still open that work on the Sound constellation */(function(){function w(){if(/^#w\d+$/.test(location.hash))location.replace('../#sound/'+location.hash.slice(1))}w();addEventListener('hashchange',w)})()</script>
+<link rel="preload" href="../fonts/julius-sans-one.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png"><link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="stylesheet" href="../css/sound.css">
+</head><body>
+<main class="sk" id="sk" data-mode="sky">
+  <canvas id="cv" aria-label="the Sound constellation: six song stars and five wind-chime strands; tap a star to choose its song, tap a strand to ring it, tap empty sky to dive into the waveform; pinch or scroll to zoom; drag empty sky, two fingers or arrow keys to pan"></canvas>
+  <header class="hud">
+    <a class="shome" id="home" href="../#sound/l2" aria-label="back to the sound constellation on the site">‹</a>
+    <p class="crumb"><span class="sig off">ᑕᐣᓯ</span> &nbsp;sound<span id="crumbSec"></span></p>
+    <button type="button" class="shome rise" id="rise" aria-label="rise out to the constellation">↑</button>
+  </header>
+  <section class="intro" id="intro">
+    <p class="sl"><b>SOUND</b><small>6 songs · tap a star · pinch to zoom · dive in</small></p>
+    <div class="picks" id="picks" role="radiogroup" aria-label="track"></div>
+    <button type="button" class="dive" id="dive">▶ dive in</button>
+  </section>
+  <section class="player" id="player" aria-label="player">
+    <div class="sc-row">
+      <button type="button" class="ib sc-b" id="pp" aria-label="pause">❚❚</button>
+      <div class="sc-lab"><span class="l1"><b id="ttl">TO GO</b> <span id="art">LOST COFFEE</span></span>
+        <span class="l2"><span class="tc" id="tc">00:00 / 00:00</span> <span class="sn" id="sn"></span></span></div>
+    </div>
+    <div class="sc-rail" id="rail" role="slider" tabindex="0" aria-label="timeline: drag to fly through the song" aria-valuemin="0" aria-valuemax="80" aria-valuenow="0">
+      <canvas class="wf" id="wf"></canvas><span class="sc-line"></span><span class="sc-fill" id="fill"></span><b class="sc-head" id="head"></b>
+    </div>
+    <p class="gest">drag the rail to fly · tap to pause · swipe down or ↑ to rise</p>
+  </section>
+  <audio id="au" preload="auto" crossorigin="anonymous"></audio>
+  <noscript><div class="ns"><p><b>SOUND</b> · lofi music as Mothers Moniker and Lost Coffee</p><ul>
+    <li><a href="https://open.spotify.com/artist/4NLF1yvahl2gE91fWHxkDc" rel="noopener">Mothers Moniker · Spotify</a></li>
+    <li><a href="https://open.spotify.com/artist/5boqZWhWg5ZwPAURnNQDYK" rel="noopener">Lost Coffee · Spotify</a></li>
+    <li><a href="https://music.apple.com/ca/artist/lost-coffee/1690001432" rel="noopener">Lost Coffee · Apple Music</a></li>
+    <li><a href="https://www.youtube.com/watch?v=ClRfnH52kFU" rel="noopener">Lost Coffee · To Go · YouTube</a></li></ul>
+    <p><a href="mailto:imjamesgill@gmail.com?subject=music%20licensing">licensing · imjamesgill@gmail.com</a> · <a href="../list/">list</a></p></div></noscript>
+</main>
+<script src="../js/tracks.js"></script>
+<script src="../js/player.js"></script>
+<script>/* ‹ : when you dove in from the site (or a same-origin compare copy under /gilljames/site-: v38b MED-1), go back to exactly where you were (the sound grid, same scroll); otherwise open it */
+(function(){var h=document.getElementById('home');h.addEventListener('click',function(e){try{var r=document.referrer&&new URL(document.referrer);
+  if(r&&r.origin===location.origin&&(r.pathname===new URL('../',location.href).pathname||r.pathname.indexOf('/gilljames/site-')===0)&&history.state!=='in'&&history.length>1){e.preventDefault();history.back()}}catch(x){}})})();</script>
+</body></html>
