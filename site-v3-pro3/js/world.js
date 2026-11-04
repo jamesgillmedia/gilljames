@@ -210,6 +210,7 @@ function drawItem(it,q,bl,fa,SFk,t){var c=CH[it.k],isS=sel&&sel.k===it.k&&sel.w=
     if(it.k==='about'){g.globalAlpha=al;rr(x,y,w,h,Math.min(h/2,12));g.fillStyle='rgba(12,20,34,.86)';g.fill();g.strokeStyle=isS?'rgba('+MINT+',.95)':'rgba(200,225,255,.35)';g.stroke();
       if(ux>.5){var fz=clamp(7.4*cam.s,9,19);g.font='300 '+fz.toFixed(1)+'px Poppins, sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillStyle=isS?'rgb('+MINT+')':'#e6edf0';g.globalAlpha=al*clamp((ux-.5)*2,0,1);
         g.fillText(it.kind==='link'&&it.w==='contact'?'contact':it.lab,q[0],q[1]+.5)}g.globalAlpha=1;return}
+    if(ux>.3){var gl=tileGlow(it);g.globalAlpha=al*clamp((ux-.3)/.5,0,1);g.drawImage(gl.cv,x-gl.p*w/gl.w,y-gl.p*h/gl.h,w*(1+2*gl.p/gl.w),h*(1+2*gl.p/gl.h))}
     g.globalAlpha=al;
     var ready=it.img&&it.ld&&it.img.naturalWidth;
     if(ready){var fi=clamp((t-it.ld)/260,0,1);if(fi<1)dirty=true;g.fillStyle='rgba(20,30,46,.9)';g.fillRect(x,y,w,h);g.globalAlpha=al*fi;coverDraw(it.img,x,y,w,h);g.globalAlpha=al}
@@ -221,10 +222,14 @@ function capDraw(it,q,bl){var w=it.tw*cam.s,h=it.th*cam.s,x=q[0]-w/2,y=q[1]+h/2+
     L=L.slice(0,2).map(function(l){while(l&&g.measureText(l).width>w)l=l.slice(0,-2)+'…';return l});var m=it.meta;g.font='300 9.5px Poppins, sans-serif';while(m&&g.measureText(m).width>w)m=m.slice(0,-2)+'…';it._cl=L;it._cm=m;g.font='300 11px Poppins, sans-serif'}
   var a=clamp((bl-.5)*2,0,1)*(openL?.3:1);g.globalAlpha=a;g.textAlign='left';g.textBaseline='top';g.fillStyle=it.isNew?'rgb('+MINT+')':'rgba(230,237,240,.92)';
   it._cl.forEach(function(l,i){g.fillText(l,x,y+i*14.3)});g.font='300 9.5px Poppins, sans-serif';g.fillStyle='rgba(169,182,190,.85)';g.fillText(it._cm||'',x,y+it._cl.length*14.3+1);g.globalAlpha=1;g.textBaseline='middle'}
+/* v3's soft tile glow (box-shadow 0 0 12px rgba(150,200,255,.25)), pre-blurred once per tile size and stretched while blooming */
+var GLC={};function tileGlow(it){var w=Math.round(it.tw*sClose()),h=Math.round(it.th*sClose()),k=w+'x'+h;if(GLC[k])return GLC[k];var p=18,c=document.createElement('canvas'),d=Math.min(2,DPR||1);
+  c.width=(w+2*p)*d;c.height=(h+2*p)*d;var x=c.getContext('2d');x.scale(d,d);x.shadowColor='rgba(150,200,255,.25)';x.shadowBlur=12;x.shadowOffsetX=0;x.fillStyle='rgba(150,200,255,1)';
+  x.fillRect(p,p,w,h);x.shadowColor='transparent';x.globalCompositeOperation='destination-out';x.fillRect(p,p,w,h);return GLC[k]={cv:c,p:p,w:w,h:h}}
 function coverDraw(im,x,y,w,h){var iw=im.naturalWidth,ih=im.naturalHeight,r=w/h,ir=iw/ih,sx=0,sy=0,sw=iw,sh=ih;if(ir>r){sw=ih*r;sx=(iw-sw)/2}else{sh=iw/r;sy=(ih-sh)/2}g.drawImage(im,sx,sy,sw,sh,x,y,w,h)}
 function names(c){var lv=cur.lv,bl=BK===c.k?B:0,mA=lv>=1?1:0;if(mA<.02)return;g.textBaseline='middle';
   var list=c.items.slice().sort(function(a,b){var sa=sel&&sel.w===a.w?-1:0,sb=sel&&sel.w===b.w?-1:0;return sa-sb||(b.isNew-a.isNew)||(b.b-a.b)});
-  list.forEach(function(it){if(openL&&openL.it===it)return;var q=sp(it.x,it.y);if(q[0]<-40||q[0]>W+40||q[1]<TOPM-10||q[1]>H-8)return;var isS=sel&&sel.w===it.w&&sel.k===it.k;if(isS)return; /* the selected one wears the pill */
+  list.forEach(function(it){if(openL&&openL.it===it)return;var q=sp(it.x,it.y);if(q[0]<-40||q[0]>W+40||q[1]<TOPM-10||q[1]>H-8)return;var isS=sel&&sel.w===it.w&&sel.k===it.k;if(isS&&!(bl>.5&&it.k!=='about'))return; /* the selected one wears the pill (on the board: a chip inside the tile, caption stays) */
     if(it.k==='about'&&bl>.5)return;
     if(bl>.5){capDraw(it,q,bl);return}var lab=it.lab.length>26?it.lab.slice(0,25)+'…':it.lab;g.font='300 '+(bl>.5?11:11.5)+'px Poppins, sans-serif';var tw2=g.measureText(lab).width,r;
     if(bl>.5){var hh=it.th*cam.s;r={x:q[0]-tw2/2-3,y:q[1]+hh/2+3,w:tw2+6,h:16};if(r.x<2||r.x+r.w>W-2)return;if(!free(r))return;g.textAlign='center';g.globalAlpha=clamp((bl-.5)*2,0,1)*(openL?.3:1);g.fillStyle=it.isNew?'rgb('+MINT+')':'rgba(230,237,240,.9)';g.fillText(lab,q[0],r.y+8)}
@@ -279,8 +284,12 @@ function ensureVisible(h){if(cur.lv!==2)return;var p=sp(h.x,h.y);if(p[0]<40||p[0
 /* ---------------------------------------------------------------- the selection pill: the label of what you selected, and the second press */
 var pillEl=$('.wpick',host),pillKey='';
 function pick(){var s=sel,show=s&&!MK&&!openL&&(cur.lv===0&&!s.w||cur.lv>=1&&s.w&&s.k===cur.k);if(!show){if(pillEl.classList.contains('on')){pillEl.classList.remove('on');pillEl.tabIndex=-1}return}
-  var key=s.k+'/'+(s.w||'')+'@'+Math.min(cur.lv,2),x,y,below=0;
+  var key=s.k+'/'+(s.w||'')+'@'+Math.min(cur.lv,2),x,y,below=0;if(pillEl.classList.contains('bd')&&!(s.w&&cur.lv>=2&&BK===s.k&&B>.5)){pillEl.classList.remove('bd');pillKey=''}
   if(!s.w){var c=CH[s.k],p=sp(c.x,c.y+c.ex.y1);x=p[0];y=p[1]+44;if(key!==pillKey){pillEl.innerHTML='<b>'+s.k+'</b><small>'+c.count+'</small><i>open ›</i>'}}
+  else if(cur.lv>=2&&BK===s.k&&B>.5){var it2=itemOf(s.k,s.w),q2=sp(it2.x,it2.y),bw=it2.tw*cam.s,bh=it2.th*cam.s;key+='bd';
+    if(key!==pillKey){pillEl.innerHTML='<i></i>';pillEl.querySelector('i').textContent=it2.kind==='link'?(it2.w==='contact'?'write ↗':'visit ↗'):'open ›';pillEl.classList.add('bd')}
+    var pw2=pillEl.offsetWidth||60,ph2=pillEl.offsetHeight||22;pillKey=key;x=q2[0]+bw/2-pw2-5;y=q2[1]+bh/2-ph2-5;if(it2.k==='about')y=q2[1]-ph2/2;
+    pillEl.style.transform='translate3d('+x.toFixed(1)+'px,'+y.toFixed(1)+'px,0)';if(!pillEl.classList.contains('on')){pillEl.classList.add('on');pillEl.tabIndex=0}return}
   else{var it=itemOf(s.k,s.w),q=sp(it.x,it.y),hh=(BK===it.k?B:0)*it.th*cam.s/2;x=q[0];y=q[1]+Math.max(12,hh+8);if(key!==pillKey){pillEl.innerHTML='<b></b><small></small><i></i>';pillEl.querySelector('b').textContent=it.lab;pillEl.querySelector('small').textContent=it.meta;
       pillEl.querySelector('i').textContent=it.kind==='link'?(it.w==='contact'?'write ↗':'visit ↗'):cur.lv<2?'closer ›':'open ›'}}
   pillKey=key;var pw=pillEl.offsetWidth||160,ph=pillEl.offsetHeight||40;if(y+ph>H-BOTM+20){y=y-ph-(s.w?Math.max(24,((BK===s.k?B:0)*(itemOf(s.k,s.w)||{th:0}).th*cam.s)+28):90)}
@@ -390,11 +399,12 @@ function hitTest(x,y){var lv=cur.lv;
 cv.addEventListener('pointerdown',function(e){if(MK){skipMark();e.preventDefault();return}if(e.button)return;try{cv.setPointerCapture(e.pointerId)}catch(x){}P[e.pointerId]={id:e.pointerId,x:e.clientX,y:e.clientY,x0:e.clientX,y0:e.clientY,t0:now(),type:e.pointerType};
   var L=pts();if(L.length===2){dragging=null;pinchStart(L)}else if(L.length===1){dragging={x0:e.clientX,y0:e.clientY,c0:{x:cam.x,y:cam.y,s:cam.s},moved:false}}});
 cv.addEventListener('pointermove',function(e){var p=P[e.pointerId];if(!p)return;p.x=e.clientX;p.y=e.clientY;var L=pts();
-  if(L.length>=2&&pz){pinchMove(L);return}
+  if(L.length>=2&&pz){if(pz.src==='ptr')pinchMove(L);return}
+  if(pz)return;
   if(dragging&&L.length===1){var dx=e.clientX-dragging.x0,dy=e.clientY-dragging.y0;if(!dragging.moved&&Math.hypot(dx,dy)>8){dragging.moved=true;if(tw){tw=null}dragging.c0={x:cam.x,y:cam.y,s:cam.s};dragging.x0=e.clientX;dragging.y0=e.clientY;dx=0;dy=0}
     if(dragging.moved){var c=clampCam({x:dragging.c0.x-dx/cam.s,y:dragging.c0.y-dy/cam.s,s:cam.s},true);cam.x=c.x;cam.y=c.y;req()}}});
 function upP(e){var p=P[e.pointerId];if(!p)return;delete P[e.pointerId];var L=pts();
-  if(pz){if(!L.length)pinchEnd();return}
+  if(pz){if(!L.length&&pz.src==='ptr')pinchEnd();if(!L.length)dragging=null;return}
   if(dragging){var d=dragging;dragging=null;if(d.moved){var c=clampCam(cam,false);if(Math.abs(c.x-cam.x)+Math.abs(c.y-cam.y)>.5)fly(c,{dur:300});return}
     if(e.type==='pointercancel')return;if(now()-p.t0<700&&Math.hypot(e.clientX-p.x0,e.clientY-p.y0)<12){lastTap=now();var h=hitTest(e.clientX,e.clientY);if(h)press(h.k,h.w||null);else press(null,null)}}}
 cv.addEventListener('pointerup',upP);cv.addEventListener('pointercancel',upP);
@@ -424,11 +434,12 @@ function fzSet(u){var F=FZ,t=now(),dt=Math.max(8,t-F.t);u=clamp(u,-.22,2.32);F.v
   cam.x=c.x-px/c.s;cam.y=c.y-py/c.s;cam.s=c.s;BK=F.k;B=clamp(u-1,0,1);req()}
 function fzEnd(){var F=FZ;if(!F)return;FZ=null;var u=F.u,pj=u+clamp(F.v*170,-.6,.6),lv=cur.lv,k=F.k,m=F.m||F.m0;
   if(pj>2.16&&lv===2&&F.src!=="wheel"||u>2.25&&lv===2){var h=hitTestK(k,m.x,m.y);if(h){var it=itemOf(k,h);if(it&&it.kind!=='link'){if(lv<2){cur={lv:2,k:k,w:h};sel={k:k,w:h}}inTo({lv:3,k:k,w:h});return}}}
-  var T=clamp(Math.round(clamp(pj,0,2)),0,2);
+  var dU=pj-F.u0,T=Math.round(clamp(pj,0,2)); /* nearest level, but a deliberate move (a third of a level) always carries at least one level that way */
+  if(dU>.33)T=Math.max(T,Math.floor(F.u0+1e-6)+1);else if(dU<-.33)T=Math.min(T,Math.ceil(F.u0-1e-6)-1);T=clamp(T,0,2);
   if(T>lv||T===lv&&lv>=1&&k!==cur.k){var tg=T===1?{lv:1,k:k}:{lv:2,k:k,w:F.w||bestItem(k)};if(lv===0&&T>=1)sel={k:k};inTo(tg);return}
   if(T<lv){if(lv-T===1)out();else jump(T);return}
   fly(clampCam(camFor(cur),false),{B1:cur.lv>=2?1:0,BK1:cur.lv>=1?cur.k:BK,dur:320})}
-function pinchStart(L){var m={x:(L[0].x+L[1].x)/2,y:(L[0].y+L[1].y)/2};pz={d0:dist2(L),m0:m,c0:{x:cam.x,y:cam.y,s:cam.s},live:0};fzStart(m,'pinch')}
+function pinchStart(L,src){if(pz)return;var m={x:(L[0].x+L[1].x)/2,y:(L[0].y+L[1].y)/2};pz={d0:Math.max(8,dist2(L)),m0:m,c0:{x:cam.x,y:cam.y,s:cam.s},live:0,src:src||'ptr'};fzStart(m,'pinch')}
 function pinchMove(L){if(!pz)return;var m={x:(L[0].x+L[1].x)/2,y:(L[0].y+L[1].y)/2},r=dist2(L)/pz.d0;pz.m=m;pz.r=r;if(!FZ)return;FZ.m=m;fzSet(fzU(FZ.s0*Math.pow(r,1.5))) /* a little gain: one comfortable spread goes sky → board */}
 function pinchLive(){}
 function pinchEnd(){var p=pz;pz=null;if(FZ){fzEnd();return}if(!p||!p.r||openL||MK)return; /* reduced motion: one level per pinch */
@@ -449,12 +460,20 @@ host.addEventListener('wheel',function(e){e.preventDefault();if(MK){skipMark();r
   var dy=e.deltaY*(e.deltaMode===1?16:e.deltaMode===2?400:1);FZ.m=FZ.m0;FZ.ut=clamp(FZ.ut-dy*(e.ctrlKey?.012:.0042),-.22,2.32);wheelAnim();
   clearTimeout(FZ.tm);FZ.tm=setTimeout(function(){if(FZ&&FZ.src==='wheel'){FZ.u=FZ.ut;FZ.v=0;fzEnd()}},e.ctrlKey?160:240)},{passive:false});
 var wRaf=0;function wheelAnim(){if(wRaf)return;wRaf=requestAnimationFrame(function st(){wRaf=0;if(!FZ||FZ.src!=='wheel')return;var d=FZ.ut-FZ.u;fzSet(Math.abs(d)<.004?FZ.ut:FZ.u+d*.32);if(Math.abs(FZ.ut-FZ.u)>.002)wRaf=requestAnimationFrame(st)})}
-['gesturestart','gesturechange','gestureend'].forEach(function(n){document.addEventListener(n,function(e){e.preventDefault();
-  /* desktop Safari trackpad pinch arrives as gesture events (touch screens use the pointer pinch above) */
-  if(navigator.maxTouchPoints>0||openL||!host.contains(e.target))return;var m={x:e.clientX||W/2,y:e.clientY||H/2};
-  if(n==='gesturestart'){if(fzStart(m,'gest'))FZ.m=m}else if(n==='gesturechange'){if(FZ&&FZ.src==='gest')fzSet(fzU(FZ.s0*e.scale))}else if(FZ&&FZ.src==='gest')fzEnd()},{passive:false})});
+var IOS=/iP(hone|ad|od)/.test(navigator.userAgent)||navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1;document.documentElement.classList.toggle('ios',IOS);
+/* Safari never gets to page-zoom: two-finger touchmove is ours everywhere */
+document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1&&e.cancelable)e.preventDefault()},{passive:false});
+['gesturestart','gesturechange','gestureend'].forEach(function(n){var h=function(e){if(e.cancelable!==false)e.preventDefault();
+  /* desktop Safari trackpad pinch, and the iOS fallback if the touch pinch above never started: drive the same continuous camera with e.scale */
+  if(e.__gj)return;e.__gj=1;if(openL||MK)return;if(pz&&pz.src!=='gest')return;var m0={x:e.clientX||W/2,y:e.clientY||H/2};if(n==='gesturestart'){if(!pz&&fzStart(m0,'gest')){pz={src:'gest',d0:1,m0:m0};FZ.m=m0}}else if(n==='gesturechange'){if(FZ&&FZ.src==='gest')fzSet(fzU(FZ.s0*Math.pow(e.scale,1.5)))}else if(FZ&&FZ.src==='gest'){pz=null;fzEnd()}};
+  document.addEventListener(n,h,{passive:false});window.addEventListener(n,h,{passive:false})});
 /* two fingers closing over an open layer (a work page, the player, a card) = out one level; one finger stays theirs */
-var lz=null;document.addEventListener('touchstart',function(e){if(!openL||e.touches.length!==2){if(e.touches.length!==2)lz=null;return}if(openL.L===window.__reel)return;var t=e.touches;lz={d:Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY),done:0}},{passive:true});
+var lz=null;function tL(e){var t=e.touches;return[{x:t[0].clientX,y:t[0].clientY},{x:t[1].clientX,y:t[1].clientY}]}
+host.addEventListener('touchstart',function(e){if(e.touches.length===2&&!openL&&!MK){if(e.cancelable)e.preventDefault();dragging=null;if(!pz)pinchStart(tL(e),'touch');else if(pz.src==='ptr')pz.src='touch'}},{passive:false});
+host.addEventListener('touchmove',function(e){if(pz&&e.touches.length>=2){if(e.cancelable)e.preventDefault();if(pz.src==='touch')pinchMove(tL(e))}else if(e.touches.length>=2&&e.cancelable)e.preventDefault()},{passive:false});
+function tEnd(e){if(pz&&pz.src==='touch'&&e.touches.length<2){pinchEnd()}}
+host.addEventListener('touchend',tEnd,{passive:true});host.addEventListener('touchcancel',tEnd,{passive:true});
+document.addEventListener('touchstart',function(e){if(!openL||e.touches.length!==2){if(e.touches.length!==2)lz=null;return}if(openL.L===window.__reel)return;var t=e.touches;lz={d:Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY),done:0}},{passive:true});
 document.addEventListener('touchmove',function(e){if(!lz||e.touches.length!==2)return;if(e.cancelable)e.preventDefault();var t=e.touches,d=Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY);if(!lz.done&&d/lz.d<.78){lz.done=1;out()}},{passive:false});
 document.addEventListener('touchend',function(e){if(e.touches.length<2)lz=null},{passive:true});
 addEventListener('wheel',function(e){if(!openL||!e.ctrlKey||host.contains(e.target))return;if(openL.L===window.__reel)return;e.preventDefault();var t=now();if(t<wLock){wLock=Math.max(wLock,t+350);return}
