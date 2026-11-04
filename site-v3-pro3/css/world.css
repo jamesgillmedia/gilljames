@@ -102,3 +102,9 @@ html.w-layer.reel-on .wn{padding-right:max(10px,var(--sr))}
 .rl .rl-x,.rl .rl-k{display:none!important}
 noscript p{position:fixed;inset:auto 0 40% 0;text-align:center;z-index:200}
 .rl:not(.on){pointer-events:none}.rl:not(.on) *{pointer-events:none!important}
+
+/* on the board the pill shrinks to a chip inside the selected tile, so it never covers the next row's captions */
+.wpick.bd{padding:3px 9px 4px;border-radius:10px;gap:0}.wpick.bd i{margin-top:0;font-size:11px}
+
+/* no page zoom anywhere: scrolling still works, pinch belongs to the camera */
+html,body{touch-action:pan-x pan-y;-webkit-text-size-adjust:100%}#world,#world *{touch-action:none}
