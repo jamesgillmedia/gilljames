@@ -1,0 +1,1443 @@
+{
+  "artist": "James Gill (Gill James)",
+  "site": "https://www.gilljames.com",
+  "poem": "I am Gill\nI am James\nI am an artist\na Cree voice rising\nweaving sound into the unseen\nIndigenous kin, my culture’s pulse\nvisual arts\nFine art and music\nare rivers I swim, a daily drift\na lifelong hum\nArtistry a starfield I chase\nAll my relations,\nin all my creations\ntheir breath in every chord I make and everything\nI create.\nᑕᐣᓯ",
+  "bio": "∞ ᑕᐣᓯ James Gill is a Canadian indigenous multidisciplinary artist.  He blends visual storytelling with sustainable, nature-focused design, and thought provoking imagery and movement. His artful eye and practical nature creates immersive design that fuse art, natural materials, and functionality, redefining spaces + experiences with a culturally resonant human-centred perspective.  Known for evocative visual artistry, lighting innovation, practical tactile design, and lofi chillpop music with dreamy acoustic duets and lulling rhythms. Gill's passion for coffee, fine arts, music + urban design reflects a deep connection with nature",
+  "film_categories": {
+    "reel": 3,
+    "commercial": 24,
+    "music": 6,
+    "film": 3
+  },
+  "films": [
+    {
+      "n": 1,
+      "title": "Gill Cinematography Demo Reel 2025",
+      "client": null,
+      "cat": "reel",
+      "platform": "gilljames.com",
+      "url": "https://www.gilljames.com/cinematographer",
+      "duration": "04:20"
+    },
+    {
+      "n": 2,
+      "title": "Coca-Cola - Celebraciones",
+      "client": "Coca-Cola",
+      "cat": "commercial",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/321571712",
+      "duration": null
+    },
+    {
+      "n": 3,
+      "title": "AXE | Stay Gold",
+      "client": "AXE / Unilever",
+      "cat": "commercial",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/291215397",
+      "duration": null
+    },
+    {
+      "n": 4,
+      "title": "BMW Legends",
+      "client": "BMW",
+      "cat": "commercial",
+      "platform": "gilljames.com",
+      "url": "https://www.gilljames.com/cinematographer",
+      "duration": "00:33"
+    },
+    {
+      "n": 5,
+      "title": "BMW | Drift",
+      "client": "BMW Canada",
+      "cat": "commercial",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/279585878",
+      "duration": null
+    },
+    {
+      "n": 6,
+      "title": "AXE | Golden Moment [Dir. Cut]",
+      "client": "AXE / Unilever",
+      "cat": "commercial",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/285416688",
+      "duration": null
+    },
+    {
+      "n": 7,
+      "title": "Cover With Love - Isabelle - Band-Aid",
+      "client": "Band-Aid",
+      "cat": "commercial",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/125861449",
+      "duration": null
+    },
+    {
+      "n": 8,
+      "title": "Big Brothers Big Sisters of Canada | No Place Like Home",
+      "client": "Big Brothers Big Sisters of Canada",
+      "cat": "commercial",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/436173967",
+      "duration": "00:30"
+    },
+    {
+      "n": 9,
+      "title": "Yara - The Smell Needs To Go",
+      "client": "Yara",
+      "cat": "commercial",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/122182595",
+      "duration": null
+    },
+    {
+      "n": 10,
+      "title": "A&W Brew Bar: Coffee Teaser",
+      "client": "A&W",
+      "cat": "commercial",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/713473990",
+      "duration": "00:36"
+    },
+    {
+      "n": 11,
+      "title": "Explorers - Huggies",
+      "client": "Huggies",
+      "cat": "commercial",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/124442371",
+      "duration": "00:30"
+    },
+    {
+      "n": 12,
+      "title": "Sun Kissed - John Frieda",
+      "client": "John Frieda",
+      "cat": "commercial",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/117355204",
+      "duration": "00:30"
+    },
+    {
+      "n": 13,
+      "title": "Hey Ocean! - Sleepwalker (Official Video)",
+      "client": "Hey Ocean!",
+      "cat": "music",
+      "platform": "YouTube",
+      "url": "https://www.youtube.com/watch?v=8NhUtjMM_p0",
+      "duration": "04:06"
+    },
+    {
+      "n": 14,
+      "title": "REEL ‘20",
+      "client": null,
+      "cat": "reel",
+      "platform": "gilljames.com",
+      "url": "https://www.gilljames.com/cinematographer",
+      "duration": "01:54"
+    },
+    {
+      "n": 15,
+      "title": "REEL ‘24",
+      "client": null,
+      "cat": "reel",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/730875677",
+      "duration": null
+    },
+    {
+      "n": 16,
+      "title": "Allan Rayman - Repeat (Feat. Jessie Reyez)",
+      "client": "Allan Rayman",
+      "cat": "music",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/228100706",
+      "duration": "03:36"
+    },
+    {
+      "n": 17,
+      "title": "Flower Crown - Claritin",
+      "client": "Claritin",
+      "cat": "commercial",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/673962781",
+      "duration": "00:15"
+    },
+    {
+      "n": 18,
+      "title": "Backward Fall",
+      "client": null,
+      "cat": "film",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/80660408",
+      "duration": "10:14"
+    },
+    {
+      "n": 19,
+      "title": "Arc'teryx S18",
+      "client": "Arc'teryx",
+      "cat": "commercial",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/235805093",
+      "duration": "01:00"
+    },
+    {
+      "n": 20,
+      "title": "Old Man Canyon - Back to the Start (Official Video)",
+      "client": "Old Man Canyon",
+      "cat": "music",
+      "platform": "YouTube",
+      "url": "https://www.youtube.com/watch?v=UYSYNTPSHaA",
+      "duration": "03:58"
+    },
+    {
+      "n": 21,
+      "title": "Lets Grow Good Together - Brand Film",
+      "client": null,
+      "cat": "commercial",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/386447253",
+      "duration": "02:57"
+    },
+    {
+      "n": 22,
+      "title": "Chris Malinchak and Kiesza  - 'Weird Kid'",
+      "client": "Chris Malinchak & Kiesza",
+      "cat": "music",
+      "platform": "YouTube",
+      "url": "https://www.youtube.com/watch?v=pFlum-_TfMk",
+      "duration": "03:44"
+    },
+    {
+      "n": 23,
+      "title": "ALLAN RAYMAN - VERONA'S OBSESSION (SHORT FILM MUSIC VIDEO)",
+      "client": "Allan Rayman",
+      "cat": "film",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/228820796",
+      "duration": "09:15"
+    },
+    {
+      "n": 24,
+      "title": "19 Crimes x Malamen | Obedience Gets You Nowhere",
+      "client": "19 Crimes",
+      "cat": "commercial",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/907578862",
+      "duration": "00:58"
+    },
+    {
+      "n": 25,
+      "title": "Wild Leaf - Fire - IG (4x5)",
+      "client": "Wild Leaf",
+      "cat": "commercial",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/387891161",
+      "duration": "00:12"
+    },
+    {
+      "n": 26,
+      "title": "Modern Man - Braun",
+      "client": "Braun",
+      "cat": "commercial",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/129506753",
+      "duration": "00:52"
+    },
+    {
+      "n": 27,
+      "title": "Old Man Canyon - Phantoms & Friends [Official Video]",
+      "client": "Old Man Canyon",
+      "cat": "music",
+      "platform": "YouTube",
+      "url": "https://www.youtube.com/watch?v=hzIGIBQXVqA",
+      "duration": "03:54"
+    },
+    {
+      "n": 28,
+      "title": "Summer Is Here - Shock Top",
+      "client": "Shock Top",
+      "cat": "commercial",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/122263901",
+      "duration": "00:30"
+    },
+    {
+      "n": 29,
+      "title": "Eat Well - Westin Hotels & Resorts",
+      "client": "Westin Hotels & Resorts",
+      "cat": "commercial",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/208164280",
+      "duration": "00:41"
+    },
+    {
+      "n": 30,
+      "title": "Buddy Time: Grandpa's Story - LEGO - 15s cut",
+      "client": "LEGO",
+      "cat": "commercial",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/151497032",
+      "duration": "00:19"
+    },
+    {
+      "n": 31,
+      "title": "Wild Leaf - Hike - IG (4x5)",
+      "client": "Wild Leaf",
+      "cat": "commercial",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/387891228",
+      "duration": "00:17"
+    },
+    {
+      "n": 32,
+      "title": "Wild Leaf - Canoe - IG (4x5)",
+      "client": "Wild Leaf",
+      "cat": "commercial",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/387891116",
+      "duration": "00:15"
+    },
+    {
+      "n": 33,
+      "title": "Mandie",
+      "client": null,
+      "cat": "film",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/213459219",
+      "duration": "05:51"
+    },
+    {
+      "n": 34,
+      "title": "BONSAI | Just The Beginning",
+      "client": "Bonsai",
+      "cat": "commercial",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/193011672",
+      "duration": "00:55"
+    },
+    {
+      "n": 35,
+      "title": "Mansions - Ltl Dstryr",
+      "client": "Mansions",
+      "cat": "music",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/321173558",
+      "duration": "04:53"
+    },
+    {
+      "n": 36,
+      "title": "FIAT - Journeys x Todd",
+      "client": "FIAT",
+      "cat": "commercial",
+      "platform": "Vimeo",
+      "url": "https://vimeo.com/149677115",
+      "duration": null
+    }
+  ],
+  "photo_count": 32,
+  "photos": [
+    {
+      "id": "6bd86d_05bf9ce918654f65b23f794f51098138",
+      "kind": "photo",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_05bf9ce918654f65b23f794f51098138-t.jpg",
+          "webp": "img/photo/6bd86d_05bf9ce918654f65b23f794f51098138-t.webp",
+          "w": 640,
+          "h": 270
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_05bf9ce918654f65b23f794f51098138-l.jpg",
+          "webp": "img/photo/6bd86d_05bf9ce918654f65b23f794f51098138-l.webp",
+          "w": 1600,
+          "h": 674
+        }
+      }
+    },
+    {
+      "id": "6bd86d_09fdfadbe4864912b0e5829bd6485f29",
+      "kind": "photo",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_09fdfadbe4864912b0e5829bd6485f29-t.jpg",
+          "webp": "img/photo/6bd86d_09fdfadbe4864912b0e5829bd6485f29-t.webp",
+          "w": 640,
+          "h": 270
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_09fdfadbe4864912b0e5829bd6485f29-l.jpg",
+          "webp": "img/photo/6bd86d_09fdfadbe4864912b0e5829bd6485f29-l.webp",
+          "w": 1600,
+          "h": 674
+        }
+      }
+    },
+    {
+      "id": "6bd86d_207df2fd924d4b84b0314c051c4b1ccd",
+      "kind": "photo",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_207df2fd924d4b84b0314c051c4b1ccd-t.jpg",
+          "webp": "img/photo/6bd86d_207df2fd924d4b84b0314c051c4b1ccd-t.webp",
+          "w": 640,
+          "h": 360
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_207df2fd924d4b84b0314c051c4b1ccd-l.jpg",
+          "webp": "img/photo/6bd86d_207df2fd924d4b84b0314c051c4b1ccd-l.webp",
+          "w": 1600,
+          "h": 901
+        }
+      }
+    },
+    {
+      "id": "6bd86d_2890419b6b614de8917869922200809c",
+      "kind": "photo",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_2890419b6b614de8917869922200809c-t.jpg",
+          "webp": "img/photo/6bd86d_2890419b6b614de8917869922200809c-t.webp",
+          "w": 640,
+          "h": 359
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_2890419b6b614de8917869922200809c-l.jpg",
+          "webp": "img/photo/6bd86d_2890419b6b614de8917869922200809c-l.webp",
+          "w": 1600,
+          "h": 897
+        }
+      }
+    },
+    {
+      "id": "6bd86d_30d457ea284b4bc299707ffea969a5c9f000_jpg",
+      "kind": "photo",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_30d457ea284b4bc299707ffea969a5c9f000_jpg-t.jpg",
+          "webp": "img/photo/6bd86d_30d457ea284b4bc299707ffea969a5c9f000_jpg-t.webp",
+          "w": 640,
+          "h": 333
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_30d457ea284b4bc299707ffea969a5c9f000_jpg-l.jpg",
+          "webp": "img/photo/6bd86d_30d457ea284b4bc299707ffea969a5c9f000_jpg-l.webp",
+          "w": 1600,
+          "h": 833
+        }
+      }
+    },
+    {
+      "id": "6bd86d_325ebb4400824092838a7ec22dd23c75",
+      "kind": "photo",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_325ebb4400824092838a7ec22dd23c75-t.jpg",
+          "webp": "img/photo/6bd86d_325ebb4400824092838a7ec22dd23c75-t.webp",
+          "w": 640,
+          "h": 360
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_325ebb4400824092838a7ec22dd23c75-l.jpg",
+          "webp": "img/photo/6bd86d_325ebb4400824092838a7ec22dd23c75-l.webp",
+          "w": 1600,
+          "h": 899
+        }
+      }
+    },
+    {
+      "id": "6bd86d_3428e628e314489f97c3c8836ed51507",
+      "kind": "photo",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_3428e628e314489f97c3c8836ed51507-t.jpg",
+          "webp": "img/photo/6bd86d_3428e628e314489f97c3c8836ed51507-t.webp",
+          "w": 640,
+          "h": 331
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_3428e628e314489f97c3c8836ed51507-l.jpg",
+          "webp": "img/photo/6bd86d_3428e628e314489f97c3c8836ed51507-l.webp",
+          "w": 1600,
+          "h": 826
+        }
+      }
+    },
+    {
+      "id": "6bd86d_3a7d0667b8e94a309e31efaf11dba3be",
+      "kind": "photo",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_3a7d0667b8e94a309e31efaf11dba3be-t.jpg",
+          "webp": "img/photo/6bd86d_3a7d0667b8e94a309e31efaf11dba3be-t.webp",
+          "w": 640,
+          "h": 339
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_3a7d0667b8e94a309e31efaf11dba3be-l.jpg",
+          "webp": "img/photo/6bd86d_3a7d0667b8e94a309e31efaf11dba3be-l.webp",
+          "w": 1600,
+          "h": 847
+        }
+      }
+    },
+    {
+      "id": "6bd86d_3e2755a9e26b4de2a324d57761fd57c3f000_jpg",
+      "kind": "photo",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_3e2755a9e26b4de2a324d57761fd57c3f000_jpg-t.jpg",
+          "webp": "img/photo/6bd86d_3e2755a9e26b4de2a324d57761fd57c3f000_jpg-t.webp",
+          "w": 640,
+          "h": 360
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_3e2755a9e26b4de2a324d57761fd57c3f000_jpg-l.jpg",
+          "webp": "img/photo/6bd86d_3e2755a9e26b4de2a324d57761fd57c3f000_jpg-l.webp",
+          "w": 1600,
+          "h": 900
+        }
+      }
+    },
+    {
+      "id": "6bd86d_4421395091274183bd97576a895654a7",
+      "kind": "photo",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_4421395091274183bd97576a895654a7-t.jpg",
+          "webp": "img/photo/6bd86d_4421395091274183bd97576a895654a7-t.webp",
+          "w": 640,
+          "h": 268
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_4421395091274183bd97576a895654a7-l.jpg",
+          "webp": "img/photo/6bd86d_4421395091274183bd97576a895654a7-l.webp",
+          "w": 1600,
+          "h": 670
+        }
+      }
+    },
+    {
+      "id": "6bd86d_55d267a88c1d42d6b393c31bc0e5cfb7",
+      "kind": "photo",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_55d267a88c1d42d6b393c31bc0e5cfb7-t.jpg",
+          "webp": "img/photo/6bd86d_55d267a88c1d42d6b393c31bc0e5cfb7-t.webp",
+          "w": 640,
+          "h": 359
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_55d267a88c1d42d6b393c31bc0e5cfb7-l.jpg",
+          "webp": "img/photo/6bd86d_55d267a88c1d42d6b393c31bc0e5cfb7-l.webp",
+          "w": 1600,
+          "h": 899
+        }
+      }
+    },
+    {
+      "id": "6bd86d_5a550576841042dd83afcb528e40875c",
+      "kind": "photo",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_5a550576841042dd83afcb528e40875c-t.jpg",
+          "webp": "img/photo/6bd86d_5a550576841042dd83afcb528e40875c-t.webp",
+          "w": 640,
+          "h": 268
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_5a550576841042dd83afcb528e40875c-l.jpg",
+          "webp": "img/photo/6bd86d_5a550576841042dd83afcb528e40875c-l.webp",
+          "w": 1600,
+          "h": 671
+        }
+      }
+    },
+    {
+      "id": "6bd86d_9c2dd2399dde40e98c72a1eda010187ff000_jpg",
+      "kind": "photo",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_9c2dd2399dde40e98c72a1eda010187ff000_jpg-t.jpg",
+          "webp": "img/photo/6bd86d_9c2dd2399dde40e98c72a1eda010187ff000_jpg-t.webp",
+          "w": 640,
+          "h": 273
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_9c2dd2399dde40e98c72a1eda010187ff000_jpg-l.jpg",
+          "webp": "img/photo/6bd86d_9c2dd2399dde40e98c72a1eda010187ff000_jpg-l.webp",
+          "w": 1600,
+          "h": 683
+        }
+      }
+    },
+    {
+      "id": "6bd86d_a6b0022e4e594d71ad2f8086fca4b35a",
+      "kind": "photo",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_a6b0022e4e594d71ad2f8086fca4b35a-t.jpg",
+          "webp": "img/photo/6bd86d_a6b0022e4e594d71ad2f8086fca4b35a-t.webp",
+          "w": 640,
+          "h": 269
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_a6b0022e4e594d71ad2f8086fca4b35a-l.jpg",
+          "webp": "img/photo/6bd86d_a6b0022e4e594d71ad2f8086fca4b35a-l.webp",
+          "w": 1600,
+          "h": 672
+        }
+      }
+    },
+    {
+      "id": "6bd86d_abc6e598010c48c99cbb88895bbc2706",
+      "kind": "photo",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_abc6e598010c48c99cbb88895bbc2706-t.jpg",
+          "webp": "img/photo/6bd86d_abc6e598010c48c99cbb88895bbc2706-t.webp",
+          "w": 640,
+          "h": 269
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_abc6e598010c48c99cbb88895bbc2706-l.jpg",
+          "webp": "img/photo/6bd86d_abc6e598010c48c99cbb88895bbc2706-l.webp",
+          "w": 1600,
+          "h": 672
+        }
+      }
+    },
+    {
+      "id": "6bd86d_c40627583e2546398639a107c9bf8657",
+      "kind": "photo",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_c40627583e2546398639a107c9bf8657-t.jpg",
+          "webp": "img/photo/6bd86d_c40627583e2546398639a107c9bf8657-t.webp",
+          "w": 640,
+          "h": 357
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_c40627583e2546398639a107c9bf8657-l.jpg",
+          "webp": "img/photo/6bd86d_c40627583e2546398639a107c9bf8657-l.webp",
+          "w": 1600,
+          "h": 892
+        }
+      }
+    },
+    {
+      "id": "6bd86d_d77627bc3bc34de1b7480a936c8bdd88f000_jpg",
+      "kind": "photo",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_d77627bc3bc34de1b7480a936c8bdd88f000_jpg-t.jpg",
+          "webp": "img/photo/6bd86d_d77627bc3bc34de1b7480a936c8bdd88f000_jpg-t.webp",
+          "w": 640,
+          "h": 320
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_d77627bc3bc34de1b7480a936c8bdd88f000_jpg-l.jpg",
+          "webp": "img/photo/6bd86d_d77627bc3bc34de1b7480a936c8bdd88f000_jpg-l.webp",
+          "w": 1600,
+          "h": 800
+        }
+      }
+    },
+    {
+      "id": "6bd86d_f13b181e7af34680b9821fd228b8621a",
+      "kind": "photo",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_f13b181e7af34680b9821fd228b8621a-t.jpg",
+          "webp": "img/photo/6bd86d_f13b181e7af34680b9821fd228b8621a-t.webp",
+          "w": 640,
+          "h": 271
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_f13b181e7af34680b9821fd228b8621a-l.jpg",
+          "webp": "img/photo/6bd86d_f13b181e7af34680b9821fd228b8621a-l.webp",
+          "w": 1600,
+          "h": 678
+        }
+      }
+    },
+    {
+      "id": "6bd86d_fbdee9cd69204fc8b3d4b9e97f33e580",
+      "kind": "photo",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_fbdee9cd69204fc8b3d4b9e97f33e580-t.jpg",
+          "webp": "img/photo/6bd86d_fbdee9cd69204fc8b3d4b9e97f33e580-t.webp",
+          "w": 640,
+          "h": 361
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_fbdee9cd69204fc8b3d4b9e97f33e580-l.jpg",
+          "webp": "img/photo/6bd86d_fbdee9cd69204fc8b3d4b9e97f33e580-l.webp",
+          "w": 1600,
+          "h": 902
+        }
+      }
+    },
+    {
+      "id": "6bd86d_fbe3e930ce9e4dfdb00f5836a4b2aab3",
+      "kind": "photo",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_fbe3e930ce9e4dfdb00f5836a4b2aab3-t.jpg",
+          "webp": "img/photo/6bd86d_fbe3e930ce9e4dfdb00f5836a4b2aab3-t.webp",
+          "w": 640,
+          "h": 276
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_fbe3e930ce9e4dfdb00f5836a4b2aab3-l.jpg",
+          "webp": "img/photo/6bd86d_fbe3e930ce9e4dfdb00f5836a4b2aab3-l.webp",
+          "w": 1600,
+          "h": 691
+        }
+      }
+    },
+    {
+      "id": "6bd86d_fa5d0e1cfeb6410dbe77947ab85fbf41",
+      "kind": "photo",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_fa5d0e1cfeb6410dbe77947ab85fbf41-t.jpg",
+          "webp": "img/photo/6bd86d_fa5d0e1cfeb6410dbe77947ab85fbf41-t.webp",
+          "w": 473,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_fa5d0e1cfeb6410dbe77947ab85fbf41-l.jpg",
+          "webp": "img/photo/6bd86d_fa5d0e1cfeb6410dbe77947ab85fbf41-l.webp",
+          "w": 1183,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_5f537dc11dde4a7bbd7754399f028977",
+      "kind": "photo",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_5f537dc11dde4a7bbd7754399f028977-t.jpg",
+          "webp": "img/photo/6bd86d_5f537dc11dde4a7bbd7754399f028977-t.webp",
+          "w": 640,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_5f537dc11dde4a7bbd7754399f028977-l.jpg",
+          "webp": "img/photo/6bd86d_5f537dc11dde4a7bbd7754399f028977-l.webp",
+          "w": 1600,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_3f1441bb49b94d00b155704f90638994f000_jpg",
+      "kind": "photo",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_3f1441bb49b94d00b155704f90638994f000_jpg-t.jpg",
+          "webp": "img/photo/6bd86d_3f1441bb49b94d00b155704f90638994f000_jpg-t.webp",
+          "w": 640,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_3f1441bb49b94d00b155704f90638994f000_jpg-l.jpg",
+          "webp": "img/photo/6bd86d_3f1441bb49b94d00b155704f90638994f000_jpg-l.webp",
+          "w": 720,
+          "h": 720
+        }
+      }
+    },
+    {
+      "id": "6bd86d_1ea3eca2db4044c89717ac779930420b",
+      "kind": "spatial",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_1ea3eca2db4044c89717ac779930420b-t.jpg",
+          "webp": "img/photo/6bd86d_1ea3eca2db4044c89717ac779930420b-t.webp",
+          "w": 311,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_1ea3eca2db4044c89717ac779930420b-l.jpg",
+          "webp": "img/photo/6bd86d_1ea3eca2db4044c89717ac779930420b-l.webp",
+          "w": 778,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_30f893bfb7494f539a783f8e69c452fa",
+      "kind": "spatial",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_30f893bfb7494f539a783f8e69c452fa-t.jpg",
+          "webp": "img/photo/6bd86d_30f893bfb7494f539a783f8e69c452fa-t.webp",
+          "w": 569,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_30f893bfb7494f539a783f8e69c452fa-l.jpg",
+          "webp": "img/photo/6bd86d_30f893bfb7494f539a783f8e69c452fa-l.webp",
+          "w": 1206,
+          "h": 1357
+        }
+      }
+    },
+    {
+      "id": "6bd86d_c6eaeb0df2bd4150b290465944dd8d52",
+      "kind": "spatial",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_c6eaeb0df2bd4150b290465944dd8d52-t.jpg",
+          "webp": "img/photo/6bd86d_c6eaeb0df2bd4150b290465944dd8d52-t.webp",
+          "w": 379,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_c6eaeb0df2bd4150b290465944dd8d52-l.jpg",
+          "webp": "img/photo/6bd86d_c6eaeb0df2bd4150b290465944dd8d52-l.webp",
+          "w": 949,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_e6957602dd59443b8670bc47dd9c2768",
+      "kind": "spatial",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_e6957602dd59443b8670bc47dd9c2768-t.jpg",
+          "webp": "img/photo/6bd86d_e6957602dd59443b8670bc47dd9c2768-t.webp",
+          "w": 294,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_e6957602dd59443b8670bc47dd9c2768-l.jpg",
+          "webp": "img/photo/6bd86d_e6957602dd59443b8670bc47dd9c2768-l.webp",
+          "w": 736,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_b19f10aa2b57473993a560043ded11f8",
+      "kind": "spatial",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_b19f10aa2b57473993a560043ded11f8-t.jpg",
+          "webp": "img/photo/6bd86d_b19f10aa2b57473993a560043ded11f8-t.webp",
+          "w": 640,
+          "h": 296
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_b19f10aa2b57473993a560043ded11f8-l.jpg",
+          "webp": "img/photo/6bd86d_b19f10aa2b57473993a560043ded11f8-l.webp",
+          "w": 1206,
+          "h": 558
+        }
+      }
+    },
+    {
+      "id": "6bd86d_069ab99d5880406aa4b8a2b86a4d293b",
+      "kind": "spatial",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_069ab99d5880406aa4b8a2b86a4d293b-t.jpg",
+          "webp": "img/photo/6bd86d_069ab99d5880406aa4b8a2b86a4d293b-t.webp",
+          "w": 512,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_069ab99d5880406aa4b8a2b86a4d293b-l.jpg",
+          "webp": "img/photo/6bd86d_069ab99d5880406aa4b8a2b86a4d293b-l.webp",
+          "w": 1280,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_e257bd8fe53c4f43804d79bd9113fc46",
+      "kind": "spatial",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_e257bd8fe53c4f43804d79bd9113fc46-t.jpg",
+          "webp": "img/photo/6bd86d_e257bd8fe53c4f43804d79bd9113fc46-t.webp",
+          "w": 512,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_e257bd8fe53c4f43804d79bd9113fc46-l.jpg",
+          "webp": "img/photo/6bd86d_e257bd8fe53c4f43804d79bd9113fc46-l.webp",
+          "w": 1280,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_85ea7aa1efcc4f0f966d6fd8e1bca688",
+      "kind": "spatial",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_85ea7aa1efcc4f0f966d6fd8e1bca688-t.jpg",
+          "webp": "img/photo/6bd86d_85ea7aa1efcc4f0f966d6fd8e1bca688-t.webp",
+          "w": 512,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_85ea7aa1efcc4f0f966d6fd8e1bca688-l.jpg",
+          "webp": "img/photo/6bd86d_85ea7aa1efcc4f0f966d6fd8e1bca688-l.webp",
+          "w": 1280,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_1e3bd8c6d0324027a4674f775215ab42",
+      "kind": "spatial",
+      "src": {
+        "t": {
+          "jpg": "img/photo/6bd86d_1e3bd8c6d0324027a4674f775215ab42-t.jpg",
+          "webp": "img/photo/6bd86d_1e3bd8c6d0324027a4674f775215ab42-t.webp",
+          "w": 512,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/photo/6bd86d_1e3bd8c6d0324027a4674f775215ab42-l.jpg",
+          "webp": "img/photo/6bd86d_1e3bd8c6d0324027a4674f775215ab42-l.webp",
+          "w": 1280,
+          "h": 1600
+        }
+      }
+    }
+  ],
+  "joio_count": 29,
+  "joio": [
+    {
+      "id": "6bd86d_0d93c0c1abb24a21bf6bd96d1b3003fa",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_0d93c0c1abb24a21bf6bd96d1b3003fa-t.jpg",
+          "webp": "img/joio/6bd86d_0d93c0c1abb24a21bf6bd96d1b3003fa-t.webp",
+          "w": 512,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_0d93c0c1abb24a21bf6bd96d1b3003fa-l.jpg",
+          "webp": "img/joio/6bd86d_0d93c0c1abb24a21bf6bd96d1b3003fa-l.webp",
+          "w": 1280,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_0f25314dd66e451ba586ea7709f1dadd",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_0f25314dd66e451ba586ea7709f1dadd-t.jpg",
+          "webp": "img/joio/6bd86d_0f25314dd66e451ba586ea7709f1dadd-t.webp",
+          "w": 512,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_0f25314dd66e451ba586ea7709f1dadd-l.jpg",
+          "webp": "img/joio/6bd86d_0f25314dd66e451ba586ea7709f1dadd-l.webp",
+          "w": 1280,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_0fcf2a215ad0464f93b7ee4617c9d9be",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_0fcf2a215ad0464f93b7ee4617c9d9be-t.jpg",
+          "webp": "img/joio/6bd86d_0fcf2a215ad0464f93b7ee4617c9d9be-t.webp",
+          "w": 360,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_0fcf2a215ad0464f93b7ee4617c9d9be-l.jpg",
+          "webp": "img/joio/6bd86d_0fcf2a215ad0464f93b7ee4617c9d9be-l.webp",
+          "w": 900,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_14af9fc67f634d65b6cde4502bdf6da3",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_14af9fc67f634d65b6cde4502bdf6da3-t.jpg",
+          "webp": "img/joio/6bd86d_14af9fc67f634d65b6cde4502bdf6da3-t.webp",
+          "w": 512,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_14af9fc67f634d65b6cde4502bdf6da3-l.jpg",
+          "webp": "img/joio/6bd86d_14af9fc67f634d65b6cde4502bdf6da3-l.webp",
+          "w": 1280,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_1bb06b0eed1a4d6886690074b25b2265",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_1bb06b0eed1a4d6886690074b25b2265-t.jpg",
+          "webp": "img/joio/6bd86d_1bb06b0eed1a4d6886690074b25b2265-t.webp",
+          "w": 513,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_1bb06b0eed1a4d6886690074b25b2265-l.jpg",
+          "webp": "img/joio/6bd86d_1bb06b0eed1a4d6886690074b25b2265-l.webp",
+          "w": 1282,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_2316871b213741f99af9aa4666136100",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_2316871b213741f99af9aa4666136100-t.jpg",
+          "webp": "img/joio/6bd86d_2316871b213741f99af9aa4666136100-t.webp",
+          "w": 512,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_2316871b213741f99af9aa4666136100-l.jpg",
+          "webp": "img/joio/6bd86d_2316871b213741f99af9aa4666136100-l.webp",
+          "w": 1280,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_2594e6eaf38f425bbcada3b70827471e",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_2594e6eaf38f425bbcada3b70827471e-t.jpg",
+          "webp": "img/joio/6bd86d_2594e6eaf38f425bbcada3b70827471e-t.webp",
+          "w": 512,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_2594e6eaf38f425bbcada3b70827471e-l.jpg",
+          "webp": "img/joio/6bd86d_2594e6eaf38f425bbcada3b70827471e-l.webp",
+          "w": 1280,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_27a361ce4b204d1a822db7499d689bed",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_27a361ce4b204d1a822db7499d689bed-t.jpg",
+          "webp": "img/joio/6bd86d_27a361ce4b204d1a822db7499d689bed-t.webp",
+          "w": 512,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_27a361ce4b204d1a822db7499d689bed-l.jpg",
+          "webp": "img/joio/6bd86d_27a361ce4b204d1a822db7499d689bed-l.webp",
+          "w": 1280,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_27a4c19db0d841338b635afec9c507cf",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_27a4c19db0d841338b635afec9c507cf-t.jpg",
+          "webp": "img/joio/6bd86d_27a4c19db0d841338b635afec9c507cf-t.webp",
+          "w": 512,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_27a4c19db0d841338b635afec9c507cf-l.jpg",
+          "webp": "img/joio/6bd86d_27a4c19db0d841338b635afec9c507cf-l.webp",
+          "w": 1280,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_388e4910fa7840cd9e74dbd9c6f5a64d",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_388e4910fa7840cd9e74dbd9c6f5a64d-t.jpg",
+          "webp": "img/joio/6bd86d_388e4910fa7840cd9e74dbd9c6f5a64d-t.webp",
+          "w": 512,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_388e4910fa7840cd9e74dbd9c6f5a64d-l.jpg",
+          "webp": "img/joio/6bd86d_388e4910fa7840cd9e74dbd9c6f5a64d-l.webp",
+          "w": 1280,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_65f2df29b9054299b5e04b67c5c7f2ab",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_65f2df29b9054299b5e04b67c5c7f2ab-t.jpg",
+          "webp": "img/joio/6bd86d_65f2df29b9054299b5e04b67c5c7f2ab-t.webp",
+          "w": 512,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_65f2df29b9054299b5e04b67c5c7f2ab-l.jpg",
+          "webp": "img/joio/6bd86d_65f2df29b9054299b5e04b67c5c7f2ab-l.webp",
+          "w": 1280,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_6640a426d66a46e2895dea7f789a193c",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_6640a426d66a46e2895dea7f789a193c-t.jpg",
+          "webp": "img/joio/6bd86d_6640a426d66a46e2895dea7f789a193c-t.webp",
+          "w": 480,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_6640a426d66a46e2895dea7f789a193c-l.jpg",
+          "webp": "img/joio/6bd86d_6640a426d66a46e2895dea7f789a193c-l.webp",
+          "w": 1200,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_7b7266822d58491eb8fb6b207431c61c",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_7b7266822d58491eb8fb6b207431c61c-t.jpg",
+          "webp": "img/joio/6bd86d_7b7266822d58491eb8fb6b207431c61c-t.webp",
+          "w": 512,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_7b7266822d58491eb8fb6b207431c61c-l.jpg",
+          "webp": "img/joio/6bd86d_7b7266822d58491eb8fb6b207431c61c-l.webp",
+          "w": 1280,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_7eac6539d6ed4e6491e56fedce4a8762",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_7eac6539d6ed4e6491e56fedce4a8762-t.jpg",
+          "webp": "img/joio/6bd86d_7eac6539d6ed4e6491e56fedce4a8762-t.webp",
+          "w": 480,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_7eac6539d6ed4e6491e56fedce4a8762-l.jpg",
+          "webp": "img/joio/6bd86d_7eac6539d6ed4e6491e56fedce4a8762-l.webp",
+          "w": 1200,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_8c86eb46dcce458fbaa95b240c27fbef",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_8c86eb46dcce458fbaa95b240c27fbef-t.jpg",
+          "webp": "img/joio/6bd86d_8c86eb46dcce458fbaa95b240c27fbef-t.webp",
+          "w": 512,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_8c86eb46dcce458fbaa95b240c27fbef-l.jpg",
+          "webp": "img/joio/6bd86d_8c86eb46dcce458fbaa95b240c27fbef-l.webp",
+          "w": 1280,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_9b41ba3354e842e5b772946932c0bd31",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_9b41ba3354e842e5b772946932c0bd31-t.jpg",
+          "webp": "img/joio/6bd86d_9b41ba3354e842e5b772946932c0bd31-t.webp",
+          "w": 513,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_9b41ba3354e842e5b772946932c0bd31-l.jpg",
+          "webp": "img/joio/6bd86d_9b41ba3354e842e5b772946932c0bd31-l.webp",
+          "w": 1282,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_b24ccdb3c5054c9d9e135dc5d5e2e982",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_b24ccdb3c5054c9d9e135dc5d5e2e982-t.jpg",
+          "webp": "img/joio/6bd86d_b24ccdb3c5054c9d9e135dc5d5e2e982-t.webp",
+          "w": 512,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_b24ccdb3c5054c9d9e135dc5d5e2e982-l.jpg",
+          "webp": "img/joio/6bd86d_b24ccdb3c5054c9d9e135dc5d5e2e982-l.webp",
+          "w": 1280,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_b6fbb6e7e3b242bab0cf0aeacc3b69b9",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_b6fbb6e7e3b242bab0cf0aeacc3b69b9-t.jpg",
+          "webp": "img/joio/6bd86d_b6fbb6e7e3b242bab0cf0aeacc3b69b9-t.webp",
+          "w": 512,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_b6fbb6e7e3b242bab0cf0aeacc3b69b9-l.jpg",
+          "webp": "img/joio/6bd86d_b6fbb6e7e3b242bab0cf0aeacc3b69b9-l.webp",
+          "w": 1280,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_ca7fbd8f066d4aab8102d4d2ffd40960",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_ca7fbd8f066d4aab8102d4d2ffd40960-t.jpg",
+          "webp": "img/joio/6bd86d_ca7fbd8f066d4aab8102d4d2ffd40960-t.webp",
+          "w": 480,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_ca7fbd8f066d4aab8102d4d2ffd40960-l.jpg",
+          "webp": "img/joio/6bd86d_ca7fbd8f066d4aab8102d4d2ffd40960-l.webp",
+          "w": 1200,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_d31bb0706ac44c55867fce24a7a392dc",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_d31bb0706ac44c55867fce24a7a392dc-t.jpg",
+          "webp": "img/joio/6bd86d_d31bb0706ac44c55867fce24a7a392dc-t.webp",
+          "w": 512,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_d31bb0706ac44c55867fce24a7a392dc-l.jpg",
+          "webp": "img/joio/6bd86d_d31bb0706ac44c55867fce24a7a392dc-l.webp",
+          "w": 1280,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_d7763ec3fc804e2bb456c1b5ca7f0807",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_d7763ec3fc804e2bb456c1b5ca7f0807-t.jpg",
+          "webp": "img/joio/6bd86d_d7763ec3fc804e2bb456c1b5ca7f0807-t.webp",
+          "w": 640,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_d7763ec3fc804e2bb456c1b5ca7f0807-l.jpg",
+          "webp": "img/joio/6bd86d_d7763ec3fc804e2bb456c1b5ca7f0807-l.webp",
+          "w": 1600,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_e1cf2ee54eed4fea8fada92c5f4cb34b",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_e1cf2ee54eed4fea8fada92c5f4cb34b-t.jpg",
+          "webp": "img/joio/6bd86d_e1cf2ee54eed4fea8fada92c5f4cb34b-t.webp",
+          "w": 512,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_e1cf2ee54eed4fea8fada92c5f4cb34b-l.jpg",
+          "webp": "img/joio/6bd86d_e1cf2ee54eed4fea8fada92c5f4cb34b-l.webp",
+          "w": 1280,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_e2aa7ba01c194fd9bbd8fc6de14940c1",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_e2aa7ba01c194fd9bbd8fc6de14940c1-t.jpg",
+          "webp": "img/joio/6bd86d_e2aa7ba01c194fd9bbd8fc6de14940c1-t.webp",
+          "w": 512,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_e2aa7ba01c194fd9bbd8fc6de14940c1-l.jpg",
+          "webp": "img/joio/6bd86d_e2aa7ba01c194fd9bbd8fc6de14940c1-l.webp",
+          "w": 1280,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_e3407300371344b58de93591032b769e",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_e3407300371344b58de93591032b769e-t.jpg",
+          "webp": "img/joio/6bd86d_e3407300371344b58de93591032b769e-t.webp",
+          "w": 512,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_e3407300371344b58de93591032b769e-l.jpg",
+          "webp": "img/joio/6bd86d_e3407300371344b58de93591032b769e-l.webp",
+          "w": 1280,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_e6f29c5f5bf144a0b339722ba20cdb00",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_e6f29c5f5bf144a0b339722ba20cdb00-t.jpg",
+          "webp": "img/joio/6bd86d_e6f29c5f5bf144a0b339722ba20cdb00-t.webp",
+          "w": 512,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_e6f29c5f5bf144a0b339722ba20cdb00-l.jpg",
+          "webp": "img/joio/6bd86d_e6f29c5f5bf144a0b339722ba20cdb00-l.webp",
+          "w": 1280,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_efb2a65e135c4e67aeb46e85b7a87018",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_efb2a65e135c4e67aeb46e85b7a87018-t.jpg",
+          "webp": "img/joio/6bd86d_efb2a65e135c4e67aeb46e85b7a87018-t.webp",
+          "w": 640,
+          "h": 427
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_efb2a65e135c4e67aeb46e85b7a87018-l.jpg",
+          "webp": "img/joio/6bd86d_efb2a65e135c4e67aeb46e85b7a87018-l.webp",
+          "w": 1600,
+          "h": 1066
+        }
+      }
+    },
+    {
+      "id": "6bd86d_f51e0021999d4978b807bc0d77f9e1f8",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_f51e0021999d4978b807bc0d77f9e1f8-t.jpg",
+          "webp": "img/joio/6bd86d_f51e0021999d4978b807bc0d77f9e1f8-t.webp",
+          "w": 512,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_f51e0021999d4978b807bc0d77f9e1f8-l.jpg",
+          "webp": "img/joio/6bd86d_f51e0021999d4978b807bc0d77f9e1f8-l.webp",
+          "w": 1280,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_89abb22f46554747ba783749fe2233aa",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_89abb22f46554747ba783749fe2233aa-t.jpg",
+          "webp": "img/joio/6bd86d_89abb22f46554747ba783749fe2233aa-t.webp",
+          "w": 512,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_89abb22f46554747ba783749fe2233aa-l.jpg",
+          "webp": "img/joio/6bd86d_89abb22f46554747ba783749fe2233aa-l.webp",
+          "w": 1280,
+          "h": 1600
+        }
+      }
+    },
+    {
+      "id": "6bd86d_93f33c316ba74b678b89958a2fc678b6",
+      "kind": "joio",
+      "src": {
+        "t": {
+          "jpg": "img/joio/6bd86d_93f33c316ba74b678b89958a2fc678b6-t.jpg",
+          "webp": "img/joio/6bd86d_93f33c316ba74b678b89958a2fc678b6-t.webp",
+          "w": 512,
+          "h": 640
+        },
+        "l": {
+          "jpg": "img/joio/6bd86d_93f33c316ba74b678b89958a2fc678b6-l.jpg",
+          "webp": "img/joio/6bd86d_93f33c316ba74b678b89958a2fc678b6-l.webp",
+          "w": 1280,
+          "h": 1600
+        }
+      }
+    }
+  ],
+  "source": "gilljames-archive (captured 2026-10-17)"
+}
