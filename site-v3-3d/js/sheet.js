@@ -184,8 +184,12 @@ function toAll(k,w){crumbFor('all');var it=w&&C[k]?C[k].items.filter(function(x)
 /* the handover: line the column grid up under the sheet, fly the camera so the sheet grid lands exactly on it, then let go */
 function prepHand(k){if(k==='about'){HAND=null;return}__dive.go({k:k,lv:2},{push:false,noAnim:true,quiet:true});var c=$('#'+k),first=$('.it .vis',c);if(!first){HAND=null;return}
   var wr=first.getBoundingClientRect(),want=TOP+76;scrollBy(0,wr.top-want);wr=first.getBoundingClientRect();HAND={k:k,x:wr.left,y:wr.top,w:wr.width}}
-function dive(k,w){if(k==='about'){close({to:{k:'about',lv:1}});return}crumbFor('dive',k);prepHand(k);FK=k;
-  tween(blockCam(k),1,(M<.5?1400:650),function(){close({to:w?{k:k,lv:3,w:w}:{k:k,lv:2},hand:1})})}
+function soundTo(k,w){return (k==='sound'&&!w)?{k:'sound',lv:3,w:'wave'}:(w?{k:k,lv:3,w:w}:{k:k,lv:2})}
+function dive(k,w){if(k==='about'){close({to:{k:'about',lv:1}});return}
+  /* Sound: skip the board handover and open the waveform player as the first layer. Reduce Motion is the same landing. */
+  if(k==='sound'&&!w){crumbFor('dive',k);FK=k;close({to:{k:'sound',lv:3,w:'wave'}});return}
+  crumbFor('dive',k);prepHand(k);FK=k;
+  tween(blockCam(k),1,(M<.5?1400:650),function(){close({to:soundTo(k,w),hand:1})})}
 function step(dir){if(tw||MP)return;if(dir>0){if(mode==='sky')toChap(Math.abs(cam.s-fitS())<.02?'film':nearest());else if(mode==='chap')dive(FK);else dive(nearest())}
   else{if(mode==='chap'||mode==='all')toSky()}}
 /* ---------- open / close ---------- */
@@ -230,7 +234,7 @@ function up(e){if(!PT.has(e.pointerId))return;var was=PT.size;PT.delete(e.pointe
   if(was===1&&moved<10&&Date.now()-t0<500){tap(e.clientX,e.clientY);return}if(pinched)release();else ui()}
 sheet.addEventListener('pointerup',up);sheet.addEventListener('pointercancel',function(e){PT.delete(e.pointerId);if(!PT.size)release()});
 /* release: snap to the nearest level */
-function release(){if(MP){var mp=MP;MP=null;cam=interp(mp.c0,mp.c1,mp.p);M=mp.p;if(mp.p>.3){FK=mp.k;tween(mp.c1,1,Math.max(260,700*(1-mp.p)),function(){close({to:{k:mp.k,lv:2},hand:1})})}
+function release(){if(MP){var mp=MP;MP=null;cam=interp(mp.c0,mp.c1,mp.p);M=mp.p;if(mp.p>.3){FK=mp.k;if(mp.k==='sound'){close({to:{k:'sound',lv:3,w:'wave'}});return}tween(mp.c1,1,Math.max(260,700*(1-mp.p)),function(){close({to:{k:mp.k,lv:2},hand:1})})}
     else{HAND=null;tween(chapCam(mp.k),0,360,function(){settle('chap',mp.k)})}return}
   var s=cam.s;if(M>.5){var a=allS();if(s>a*1.7)dive(nearest());else if(s<a*.62)toSky();else{req();if(mode!=='all')settle('all')}return} /* v3.2 QA: reduced motion moved synchronously; no swallowed pinch */
   var f=fitS(),k=nearest(),cs=chapCam(k).s;if(s<Math.sqrt(f*cs))toSky();else toChap(k)}
