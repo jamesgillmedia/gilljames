@@ -1,0 +1,5 @@
+/* site-v3-3d: about bio layer, existing type, no mint chrome */
+.about-l1 .pronouns{margin:4px 0 8px;font:300 12px/1.4 Poppins,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#e8e4dc}
+.about-l1 .bio{max-height:min(58vh,28rem);overflow:auto;padding-right:4px;-webkit-overflow-scrolling:touch}
+.about-l1 .bio p{margin:0 0 .85em;font:300 15px/1.55 Poppins,sans-serif;color:#e6edf0;max-width:40rem}
+.about-l1 .bio p:last-child{margin-bottom:0}
