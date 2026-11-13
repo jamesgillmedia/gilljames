@@ -1,20 +1,32 @@
-/* site-v3-3d · one more zoom level inside the Film player: a slides layer of that
-   film's stills (the strip frames already on the work, plus its poster). Swipe or
-   use left/right on desktop. Pinch / − / Escape / Back returns to the player, then
-   the board or constellation. Reduce Motion lands in the same place. */
+/* site-v3-3d · slides layer one zoom in from the Film player.
+   Hooks route changes (hashchange, popstate, MutationObserver on the player)
+   and real input (+, zoom-in, pinch-out), not only a wrap of __dive.go/step.
+   The slides get their own history entry; Back and pinch-in close only this
+   layer. Reduce Motion lands in the same place. */
 (function(){
 'use strict';
-var on=false,idx=0,slides=[],root=null,title='',srcW=null,ptr=null,SWALLOW=0;
+var on=false,idx=0,slides=[],root=null,title='',srcW=null,ptr=null,SWALLOW=0,pushed=false;
+
 function rmOn(){return !!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)}
-function dive(){return window.__dive}
-function filmState(){var d=dive();if(!d||!d.state)return null;var s=d.state();return (s&&s.k==='film'&&s.lv===3&&s.w)?s:null}
 function itemEl(w){return document.querySelector('#film .it[data-k="'+w+'"]')}
+function immOn(){var imm=document.querySelector('.imm');return !!(imm&&!imm.hidden)}
+function filmPlayer(){
+  var imm=document.querySelector('.imm');
+  if(!imm||imm.hidden)return null;
+  var d=window.__dive&&__dive.state&&__dive.state();
+  if(d&&d.k==='film'&&d.lv===3&&d.w)return d;
+  var m=(location.hash||'').match(/^#film\/(w\w+)(?:\/play)?$/);
+  if(m)return{k:'film',w:m[1],lv:3,play:false};
+  var cur=document.querySelector('#film .it.cur');
+  if(cur&&cur.dataset.k)return{k:'film',w:cur.dataset.k,lv:3,play:false};
+  return null;
+}
 function collect(w){
   var it=itemEl(w),out=[],seen={};
   function add(src,kind){if(!src||seen[src])return;seen[src]=1;out.push({src:src,kind:kind||'still'})}
   if(!it)return out;
   var j={};try{j=JSON.parse(it.dataset.j||'{}')}catch(e){}
-  title=j.title||it.querySelector('.cap b')&&it.querySelector('.cap b').textContent||'film';
+  title=j.title||(it.querySelector('.cap b')&&it.querySelector('.cap b').textContent)||'film';
   add(it.dataset.big,'poster');
   (j.frames||[]).forEach(function(f){add(f,'still')});
   var fr=document.querySelector('.imm-f');
@@ -59,55 +71,129 @@ function paint(){
   root.querySelector('.fs-prev').disabled=idx<=0;root.querySelector('.fs-next').disabled=idx>=slides.length-1;
 }
 function open(){
-  var st=filmState();if(!st)return false;
+  var st=filmPlayer();if(!st)return false;
   srcW=st.w;slides=collect(st.w);if(!slides.length)return false;
   idx=0;build();on=true;document.documentElement.classList.add('fs-on');
   root.hidden=false;root.classList.toggle('fs-rm',rmOn());paint();
+  if(!(history.state&&history.state.gjSlides)){
+    try{history.pushState(Object.assign({},history.state||{},{gj:1,gjSlides:1,w:srcW}),'',location.href);pushed=true}catch(e){pushed=false}
+  }
   try{root.querySelector('.fs-back').focus({preventScroll:true})}catch(e){}
   return true;
 }
-function close(){
+function close(fromPop){
   if(!on)return;on=false;document.documentElement.classList.remove('fs-on');
   if(root)root.hidden=true;ptr=null;SWALLOW=Date.now()+400;
+  if(!fromPop&&pushed&&history.state&&history.state.gjSlides){
+    pushed=false;try{history.back()}catch(e){}
+  }
+  pushed=false;
 }
 function step(d){if(!on||!slides.length)return;idx=Math.max(0,Math.min(slides.length-1,idx+d));paint()}
 
-function hook(){
-  if(!dive()||dive().__v33dSlides)return;
-  var step0=dive().step, go0=dive().go;
-  dive().step=function(dir,anchor,k){
-    if(on){if(dir<0)close();else step(1);return}
-    var s=dive().state();
-    if(dir>0&&s&&s.k==='film'&&s.lv===3&&s.w){if(open())return}
-    return step0(dir,anchor,k);
-  };
-  dive().go=function(r,o){
-    if(on&&(!r||r.k!=='film'||r.lv!==3||r.w!==srcW))close();
-    return go0(r,o);
-  };
-  dive().__v33dSlides=1;
+/* also wrap public methods as a fallback, but route + real input are the source of truth */
+function hookWrap(){
+  if(!window.__dive||diveHooked)return;
+  var step0=__dive.step, go0=__dive.go;
+  if(typeof step0==='function'){
+    __dive.step=function(dir,anchor,k){
+      if(on){if(dir<0)close();else step(1);return}
+      var s=filmPlayer();
+      if(dir>0&&s){if(open())return}
+      return step0(dir,anchor,k);
+    };
+  }
+  if(typeof go0==='function'){
+    __dive.go=function(r,o){
+      if(on&&(!r||r.k!=='film'||r.lv!==3||r.w!==srcW))close(true);
+      return go0(r,o);
+    };
+  }
+  diveHooked=1;
 }
-hook();addEventListener('DOMContentLoaded',hook);
+var diveHooked=0;
+hookWrap();addEventListener('DOMContentLoaded',hookWrap);
 
 addEventListener('keydown',function(e){
-  if(!on)return;
-  if(e.key==='Escape'||e.key==='-'||e.key==='_'){e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();close();return}
-  if(e.key==='ArrowLeft'){e.preventDefault();step(-1)}
-  if(e.key==='ArrowRight'||e.key==='+'||e.key==='='){e.preventDefault();step(1)}
+  if(on){
+    if(e.key==='Escape'||e.key==='-'||e.key==='_'){e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();close();return}
+    if(e.key==='ArrowLeft'){e.preventDefault();step(-1)}
+    if(e.key==='ArrowRight'||e.key==='+'||e.key==='='){e.preventDefault();step(1)}
+    return;
+  }
+  if((e.key==='+'||e.key==='=')&&filmPlayer()&&!on){
+    e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+    open();
+  }
 },true);
 
-/* pinch out of the slides: two fingers closing */
+addEventListener('click',function(e){
+  var z=e.target.closest&&e.target.closest('.zb[data-z="1"]');
+  if(!z)return;
+  if(on){e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();step(1);return}
+  if(filmPlayer()){
+    e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+    open();
+  }
+},true);
+
+addEventListener('click',function(e){
+  var z=e.target.closest&&e.target.closest('.zb[data-z="-1"]');
+  if(!z||!on)return;
+  e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+  close();
+},true);
+
+/* pinch: one level only. On slides, pinch-in closes slides. On the player, pinch-out opens slides. */
 var P=null;
-addEventListener('touchstart',function(e){if(!on||e.touches.length!==2)return;var a=e.touches[0],b=e.touches[1];P={d:Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY)}},{passive:true});
-addEventListener('touchmove',function(e){if(!on||!P||e.touches.length!==2)return;var a=e.touches[0],b=e.touches[1],d=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);
-  if(P.d&&d/P.d<0.82){P=null;close()}},{passive:true});
-addEventListener('touchend',function(){P=null},{passive:true});
+addEventListener('touchstart',function(e){
+  if(e.touches.length!==2)return;
+  if(!on&&!filmPlayer())return;
+  var a=e.touches[0],b=e.touches[1];
+  P={d:Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY),slides:on};
+},{capture:true,passive:true});
+addEventListener('touchmove',function(e){
+  if(!P||e.touches.length!==2)return;
+  var a=e.touches[0],b=e.touches[1],d=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);
+  if(!P.d)return;
+  if(d/P.d<0.82){
+    P=null;
+    e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+    if(on)close();
+    else if(filmPlayer()){
+      var out=document.querySelector('.imm [data-a=out]');
+      if(out)out.click();
+    }
+  }else if(d/P.d>1.2&&!on&&filmPlayer()){
+    P=null;
+    e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+    open();
+  }
+},{capture:true,passive:false});
+addEventListener('touchend',function(){P=null},{capture:true,passive:true});
 
 addEventListener('wheel',function(e){
   if(!on)return;
   if(e.deltaY>30){e.preventDefault();close()}
   else if(e.deltaY<-30){e.preventDefault();step(1)}
 },{passive:false,capture:true});
+
+addEventListener('popstate',function(e){
+  if(on&&!(e.state&&e.state.gjSlides))close(true);
+},true);
+
+/* if the player closes under us, drop the overlay */
+function watch(){
+  hookWrap();
+  if(on&&!filmPlayer())close(true);
+}
+addEventListener('hashchange',watch);
+addEventListener('popstate',watch);
+addEventListener('DOMContentLoaded',function(){
+  var imm=document.querySelector('.imm');
+  if(imm)new MutationObserver(watch).observe(imm,{attributes:true,attributeFilter:['hidden','class']});
+});
+setInterval(watch,400);
 
 window.__filmSlides={open:open,close:close,isOpen:function(){return on},state:function(){return{on:on,i:idx,n:slides.length,w:srcW}}};
 })();

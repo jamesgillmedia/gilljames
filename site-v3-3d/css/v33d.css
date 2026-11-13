@@ -46,3 +46,70 @@
 @media (prefers-reduced-motion:reduce){
   .ff-hold .ff-poster{transition:none}
 }
+
+/* hide the public "[Gill writes]" placeholder; real caption text is left as written */
+.imm-c .ph{display:none}
+#photo .it[data-k="w45"],#photo .it[data-k="w47"],#photo .it[data-k="w49"],#photo .it[data-k="w56"]{display:none!important}
+
+
+/* ---- chrome: clamp ink and playheads to #e8e4dc; zero mint in UI ---- */
+:root{--mint:#e8e4dc;--ink:#e8e4dc;--here:#e8e4dc}
+.name,.home,.list,.tabs a,.tabs a.here,.tabs a[aria-current],
+.zoom,.zn,.dots,.zb,.shome,.crumb,.sig,.shint,
+.sl b,.sl small,[data-sk],.cap b,.nm,.ct,.poem,.roles,.hint,.label,
+.fs-title,.fs-count,.fs-back,.ff-tog,button.ff-tog{
+  /* brightest ink is warm white; dim rules below may still step down */
+}
+.name{color:#e8e4dc}
+.tabs a.here,.tabs a[aria-current]{color:#e8e4dc}
+.tabs a.here::before,.tabs a[aria-current]::before{background:#e8e4dc}
+:focus-visible{outline-color:#e8e4dc}
+.zoom .dots,.zoom .zn,.zb{color:#e8e4dc}
+.shome,.crumb{color:#e8e4dc}
+.sc-head,.sc-fill,.imm .sc-head,.imm-playhead,.playhead{background:#e8e4dc;color:#e8e4dc}
+.imm [data-a=play],.imm [data-a=out],.imm-c dt,.imm-c dd{color:#e8e4dc}
+#film .it.feat .cap b{color:#e8e4dc}
+
+/* the mark sits in the dock on some screens, so a tap hits zoom instead of the drawer.
+   Lift only the mark clear of the dock and keep a 44px target. */
+@media (max-width:734px){
+  .sky{padding-bottom:calc(var(--dock,104px) + env(safe-area-inset-bottom,0px) + 28px)}
+  .sky .pole{position:relative;margin:0 0 8px;pointer-events:none}
+  .sky .pole .gj-mark{
+    position:relative;z-index:32;display:inline-flex;align-items:center;justify-content:center;
+    pointer-events:auto;min-width:44px;min-height:44px;
+    font-size:30px;line-height:1;
+    transform:translateY(-112px);
+  }
+  html.mm-open .sky .pole .gj-mark{
+    transform:translateY(-112px) perspective(160px) rotateY(-34deg) rotateX(18deg) translateZ(6px);
+  }
+}
+@media (max-width:734px) and (prefers-reduced-motion:reduce){
+  .sky .pole .gj-mark,html.mm-open .sky .pole .gj-mark{transform:translateY(-112px)}
+}
+@media (min-width:735px){
+  .sky .pole .gj-mark{
+    position:relative;z-index:33;display:inline-flex;align-items:center;justify-content:center;
+    min-width:44px;min-height:44px;pointer-events:auto;
+    transform:translateY(-64px);
+  }
+}
+
+/* leftover site-v3 chrome that was still pure white or mint */
+.sl,.sl b,.sl small{color:#e8e4dc}
+.glyph circle{fill:#e8e4dc}
+.vis{background:#e8e4dc;box-shadow:0 0 8px 2px rgba(232,228,220,.35)}
+.card .cv.tx{color:#e8e4dc;border-color:rgba(232,228,220,.35)}
+.fly-btn{border-color:rgba(232,228,220,.45)}
+.sc-head::after{background:#e8e4dc;box-shadow:0 0 8px 2px rgba(232,228,220,.45)}
+.sc-fill{background:#e8e4dc}
+.sc-rail .tk.on{background:#e8e4dc;box-shadow:0 0 6px 2px rgba(232,228,220,.4);animation:none}
+.frame.ld::after{color:#e8e4dc}
+.frame.ld::before{border-color:rgba(232,228,220,.35);border-top-color:#e8e4dc}
+
+/* larger stills on a desktop slides layer */
+@media (min-width:900px){
+  #film-slides .fs-stage{min-height:72vh}
+  #film-slides .fs-stage img{max-height:78vh;max-width:min(1400px,92vw)}
+}

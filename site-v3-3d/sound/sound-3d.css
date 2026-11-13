@@ -1,0 +1,20 @@
+/* site-v3-3d sound chrome: warm white, no mint, waveform never dimmed */
+:root{--mint:#e8e4dc;--ink:#e8e4dc;--here:#e8e4dc}
+.shome,.crumb,.sig,.sl b,.sl small,.l1 b,.l1 span,.l2,.tc,.gest,.picks button{color:#e8e4dc}
+.picks button[aria-checked=true],.dive,.sc-b{color:#e8e4dc;border-color:rgba(232,228,220,.55)}
+.picks button{border-color:rgba(232,228,220,.28)}
+.dive{border-color:rgba(232,228,220,.55)}
+.sc-head,.sc-fill{background:#e8e4dc}
+.sc-head::after{background:#e8e4dc;box-shadow:0 0 8px 2px rgba(232,228,220,.45)}
+.sc-rail .tk.on{background:#e8e4dc;box-shadow:0 0 6px 2px rgba(232,228,220,.4)}
+.sc-line{background:rgba(232,228,220,.55)}
+.ns a{border-bottom-color:rgba(232,228,220,.45)}
+#wf{opacity:1}
+.player,#player,#rail,#wf{opacity:1 !important;filter:none}
+/* land already inside the player so the constellation intro does not cover it */
+#sk[data-mode=sky] .player,
+#sk[data-mode=diving] .player,
+#sk[data-mode=in] .player,
+#sk[data-mode=rising] .player{opacity:1;visibility:visible}
+#sk[data-mode=sky] .intro #dive{display:none}
+:focus-visible{outline-color:#e8e4dc}

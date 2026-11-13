@@ -7,6 +7,11 @@
 /* site-v3-3d: v3's sheet, unchanged in behaviour, plus quiet layers of depth: 4 star-field layers, every constellation star and work at its own depth (perspective + fade), the nebulae deeper still, the morph travelling through depth and landing flat, a brief depth swell while flying between chapters. */
 (function(){
 'use strict';
+/* Close face portraits stay out of the public grid. The markup is left in place until this runs, then removed before the sky reads the chapter. */
+['w45','w47','w49','w56'].forEach(function(k){
+  var el=document.querySelector('#photo .it[data-k="'+k+'"]');
+  if(el)el.remove();
+});
 var D=document.documentElement,$=function(s,r){return(r||document).querySelector(s)},$$=function(s,r){return[].slice.call((r||document).querySelectorAll(s))};
 var sheet=$('.sheet');if(!sheet||!window.__dive)return;
 var RM=matchMedia('(prefers-reduced-motion: reduce)');function anim(){return !RM.matches}
@@ -72,7 +77,9 @@ function ease(u){u=Math.max(0,Math.min(1,u));return u<.5?4*u*u*u:1-Math.pow(-2*u
 function lerp(a,b,u){return a+(b-a)*u}
 function interp(a,b,u){return{x:lerp(a.x,b.x,u),y:lerp(a.y,b.y,u),s:a.s*Math.pow(b.s/a.s,u)}}
 function tween(to,m1,dur,done){var c0={x:cam.x,y:cam.y,s:cam.s},m0=M;if(!anim()||!dur){cam={x:to.x,y:to.y,s:to.s};M=m1;tw=null;req();done&&done();return}
-  tw={c0:c0,c1:to,m0:m0,m1:m1,t0:performance.now(),dur:dur*(window.__slow||1),done:done};req()}
+  var job={c0:c0,c1:to,m0:m0,m1:m1,t0:performance.now(),dur:dur*(window.__slow||1),done:done};tw=job;req();
+  /* if the camera clock stalls, still land. A frame that already finished leaves tw as something else. */
+  setTimeout(function(){if(tw!==job)return;cam={x:to.x,y:to.y,s:to.s};M=m1;tw=null;done&&done()},job.dur+120)}
 /* per-item morph: stars leave in a ripple (by index), so the grid assembles rather than jumps */
 function kAt(s){return Math.max(0,Math.min(1,(s*104-44)/30))}
 function gyAt(it,s){var c=C[it.k];return c.by+it.row*(c.imgh+6+50*kAt(s))}
@@ -212,17 +219,18 @@ function show(o){o=o||{};var was=open;from=from||{y:scrollY};if(!was){sheet.hidd
   hint.hidden=false;clearTimeout(hint._t);hint._t=setTimeout(function(){hint.hidden=true},4200);req()}
 var quietNext=null;
 var _settle=settle;settle=function(m,k,o){if(quietNext){o=Object.assign({},o||{},{push:false});quietNext=null}_settle(m,k,o)};
-function close(o){o=o||{};if(!open)return;tw=null;MP=null;var go=o.to;if(o.quick){sheet.hidden=true;D.classList.remove('sheet-on');open=false;CARDS.forEach(function(el){killPv(el)});__dive.quiet(false);from=null;HAND=null;return}
-  function end(){sheet.hidden=true;D.classList.remove('sheet-on');open=false;CARDS.forEach(function(el){killPv(el)});__dive.quiet(false);from=null;HAND=null;
+var closing=0;
+function close(o){o=o||{};if(!open||closing)return;closing=1;tw=null;MP=null;var go=o.to;if(o.quick){closing=0;sheet.hidden=true;D.classList.remove('sheet-on');open=false;CARDS.forEach(function(el){killPv(el)});__dive.quiet(false);from=null;HAND=null;return}
+  function end(){if(!open)return;closing=0;sheet.hidden=true;D.classList.remove('sheet-on');open=false;CARDS.forEach(function(el){killPv(el)});__dive.quiet(false);from=null;HAND=null;
     if(go){if(go.lv===3)__dive.go(go,{replace:false});else __dive.go(go,{noAnim:true})}else __dive.sync();}
-  if(o.hand){/* the column is already lined up underneath: the sheet just lets go */ if(anim()){sheet.animate([{opacity:1},{opacity:0}],{duration:320,easing:'ease-out'}).onfinish=end}else end();return}
+  if(o.hand){/* the column is already lined up underneath: the sheet just lets go */ if(anim()){sheet.animate([{opacity:1},{opacity:0}],{duration:320,easing:'ease-out'}).onfinish=end;setTimeout(end,400)}else end();return}
   if(go&&go.k){__dive.go({k:go.k,lv:go.lv===3?2:go.lv},{push:false,noAnim:true,quiet:true});var c=document.getElementById(go.k);if(c)c.scrollIntoView({block:'start'})}
   else if(from)scrollTo(0,from.y);
-  if(anim())sheet.animate([{opacity:1},{opacity:0}],{duration:260}).onfinish=end;else end()}
+  if(anim()){sheet.animate([{opacity:1},{opacity:0}],{duration:260}).onfinish=end;setTimeout(end,340)}else end()}
 /* ---------- gestures on the sheet: one finger pans, two fingers drive the camera, tap zooms into what is under it ---------- */
 var PT=new Map(),pd=0,pm=null,moved=0,t0=0,MP=null,lastTap=0,pinched=false,g0='sky'; /* g0: the level this two-finger gesture started at */
 function zoomAt(f,x,y,cap){var p=wp(x,y);cam.s=Math.max(fitS()*.7,Math.min(cap||3.2,cam.s*f));cam.x=p[0]-(x-W/2)/cam.s;cam.y=p[1]-(y-H/2)/cam.s}
-sheet.addEventListener('pointerdown',function(e){if(e.target.closest('.sx,.shome'))return;try{sheet.setPointerCapture(e.pointerId)}catch(x){}PT.set(e.pointerId,{x:e.clientX,y:e.clientY});
+sheet.addEventListener('pointerdown',function(e){if(e.target.closest('.sx,.shome,[data-sk]'))return;try{sheet.setPointerCapture(e.pointerId)}catch(x){}PT.set(e.pointerId,{x:e.clientX,y:e.clientY});
   if(PT.size===1){moved=0;t0=Date.now();pinched=false}if(PT.size===2){var a=[...PT.values()];pd=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);pm={x:(a[0].x+a[1].x)/2,y:(a[0].y+a[1].y)/2};moved=99;pinched=true;tw=null;g0=mode}});
 sheet.addEventListener('pointermove',function(e){if(!PT.has(e.pointerId))return;var o=PT.get(e.pointerId),n={x:e.clientX,y:e.clientY};PT.set(e.pointerId,n);
   if(PT.size===1&&!MP){var dx=n.x-o.x,dy=n.y-o.y;moved+=Math.abs(dx)+Math.abs(dy);if(moved>8){tw=null;cam.x-=dx/cam.s;cam.y-=dy/cam.s;clampCam();req()}}
