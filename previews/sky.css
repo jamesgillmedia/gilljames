@@ -49,11 +49,11 @@ html.js:not(.ready) #plain{visibility:hidden;animation:pvshow 0s 4s forwards} /*
 .card{-webkit-backdrop-filter:none;backdrop-filter:none} /* the blur was invisible on the night sky and stalls WebKit frames (fixed scroller, list scrolling) */
 .vbox{position:relative}
 .push{position:absolute;right:6px;top:6px;z-index:2;width:44px;height:44px;border:0;border-radius:50%;background:rgba(3,5,10,.62);color:#fff;font:300 19px/1 Poppins,sans-serif;display:grid;place-items:center;cursor:zoom-in}
-.push:active{background:rgba(85,218,161,.4)}
+.push:active{background:rgba(201,169,110,.4)}
 .card .cb{cursor:zoom-in}
 .ph .card .cb{cursor:default}
 .tline>li.hit .card{animation:hit 1.6s ease-out 1}
-@keyframes hit{0%{box-shadow:0 0 0 3px var(--mint),0 0 24px rgba(85,218,161,.6)}100%{box-shadow:0 6px 18px rgba(0,0,0,.35)}}
+@keyframes hit{0%{box-shadow:0 0 0 3px var(--mint),0 0 24px rgba(201,169,110,.45)}100%{box-shadow:0 6px 18px rgba(0,0,0,.35)}}
 @media (min-width:700px){.grid .tline{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}.grid .tline::before{display:none}.grid .tline>li{padding-left:0}.grid .tline>li::before{display:none}}
 /* level 3: one card pushed in to a full-viewport player (CSS full-viewport mode works on iPhone too) */
 .player{position:fixed;inset:0;z-index:60;background:#000;display:grid;grid-template-rows:auto 1fr auto;touch-action:none}
@@ -67,7 +67,7 @@ html.js:not(.ready) #plain{visibility:hidden;animation:pvshow 0s 4s forwards} /*
 .px{font-size:20px;letter-spacing:0}
 /* list mode: a way back to the sky */
 .skyb{display:none}
-html.js .skyb{display:inline-grid;border-color:rgba(85,218,161,.6);color:var(--mint)}
+html.js .skyb{display:inline-grid;border-color:rgba(201,169,110,.6);color:var(--mint)}
 @media (prefers-reduced-motion:reduce){.sl,.grid,.fcap,.shint{transition:none}.tline>li.hit .card{animation:none;box-shadow:0 0 0 2px var(--mint)}}
 
 /* Zoom board: Archive muted, What's-new streams emphasized */
@@ -77,4 +77,4 @@ html.js .skyb{display:inline-grid;border-color:rgba(85,218,161,.6);color:var(--m
 .modeflip{gap:6px}
 .modeflip .hb.on{border-color:var(--mint);color:var(--mint);background:var(--mint-tint)}
 .grid .relh{margin:14px 0 8px;font:300 11px/1 Poppins,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--meta)}
-.grid .nowline>li.now .card{border-color:rgba(85,218,161,.55)}
+.grid .nowline>li.now .card{border-color:rgba(201,169,110,.55)}

@@ -10,6 +10,14 @@ function stem(f){return String(f||'').split('/').pop().replace(/\.[^.]+$/,'')}
 function fileUrl(f){try{return new URL(f,BASE).href}catch(e){return f}}
 function getD(f){try{return JSON.parse(localStorage.getItem(KEY+f))||{}}catch(e){return{}}}
 function setD(f,d){try{if(!d.r&&!d.note&&!d.tune)localStorage.removeItem(KEY+f);else localStorage.setItem(KEY+f,JSON.stringify(d))}catch(e){}}
+/* Board archive. Left swipe and the Archive button write ids here; Bring back removes one. Needs-work notes already stored stay put. */
+var AKEY='gj.board.archived';
+function archIds(){try{var a=JSON.parse(localStorage.getItem(AKEY)||'[]');if(!Array.isArray(a))return[];var o=[],s={};a.forEach(function(id){id=String(id||'');if(!id||s[id])return;s[id]=1;o.push(id)});return o}catch(e){return[]}}
+function archWrite(a){try{localStorage.setItem(AKEY,JSON.stringify(a))}catch(e){}}
+function isArch(id){return !!(id&&archIds().indexOf(id)>=0)}
+function paintBoard(){if(window.__sky&&__sky.rerender)__sky.rerender()}
+function archiveId(id){if(!id||isArch(id))return;var a=archIds();a.push(id);archWrite(a);if(window.__sky&&__sky.unpin)__sky.unpin(id);paintBoard()}
+function restoreId(id){if(!id||!isArch(id))return;archWrite(archIds().filter(function(x){return x!==id}));paintBoard()}
 function when(iso){try{var d=new Date(iso);return new Intl.DateTimeFormat('en-US',{timeZone:TZ,weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}).format(d)}catch(e){return iso||''}}
 /* NOTE-TC v1 (Oct 19): the note prefill is 'at m:ss.s ' WITH a trailing space, so typing goes after it ('at 0:36.6 horse').
    Every reaction tap, swipe, Mark and Send rewrites only that leading 'at m:ss.s' token to the current frame and keeps anything typed
@@ -42,7 +50,9 @@ function compose(box){var f=box.dataset.file,k=keyOf(box),d=getD(k),t=box.datase
   body=['Preview: '+t,'Reaction: '+(d.r||'(none)'),'Note: '+(d.note||'(none)'),
   mark?('At: '+mark.tc+' (frame '+mark.frame+' @ '+mark.fps+'fps)'+(mark.held?' · marked':' · playhead')):null,
   f?('Item file: '+fileUrl(f)):null,'Card: '+page,'Page: '+page,
-  box.dataset.time?'Item posted: '+box.dataset.time:'',tuneBlock(d,page),'Sent: '+nowStr()].filter(Boolean).join('\n'),subject='Preview feedback: '+t+(mark?' @ '+mark.tc:'');
+  box.dataset.time?'Item posted: '+box.dataset.time:'',tuneBlock(d,page),
+  'Archived: '+(archIds().length?archIds().map(function(id){return '#'+id}).join(', '):'(none)'),
+  'Sent: '+nowStr()].filter(Boolean).join('\n'),subject='Preview feedback: '+t+(mark?' @ '+mark.tc:'');
   return{subject:subject,body:body}}
 function tuneBlock(d,page){if(!d.tune||!d.tune.url)return null;var js;try{js=JSON.stringify(d.tune.state||d.tune)}catch(e){js='{}'}
   return 'Tune\nCard: '+(d.tune.anchor||page)+'\n'+js+'\nReopen: '+d.tune.url}
@@ -74,7 +84,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.clo
 var rail=document.createElement('section'),togBtn=null,shown=false;rail.className='frail sheet';rail.id='frail';rail.hidden=true;rail.setAttribute('aria-label','What\'s new: leave feedback');
 function pick(){return ITEMS.filter(function(i){return i.tier==='now'})}
 function build(){var a=pick();if(!a.length){rail.innerHTML='';return}
-  rail.innerHTML='<div class="frh"><h2>What\'s new<small>Love / Needs work / Note · Send opens mail</small></h2><button type="button" class="frx" aria-label="Close">✕</button></div><ul class="frt">'+a.map(function(it){
+  rail.innerHTML='<div class="frh"><h2>What\'s new<small>Love / Needs work / Note · left swipe archives</small></h2><button type="button" class="frx" aria-label="Close">✕</button></div><ul class="frt">'+a.map(function(it){
     var bg=it.poster?' style="background-image:url(\''+esc(it.poster)+'\')"':'';
     var stream=(it.section||'').replace(/^./,function(c){return c.toUpperCase()});
     return'<li><article class="card"><span class="stream-tag">'+esc(stream)+'</span><button type="button" class="frp"'+bg+' data-go="'+esc(it.section+'/'+(it.id||stem(it.file)))+'" aria-label="Open large: '+esc(it.title)+'"><b>'+(it.type==='audio'?'▶ Listen':'▶ Play')+'</b></button><div class="cb"><div class="meta"><time class="when" datetime="'+esc(it.time)+'">'+when(it.time)+'</time><span class="badge">Latest</span></div><h3 class="ct">'+esc(it.title)+'</h3>'+(it.desc?'<p class="cx">'+esc(it.desc)+'</p>':'')+form(it,{noHead:1})+'</div></article></li>'}).join('')+'</ul>'}
@@ -136,32 +146,43 @@ function unbindScrub(){if(SCR.raf)cancelAnimationFrame(SCR.raf);SCR.raf=0;SCR.v=
 })();
 
 
-/* Swipe on What's new cards: RIGHT = Love, LEFT = Needs work (card chrome only; sky pan untouched) */
-var SW={x0:0,y0:0,t0:0,el:null,locked:0};
-function swipeTarget(el){return el&&el.closest&&(el.closest('.lstrip')||el.closest('.nowrow > li')||el.closest('.clist > li')||el.closest('.nrc')||el.closest('.frt > li')||el.closest('#player .pstage'))} /* LIVE-SWIPE v1: the strip above a live player (first, so a mouse drag on it works too) */
+/* Swipe: RIGHT = Love (unchanged). LEFT = Archive. The card follows the finger and only commits past ~35% of its width.
+   A vertical move wins before that lock, so scrolling the list does not archive. Needs work is still a button, never a swipe. */
+var SW={x0:0,y0:0,t0:0,el:null,locked:0,pid:null};
+function cardOf(el){return el&&el.closest&&el.closest('.nowrow > li, #earlier .tline > li, .archcards .tline > li, .clist > li, .frt > li, .nrc, #player .pstage')}
+function swipeTarget(el){if(!el||!el.closest)return null;if(el.closest('button:not(.nrc),input,a,.psrail,.psbtns,.fb,.push,video,audio')&&!clipSwipe(el))return null;return cardOf(el)||el.closest('.lstrip')}
 function flash(el,dir){if(!el)return;el.classList.remove('sw-love','sw-need');void el.offsetWidth;el.classList.add(dir>0?'sw-love':'sw-need')}
 function reactFile(file,react,el){if(!file)return;var d=getD(file);d.r=react;var mk=window.PVFB&&PVFB.mark&&PVFB.mark();if(mk){d.mark=mk.tc;d.note=retc(d.note,mk.tc)}else if(!d.note||AUTOSW.test(d.note))d.note='swipe '+react; /* NOTE-TC v1 */setD(file,d);
   $$('.fb').forEach(function(b){if(keyOf(b)===file){sync(b);status(b,react+(mk?' @ '+mk.tc:''),'ok')}});flash(el,react==='Love'?1:-1)}
-function applySwipe(el,dir){var react=dir>0?'Love':'Needs work';
-  var card=el.closest('.nowrow > li, .frt > li, .clist > li');if(card){var box=$('.fb',card);if(box&&keyOf(box)){reactFile(keyOf(box),react,card);return}}
-  var nrc=el.closest('.nrc');if(nrc&&(nrc.dataset.id||nrc.dataset.file)){reactFile(nrc.dataset.id||nrc.dataset.file,react,nrc);return}
-  if(el.closest('.lstrip')){var lli=el.closest('li'),lbox=lli&&$('.fb',lli);if(lbox&&keyOf(lbox)){reactFile(keyOf(lbox),react,el);return}} /* LIVE-SWIPE v1 */
-  if(el.closest('#player .pstage')){var fb=$('#pfb .fb');if(fb&&keyOf(fb)){reactFile(keyOf(fb),react,$('#player .pstage'));return}}}
+function idOf(el){if(!el||!el.closest)return'';var li=el.closest('li[id],.nrc');if(li){if(li.dataset&&li.dataset.id)return li.dataset.id;if(li.id)return li.id}if(el.closest('#player')){var p=$('#pfb .fb');if(p&&p.dataset.id)return p.dataset.id}var box=el.querySelector&&el.querySelector('.fb');return box&&box.dataset.id||''}
+function loveEl(el){var card=el.closest('.nowrow > li, .frt > li, .clist > li, #earlier .tline > li, .archcards .tline > li');
+  if(card){var box=$('.fb',card);if(box&&keyOf(box)){reactFile(keyOf(box),'Love',card);return}}
+  var nrc=el.closest('.nrc');if(nrc&&(nrc.dataset.id||nrc.dataset.file)){reactFile(nrc.dataset.id||nrc.dataset.file,'Love',nrc);return}
+  var host=el.closest('li')||el;var fb=$('.fb',host)||$('#pfb .fb');if(fb&&keyOf(fb)){reactFile(keyOf(fb),'Love',el.closest('#player .pstage')||el);return}
+  var id=idOf(el);if(id)reactFile(id,'Love',el)}
+function slideAway(el,id){if(!id)return;var node=el&&el.style?el:null;if(!node){archiveId(id);return}
+  var w=node.getBoundingClientRect().width||node.offsetWidth||320;node.style.transition='transform .28s ease, opacity .28s ease';node.style.transform='translateX('+(-Math.ceil(w+28))+'px)';node.style.opacity='0';
+  var wait=280;try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)wait=0}catch(e){}
+  setTimeout(function(){archiveId(id)},wait)}
+function applySwipe(el,dir){if(dir>0){loveEl(el);return}slideAway(el,idOf(el))}
 document.addEventListener('pointerdown',function(e){if(e.pointerType==='mouse'&&e.button!==0)return;var t=swipeTarget(e.target);if(!t)return;
-  if(e.target.closest('button:not(.nrc),input,a,.psrail,.psbtns,.fb,.push,video,audio')&&!clipSwipe(e.target))return; /* CLIP-SWIPE v1 */
-  SW.x0=e.clientX;SW.y0=e.clientY;SW.t0=Date.now();SW.e0=e.timeStamp;SW.el=t;SW.locked=0},true);
-document.addEventListener('pointermove',function(e){if(!SW.el)return;var dx=e.clientX-SW.x0,dy=e.clientY-SW.y0;
-  if(!SW.locked){if(Math.abs(dx)<12&&Math.abs(dy)<12)return;if(Math.abs(dy)>Math.abs(dx)){SW.el=null;return}SW.locked=1}
-  if(SW.locked){e.preventDefault();SW.el.style.transform='translateX('+(dx*0.35)+'px)';SW.el.style.transition='none'}},{passive:false,capture:true});
-function endSwipe(e){if(!SW.el)return;var el=SW.el,dx=(e.clientX!=null?e.clientX:SW.x0)-SW.x0,dy=(e.clientY!=null?e.clientY:SW.y0)-SW.y0,dt=(e.timeStamp&&SW.e0?e.timeStamp-SW.e0:Date.now()-SW.t0);SW.el=null;SW.locked=0;
-  el.style.transition='transform .22s ease';el.style.transform='';
-  if(Math.abs(dx)>56&&Math.abs(dx)>Math.abs(dy)*1.2&&dt<1600)applySwipe(el,dx)} /* SWIPE-TIME v1 (Oct 19): one 1.6 s limit for every target, timed by the finger's own event times, so a first swipe that the phone is slow to draw is not dropped */ /* CLIP-SWIPE v1: a slower deliberate drag across the clip still counts */
+  if(e.pointerType==='mouse'&&e.target.closest&&e.target.closest('img'))e.preventDefault();
+  SW.x0=e.clientX;SW.y0=e.clientY;SW.t0=Date.now();SW.el=t;SW.locked=0;SW.pid=e.pointerId},true);
+document.addEventListener('pointermove',function(e){if(!SW.el||(SW.pid!=null&&e.pointerId!==SW.pid))return;var dx=e.clientX-SW.x0,dy=e.clientY-SW.y0;
+  if(!SW.locked){if(Math.abs(dx)<12&&Math.abs(dy)<12)return;if(Math.abs(dy)>=Math.abs(dx)){SW.el=null;SW.locked=0;SW.pid=null;return}SW.locked=1;try{SW.el.setPointerCapture(e.pointerId)}catch(err){}}
+  SW.lx=e.clientX;SW.ly=e.clientY;if(e.cancelable)e.preventDefault();SW.el.style.transition='none';SW.el.style.transform='translateX('+dx+'px)'}, {passive:false,capture:true});
+function endSwipe(e){if(!SW.el)return;if(e&&e.pointerType!=='touch'&&SW.pid!=null&&e.pointerId!=null&&e.pointerId!==SW.pid)return;
+  var x=SW.lx!=null?SW.lx:SW.x0,y=SW.ly!=null?SW.ly:SW.y0;if(e&&typeof e.clientX==='number'&&!(e.pointerType==='touch'&&e.clientX===0&&e.clientY===0)){x=e.clientX;y=e.clientY}
+  var el=SW.el,dx=x-SW.x0,dy=y-SW.y0,locked=SW.locked;SW.lx=SW.ly=null;
+  SW.el=null;SW.locked=0;SW.pid=null;var w=el.getBoundingClientRect().width||el.offsetWidth||1;
+  if(!(locked&&Math.abs(dx)>=w*0.35&&Math.abs(dx)>Math.abs(dy)*1.2)){el.style.transition='transform .22s ease';el.style.transform='';return}
+  SWX=Date.now();if(dx>0){el.style.transition='transform .22s ease';el.style.transform='';applySwipe(el,1)}else applySwipe(el,-1)}
 document.addEventListener('pointerup',endSwipe,true);
-document.addEventListener('pointercancel',function(){if(SW.el){SW.el.style.transform='';SW.el=null;SW.locked=0}},true);
+document.addEventListener('pointercancel',function(){if(!SW.el)return;SW.el.style.transition='transform .22s ease';SW.el.style.transform='';SW.el=null;SW.locked=0;SW.pid=null},true);
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('.arcbtn');if(a){e.preventDefault();slideAway(a.closest('li')||a,a.dataset.id);return}
+  var b=e.target.closest&&e.target.closest('.backbtn');if(b){e.preventDefault();restoreId(b.dataset.id)}},true);
 
-/* CLIP-SWIPE v1 (Oct 19): swipe on the open clip itself (the player video fills .pstage). Right = Love, left = Needs work, the held
-   Mark goes with it. The scrub rail, ‹‹ ›› frame step, Mark, ▶ and Note live outside .pstage, so they are untouched. A second finger cancels
-   (two-finger pinch still closes the player), and the click after a swipe is swallowed so it can never toggle anything. */
+/* CLIP-SWIPE v1: swipe on the open clip. Right = Love, left = Archive. A second finger cancels, and the click after a swipe is swallowed. */
 function clipSwipe(t){return !!(t&&t.closest&&t.closest('#player .pstage > video'))}
 var SWP={},SWX=0; /* touch pointers down; the first finger of a new touch (isPrimary) starts a fresh count, so a lost pointerup can't stick */
 document.addEventListener('pointerdown',function(e){if(e.pointerType!=='touch')return;if(e.isPrimary)SWP={};SWP[e.pointerId]=1;if(Object.keys(SWP).length>1&&SW.el){SW.el.style.transform='';SW.el=null;SW.locked=0}},true);
@@ -169,17 +190,19 @@ function swN(e){delete SWP[e.pointerId]}
 document.addEventListener('pointerup',swN,true);
 document.addEventListener('pointermove',function(){if(SW.locked&&SW.el&&SW.el.matches('#player .pstage'))SWX=Date.now()},true);
 document.addEventListener('pointercancel',swN,true);
-document.addEventListener('click',function(e){if(Date.now()-SWX<400&&e.target.closest&&e.target.closest('#player .pstage')){e.preventDefault();e.stopPropagation()}},true);
+document.addEventListener('click',function(e){if(Date.now()-SWX<450&&e.target.closest&&e.target.closest('.nowrow > li, #earlier .tline > li, .archcards .tline > li, .clist > li, .nrc, #player .pstage')){e.preventDefault();e.stopPropagation()}},true);
 
 function boardFeedbackPayload(){var drafts={},i,k,d,id,seen={},cards=[],love=[],archive=[],notes={},marks={},tune={};
   try{for(i=0;i<localStorage.length;i++){k=localStorage.key(i);if(k&&k.indexOf(KEY)===0){try{drafts[k.slice(KEY.length)]=JSON.parse(localStorage.getItem(k))||{}}catch(e){}}}}catch(e){}
   function anchorOf(cid){return (BASE.replace(/\/?$/,'/'))+'#'+cid}
   function add(cid,title){if(!cid||seen[cid])return;seen[cid]=1;d=drafts[cid]||{};
-    cards.push({id:cid,title:title||'',anchor:anchorOf(cid),love:d.r==='Love',archive:d.r==='Archive',reaction:d.r||'',note:d.note||'',mark:d.mark||'',tune:d.tune||null});
-    if(d.r==='Love')love.push(cid);if(d.r==='Archive')archive.push(cid);if(d.note)notes[cid]=d.note;if(d.mark)marks[cid]=d.mark;
+    var archived=d.r==='Archive'||isArch(cid);
+    cards.push({id:cid,title:title||'',anchor:anchorOf(cid),love:d.r==='Love',archive:archived,reaction:d.r||'',note:d.note||'',mark:d.mark||'',tune:d.tune||null});
+    if(d.r==='Love')love.push(cid);if(archived&&archive.indexOf(cid)<0)archive.push(cid);if(d.note)notes[cid]=d.note;if(d.mark)marks[cid]=d.mark;
     if(d.tune&&d.tune.url)tune[cid]={state:d.tune.state||null,url:d.tune.url,anchor:d.tune.anchor||anchorOf(cid)}}
   (ITEMS||[]).forEach(function(it){var cid=it.id||it.file;if(cid)add(cid,it.title||'')});
   Object.keys(drafts).forEach(function(cid){add(cid,'')});
+  archIds().forEach(function(cid){add(cid,'')});
   return {v:1,cards:cards,love:love,archive:archive,notes:notes,marks:marks,tune:tune}}
 window.boardFeedbackPayload=boardFeedbackPayload;
 
@@ -209,7 +232,7 @@ function sendSettings(){var f=tuneSheet&&$('iframe',tuneSheet);if(!f||!f.content
   tuneWait=setTimeout(function(){removeEventListener('message',onMsg);tuneNote('Try again.')},4000)}
 document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.tunebtn');if(!b)return;e.preventDefault();e.stopPropagation();openTune(b)},true);
 
-window.PVFB={form:form,mark:markNow,stepFrame:stepFrame,keyOf:keyOf,
+window.PVFB={form:form,mark:markNow,stepFrame:stepFrame,keyOf:keyOf,archived:archIds,isArchived:isArch,archive:archiveId,restore:restoreId,
   mountPlayer:function(it){var m=$('#pfb'),v=$('#player video');
     if(!it||!it.file||!(it.tier==='now'||it.badge==='Latest')||it.tier==='earlier'||it.tier==='related'){if(m){m.hidden=true;m.innerHTML=''}unbindScrub();return}
     if(m){m.hidden=false;m.innerHTML=form(it,{noHead:1})}
