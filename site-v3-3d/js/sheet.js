@@ -10,6 +10,9 @@
 var D=document.documentElement,$=function(s,r){return(r||document).querySelector(s)},$$=function(s,r){return[].slice.call((r||document).querySelectorAll(s))};
 var sheet=$('.sheet');if(!sheet||!window.__dive)return;
 var RM=matchMedia('(prefers-reduced-motion: reduce)');function anim(){return !RM.matches}
+var TN={mood:1,starG:1,stars:1,starS:1,lineA:1,depth:1},TN_T={mood:1,starG:1,stars:1,starS:1,lineA:1,depth:1};
+window.GJ_V33D={set:function(o){for(var k in o)if(Object.prototype.hasOwnProperty.call(TN_T,k))TN_T[k]=Math.max(0,o[k]);req()},get:function(){return{mood:TN.mood,starG:TN.starG,stars:TN.stars,starS:TN.starS,lineA:TN.lineA,depth:TN.depth}},reset:function(){for(var k in TN_T)TN_T[k]=1;req()}};
+function easeTune(){var sp=anim()?0.18:1,k,d,any=0;for(k in TN){d=TN_T[k]-TN[k];if(Math.abs(d)>0.001){TN[k]+=d*sp;any=1}else TN[k]=TN_T[k]}if(any)req()}
 var SF=[],cv=$('canvas',sheet),ctx=cv.getContext('2d'),world=$('.sw',sheet),hud=$('.slabs',sheet),crumb=$('.crumb',sheet),hint=$('.shint',sheet);
 var W=0,H=0,dpr=1,TOP=56;
 /* ---------- the world: read the real chapters from the column ---------- */
@@ -74,24 +77,24 @@ function kAt(s){return Math.max(0,Math.min(1,(s*104-44)/30))}
 function gyAt(it,s){var c=C[it.k];return c.by+it.row*(c.imgh+6+50*kAt(s))}
 var KN=1,ZS=ITEMS.slice();function layout(){var any=false;KN=kAt(cam.s);ITEMS.forEach(function(it){it.gy=gyAt(it,cam.s);var mi=ease(Math.max(0,Math.min(1,M*1.3-it.stg*.3)));it.mi=mi;it.zz=it.z0*(1-mi)-110*Math.sin(Math.PI*mi);it.x=lerp(it.sx,it.gx+52,mi);it.y=lerp(it.sy,it.gy+C[it.k].imgh/2,mi)});ZS.sort(function(a,b){return b.zz-a.zz})}
 /* ---------- drawing ---------- */
-function bg(g,w,h,c,full){if(!full){g.clearRect(0,0,w,h);return}g.fillStyle='#03050a';g.fillRect(0,0,w,h);var gr=g.createRadialGradient(w/2,h*.42,0,w/2,h*.42,Math.max(w,h)*.75);gr.addColorStop(0,'rgba(22,34,58,.85)');gr.addColorStop(.6,'rgba(10,17,32,.6)');gr.addColorStop(1,'rgba(3,5,10,0)');g.fillStyle=gr;g.fillRect(0,0,w,h);
+function bg(g,w,h,c,full){if(!full){g.clearRect(0,0,w,h);return}g.fillStyle='#03050a';g.fillRect(0,0,w,h);if(TN.mood<1){g.fillStyle='rgba(0,0,0,'+((1-TN.mood)*.55).toFixed(3)+')';g.fillRect(0,0,w,h)}else if(TN.mood>1){g.fillStyle='rgba(232,228,220,'+(((TN.mood-1)*.08)).toFixed(3)+')';g.fillRect(0,0,w,h)}var gr=g.createRadialGradient(w/2,h*.42,0,w/2,h*.42,Math.max(w,h)*.75);gr.addColorStop(0,'rgba(22,34,58,.85)');gr.addColorStop(.6,'rgba(10,17,32,.6)');gr.addColorStop(1,'rgba(3,5,10,0)');g.fillStyle=gr;g.fillRect(0,0,w,h);
   FIELD.forEach(function(L){if(!L.pat)L.pat=g.createPattern(L.c,'repeat');var sc=Math.pow(c.s/.3,L.d)*.9,ox=-c.x*c.s*L.d+w/2,oy=-c.y*c.s*L.d+h/2;g.save();g.translate(ox,oy);g.scale(sc,sc);g.fillStyle=L.pat;g.fillRect(-ox/sc,-oy/sc,w/sc,h/sc);g.restore()})}
 var tick=0,lastTick=0;
 function frameOf(it){var r=ATI[it.k+'/'+it.w];if(!r||!r.length)return null;return r[0]}
 var labRects=[];
 function draw(g,w,h,c,opt){opt=opt||{};var P=function(x,y){return[(x-c.x)*c.s+w/2,(y-c.y)*c.s+h/2]},PZ=function(x,y,z){var k=kz(z||0,c.s);return[(x-c.x)*c.s*k+w/2,(y-c.y)*c.s*k+h/2,k]},ZO=function(o){return o.zz!=null?o.zz:(o.z||0)};
-  bg(g,w,h,c,opt.full);var sky=1-M,fitA=Math.max(0,Math.min(1,(c.s/fitS()-1.25)/.9)); /* extra stars + names fade in as you approach */
+  bg(g,w,h,c,opt.full);var sky=(1-M)*TN.stars,fitA=Math.max(0,Math.min(1,(c.s/fitS()-1.25)/.9)); /* extra stars + names fade in as you approach */
   /* lines: centre spokes + ring loops (constellation), chains through every work (persist into the grid) */
   g.lineWidth=1;g.lineCap='round';
   if(sky>0){g.strokeStyle='rgba(170,205,240,'+(.22*sky).toFixed(3)+')';g.beginPath();ORDER.forEach(function(k){if(!C[k])return;var a=P(0,0),b=P(C[k].x,C[k].y);g.moveTo(a[0],a[1]);g.lineTo(b[0],b[1])});g.stroke();
 }
-  function links(key,alpha){if(alpha<.01)return;g.strokeStyle='rgba(185,215,248,'+alpha.toFixed(3)+')';g.beginPath();ORDER.forEach(function(k){var c2=C[k];if(!c2)return;
+  function links(key,alpha){alpha=alpha*TN.lineA;if(alpha<.01)return;g.strokeStyle='rgba(185,215,248,'+alpha.toFixed(3)+')';g.beginPath();ORDER.forEach(function(k){var c2=C[k];if(!c2)return;
       c2[key].forEach(function(L){var a=PZ(L[0].x,L[0].y,ZO(L[0])),b=L[1]?PZ(L[1].x,L[1].y,ZO(L[1])):P(c2.x,c2.y);if((a[0]<-50&&b[0]<-50)||(a[0]>w+50&&b[0]>w+50)||(a[1]<-50&&b[1]<-50)||(a[1]>h+50&&b[1]>h+50))return;g.moveTo(a[0],a[1]);g.lineTo(b[0],b[1])})});g.stroke()}
   /* v3.3 constellations: a faint tinted nebula behind each cluster, its hairlines tinted, its shape stars (not works) */
-  var SF=Math.max(.7,Math.min(1.6,c.s/.3));
+  var SF=Math.max(.7,Math.min(1.6,c.s/.3))*TN.starS;
   if(sky>.01)ORDER.forEach(function(k){var c2=C[k];if(!c2)return;var p=PZ(c2.x,c2.y,ZNEB),nr=190*c.s*p[2];if(p[0]<-nr||p[0]>w+nr||p[1]<-nr||p[1]>h+nr)return;var gr=g.createRadialGradient(p[0],p[1],0,p[0],p[1],nr);gr.addColorStop(0,'rgba('+c2.tint+','+(.07*sky).toFixed(3)+')');gr.addColorStop(1,'rgba('+c2.tint+',0)');g.fillStyle=gr;g.fillRect(p[0]-nr,p[1]-nr,2*nr,2*nr);
     var al=.5*sky*sky;if(al>.01){g.strokeStyle='rgba('+c2.lt+','+al.toFixed(3)+')';g.beginPath();c2.sky.forEach(function(L){var a=PZ(L[0].x,L[0].y,ZO(L[0])),b=PZ(L[1].x,L[1].y,ZO(L[1]));g.moveTo(a[0],a[1]);g.lineTo(b[0],b[1])});g.stroke()}
-    c2.dec.forEach(function(d){var q=PZ(d.x,d.y,d.z),fz=fogz(q[2]),gs=(6+30*d.b*d.b)*SF*q[2];if(q[0]<-30||q[0]>w+30||q[1]<-30||q[1]>h+30)return;g.globalAlpha=Math.min(1,sky*(.35+.65*d.b)*(d.st?.8:1)*fz);g.drawImage(c2.glow,q[0]-gs/2,q[1]-gs/2,gs,gs);g.globalAlpha=Math.min(1,sky*(.45+.55*d.b)*(d.st?.8:1)*fz);g.fillStyle='#fff';g.beginPath();g.arc(q[0],q[1],(.5+1.9*d.b)*SF*.85*q[2],0,7);g.fill()});g.globalAlpha=1});
+    c2.dec.forEach(function(d){var q=PZ(d.x,d.y,d.z),fz=fogz(q[2]),gs=(6+30*d.b*d.b)*SF*q[2]*TN.starG;if(q[0]<-30||q[0]>w+30||q[1]<-30||q[1]>h+30)return;g.globalAlpha=Math.min(1,sky*(.35+.65*d.b)*(d.st?.8:1)*fz);g.drawImage(c2.glow,q[0]-gs/2,q[1]-gs/2,gs,gs);g.globalAlpha=Math.min(1,sky*(.45+.55*d.b)*(d.st?.8:1)*fz);g.fillStyle='#fff';g.beginPath();g.arc(q[0],q[1],(.5+1.9*d.b)*SF*.85*q[2],0,7);g.fill()});g.globalAlpha=1});
 links('arm',.32*fitA*sky*sky);links('grid',.3*M*M);
   /* ᑕᐣᓯ: the glowing centre */
   var GR=null;if(sky>0){var o=P(0,0),gs=Math.max(70,Math.min(420,260*c.s/.3))*1.0,gf=Math.round(Math.max(22,Math.min(84,48*c.s/.3)));
@@ -105,7 +108,7 @@ links('arm',.32*fitA*sky*sky);links('grid',.3*M*M);
   /* works: a star (dot) that grows into its thumbnail as it travels into the grid */
   ZS.forEach(function(it){var p=PZ(it.x,it.y,it.zz),kk=p[2];if(p[0]<-140||p[0]>w+140||p[1]<-140||p[1]>h+140)return;var a=(it.ring?1:Math.max(fitA,it.mi))*fogz(kk);if(a<.02)return;
     if(it.mi<.98||!opt.cards||!cardsOn()){var c2=C[it.k],cw=lerp(5/c.s,104,it.mi),chh=lerp(5/c.s,c2.imgh,it.mi),sw=cw*c.s*kk,sh=chh*c.s*kk;
-      if(sw<7){if(it.b>=0){var gb=(6+30*it.b*it.b)*SF*kk;g.globalAlpha=a*(.4+.6*it.b);g.drawImage(c2.glow,p[0]-gb/2,p[1]-gb/2,gb,gb);g.globalAlpha=a;g.fillStyle='#fff';g.beginPath();g.arc(p[0],p[1],Math.max(1.1,(.6+1.9*it.b)*SF*kk),0,7);g.fill()}
+      if(sw<7){if(it.b>=0){var gb=(6+30*it.b*it.b)*SF*kk*TN.starG;g.globalAlpha=a*(.4+.6*it.b);g.drawImage(c2.glow,p[0]-gb/2,p[1]-gb/2,gb,gb);g.globalAlpha=a;g.fillStyle='#fff';g.beginPath();g.arc(p[0],p[1],Math.max(1.1,(.6+1.9*it.b)*SF*kk),0,7);g.fill()}
         else{var gs=Math.max(10,Math.min(26,16*c.s/.3));g.globalAlpha=a;if(it.ring||c.s>.5)g.drawImage(GLOW,p[0]-gs/2,p[1]-gs/2,gs,gs);g.fillStyle='#f4f8ff';g.beginPath();g.arc(p[0],p[1],Math.max(1.1,Math.min(2.6,1.6*c.s/.3)),0,7);g.fill()}}
       else{var f=ATL&&frameOf(it);g.globalAlpha=a*Math.min(1,(sw-7)/10);if(f)g.drawImage(ATL,f[0],f[1],f[2],f[3],p[0]-sw/2,p[1]-sh/2,sw,sh);else{g.fillStyle='rgba(30,44,60,.9)';g.fillRect(p[0]-sw/2,p[1]-sh/2,sw,sh)}
         g.strokeStyle='rgba(200,225,255,.22)';g.strokeRect(p[0]-sw/2+.5,p[1]-sh/2+.5,sw-1,sh-1)}
@@ -163,7 +166,7 @@ function clips(){if(!anim()||(navigator.connection||{}).saveData)return;var list
     v.addEventListener('ended',function(){clips()});$('.cv',el).appendChild(v);v.play().catch(function(){})})}
 /* ---------- render loop (only while something moves) ---------- */
 function req(){if(!raf&&open)raf=requestAnimationFrame(frame)}
-function frame(){var now=performance.now();raf=0; /* one clock for start and progress */DEP=1;if(tw){var u=Math.min(1,(now-tw.t0)/tw.dur),e=ease(u);cam=interp(tw.c0,tw.c1,e);M=lerp(tw.m0,tw.m1,e);var trv=Math.hypot((tw.c1.x-tw.c0.x)*tw.c1.s,(tw.c1.y-tw.c0.y)*tw.c1.s)+Math.abs(Math.log(tw.c1.s/tw.c0.s))*300;if(anim()&&trv>120)DEP=1+.6*Math.sin(Math.PI*u);if(u>=1){var d=tw.done;tw=null;d&&d()}}
+function frame(){var now=performance.now();raf=0; /* one clock for start and progress */easeTune();DEP=TN.depth;if(tw){var u=Math.min(1,(now-tw.t0)/tw.dur),e=ease(u);cam=interp(tw.c0,tw.c1,e);M=lerp(tw.m0,tw.m1,e);var trv=Math.hypot((tw.c1.x-tw.c0.x)*tw.c1.s,(tw.c1.y-tw.c0.y)*tw.c1.s)+Math.abs(Math.log(tw.c1.s/tw.c0.s))*300;if(anim()&&trv>120)DEP=TN.depth*(1+.6*Math.sin(Math.PI*u));if(u>=1){var d=tw.done;tw=null;d&&d()}}
   if(MP){cam=interp(MP.c0,MP.c1,MP.p);M=MP.p;crumbFor('dive',MP.k)}
   if(anim()&&now-lastTick>650){tick++;lastTick=now}
   layout();field();var hr=placeHud();ctx.setTransform(dpr,0,0,dpr,0,0);draw(ctx,W,H,cam,{cards:true,hud:hr});cards();
@@ -252,7 +255,7 @@ sheet.addEventListener('wheel',function(e){e.preventDefault();tw=null;var f=Math
   else{pinch(f,{x:e.clientX,y:e.clientY});pm=null;req();clearTimeout(sheet._w);sheet._w=setTimeout(release,260)}},{passive:false});
 $('.sx',sheet).addEventListener('click',function(e){e.preventDefault();close()});
 $('.shome',sheet).addEventListener('click',function(e){e.preventDefault();from={y:0};close();__dive.go({k:null});scrollTo(0,0)});
-addEventListener('keydown',function(e){if(!open)return;if(e.key==='Escape')close();if(e.key==='+'||e.key==='='){e.stopImmediatePropagation();step(1)}if(e.key==='-'){e.stopImmediatePropagation();step(-1)}},true);
+addEventListener('keydown',function(e){if(!open)return;if(e.key==='Escape'){if(window.GJ_MARKMENU&&GJ_MARKMENU.open)return;close();}if(e.key==='+'||e.key==='='){e.stopImmediatePropagation();step(1)}if(e.key==='-'){e.stopImmediatePropagation();step(-1)}},true);
 addEventListener('resize',function(){if(open){size();if(!tw&&!MP){if(mode==='sky')cam=fitCam();else if(mode==='chap')cam=chapCam(FK)}req()}portalDraw()});
 addEventListener('popstate',function(){var h=location.hash,m=h.match(/^#(sky|all)(?:\/(\w+))?/);if(m){show({mode:m[1]==='all'?'all':m[2]&&C[m[2]]?'chap':'sky',k:m[2],push:false})}else if(open){close({to:null,nopush:1})}});
 /* ---------- the portal: the Dive ends in this view of the whole sky (tap or pinch it to fly in) ---------- */
