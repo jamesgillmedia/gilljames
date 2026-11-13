@@ -79,17 +79,19 @@ function mediaBlock(it){
   return h;
 }
 function swipeHint(){return '<div class="lstrip nswipe" aria-hidden="true">‹ Archive · SWIPE · Love ›</div>';}
-var archiveView=false;
+var archiveView=false,loveView=false;
 function archIds(){return window.PVFB&&PVFB.archived?PVFB.archived():[]}
 function isArch(id){return !!(window.PVFB&&PVFB.isArchived&&PVFB.isArchived(id))}
+function loveIds(){return window.PVFB&&PVFB.loved?PVFB.loved():[]}
+function isLoved(id){return !!(window.PVFB&&PVFB.isLoved&&PVFB.isLoved(id))}
 var pinned='';
 function pinFromHash(h){h=decodeURIComponent(String(h==null?location.hash:h).replace(/^#/,''));if(!h||h==='list'||h==='sky'||h==='now'||h.indexOf('/')>=0||h.indexOf('list')===0){pinned='';return}if(h==='silence-covers'){var c=itemByStem(h);pinned=c?c.stem:'';return}pinned=h}
-function keep(id){var arch=isArch(id);if(archiveView)return arch;if(arch&&pinned!==id)return false;return true}
-function boardBtn(stem){return isArch(stem)?'<button type="button" class="backbtn" data-id="'+esc(stem)+'">Bring back</button>':'<button type="button" class="arcbtn" data-id="'+esc(stem)+'">Archive</button>'}
+function keep(id){var arch=isArch(id),loved=isLoved(id);if(loveView)return loved;if(archiveView)return arch;if((arch||loved)&&pinned!==id)return false;return true}
+function boardBtn(stem){if(isLoved(stem)&&!isArch(stem))return'<button type="button" class="backbtn loveback" data-id="'+esc(stem)+'">Bring back</button>';return isArch(stem)?'<button type="button" class="backbtn" data-id="'+esc(stem)+'">Bring back</button>':'<button type="button" class="arcbtn" data-id="'+esc(stem)+'">Archive</button>'}
 function canBoard(x){return isNow(x)||!!(x&&x.d&&x.d.tier==='earlier')}
 function isRelated(x){return !!(x&&x.d&&x.d.tier==='related')}
 function streamTitle(id){var s=SBY[id];return s?s.title:id}
-function card(x){var it=x.d,cls=[it.badge==='Current direction'?'cur':'',it.type==='placeholder'?'ph':'',isNow(x)?'now':'',isArch(x.stem)?'held':''].filter(Boolean).join(' ');
+function card(x){var it=x.d,cls=[it.badge==='Current direction'?'cur':'',it.type==='placeholder'?'ph':'',isNow(x)?'now':'',isArch(x.stem)?'held':'',isLoved(x.stem)?'loved':''].filter(Boolean).join(' ');
   var h='<li data-k="'+x.k+'" id="'+esc(x.stem)+'"'+(cls?' class="'+cls+'"':'')+'><article class="card">';
   if(canBoard(x))h+=swipeHint();
   h+=mediaBlock(it);
@@ -168,7 +170,7 @@ function cursorItem(it){
   if(it.pr)links+='<a class="btn" href="'+esc(it.pr)+'" target="_blank" rel="noopener">PR'+(it.number?' #'+it.number:'')+' <span aria-hidden="true">↗</span></a>';
   if(it.link&&it.link.href)links+='<a class="btn" href="'+esc(it.link.href)+'" target="_blank" rel="noopener">'+esc(it.link.label||'Open preview')+' <span aria-hidden="true">↗</span></a>';
   var fake={id:it.id,title:it.title,time:it.time,tier:'now',type:'link'};
-  return '<li id="'+esc(it.id)+'" class="crow'+(isArch(it.id)?' held':'')+'"><article class="card">'+swipeHint()+'<div class="cb"><div class="meta">'+meta.join('')+'</div><h3 class="ct">'+esc(it.title)+'</h3>'+(it.desc?'<p class="cx">'+esc(it.desc)+'</p>':'')+links+boardBtn(it.id)+(window.PVFB?PVFB.form(fake):'')+'</div></article></li>';
+  return '<li id="'+esc(it.id)+'" class="crow'+(isArch(it.id)?' held':'')+(isLoved(it.id)?' loved':'')+'"><article class="card">'+swipeHint()+'<div class="cb"><div class="meta">'+meta.join('')+'</div><h3 class="ct">'+esc(it.title)+'</h3>'+(it.desc?'<p class="cx">'+esc(it.desc)+'</p>':'')+links+boardBtn(it.id)+(window.PVFB?PVFB.form(fake):'')+'</div></article></li>';
 }
 function cursorBand(data){if(!data||!data.items||!data.items.length)return'';
   var items=data.items.filter(function(it){return keep(it.id)});if(!items.length)return'';
@@ -178,7 +180,7 @@ function cursorBand(data){if(!data||!data.items||!data.items.length)return'';
 var list=$('#list'),jump=$('#jump'),foot=$('#foot');
 function miniCard(x){var it=x.d,bg=it.poster?' style="background-image:url(\''+esc(it.poster)+'\')"':'';
   return'<li data-k="'+x.k+'"><button type="button" class="relc"'+bg+' data-go="'+esc(x.sec+'/'+x.stem)+'" aria-label="Open: '+esc(it.title)+'"><span class="relt">'+esc(it.title)+'</span></button></li>'}
-function nowLi(x,sec){var it=x.d,h='<li data-k="'+x.k+'" id="'+esc(x.stem)+'" class="now'+(isArch(x.stem)?' held':'')+'">';
+function nowLi(x,sec){var it=x.d,h='<li data-k="'+x.k+'" id="'+esc(x.stem)+'" class="now'+(isArch(x.stem)?' held':'')+(isLoved(x.stem)?' loved':'')+'">';
   if(it.group==='silence-covers'&&it.id==='silence-cover-cup-in-fog')h+='<span id="silence-covers" class="coveranchor"></span>';
   h+='<article class="card"><span class="stream-tag">'+esc(sec.title)+'</span>'+swipeHint()+mediaBlock(it);
   h+='<div class="cb"><div class="meta">'+(it.time?'<time class="when" datetime="'+esc(it.time)+'">'+when(it.time)+'</time>':'')+'<span class="badge">'+esc(it.badge||'Latest')+'</span></div><h3 class="ct">'+esc(it.title)+'</h3>'+statusLines(it,true);
@@ -198,14 +200,21 @@ function streamBand(s){var related=s.items.filter(isRelated);
   return h+'</section>'}
 function archiveBand(s){return'<section class="band archive" id="archive"><details class="arch"><summary class="bh"><span class="L">'+(s.si+1)+'</span>Archive <small>'+s.n+' older</small></summary><ol class="tline muted">'+s.items.map(card).join('')+'</ol></details></section>'}
 function earlierBand(s){var items=s.items.filter(function(x){return keep(x.stem)});return'<section class="band stream earlier" id="earlier"><h2 class="bh"><span class="L">'+(s.si+1)+'</span>'+esc(s.title)+'</h2><span class="mnote">'+items.length+' older versions · still live, tap Open</span><ol class="tline">'+items.map(card).join('')+'</ol></section>'} /* BOARD-1020 */
-function archToggle(){var n=archIds().length;if(!n)return'';return'<p class="archbar"><button type="button" class="archtog" id="archtog" aria-pressed="'+(archiveView?'true':'false')+'">Archived ('+n+')</button></p>'}
-function archivedBody(){var bits=[],seen={};SECS.forEach(function(sec){sec.items.forEach(function(x){if(!isArch(x.stem)||seen[x.stem])return;seen[x.stem]=1;bits.push(isNow(x)?nowLi(x,sec):card(x))})});
-  if(window.CURSOR&&CURSOR.items)CURSOR.items.forEach(function(it){if(isArch(it.id))bits.push(cursorItem(it))});
+function holdBar(){var n=archIds().length,l=loveIds().length,h='';if(!n&&!l)return'';
+  h='<p class="archbar">';
+  if(l)h+='<button type="button" class="lovetog" id="lovetog" aria-pressed="'+(loveView?'true':'false')+'">Loved ('+l+')</button>';
+  if(n)h+='<button type="button" class="archtog" id="archtog" aria-pressed="'+(archiveView?'true':'false')+'">Archived ('+n+')</button>';
+  return h+'</p>'}
+function heldBody(which){var bits=[],seen={},loved=which==='loved';
+  SECS.forEach(function(sec){sec.items.forEach(function(x){var on=loved?isLoved(x.stem):isArch(x.stem);if(!on||seen[x.stem])return;seen[x.stem]=1;bits.push(isNow(x)?nowLi(x,sec):card(x))})});
+  if(window.CURSOR&&CURSOR.items)CURSOR.items.forEach(function(it){var on=loved?isLoved(it.id):isArch(it.id);if(on)bits.push(cursorItem(it))});
+  if(loved)return'<section class="band lovecards" id="loved" aria-label="Loved cards"><h2 class="bh">Loved</h2><ol class="tline">'+bits.join('')+'</ol></section>';
   return'<section class="band archcards" id="archived" aria-label="Archived cards"><h2 class="bh">Archived</h2><ol class="tline">'+bits.join('')+'</ol></section>'}
-function renderList(){var latest=0;ITEMS.forEach(function(x){if(x.time)latest=Math.max(latest,Date.parse(x.time))});if(!archIds().length)archiveView=false;
+function renderList(){var latest=0;ITEMS.forEach(function(x){if(x.time)latest=Math.max(latest,Date.parse(x.time))});if(!archIds().length)archiveView=false;if(!loveIds().length)loveView=false;
   jump.innerHTML='<a href="#now">Now · Nov 13</a><a href="#silence-covers">Silence covers</a><a href="#cursor">Cursor index</a>'+SECS.filter(function(s){return s.id!=='now-1113'&&s.id!=='cursor'}).map(function(s){return'<a href="#list/'+esc(s.id)+'">'+esc(s.title)+'</a>'}).join('');
-  var body=archToggle();
-  if(archiveView)body+=archivedBody();
+  var body=holdBar();
+  if(loveView)body+=heldBody('loved');
+  else if(archiveView)body+=heldBody('archive');
   else{body+=nowStrip();if(window.CURSOR)body+=cursorBand(window.CURSOR);
     SECS.forEach(function(sec){if(sec.id==='archive')body+=archiveBand(sec);else if(sec.id==='earlier')body+=earlierBand(sec);else if(sec.id==='cursor'||sec.id==='now-1113')return;else body+=streamBand(sec)})}
   list.innerHTML=body;wire(list);
@@ -506,7 +515,8 @@ $('#toSky').addEventListener('click',goZoom);
 jump.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;var href=a.getAttribute('href')||'';
   if(href==='#silence-covers'){e.preventDefault();if(location.hash!=='#silence-covers')history.pushState({pv:1},'','#silence-covers');route('#silence-covers');return}
   var id=href.replace(/^#(list\/)?/,''),el=document.getElementById(id);if(el){e.preventDefault();history.replaceState({pv:1},'','#list/'+id);el.scrollIntoView({block:'start'})}});
-document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('#archtog');if(!t)return;e.preventDefault();archiveView=!archiveView;renderList();try{scrollTo(0,0)}catch(err){}});
+document.addEventListener('click',function(e){var love=e.target.closest&&e.target.closest('#lovetog'),arch=e.target.closest&&e.target.closest('#archtog');if(!love&&!arch)return;e.preventDefault();
+  if(love){loveView=!loveView;if(loveView)archiveView=false}else{archiveView=!archiveView;if(archiveView)loveView=false}renderList();try{scrollTo(0,0)}catch(err){}});
 addEventListener('resize',function(){if(!open)return;var f0=fitS(),atFit=Math.abs(cam.s/f0-1)<.02;size();if(!tw&&mode!=='grid'){if(atFit)cam=fitCam();else{cam.s=Math.max(fitS()*.7,cam.s);clampCam()}}req()}); /* ZOOM-STAY v1: phone URL-bar resizes keep the view */
 if(RM.addEventListener)RM.addEventListener('change',req);
 
@@ -516,7 +526,7 @@ function placeNowRail(){var rail=$('#nowrail');if(!rail||!open)return;
   var order=streamOrder(),D=dens(),bits=[];
   order.forEach(function(id){var sec=SBY[id];if(!sec)return;sec.items.filter(isNow).forEach(function(x){var it=x.d;
     var bg=it.poster?' style="background-image:url(\''+esc(it.poster)+'\')"':'';
-    if(isArch(x.stem))return;bits.push('<button type="button" class="nrc" data-k="'+x.k+'" data-id="'+esc(x.stem)+'" data-file="'+esc(it.file||'')+'" data-title="'+esc(it.title||'')+'"'+bg+' aria-label="'+esc(sec.title)+': '+esc(it.title)+'"><span class="nrt">'+esc(sec.title)+'</span><span class="nrl">'+esc(it.title)+'</span></button>')})});
+    if(isArch(x.stem)||isLoved(x.stem))return;bits.push('<button type="button" class="nrc" data-k="'+x.k+'" data-id="'+esc(x.stem)+'" data-file="'+esc(it.file||'')+'" data-title="'+esc(it.title||'')+'"'+bg+' aria-label="'+esc(sec.title)+': '+esc(it.title)+'"><span class="nrt">'+esc(sec.title)+'</span><span class="nrl">'+esc(it.title)+'</span></button>')})});
   if(!bits.length){rail.innerHTML='';rail.hidden=true;return}
   rail.className='nowrail'+(D.L===0?' far':' mid')+(D.phone?' phone':'');
   rail.innerHTML='<div class="nrh"><b>Now · Nov 13</b><span>'+(D.L===0?'streams':D.L===1?'tap for related':'open + feedback')+'</span></div><div class="nrrow">'+bits.join('')+'</div>';
@@ -549,5 +559,5 @@ window.__sky={state:function(){var st={open:open,mode:mode,lv:lvNow(),g:FG&&FG.i
   groups:GROUPS.map(function(g){var p=sp(g.x,g.y);return{id:g.id,x:+p[0].toFixed(1),y:+p[1].toFixed(1),k:+(g.k||0).toFixed(2),chap:+chapS(g).toFixed(3),n:g.items.length}})};return st},
   items:function(id){var g=GBY[id];return g.items.map(function(x){var r=rectL1(x);return{k:x.k,title:x.title,x:+r.cx.toFixed(1),y:+r.cy.toFixed(1),w:+r.w.toFixed(1)}})},step:step,route:function(h){route(h,{anim:true})},
   unpin:function(id){if(pinned===id)pinned=''},
-  rerender:function(){if(!D.classList.contains('sky-on')){renderList();var r=parse(location.hash);var el=r.card&&!isArch(r.card.stem)?document.getElementById(r.card.stem):(r.sec?document.getElementById(r.sec):null);if(el)highlight(el);return}placeNowRail()}};
+  rerender:function(){if(!D.classList.contains('sky-on')){renderList();var r=parse(location.hash);var el=r.card&&!isArch(r.card.stem)&&!isLoved(r.card.stem)?document.getElementById(r.card.stem):(r.sec?document.getElementById(r.sec):null);if(el)highlight(el);return}placeNowRail()}};
 })();

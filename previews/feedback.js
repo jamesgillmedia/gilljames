@@ -10,14 +10,25 @@ function stem(f){return String(f||'').split('/').pop().replace(/\.[^.]+$/,'')}
 function fileUrl(f){try{return new URL(f,BASE).href}catch(e){return f}}
 function getD(f){try{return JSON.parse(localStorage.getItem(KEY+f))||{}}catch(e){return{}}}
 function setD(f,d){try{if(!d.r&&!d.note&&!d.tune)localStorage.removeItem(KEY+f);else localStorage.setItem(KEY+f,JSON.stringify(d))}catch(e){}}
-/* Board archive. Left swipe and the Archive button write ids here; Bring back removes one. Needs-work notes already stored stay put. */
-var AKEY='gj.board.archived';
-function archIds(){try{var a=JSON.parse(localStorage.getItem(AKEY)||'[]');if(!Array.isArray(a))return[];var o=[],s={};a.forEach(function(id){id=String(id||'');if(!id||s[id])return;s[id]=1;o.push(id)});return o}catch(e){return[]}}
-function archWrite(a){try{localStorage.setItem(AKEY,JSON.stringify(a))}catch(e){}}
+/* Board archive and love. Left swipe and the Archive button write ids to the archive list.
+   Right swipe writes ids to the love list the same way. Bring back removes one.
+   Needs-work notes already stored stay put. */
+var AKEY='gj.board.archived',LKEY='gj.board.loved';
+function idList(key){try{var a=JSON.parse(localStorage.getItem(key)||'[]');if(!Array.isArray(a))return[];var o=[],s={};a.forEach(function(id){id=String(id||'');if(!id||s[id])return;s[id]=1;o.push(id)});return o}catch(e){return[]}}
+function idWrite(key,a){try{localStorage.setItem(key,JSON.stringify(a))}catch(e){}}
+function archIds(){return idList(AKEY)}
+function archWrite(a){idWrite(AKEY,a)}
+function loveIds(){return idList(LKEY)}
+function loveWrite(a){idWrite(LKEY,a)}
 function isArch(id){return !!(id&&archIds().indexOf(id)>=0)}
+function isLoved(id){return !!(id&&loveIds().indexOf(id)>=0)}
 function paintBoard(){if(window.__sky&&__sky.rerender)__sky.rerender()}
-function archiveId(id){if(!id||isArch(id))return;var a=archIds();a.push(id);archWrite(a);if(window.__sky&&__sky.unpin)__sky.unpin(id);paintBoard()}
+function unpin(id){if(window.__sky&&__sky.unpin)__sky.unpin(id)}
+function archiveId(id){if(!id||isArch(id))return;if(isLoved(id))loveWrite(loveIds().filter(function(x){return x!==id}));var a=archIds();a.push(id);archWrite(a);unpin(id);paintBoard()}
 function restoreId(id){if(!id||!isArch(id))return;archWrite(archIds().filter(function(x){return x!==id}));paintBoard()}
+function clearLoveMark(id){var d=getD(id);if(d.r==='Love')d.r='';if(d.note==='swipe Love')d.note='';setD(id,d)}
+function loveId(id){if(!id||isLoved(id))return;if(isArch(id))archWrite(archIds().filter(function(x){return x!==id}));var d=getD(id);if(d.r!=='Love'){d.r='Love';if(!d.note||AUTOSW.test(d.note))d.note='swipe Love'}setD(id,d);var a=loveIds();a.push(id);loveWrite(a);unpin(id);paintBoard()}
+function restoreLove(id){if(!id||!isLoved(id))return;loveWrite(loveIds().filter(function(x){return x!==id}));clearLoveMark(id);paintBoard()}
 function when(iso){try{var d=new Date(iso);return new Intl.DateTimeFormat('en-US',{timeZone:TZ,weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}).format(d)}catch(e){return iso||''}}
 /* NOTE-TC v1 (Oct 19): the note prefill is 'at m:ss.s ' WITH a trailing space, so typing goes after it ('at 0:36.6 horse').
    Every reaction tap, swipe, Mark and Send rewrites only that leading 'at m:ss.s' token to the current frame and keeps anything typed
@@ -51,6 +62,7 @@ function compose(box){var f=box.dataset.file,k=keyOf(box),d=getD(k),t=box.datase
   mark?('At: '+mark.tc+' (frame '+mark.frame+' @ '+mark.fps+'fps)'+(mark.held?' · marked':' · playhead')):null,
   f?('Item file: '+fileUrl(f)):null,'Card: '+page,'Page: '+page,
   box.dataset.time?'Item posted: '+box.dataset.time:'',tuneBlock(d,page),
+  'Loved: '+(loveIds().length?loveIds().map(function(id){return '#'+id}).join(', '):'(none)'),
   'Archived: '+(archIds().length?archIds().map(function(id){return '#'+id}).join(', '):'(none)'),
   'Sent: '+nowStr()].filter(Boolean).join('\n'),subject='Preview feedback: '+t+(mark?' @ '+mark.tc:'');
   return{subject:subject,body:body}}
@@ -146,10 +158,11 @@ function unbindScrub(){if(SCR.raf)cancelAnimationFrame(SCR.raf);SCR.raf=0;SCR.v=
 })();
 
 
-/* Swipe: RIGHT = Love (unchanged). LEFT = Archive. The card follows the finger and only commits past ~35% of its width.
-   A vertical move wins before that lock, so scrolling the list does not archive. Needs work is still a button, never a swipe. */
+/* Swipe: RIGHT = Love, LEFT = Archive. Both drop the card out of the main view into their list.
+   The card follows the finger and only commits past ~35% of its width.
+   A vertical move wins before that lock, so scrolling the list does not archive or love. Needs work is still a button, never a swipe. */
 var SW={x0:0,y0:0,t0:0,el:null,locked:0,pid:null};
-function cardOf(el){return el&&el.closest&&el.closest('.nowrow > li, #earlier .tline > li, .archcards .tline > li, .clist > li, .frt > li, .nrc, #player .pstage')}
+function cardOf(el){return el&&el.closest&&el.closest('.nowrow > li, #earlier .tline > li, .archcards .tline > li, .lovecards .tline > li, .clist > li, .frt > li, .nrc, #player .pstage')}
 function swipeTarget(el){if(!el||!el.closest)return null;if(el.closest('button:not(.nrc),input,a,.psrail,.psbtns,.fb,.push,video,audio')&&!clipSwipe(el))return null;return cardOf(el)||el.closest('.lstrip')}
 function flash(el,dir){if(!el)return;el.classList.remove('sw-love','sw-need');void el.offsetWidth;el.classList.add(dir>0?'sw-love':'sw-need')}
 function reactFile(file,react,el){if(!file)return;var d=getD(file);d.r=react;var mk=window.PVFB&&PVFB.mark&&PVFB.mark();if(mk){d.mark=mk.tc;d.note=retc(d.note,mk.tc)}else if(!d.note||AUTOSW.test(d.note))d.note='swipe '+react; /* NOTE-TC v1 */setD(file,d);
@@ -160,11 +173,12 @@ function loveEl(el){var card=el.closest('.nowrow > li, .frt > li, .clist > li, #
   var nrc=el.closest('.nrc');if(nrc&&(nrc.dataset.id||nrc.dataset.file)){reactFile(nrc.dataset.id||nrc.dataset.file,'Love',nrc);return}
   var host=el.closest('li')||el;var fb=$('.fb',host)||$('#pfb .fb');if(fb&&keyOf(fb)){reactFile(keyOf(fb),'Love',el.closest('#player .pstage')||el);return}
   var id=idOf(el);if(id)reactFile(id,'Love',el)}
-function slideAway(el,id){if(!id)return;var node=el&&el.style?el:null;if(!node){archiveId(id);return}
-  var w=node.getBoundingClientRect().width||node.offsetWidth||320;node.style.transition='transform .28s ease, opacity .28s ease';node.style.transform='translateX('+(-Math.ceil(w+28))+'px)';node.style.opacity='0';
+function snap(el){if(!el||!el.style)return;el.style.transition='transform .22s ease';el.style.transform='';el.style.opacity=''}
+function slideOff(el,id,dir){if(!id){snap(el);return}var node=el&&el.style?el:null;if(!node){if(dir>0)loveId(id);else archiveId(id);return}
+  var w=node.getBoundingClientRect().width||node.offsetWidth||320;node.style.transition='transform .28s ease, opacity .28s ease';node.style.transform='translateX('+((dir>0?1:-1)*Math.ceil(w+28))+'px)';node.style.opacity='0';
   var wait=280;try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)wait=0}catch(e){}
-  setTimeout(function(){archiveId(id)},wait)}
-function applySwipe(el,dir){if(dir>0){loveEl(el);return}slideAway(el,idOf(el))}
+  setTimeout(function(){if(dir>0)loveId(id);else archiveId(id)},wait)}
+function applySwipe(el,dir){var id=idOf(el);if(dir>0){if(!id||isLoved(id)){snap(el);return}loveEl(el);slideOff(el,id,1);return}if(!id||isArch(id)){snap(el);return}slideOff(el,id,-1)}
 document.addEventListener('pointerdown',function(e){if(e.pointerType==='mouse'&&e.button!==0)return;var t=swipeTarget(e.target);if(!t)return;
   if(e.pointerType==='mouse'&&e.target.closest&&e.target.closest('img'))e.preventDefault();
   SW.x0=e.clientX;SW.y0=e.clientY;SW.t0=Date.now();SW.el=t;SW.locked=0;SW.pid=e.pointerId},true);
@@ -176,10 +190,11 @@ function endSwipe(e){if(!SW.el)return;if(e&&e.pointerType!=='touch'&&SW.pid!=nul
   var el=SW.el,dx=x-SW.x0,dy=y-SW.y0,locked=SW.locked;SW.lx=SW.ly=null;
   SW.el=null;SW.locked=0;SW.pid=null;var w=el.getBoundingClientRect().width||el.offsetWidth||1;
   if(!(locked&&Math.abs(dx)>=w*0.35&&Math.abs(dx)>Math.abs(dy)*1.2)){el.style.transition='transform .22s ease';el.style.transform='';return}
-  SWX=Date.now();if(dx>0){el.style.transition='transform .22s ease';el.style.transform='';applySwipe(el,1)}else applySwipe(el,-1)}
+  SWX=Date.now();applySwipe(el,dx>0?1:-1)}
 document.addEventListener('pointerup',endSwipe,true);
 document.addEventListener('pointercancel',function(){if(!SW.el)return;SW.el.style.transition='transform .22s ease';SW.el.style.transform='';SW.el=null;SW.locked=0;SW.pid=null},true);
-document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('.arcbtn');if(a){e.preventDefault();slideAway(a.closest('li')||a,a.dataset.id);return}
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('.arcbtn');if(a){e.preventDefault();slideOff(a.closest('li')||a,a.dataset.id,-1);return}
+  var lv=e.target.closest&&e.target.closest('.loveback');if(lv){e.preventDefault();restoreLove(lv.dataset.id);return}
   var b=e.target.closest&&e.target.closest('.backbtn');if(b){e.preventDefault();restoreId(b.dataset.id)}},true);
 
 /* CLIP-SWIPE v1: swipe on the open clip. Right = Love, left = Archive. A second finger cancels, and the click after a swipe is swallowed. */
@@ -190,20 +205,21 @@ function swN(e){delete SWP[e.pointerId]}
 document.addEventListener('pointerup',swN,true);
 document.addEventListener('pointermove',function(){if(SW.locked&&SW.el&&SW.el.matches('#player .pstage'))SWX=Date.now()},true);
 document.addEventListener('pointercancel',swN,true);
-document.addEventListener('click',function(e){if(Date.now()-SWX<450&&e.target.closest&&e.target.closest('.nowrow > li, #earlier .tline > li, .archcards .tline > li, .clist > li, .nrc, #player .pstage')){e.preventDefault();e.stopPropagation()}},true);
+document.addEventListener('click',function(e){if(Date.now()-SWX<450&&e.target.closest&&e.target.closest('.nowrow > li, #earlier .tline > li, .archcards .tline > li, .lovecards .tline > li, .clist > li, .nrc, #player .pstage')){e.preventDefault();e.stopPropagation()}},true);
 
-function boardFeedbackPayload(){var drafts={},i,k,d,id,seen={},cards=[],love=[],archive=[],notes={},marks={},tune={};
+function boardFeedbackPayload(){var drafts={},i,k,d,id,seen={},cards=[],love=[],loved=[],archive=[],notes={},marks={},tune={};
   try{for(i=0;i<localStorage.length;i++){k=localStorage.key(i);if(k&&k.indexOf(KEY)===0){try{drafts[k.slice(KEY.length)]=JSON.parse(localStorage.getItem(k))||{}}catch(e){}}}}catch(e){}
   function anchorOf(cid){return (BASE.replace(/\/?$/,'/'))+'#'+cid}
   function add(cid,title){if(!cid||seen[cid])return;seen[cid]=1;d=drafts[cid]||{};
-    var archived=d.r==='Archive'||isArch(cid);
-    cards.push({id:cid,title:title||'',anchor:anchorOf(cid),love:d.r==='Love',archive:archived,reaction:d.r||'',note:d.note||'',mark:d.mark||'',tune:d.tune||null});
-    if(d.r==='Love')love.push(cid);if(archived&&archive.indexOf(cid)<0)archive.push(cid);if(d.note)notes[cid]=d.note;if(d.mark)marks[cid]=d.mark;
+    var inLoved=isLoved(cid),archived=d.r==='Archive'||isArch(cid),loveMark=d.r==='Love'||inLoved;
+    cards.push({id:cid,title:title||'',anchor:anchorOf(cid),love:loveMark,loved:inLoved,archive:archived,reaction:d.r||'',note:d.note||'',mark:d.mark||'',tune:d.tune||null});
+    if(loveMark&&love.indexOf(cid)<0)love.push(cid);if(inLoved&&loved.indexOf(cid)<0)loved.push(cid);if(archived&&archive.indexOf(cid)<0)archive.push(cid);if(d.note)notes[cid]=d.note;if(d.mark)marks[cid]=d.mark;
     if(d.tune&&d.tune.url)tune[cid]={state:d.tune.state||null,url:d.tune.url,anchor:d.tune.anchor||anchorOf(cid)}}
   (ITEMS||[]).forEach(function(it){var cid=it.id||it.file;if(cid)add(cid,it.title||'')});
   Object.keys(drafts).forEach(function(cid){add(cid,'')});
+  loveIds().forEach(function(cid){add(cid,'')});
   archIds().forEach(function(cid){add(cid,'')});
-  return {v:1,cards:cards,love:love,archive:archive,notes:notes,marks:marks,tune:tune}}
+  return {v:1,cards:cards,love:love,loved:loveIds(),archive:archive,notes:notes,marks:marks,tune:tune}}
 window.boardFeedbackPayload=boardFeedbackPayload;
 
 /* Tune this: a same-origin sheet. Send settings writes the drawer state onto that card's draft, so Copy and Send carry it. */
@@ -232,7 +248,7 @@ function sendSettings(){var f=tuneSheet&&$('iframe',tuneSheet);if(!f||!f.content
   tuneWait=setTimeout(function(){removeEventListener('message',onMsg);tuneNote('Try again.')},4000)}
 document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.tunebtn');if(!b)return;e.preventDefault();e.stopPropagation();openTune(b)},true);
 
-window.PVFB={form:form,mark:markNow,stepFrame:stepFrame,keyOf:keyOf,archived:archIds,isArchived:isArch,archive:archiveId,restore:restoreId,
+window.PVFB={form:form,mark:markNow,stepFrame:stepFrame,keyOf:keyOf,archived:archIds,isArchived:isArch,archive:archiveId,restore:restoreId,loved:loveIds,isLoved:isLoved,love:loveId,restoreLove:restoreLove,
   mountPlayer:function(it){var m=$('#pfb'),v=$('#player video');
     if(!it||!it.file||!(it.tier==='now'||it.badge==='Latest')||it.tier==='earlier'||it.tier==='related'){if(m){m.hidden=true;m.innerHTML=''}unbindScrub();return}
     if(m){m.hidden=false;m.innerHTML=form(it,{noHead:1})}

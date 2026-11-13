@@ -246,14 +246,19 @@ li.deep > .card, section.deep, .crow.deep .card{outline:1px solid rgba(232,228,2
 .tuneframe{flex:1 1 auto;width:100%;min-height:0;border:0;background:#04070b}
 html.tune-open,html.tune-open body{overflow:hidden}
 
-/* Archive: left swipe and the Archived list. Gold, never mint. */
-.nowrow>li,#earlier .tline>li,.archcards .tline>li,.clist>li{position:relative;touch-action:pan-y}
+/* Archive and Love lists. Love accent is #d9b878. Nothing here is mint or brighter than #e8e4dc. */
+.nowrow>li,#earlier .tline>li,.archcards .tline>li,.lovecards .tline>li,.clist>li{position:relative;touch-action:pan-y}
 .coveranchor{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
-.archbar{margin:14px 0 0}
-.archtog,.arcbtn,.backbtn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 16px;border-radius:22px;border:1px solid rgba(201,169,110,.55);background:transparent;color:#e8e4dc;font:300 12px/1 Poppins,sans-serif;letter-spacing:.06em;cursor:pointer}
+.archbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0 0}
+.archtog,.lovetog,.arcbtn,.backbtn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;padding:0 16px;border-radius:22px;border:1px solid rgba(201,169,110,.55);background:transparent;color:#e8e4dc;font:300 12px/1 Poppins,sans-serif;letter-spacing:.06em;cursor:pointer;touch-action:manipulation}
 .archtog{background:rgba(201,169,110,.12)}
 .archtog[aria-pressed=true]{background:#c9a96e;color:#1c1610}
+.lovetog,.loveback{border-color:rgba(217,184,120,.7);color:#e8e4dc}
+.lovetog{background:rgba(217,184,120,.14)}
+.lovetog[aria-pressed=true]{background:#d9b878;color:#1c1610}
 .arcbtn,.backbtn{margin-top:10px}
 .backbtn{background:rgba(201,169,110,.16)}
+.loveback{background:rgba(217,184,120,.16)}
 li.held>.card{box-shadow:0 0 0 1px rgba(201,169,110,.5)}
+li.loved>.card{box-shadow:0 0 0 1px rgba(217,184,120,.7)}
 .lstrip.nswipe{justify-content:center;color:#c9a96e}
