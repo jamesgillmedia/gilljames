@@ -226,3 +226,15 @@ li.deep > .card, section.deep, .crow.deep .card{outline:1px solid rgba(232,228,2
 .aplayer .alab{margin:0 0 4px;font-size:11px;letter-spacing:.06em;color:var(--meta)}
 .aplayer audio{display:block;width:100%;height:40px}
 .gal img[src$=".webp"]{background:#0a0a0c}
+
+/* Tune this. Dark, warm white, 44px targets. Safe areas on the sheet. */
+.tunebtn{position:relative;z-index:2;min-height:44px;min-width:44px;padding:0 16px;border:1px solid rgba(232,228,220,.45);border-radius:22px;background:#04070b;color:#e8e4dc;font:400 14px/1 Poppins,sans-serif;letter-spacing:.04em;cursor:pointer;touch-action:manipulation}
+.tunebtn-abs{position:absolute;left:max(12px,env(safe-area-inset-left,0px));bottom:12px}
+.tunesheet{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;background:#04070b;color:#e8e4dc;
+  padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+.tunesheet[hidden]{display:none!important}
+.tunebar{display:flex;align-items:center;gap:12px;min-height:52px;padding:4px 12px;flex:none}
+.tunex,.tunesend{min-height:44px;min-width:44px;padding:0 16px;border-radius:22px;border:1px solid rgba(232,228,220,.4);background:#04070b;color:#e8e4dc;font:400 14px/1 Poppins,sans-serif;cursor:pointer;touch-action:manipulation}
+.tunett,.tunest{font:300 13px/1.3 Poppins,sans-serif;color:#e8e4dc}
+.tuneframe{flex:1 1 auto;width:100%;min-height:0;border:0;background:#04070b}
+html.tune-open,html.tune-open body{overflow:hidden}

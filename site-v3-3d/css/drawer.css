@@ -107,7 +107,7 @@ body #markmenu.dv-C input[type=range]::-moz-range-thumb{width:5px;height:5px}
 #markmenu.mm-snap,#markmenu.mm-snap *{transition:none!important}
 
 /* site-v3-3d: position the drawer; the marks are .gj-mark (.pole .sig and .shome.sig) */
-#markmenu{position:fixed;z-index:60;left:calc(10px + env(safe-area-inset-left,0px));top:calc(54px + env(safe-area-inset-top,0px));width:min(360px,calc(100vw - 20px));max-height:calc(100vh - 80px);overflow:auto}
+#markmenu{position:fixed;z-index:60;left:calc(10px + env(safe-area-inset-left,0px));top:calc(54px + env(safe-area-inset-top,0px));width:min(360px,calc(100vw - 20px - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px)));max-height:calc(100dvh - 80px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));overflow:auto}
 #markmenu[hidden]{display:none}
 .gj-mark{display:inline-block;transform-origin:50% 60%;transition:transform .56s cubic-bezier(.22,.7,.2,1),text-shadow .56s linear;cursor:pointer}
 html.mm-open .gj-mark{transform:perspective(160px) rotateY(-34deg) rotateX(18deg) translateZ(6px);text-shadow:0 0 10px rgba(232,228,220,.55)}
@@ -135,9 +135,23 @@ html.mm-open .gj-mark{transform:perspective(160px) rotateY(-34deg) rotateX(18deg
 #markmenu .mm-seg{margin:6px 0 4px}
 #markmenu .mm-seg b{display:block}
 #markmenu .mm-seg span{display:flex;flex-wrap:wrap;gap:4px 16px}
-#markmenu .mm-foot{display:flex;gap:16px;align-items:center;margin:8px 0 0}
-#markmenu .mm-reset,#markmenu .mm-home{background:none;border:0;padding:6px 0;cursor:pointer;min-height:32px}
+#markmenu .mm-foot{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin:8px 0 0}
+#markmenu .mm-reset,#markmenu .mm-home,#markmenu .mm-copylink{background:none;border:0;padding:6px 0;cursor:pointer;min-height:44px;min-width:44px;color:#e8e4dc}
+#markmenu .mm-copylink{border:1px solid rgba(232,228,220,.35);border-radius:22px;padding:0 14px;font:300 12px/1 Poppins,sans-serif;letter-spacing:.08em}
+#markmenu label{min-height:44px}
+#markmenu .mm-seg button{min-height:44px;padding:8px 0}
+body #markmenu input[type=range]{height:44px}
 #markmenu .mm-home{font:400 9px "Julius Sans One",Poppins,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:rgba(232,228,220,.62)}
 @media (max-width:520px){
   #markmenu .mm-seg span{flex-direction:column;align-items:flex-start;gap:2px}
 }
+
+/* tune fx: safelight edge, a quiet glitch veil, red ink. Nothing here is brighter than #e8e4dc. */
+#gj-safe,#gj-glitch{position:fixed;inset:0;pointer-events:none;z-index:5}
+#gj-safe{background:linear-gradient(var(--gj-la,210deg),rgba(120,52,24,var(--gj-safe,0)) 0%,transparent 34%,transparent 66%,rgba(120,52,24,calc(var(--gj-safe,0)*.7)) 100%)}
+#gj-glitch{opacity:0;background:repeating-linear-gradient(180deg,transparent 0 12px,rgba(232,228,220,.07) 12px 13px)}
+html.gj-glitch-on #gj-glitch{opacity:var(--gj-gl,0);animation:gjgl calc(1.1s / var(--gj-gs,1)) steps(2,end) infinite}
+@keyframes gjgl{50%{transform:translate3d(2px,-1px,0)}}
+html[data-gj-c="red"] #ghostdial{--gd-ink:168,72,68}
+html[data-gj-c="red"] .night{box-shadow:inset 0 0 90px rgba(80,18,22,.4)}
+@media (prefers-reduced-motion:reduce){#gj-glitch{animation:none}}

@@ -12,7 +12,8 @@ var sheet=$('.sheet');if(!sheet||!window.__dive)return;
 var RM=matchMedia('(prefers-reduced-motion: reduce)');function anim(){return !RM.matches}
 var TN={mood:1,starG:1,stars:1,starS:1,lineA:1,depth:1},TN_T={mood:1,starG:1,stars:1,starS:1,lineA:1,depth:1};
 window.GJ_V33D={set:function(o){for(var k in o)if(Object.prototype.hasOwnProperty.call(TN_T,k))TN_T[k]=Math.max(0,o[k]);req()},get:function(){return{mood:TN.mood,starG:TN.starG,stars:TN.stars,starS:TN.starS,lineA:TN.lineA,depth:TN.depth}},reset:function(){for(var k in TN_T)TN_T[k]=1;req()}};
-function easeTune(){var sp=anim()?0.18:1,k,d,any=0;for(k in TN){d=TN_T[k]-TN[k];if(Math.abs(d)>0.001){TN[k]+=d*sp;any=1}else TN[k]=TN_T[k]}if(any)req()}
+function easeTune(){var mo=1;try{if(window.GJ_TUNE&&GJ_TUNE.motion)mo=GJ_TUNE.motion()}catch(e){}if(!isFinite(mo))mo=1;
+  var sp=!anim()||mo<=0?1:Math.max(0.04,Math.min(1,0.18*mo)),k,d,any=0;for(k in TN){d=TN_T[k]-TN[k];if(Math.abs(d)>0.001){TN[k]+=d*sp;any=1}else TN[k]=TN_T[k]}if(any)req()}
 var SF=[],cv=$('canvas',sheet),ctx=cv.getContext('2d'),world=$('.sw',sheet),hud=$('.slabs',sheet),crumb=$('.crumb',sheet),hint=$('.shint',sheet);
 var W=0,H=0,dpr=1,TOP=56;
 /* ---------- the world: read the real chapters from the column ---------- */

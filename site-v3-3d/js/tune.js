@@ -1,8 +1,11 @@
-/* site-v3-3d · the mark's tune drawer, ported from the magic-baseline / about-1113 drawer.
-   Tap the mark (ᑕᐣᓯ) to unfold the sliders. They ease the real sky: mood, glow, stars, size, lines, depth.
-   Ghost arc (gold tick) while a slider is held; the drawer hides until release, then unfolds again.
+/* site-v3-3d · the mark's tune drawer.
+   Tap the mark (ᑕᐣᓯ) to unfold it. Sky sliders ease the real sky. Ghost arc (gold tick) while a slider is held;
+   the drawer hides until release, then unfolds again.
+   Full state rides on ?tune=<base64url JSON> (short keys, v). Unknown keys are ignored. Every value is clamped.
+   Copy settings link, and postMessage: parent {type:'gj-tune-get'} -> {type:'gj-tune-state', state, url}.
+   The page posts gj-tune-state on every change. Messages are accepted only from this origin.
    ?v=A|B|C or ?drawer=A|B|C, localStorage gj.drawer. Reduce Motion: same final state, no unfold motion.
-   Active chrome is warm white #e8e4dc. Gold only on the ghost dial. Nothing here dims a waveform or a film. */
+   Active chrome is warm white #e8e4dc. Gold only on the ghost dial. */
 (function(){
 'use strict';
 function rd(k,d){try{var v=localStorage.getItem(k);if(v==null||v==='')return d;return v}catch(e){return d}}
@@ -13,18 +16,29 @@ function rmOn(){return !!(window.matchMedia&&matchMedia('(prefers-reduced-motion
 function markEl(){var a=[].slice.call(document.querySelectorAll('.gj-mark'));
   for(var i=0;i<a.length;i++){var r=a[i].getBoundingClientRect();if(r.width&&r.height&&r.bottom>0&&r.top<innerHeight)return a[i]}
   return a[0]||null}
+function clampInt(n,a,b){n=+n;if(!isFinite(n))return null;return Math.max(a,Math.min(b,Math.round(n)))}
+function embedded(){try{return window.parent!==window}catch(e){return false}}
 
-var ROWS=[
-  {k:'mood',label:'mood',min:0,max:200,def:100},
-  {k:'starG',label:'glow',min:0,max:200,def:100},
-  {k:'stars',label:'stars',min:40,max:180,def:100},
-  {k:'starS',label:'star size',min:50,max:200,def:100},
-  {k:'lineA',label:'lines',min:0,max:200,def:100},
-  {k:'depth',label:'depth',min:40,max:200,def:100}
+var RANGES=[
+  {k:'mood',s:'m',label:'mood',min:0,max:200,def:100,sky:1},
+  {k:'starG',s:'g',label:'glow',min:0,max:200,def:100,sky:1},
+  {k:'stars',s:'st',label:'stars',min:40,max:180,def:100,sky:1},
+  {k:'starS',s:'sz',label:'star size',min:50,max:200,def:100,sky:1},
+  {k:'lineA',s:'ln',label:'lines',min:0,max:200,def:100,sky:1},
+  {k:'depth',s:'d',label:'depth',min:40,max:200,def:100,sky:1},
+  {k:'glitch',s:'gl',label:'glitch',min:0,max:100,def:0},
+  {k:'glitchSpd',s:'gs',label:'glitch speed',min:0,max:200,def:100},
+  {k:'light',s:'la',label:'light angle',min:0,max:360,def:210},
+  {k:'motion',s:'mo',label:'motion',min:0,max:200,def:100},
+  {k:'snapAt',s:'sn',label:'snap threshold',min:15,max:70,def:34},
+  {k:'safeK',s:'sk',label:'safelight strength',min:0,max:100,def:60}
 ];
-function applyAll(){var o={},i;for(i=0;i<ROWS.length;i++)o[ROWS[i].k]=rn('gj.tune.'+ROWS[i].k,100)/100;
-  if(window.GJ_V33D)GJ_V33D.set(o)}
-function rowOf(k){for(var i=0;i<ROWS.length;i++)if(ROWS[i].k===k)return ROWS[i];return null}
+var ROWS=RANGES.filter(function(r){return r.sky});
+function rangeOf(k){for(var i=0;i<RANGES.length;i++)if(RANGES[i].k===k)return RANGES[i];return null}
+function num(k){var r=rangeOf(k);if(!r)return 0;return clampInt(rn('gj.tune.'+k,r.def),r.min,r.max)}
+function colour(){return rd('gj.tune.colour','night')==='red'?'red':'night'}
+function safelight(){return rn('gj.tune.safelight',0)===1}
+function ripples(){return rn('gj.tune.ripples',1)!==0}
 
 var q=location.search,DV=(function(){
   var m=/(?:^|[?&])(?:drawer|v)=([ABC])(?:&|$)/.exec(q);if(m){wr('gj.drawer',m[1]);return m[1]}
@@ -32,9 +46,120 @@ var q=location.search,DV=(function(){
 /* stash ?v=frames for the later film-frame experiment; do not treat it as a drawer look */
 if(/(?:^|[?&])v=frames(?:&|$)/.test(q))wr('gj.v','frames');
 
+function b64urlEncode(obj){
+  var json=JSON.stringify(obj),bytes;
+  try{bytes=new TextEncoder().encode(json)}catch(e){bytes=null}
+  var bin='';
+  if(bytes){for(var i=0;i<bytes.length;i++)bin+=String.fromCharCode(bytes[i])}
+  else{try{bin=unescape(encodeURIComponent(json))}catch(e2){return ''}}
+  return btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+}
+function b64urlDecode(s){
+  try{
+    s=String(s||'').replace(/-/g,'+').replace(/_/g,'/');
+    while(s.length%4)s+='=';
+    var bin=atob(s),bytes=new Uint8Array(bin.length);
+    for(var i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
+    var json;try{json=new TextDecoder().decode(bytes)}catch(e){json=decodeURIComponent(escape(bin))}
+    var o=JSON.parse(json);
+    return o&&typeof o==='object'?o:null;
+  }catch(e){return null}
+}
+function tuneRaw(){
+  var m=/(?:^|[?&])tune=([^&#]+)/.exec(location.search);
+  if(!m)return null;
+  var s=m[1];try{s=decodeURIComponent(s)}catch(e){}
+  return b64urlDecode(s);
+}
+function bit(v){
+  if(v===1||v==='1'||v===true)return 1;
+  if(v===0||v==='0'||v===false)return 0;
+  return null;
+}
+function applyIncoming(raw){
+  if(!raw||typeof raw!=='object')return;
+  RANGES.forEach(function(r){
+    if(!Object.prototype.hasOwnProperty.call(raw,r.s))return;
+    var v=clampInt(raw[r.s],r.min,r.max);
+    if(v==null)return;
+    wr('gj.tune.'+r.k,v);
+  });
+  if(raw.c==='night'||raw.c==='red')wr('gj.tune.colour',raw.c);
+  var sf=bit(raw.sf);if(sf!=null)wr('gj.tune.safelight',sf);
+  var rp=bit(raw.rp);if(rp!=null)wr('gj.tune.ripples',rp);
+  if(raw.dv==='A'||raw.dv==='B'||raw.dv==='C'){DV=raw.dv;wr('gj.drawer',DV);if(menu)setDrawer(DV)}
+}
+function compact(){
+  var o={v:1};
+  RANGES.forEach(function(r){o[r.s]=num(r.k)});
+  o.c=colour();o.sf=safelight()?1:0;o.rp=ripples()?1:0;o.dv=DV;
+  return o;
+}
+function named(){
+  return {v:1,
+    mood:num('mood'),glow:num('starG'),stars:num('stars'),starSize:num('starS'),lines:num('lineA'),depth:num('depth'),
+    glitch:num('glitch'),glitchSpeed:num('glitchSpd'),lightAngle:num('light'),motion:num('motion'),snap:num('snapAt'),
+    colour:colour(),safelight:safelight()?1:0,safelightStrength:num('safeK'),ripples:ripples()?1:0,drawer:DV};
+}
+function link(){
+  try{
+    var u=new URL(location.href);
+    u.searchParams.set('tune',b64urlEncode(compact()));
+    u.hash='';
+    return u.href;
+  }catch(e){return location.href}
+}
+function writeTuneUrl(){
+  try{
+    var u=new URL(location.href);
+    u.searchParams.set('tune',b64urlEncode(compact()));
+    var next=u.pathname+u.search+u.hash;
+    if(next!==location.pathname+location.search+location.hash)history.replaceState(history.state,'',next);
+  }catch(e){}
+}
+function publish(){
+  var msg={type:'gj-tune-state',state:named(),url:link()};
+  if(window.parent&&window.parent!==window){try{window.parent.postMessage(msg,location.origin)}catch(e){}}
+}
+function fxNodes(){
+  var s=document.getElementById('gj-safe');
+  if(!s){s=document.createElement('div');s.id='gj-safe';s.setAttribute('aria-hidden','true');document.body.appendChild(s)}
+  var g=document.getElementById('gj-glitch');
+  if(!g){g=document.createElement('div');g.id='gj-glitch';g.setAttribute('aria-hidden','true');document.body.appendChild(g)}
+}
+function applyFx(){
+  fxNodes();
+  var root=document.documentElement,c=colour(),safe=safelight()?num('safeK')/100:0,gl=num('glitch')/100;
+  root.setAttribute('data-gj-c',c);
+  root.setAttribute('data-gj-ripples',ripples()?'1':'0');
+  root.classList.toggle('gj-glitch-on',gl>0);
+  root.style.setProperty('--gj-la',num('light')+'deg');
+  root.style.setProperty('--gj-safe',safe.toFixed(3));
+  root.style.setProperty('--gj-gl',gl.toFixed(3));
+  root.style.setProperty('--gj-gs',String(Math.max(0.35,num('glitchSpd')/100)));
+  var ink=c==='red'?'168,72,68':'232,228,220';
+  root.style.setProperty('--gd-ink',ink);
+  var ghostEl=document.getElementById('ghostdial');
+  if(ghostEl)ghostEl.style.setProperty('--gd-ink',ink);
+}
+function applyAll(){
+  var o={},i;for(i=0;i<ROWS.length;i++)o[ROWS[i].k]=num(ROWS[i].k)/100;
+  if(window.GJ_V33D)GJ_V33D.set(o);
+  applyFx();
+  publish();
+}
+function resetAll(){
+  RANGES.forEach(function(r){rm('gj.tune.'+r.k)});
+  rm('gj.tune.colour');rm('gj.tune.safelight');rm('gj.tune.ripples');
+  applyAll();writeTuneUrl();
+}
+
+var HAD=tuneRaw();
+applyIncoming(HAD);
+
 var menu=null,open=false,HOLD=false,PTR=null,foldT=0,SWALLOW=0,kbT=0;
 
-function setDrawer(v){DV=v==='B'||v==='C'?v:'A';wr('gj.drawer',DV);if(menu){menu.className=(menu.className.replace(/dv-[ABC]/g,'')+' dv-'+DV).trim()}}
+function setDrawer(v){DV=v==='B'||v==='C'?v:'A';wr('gj.drawer',DV);if(menu){menu.className=(menu.className.replace(/dv-[ABC]/g,'')+' dv-'+DV).trim()}writeTuneUrl();publish()}
 function planes(){if(!menu)return;var i=0,list=[].slice.call(menu.querySelectorAll('.mm-3d>nav,.mm-plate>*'));
   list.forEach(function(el){el.style.setProperty('--i',String(i));el.style.setProperty('--z',(Math.max(0,3-i)*7-6)+'px');i++});menu.style.setProperty('--n',String(i))}
 function origin(){if(!menu)return;var m=markEl(),r=m&&m.getBoundingClientRect(),b=menu.getBoundingClientRect();
@@ -48,17 +173,42 @@ function ghost(r,info){if(!window.GJ_GHOST||!menu)return;
   GJ_GHOST.update(info);menu.classList.toggle('mm-peek',HOLD);
   if(!HOLD){clearTimeout(kbT);kbT=setTimeout(function(){GJ_GHOST.release()},400)}}
 
+function sliderHtml(row){var v=num(row.k);
+  return '<label><span>'+row.label+'</span><input type="range" min="'+row.min+'" max="'+row.max+'" step="1" value="'+v+'" data-k="'+row.k+'" aria-label="'+row.label+'"><output>'+(row.k==='safeK'?(v/100).toFixed(2):v)+'</output></label>'}
+function seg(label,name,buttons){
+  var h='<div class="mm-seg"><b>'+label+'</b><span role="radiogroup" aria-label="'+name+'">';
+  buttons.forEach(function(b){h+='<button type="button" role="radio" aria-checked="'+(b.on?'true':'false')+'" '+b.attr+'>'+b.t+'</button>'});
+  return h+'</span></div>';
+}
 function paint(){
   if(!menu)return;
+  var top=menu.scrollTop;
   var pl=menu.querySelector('.mm-plate'),h='<section class="mm-ctx"><h3>sky <span>here</span></h3>';
-  ROWS.forEach(function(row){var v=Math.round(rn('gj.tune.'+row.k,100));
-    h+='<label><span>'+row.label+'</span><input type="range" min="'+row.min+'" max="'+row.max+'" step="1" value="'+v+'" data-k="'+row.k+'" aria-label="'+row.label+'"><output>'+v+'</output></label>'});
-  h+='</section><section class="mm-devsec"><h3>look</h3><div class="mm-seg"><b>drawer</b><span role="radiogroup" aria-label="drawer">';
-  [['A','A · constellation'],['B','B · contact strip'],['C','C · ghost']].forEach(function(o){
-    h+='<button type="button" role="radio" aria-checked="'+(DV===o[0])+'" data-drawer="'+o[0]+'">'+o[1]+'</button>'});
-  h+='</span></div></section>';
-  h+='<p class="mm-foot"><button type="button" class="mm-reset">reset</button> <button type="button" class="mm-home">home</button></p>';
-  pl.innerHTML=h;pl.hidden=false;planes();origin();
+  ROWS.forEach(function(row){h+=sliderHtml(row)});
+  h+=seg('colour mode','colour mode',[
+    {t:'night',on:colour()==='night',attr:'data-c="night"'},
+    {t:'red',on:colour()==='red',attr:'data-c="red"'}
+  ]);
+  h+='</section><section class="mm-ctx"><h3>picture</h3>';
+  RANGES.forEach(function(row){if(!row.sky&&row.k!=='safeK')h+=sliderHtml(row)});
+  h+=seg('safelight','safelight',[
+    {t:'off',on:!safelight(),attr:'data-sf="0"'},
+    {t:'on',on:safelight(),attr:'data-sf="1"'}
+  ]);
+  h+=sliderHtml(rangeOf('safeK'));
+  h+=seg('ripples','ripples',[
+    {t:'on',on:ripples(),attr:'data-rp="1"'},
+    {t:'off',on:!ripples(),attr:'data-rp="0"'}
+  ]);
+  h+='</section><section class="mm-devsec"><h3>look</h3>';
+  h+=seg('drawer','drawer',[
+    {t:'A · constellation',on:DV==='A',attr:'data-drawer="A"'},
+    {t:'B · contact strip',on:DV==='B',attr:'data-drawer="B"'},
+    {t:'C · ghost',on:DV==='C',attr:'data-drawer="C"'}
+  ]);
+  h+='</section>';
+  h+='<p class="mm-foot"><button type="button" class="mm-copylink">Copy settings link</button><button type="button" class="mm-reset">reset</button> <button type="button" class="mm-home">home</button></p>';
+  pl.innerHTML=h;pl.hidden=false;planes();origin();menu.scrollTop=top;
 }
 
 function show(on){
@@ -75,14 +225,16 @@ function show(on){
 }
 
 function goHome(){show(false);
-  if(window.__sheet&&__sheet.isOpen&&__sheet.isOpen()){/* same as the old mark: back to the top of the Dive */
-    var sh=document.querySelector('.sheet .shome');if(sh){/* don't recurse */ }
-    if(__sheet.close){try{ /* close the sheet and scroll home */
-      var fromY=0;
-    }catch(e){}}
-    /* use the sheet's public close + dive home */
+  if(window.__sheet&&__sheet.isOpen&&__sheet.isOpen()){
     try{__sheet.close({quick:1});if(window.__dive)__dive.go({k:null});scrollTo(0,0)}catch(e){scrollTo({top:0,behavior:rmOn()?'auto':'smooth'})}
   }else scrollTo({top:0,behavior:rmOn()?'auto':'smooth'})}
+
+function copyLink(btn){
+  var url=link();writeTuneUrl();
+  function done(){if(!btn)return;btn.textContent='Copied';setTimeout(function(){if(btn)btn.textContent='Copy settings link'},1600)}
+  function fb(){var t=document.createElement('textarea');t.value=url;t.setAttribute('readonly','');t.style.cssText='position:fixed;left:-9999px;top:0;font-size:16px';document.body.appendChild(t);t.select();t.setSelectionRange(0,url.length);var r=false;try{r=document.execCommand('copy')}catch(e){}t.remove();if(r)done()}
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(url).then(done,fb);else fb();
+}
 
 function build(){
   menu=document.createElement('div');menu.id='markmenu';menu.hidden=true;menu.setAttribute('role','dialog');menu.setAttribute('aria-label','the mark menu');
@@ -94,15 +246,20 @@ function build(){
   menu.addEventListener('click',function(e){
     e.stopPropagation();
     var dvb=e.target.closest('[data-drawer]');if(dvb){setDrawer(dvb.getAttribute('data-drawer'));paint();return}
-    if(e.target.closest('.mm-reset')){ROWS.forEach(function(r){rm('gj.tune.'+r.k)});applyAll();paint();return}
+    var cb=e.target.closest('[data-c]');if(cb){wr('gj.tune.colour',cb.getAttribute('data-c')==='red'?'red':'night');applyAll();writeTuneUrl();paint();return}
+    var sb=e.target.closest('[data-sf]');if(sb){wr('gj.tune.safelight',sb.getAttribute('data-sf')==='1'?1:0);applyAll();writeTuneUrl();paint();return}
+    var rb=e.target.closest('[data-rp]');if(rb){wr('gj.tune.ripples',rb.getAttribute('data-rp')==='0'?0:1);applyAll();writeTuneUrl();paint();return}
+    if(e.target.closest('.mm-copylink')){copyLink(e.target.closest('.mm-copylink'));return}
+    if(e.target.closest('.mm-reset')){resetAll();paint();return}
     if(e.target.closest('.mm-home')){goHome();return}
   });
   menu.addEventListener('input',function(e){
     var r=e.target.closest('input[data-k]');if(!r)return;
-    var row=rowOf(r.getAttribute('data-k'));if(!row)return;
-    var v=+r.value;wr('gj.tune.'+row.k,v);applyAll();
+    var row=rangeOf(r.getAttribute('data-k'));if(!row)return;
+    var v=clampInt(r.value,row.min,row.max);if(v==null)return;
+    wr('gj.tune.'+row.k,v);applyAll();writeTuneUrl();
     ghost(r,{name:row.label,min:row.min,max:row.max,def:row.def,value:v});
-    var o=r.parentNode.querySelector('output');if(o)o.textContent=v;
+    var o=r.parentNode.querySelector('output');if(o)o.textContent=row.k==='safeK'?(v/100).toFixed(2):v;
   });
   menu.addEventListener('pointerdown',function(e){PTR={x:e.clientX,y:e.clientY};if(e.target.closest('input[type=range]'))HOLD=true},true);
   menu.addEventListener('pointermove',function(e){if(HOLD)PTR={x:e.clientX,y:e.clientY}},true);
@@ -120,6 +277,19 @@ document.addEventListener('click',function(e){
   show(!open);
 },true);
 
+addEventListener('message',function(e){
+  if(e.origin!==location.origin)return;
+  var d=e.data;if(!d||d.type!=='gj-tune-get')return;
+  var msg={type:'gj-tune-state',state:named(),url:link()};
+  try{if(e.source&&e.source.postMessage)e.source.postMessage(msg,e.origin)}catch(err){}
+});
+
 applyAll();
-window.GJ_MARKMENU={toggle:function(){show(!open)},show:show,get open(){return open}};
+if(HAD)writeTuneUrl();
+window.GJ_TUNE={version:1,state:named,compact:compact,url:link,
+  motion:function(){return num('motion')/100},
+  snap:function(){return num('snapAt')},
+  ripples:ripples};
+window.GJ_MARKMENU={toggle:function(){show(!open)},show:show,get open(){return open},state:named};
+if(HAD||embedded())show(true);
 })();

@@ -48,12 +48,14 @@ function statusLines(it,clamp){
   }
   return it.desc?'<p class="'+cls.trim()+'">'+esc(it.desc)+'</p>':'';
 }
+function tuneBtn(it,abs){if(!it||!it.tune)return'';
+  return'<button type="button" class="tunebtn'+(abs?' tunebtn-abs':'')+'" data-tune="'+esc(it.tune)+'" data-card="'+esc(it.id||stem(it.file))+'" aria-label="Tune this">Tune this</button>'}
 function mediaBlock(it){
   var h='';
-  if(it.type==='video'&&it.file)h+='<div class="vbox"><video controls playsinline preload="metadata"'+(it.poster?' poster="'+esc(it.poster)+'"':'')+' src="'+esc(it.file)+'"></video><button type="button" class="push" aria-label="Play large: '+esc(it.title)+'">⤢</button></div>';
+  if(it.type==='video'&&it.file)h+='<div class="vbox"><video controls playsinline preload="metadata"'+(it.poster?' poster="'+esc(it.poster)+'"':'')+' src="'+esc(it.file)+'"></video><button type="button" class="push" aria-label="Play large: '+esc(it.title)+'">⤢</button>'+tuneBtn(it,1)+'</div>';
   if(it.type==='audio'&&it.file)h+='<audio controls preload="metadata" src="'+esc(it.file)+'"></audio>';
-  if(it.type==='live')h+=liveBox(it);
-  if(it.type==='image'&&it.file)h+='<div class="vbox"><img src="'+esc(it.file)+'" alt="'+esc(it.title)+'"></div>';
+  if(it.type==='live')h+=liveBox(it)+(it.tune?tuneBtn(it,0):'');
+  if(it.type==='image'&&it.file)h+='<div class="vbox"><img src="'+esc(it.file)+'" alt="'+esc(it.title)+'">'+tuneBtn(it,1)+'</div>';
   var gal=it.gallery||[], extra=gal.filter(function(g){return g&&g.src&&g.src!==it.file});
   var pics=extra.filter(function(g){return g.type!=='audio'}), auds=extra.filter(function(g){return g.type==='audio'});
   if(it.type==='audio'&&it.file){/* already drawn */}
@@ -88,6 +90,7 @@ function card(x){var it=x.d,cls=[it.badge==='Current direction'?'cur':'',it.type
   if(it.badge)h+='<span class="badge">'+esc(it.badge)+'</span>';
   h+='</div><h3 class="ct">'+esc(it.title)+'</h3>'+statusLines(it,false);
   if(it.link&&it.link.href)h+='<a class="btn" href="'+esc(it.link.href)+'" target="_blank" rel="noopener">'+esc(it.link.label||'Open')+' <span aria-hidden="true">↗</span></a>';
+  if(it.tune&&it.type!=='video'&&it.type!=='image'&&it.type!=='live')h+=tuneBtn(it,0);
   if(it.file&&it.type!=='live'&&it.type!=='image')h+='<span class="file"><a href="'+esc(it.file)+'" download>'+esc(it.file.split('/').pop())+'</a></span>';
   if(canFb(it)&&window.PVFB)h+=PVFB.form(it);
   return h+'</div></article></li>'}
@@ -169,7 +172,7 @@ function nowStrip(){var order=streamOrder(),cards=[];
     h+=swipeHint();
     h+=mediaBlock(it);
     h+='<div class="cb"><div class="meta">'+(it.time?'<time class="when" datetime="'+esc(it.time)+'">'+when(it.time)+'</time>':'')+'<span class="badge">'+esc(it.badge||'Latest')+'</span></div><h3 class="ct">'+esc(it.title)+'</h3>'+statusLines(it,true);
-    h+=linkBtn(it);if(window.PVFB&&canFb(it))h+=PVFB.form(it);h+='</div></article></li>';cards.push({t:Date.parse(it.time||0)||0,h:h})})});
+    h+=linkBtn(it);if(it.tune&&it.type!=='video'&&it.type!=='image'&&it.type!=='live')h+=tuneBtn(it,0);if(window.PVFB&&canFb(it))h+=PVFB.form(it);h+='</div></article></li>';cards.push({t:Date.parse(it.time||0)||0,h:h})})});
   cards.sort(function(p,q){return q.t-p.t});cards=cards.map(function(c){return c.h}); /* BOARD-1020: What's new is newest first across every stream */
   if(!cards.length)return'';
   return'<section class="now" id="now" aria-label="Now, November 13"><div class="nowh"><h2>Now · Nov 13</h2><nav class="chips" aria-label="Streams">'+

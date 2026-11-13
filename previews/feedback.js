@@ -9,7 +9,7 @@ function $(s,r){return(r||document).querySelector(s)}function $$(s,r){return[].s
 function stem(f){return String(f||'').split('/').pop().replace(/\.[^.]+$/,'')}
 function fileUrl(f){try{return new URL(f,BASE).href}catch(e){return f}}
 function getD(f){try{return JSON.parse(localStorage.getItem(KEY+f))||{}}catch(e){return{}}}
-function setD(f,d){try{if(!d.r&&!d.note)localStorage.removeItem(KEY+f);else localStorage.setItem(KEY+f,JSON.stringify(d))}catch(e){}}
+function setD(f,d){try{if(!d.r&&!d.note&&!d.tune)localStorage.removeItem(KEY+f);else localStorage.setItem(KEY+f,JSON.stringify(d))}catch(e){}}
 function when(iso){try{var d=new Date(iso);return new Intl.DateTimeFormat('en-US',{timeZone:TZ,weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}).format(d)}catch(e){return iso||''}}
 /* NOTE-TC v1 (Oct 19): the note prefill is 'at m:ss.s ' WITH a trailing space, so typing goes after it ('at 0:36.6 horse').
    Every reaction tap, swipe, Mark and Send rewrites only that leading 'at m:ss.s' token to the current frame and keeps anything typed
@@ -41,13 +41,15 @@ function compose(box){var f=box.dataset.file,k=keyOf(box),d=getD(k),t=box.datase
   body=['Preview: '+t,'Reaction: '+(d.r||'(none)'),'Note: '+(d.note||'(none)'),
   mark?('At: '+mark.tc+' (frame '+mark.frame+' @ '+mark.fps+'fps)'+(mark.held?' · marked':' · playhead')):null,
   f?('Item file: '+fileUrl(f)):null,'Card: '+page,'Page: '+page,
-  box.dataset.time?'Item posted: '+box.dataset.time:'','Sent: '+nowStr()].filter(Boolean).join('\n'),subject='Preview feedback: '+t+(mark?' @ '+mark.tc:'');
+  box.dataset.time?'Item posted: '+box.dataset.time:'',tuneBlock(d,page),'Sent: '+nowStr()].filter(Boolean).join('\n'),subject='Preview feedback: '+t+(mark?' @ '+mark.tc:'');
   return{subject:subject,body:body}}
+function tuneBlock(d,page){if(!d.tune||!d.tune.url)return null;var js;try{js=JSON.stringify(d.tune.state||d.tune)}catch(e){js='{}'}
+  return 'Tune\nCard: '+(d.tune.anchor||page)+'\n'+js+'\nReopen: '+d.tune.url}
 function status(box,msg,cls){var s=$('.fbst',box);if(s){s.textContent=msg;s.className='fbst'+(cls?' '+cls:'')}}
 function sameKey(a,b){return keyOf(a)===keyOf(b)}
 function sync(box,skipInput){var k=keyOf(box),d=getD(k);$$('.fb').forEach(function(b){if(keyOf(b)!==k)return;
   $$('.fbb',b).forEach(function(x){x.setAttribute('aria-pressed',String(d.r===x.dataset.r))});var i=$('input',b);if(i&&i!==skipInput&&i.value!==(d.note||''))i.value=d.note||''})}
-function ok(box){var d=getD(keyOf(box));if(!d.r&&!d.note){status(box,'Tap Love, Needs work or Note, or type a line first.','warn');return false}return true}
+function ok(box){var d=getD(keyOf(box));if(!d.r&&!d.note&&!d.tune){status(box,'Tap Love, Needs work or Note, or type a line first.','warn');return false}return true}
 function send(box){freshen(box);if(!ok(box))return;var m=compose(box),url='mailto:'+TO+'?subject='+encodeURIComponent(m.subject)+'&body='+encodeURIComponent(m.body);
   status(box,'Opening your mail app… hit send there. If nothing opens, tap Copy.','ok');var a=document.createElement('a');a.href=url;a.style.display='none';document.body.appendChild(a);a.click();a.remove()}
 function copy(box){freshen(box);if(!ok(box))return;var m=compose(box),txt='To: '+TO+'\nSubject: '+m.subject+'\n\n'+m.body;
@@ -161,6 +163,43 @@ document.addEventListener('pointerup',swN,true);
 document.addEventListener('pointermove',function(){if(SW.locked&&SW.el&&SW.el.matches('#player .pstage'))SWX=Date.now()},true);
 document.addEventListener('pointercancel',swN,true);
 document.addEventListener('click',function(e){if(Date.now()-SWX<400&&e.target.closest&&e.target.closest('#player .pstage')){e.preventDefault();e.stopPropagation()}},true);
+
+function boardFeedbackPayload(){var drafts={},i,k,d,id,seen={},cards=[],love=[],archive=[],notes={},marks={},tune={};
+  try{for(i=0;i<localStorage.length;i++){k=localStorage.key(i);if(k&&k.indexOf(KEY)===0){try{drafts[k.slice(KEY.length)]=JSON.parse(localStorage.getItem(k))||{}}catch(e){}}}}catch(e){}
+  function anchorOf(cid){return (BASE.replace(/\/?$/,'/'))+'#'+cid}
+  function add(cid,title){if(!cid||seen[cid])return;seen[cid]=1;d=drafts[cid]||{};
+    cards.push({id:cid,title:title||'',anchor:anchorOf(cid),love:d.r==='Love',archive:d.r==='Archive',reaction:d.r||'',note:d.note||'',mark:d.mark||'',tune:d.tune||null});
+    if(d.r==='Love')love.push(cid);if(d.r==='Archive')archive.push(cid);if(d.note)notes[cid]=d.note;if(d.mark)marks[cid]=d.mark;
+    if(d.tune&&d.tune.url)tune[cid]={state:d.tune.state||null,url:d.tune.url,anchor:d.tune.anchor||anchorOf(cid)}}
+  (ITEMS||[]).forEach(function(it){var cid=it.id||it.file;if(cid)add(cid,it.title||'')});
+  Object.keys(drafts).forEach(function(cid){add(cid,'')});
+  return {v:1,cards:cards,love:love,archive:archive,notes:notes,marks:marks,tune:tune}}
+window.boardFeedbackPayload=boardFeedbackPayload;
+
+/* Tune this: a same-origin sheet. Send settings writes the drawer state onto that card's draft, so Copy and Send carry it. */
+var tuneSheet=null,tuneCard='',tuneWait=0;
+function tuneStatus(msg){var s=tuneSheet&&$('.tunest',tuneSheet);if(s)s.textContent=msg||''}
+function tuneFrame(){var f=$('iframe',tuneSheet);if(f)return f;f=document.createElement('iframe');f.className='tuneframe';f.title='Tune the page';
+  var bars=tuneSheet.querySelectorAll('.tunebar');tuneSheet.insertBefore(f,bars[1]||null);return f}
+function closeTune(){if(tuneWait){clearTimeout(tuneWait);tuneWait=0}if(!tuneSheet)return;tuneSheet.hidden=true;var f=$('iframe',tuneSheet);if(f)f.remove();document.documentElement.classList.remove('tune-open')}
+function openTune(btn){var src=btn.getAttribute('data-tune');if(!src)return;tuneCard=btn.getAttribute('data-card')||'';
+  if(!tuneSheet){tuneSheet=document.createElement('div');tuneSheet.className='tunesheet';tuneSheet.setAttribute('role','dialog');tuneSheet.setAttribute('aria-modal','true');tuneSheet.setAttribute('aria-label','Tune this');
+    tuneSheet.innerHTML='<div class="tunebar"><button type="button" class="tunex">Close</button><span class="tunett">Tune this</span></div><div class="tunebar"><button type="button" class="tunesend">Send settings</button><span class="tunest" role="status"></span></div>';
+    document.body.appendChild(tuneSheet);
+    $('.tunex',tuneSheet).addEventListener('click',closeTune);
+    $('.tunesend',tuneSheet).addEventListener('click',sendSettings)}
+  var f=tuneFrame(),url;try{url=new URL(src,location.href).href}catch(e){url=src}
+  f.src=url;tuneSheet.hidden=false;document.documentElement.classList.add('tune-open');tuneStatus('')}
+function boxFor(id){var boxes=$$('.fb'),i;for(i=0;i<boxes.length;i++)if(keyOf(boxes[i])===id)return boxes[i];return null}
+function sendSettings(){var f=tuneSheet&&$('iframe',tuneSheet);if(!f||!f.contentWindow){tuneStatus('The page is not ready.');return}
+  var id=tuneCard,anchor=(BASE.replace(/\/?$/,'/'))+'#'+id;
+  function apply(msg){if(tuneWait){clearTimeout(tuneWait);tuneWait=0}var d=getD(id);d.tune={state:msg.state,url:msg.url,anchor:anchor};setD(id,d);
+    var box=boxFor(id);if(box){sync(box);status(box,'Settings saved. Copy or Send to pass them on.','ok')}tuneStatus('Saved.');closeTune()}
+  function onMsg(e){if(e.origin!==location.origin)return;var msg=e.data;if(!msg||msg.type!=='gj-tune-state'||!msg.url||!msg.state)return;removeEventListener('message',onMsg);apply(msg)}
+  addEventListener('message',onMsg);
+  try{f.contentWindow.postMessage({type:'gj-tune-get'},location.origin)}catch(e){}
+  tuneWait=setTimeout(function(){removeEventListener('message',onMsg);tuneStatus('No settings came back. Try again.')},4000)}
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.tunebtn');if(!b)return;e.preventDefault();e.stopPropagation();openTune(b)},true);
 
 window.PVFB={form:form,mark:markNow,stepFrame:stepFrame,keyOf:keyOf,
   mountPlayer:function(it){var m=$('#pfb'),v=$('#player video');

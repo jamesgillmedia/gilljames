@@ -260,6 +260,7 @@
       "time": "2026-11-13T11:13:00-07:00",
       "badge": "Latest",
       "tier": "now",
+      "tune": "../site-v3-3d/",
       "link": {
         "href": "https://jamesgillmedia.github.io/gilljames/site-v3-3d/",
         "label": "Open the live page"
