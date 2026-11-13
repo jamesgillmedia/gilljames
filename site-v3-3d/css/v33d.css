@@ -24,3 +24,25 @@
 }
 /* zero mint in chrome: the inherited v3 play chip is mint */
 .imm .play,.imm-b .ib.play,button.play{background:#e8e4dc;color:#04070b;border-color:transparent}
+
+/* frame-film experiment: canvas playback + Video/Frames toggle (no mint) */
+.imm .frame{position:relative}
+.imm .ff-hold{position:absolute;inset:0;z-index:2;display:none;background:#0a0d12;pointer-events:none}
+.imm.ff-frames .ff-hold{display:block}
+.imm.ff-frames .frame>video,
+.imm.ff-frames .frame>img:not(.ff-poster){visibility:hidden}
+.ff-hold .ff-poster,.ff-hold .ff-canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#0a0d12}
+.ff-hold .ff-poster{z-index:1;filter:brightness(.35)}
+.ff-hold .ff-poster.ff-out{opacity:0}
+.ff-hold .ff-canvas{z-index:2}
+.imm-b .ff-mode{display:flex;align-items:stretch;margin:0 6px;border:1px solid rgba(232,228,220,.35);border-radius:2px;overflow:hidden;flex:none}
+.imm-b .ff-mode button{appearance:none;background:transparent;border:0;color:#e8e4dc;font:400 9px/1 "Julius Sans One",Poppins,sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:0 8px;min-height:32px;cursor:pointer}
+.imm-b .ff-mode button[aria-checked="true"]{background:#e8e4dc;color:#04070b}
+.imm-b .ff-mode button:disabled{opacity:.35;cursor:default}
+.imm-b .ff-mode.ff-off button[data-ff="frames"]{opacity:.35}
+@media (max-width:420px){
+  .imm-b .ff-mode button{padding:0 6px;letter-spacing:.1em}
+}
+@media (prefers-reduced-motion:reduce){
+  .ff-hold .ff-poster{transition:none}
+}
