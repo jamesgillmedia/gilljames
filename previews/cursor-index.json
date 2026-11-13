@@ -10,13 +10,13 @@
       "title": "preview-fresh-sites",
       "state": "branch",
       "branch": "preview-fresh-sites",
-      "sha": "8070a10bfdf79189b9fea0e1b2bd93aab8e51bc6",
-      "sha_short": "8070a10",
-      "time": "2026-11-13T10:52:25-07:00",
+      "sha": "f9b4a0d598fb77d305ea19e4a10c4770cf690ba0",
+      "sha_short": "f9b4a0d",
+      "time": "2026-11-13T13:37:00-07:00",
       "desc": "fresh sites prototypes (artist + Lost Coffee)",
       "pr": null,
       "link": {
-        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/8070a10bfdf79189b9fea0e1b2bd93aab8e51bc6/fresh-sites/artist/index.html",
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/f9b4a0d598fb77d305ea19e4a10c4770cf690ba0/fresh-sites/artist/index.html",
         "label": "Open fresh-sites/artist"
       },
       "id": "cursor-gill-sky-br-preview-fresh-sites"

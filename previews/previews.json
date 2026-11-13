@@ -38,6 +38,24 @@
     {
       "section": "now-1113",
       "type": "image",
+      "id": "equals-cover-d",
+      "file": "media/now-1113/equals-cover-d.jpg",
+      "poster": "posters/equals-cover-d.jpg",
+      "title": "\"=\" cover · D pink-to-cyan (locked)",
+      "changed": "Swapped into Lost Coffee preview (commit f9b4a0d5) and emailed to Amuse support from jamesgillsans@gmail.com for release 3195724.",
+      "open": "Live on Lost Coffee preview (md5 verified); awaiting Amuse reply for streaming stores.",
+      "need": "Check it in the Lost Coffee preview or archive this note.",
+      "time": "2026-11-13T13:37:00-07:00",
+      "badge": "Locked",
+      "tier": "now",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/f9b4a0d598fb77d305ea19e4a10c4770cf690ba0/fresh-sites/lostcoffee/index.html",
+        "label": "Open Lost Coffee (= D)"
+      }
+    },
+    {
+      "section": "now-1113",
+      "type": "image",
       "id": "silence-cover-cup-in-fog",
       "group": "silence-covers",
       "file": "media/now-1113/silence-cover-cup-in-fog.jpg",
@@ -142,22 +160,27 @@
       "id": "artist-c",
       "file": "media/now-1113/artist-c-phone.mp4",
       "poster": "posters/artist-c.jpg",
-      "title": "Gill the artist · C Trail Line (locked)",
-      "changed": "Trail Line is the locked direction for the artist site.",
-      "open": "The image overlap you saw is still being fixed; a new link will follow. This preview is the current Trail Line build, not a fixed build.",
-      "need": "Open it on your phone and tell us if the overlap is still there — Love, Needs work, or a note.",
-      "time": "2026-11-13T11:16:00-07:00",
-      "badge": "Locked",
+      "title": "Gill the artist · C Meter (fixed)",
+      "changed": "Gold #e8c48a LED meter ladder + ghost-arc dial on artist C (Spaces, Film, Objects, Photo, About), plus mobile/tablet full-page stop fix.",
+      "open": "Phone and tablet stops now open full-bleed with zero circular-mask clipping or overlap. Four-viewport sweep (iPhone, Android, iPad, desktop) passed with 0 issues, 0 console errors, 0 404s.",
+      "need": "Open on your phone and leave Love, Needs work, or a note.",
+      "time": "2026-11-13T13:37:00-07:00",
+      "badge": "Latest",
       "tier": "now",
       "link": {
-        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/8070a10bfdf79189b9fea0e1b2bd93aab8e51bc6/fresh-sites/artist/index.html?v=C",
-        "label": "Open Trail Line"
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/f9b4a0d598fb77d305ea19e4a10c4770cf690ba0/fresh-sites/artist/index.html",
+        "label": "Open Artist C Meter"
       },
       "gallery": [
         {
           "type": "image",
           "src": "media/now-1113/artist-c-contact.jpg",
-          "label": "Trail Line · phone and desktop"
+          "label": "4-device contact sheet (fixed)"
+        },
+        {
+          "type": "image",
+          "src": "media/now-1113/artist-c-phone-sheet.jpg",
+          "label": "iPhone & Android contact sheet (fixed)"
         },
         {
           "type": "video",
@@ -180,14 +203,14 @@
       "file": "media/now-1113/lostcoffee-b-phone.mp4",
       "poster": "posters/lostcoffee-b.jpg",
       "title": "Lost Coffee · B Channel Strips (locked)",
-      "changed": "Channel Strips is the locked direction for Lost Coffee.",
+      "changed": "Channel Strips is the locked direction for Lost Coffee. The = cover now uses the locked D pink-to-cyan still.",
       "open": "Ready for your review.",
       "need": "Open Channel Strips and leave Love, Needs work, or a note.",
       "time": "2026-11-13T11:15:00-07:00",
       "badge": "Locked",
       "tier": "now",
       "link": {
-        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/8070a10bfdf79189b9fea0e1b2bd93aab8e51bc6/fresh-sites/lostcoffee/index.html?v=B",
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/f9b4a0d598fb77d305ea19e4a10c4770cf690ba0/fresh-sites/lostcoffee/index.html",
         "label": "Open Channel Strips"
       },
       "gallery": [
