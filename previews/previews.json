@@ -43,7 +43,7 @@
       "poster": "posters/silence.jpg",
       "title": "Silence · Lost Coffee (LC-0007)",
       "changed": "Three cover directions: A Signal Drop (the cup line mark on charcoal with an ember arc); B Last Light on Water (snow on water in near-black blue); C Drained Cup (the To Go cup in grey-violet). Two 60-second A/B players are on the card (original, then the rough master, 4 seconds each, level-matched): one with no widen, one with the widen master.",
-      "open": "Release Fri Nov 27 (Amuse Pro) · submit by Mon Nov 16 for the Spotify pitch · widen master ready for your by-ear OK",
+      "open": "Release Fri Nov 27 (Amuse Pro) · click cleanup in progress.",
       "need": "Pick A, B or C, and whether a full-res cup still or a vector of the mark exists.",
       "time": "2026-11-13T11:28:00-07:00",
       "badge": "Latest",
@@ -66,18 +66,13 @@
         },
         {
           "type": "audio",
-          "src": "media/now-1113/silence-master-widen-v2.mp3",
-          "label": "Release master · widen v2, click at 0:04.2 fixed · full 3:42"
-        },
-        {
-          "type": "audio",
           "src": "media/now-1113/silence-ab-nowiden.mp3",
-          "label": "A/B · no widen (alternate) · 60 s, starts on the original"
+          "label": "A/B · no widen (recommended default) · 60 s, starts on the original"
         },
         {
           "type": "audio",
           "src": "media/now-1113/silence-ab-widen.mp3",
-          "label": "A/B · widen (your pick) · 60 s, starts on the original"
+          "label": "A/B · widen · 60 s, starts on the original"
         }
       ]
     },
