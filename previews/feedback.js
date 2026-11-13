@@ -17,12 +17,13 @@ function when(iso){try{var d=new Date(iso);return new Intl.DateTimeFormat('en-US
 var TCLEAD=/^at \d+:\d{2}\.\d(?![\d:.])[ \t]*/,AUTOSW=/^swipe (Love|Needs work)$/;
 function retc(note,t){if(!note||AUTOSW.test(note))return'at '+t+' ';var m=TCLEAD.exec(note);return m?'at '+t+' '+note.slice(m[0].length):note}
 function caretEnd(i){try{var n=i.value.length;i.setSelectionRange(n,n)}catch(e){}}
-function freshen(box){var mk=window.PVFB&&PVFB.mark&&PVFB.mark();if(!box||!mk)return;var f=box.dataset.file,d=getD(f);if(!d.r&&!d.note)return;
+function freshen(box){var mk=window.PVFB&&PVFB.mark&&PVFB.mark();if(!box||!mk)return;var f=keyOf(box),d=getD(f);if(!d.r&&!d.note)return;
   var n=d.note?retc(d.note,mk.tc):d.note;if(n===d.note&&d.mark===mk.tc)return;d.note=n;d.mark=mk.tc;setD(f,d);sync(box);$$('.fb input').forEach(function(i){if(document.activeElement===i)caretEnd(i)})}
 function nowStr(){var d=new Date(),v='';try{v=new Intl.DateTimeFormat('en-CA',{timeZone:TZ,dateStyle:'medium',timeStyle:'short'}).format(d)+' Vancouver'}catch(e){}return d.toISOString()+(v?' ('+v+')':'')}
 
-function form(it,o){o=o||{};var f=it.file||'',d=getD(f),id='fb'+Math.random().toString(36).slice(2,7);
-  return'<div class="fb" data-file="'+esc(f)+'" data-title="'+esc(it.title||'')+'" data-time="'+esc(it.time||'')+'">'+(o.noHead?'':'<p class="fbh">Your feedback</p>')+
+function keyOf(itOrBox){if(!itOrBox)return'';if(itOrBox.dataset)return itOrBox.dataset.id||itOrBox.dataset.file||'';return itOrBox.id||itOrBox.file||''}
+function form(it,o){o=o||{};var f=it.file||'',kid=it.id||'',k=kid||f,d=getD(k),id='fb'+Math.random().toString(36).slice(2,7);
+  return'<div class="fb" data-file="'+esc(f)+'" data-id="'+esc(kid)+'" data-title="'+esc(it.title||'')+'" data-time="'+esc(it.time||'')+'">'+(o.noHead?'':'<p class="fbh">Your feedback</p>')+
   '<div class="fbr" role="group" aria-label="Reaction to '+esc(it.title||'this preview')+'">'+REACT.map(function(r){return'<button type="button" class="fbb" data-r="'+r[0]+'" aria-pressed="'+(d.r===r[0])+'"><i aria-hidden="true">'+r[1]+'</i>'+r[0]+'</button>'}).join('')+'</div>'+
   '<div class="fbn"><input type="text" id="'+id+'" maxlength="300" enterkeyhint="send" autocomplete="off" autocapitalize="sentences" placeholder="one line for Artist Agent…" aria-label="One line of feedback for '+esc(it.title||'this preview')+'" value="'+esc(d.note||'')+'"><button type="button" class="fbs">Send</button></div>'+
   '<div class="fbx"><button type="button" class="fbc">Copy</button><span class="fbst" role="status" aria-live="polite"></span></div>'+
@@ -34,16 +35,19 @@ function form(it,o){o=o||{};var f=it.file||'',d=getD(f),id='fb'+Math.random().to
   '<button type="button" class="fnx" disabled title="Coming next">Ship it</button>'+
   '<span class="fnemoji" title="Coming next">★ ✎ ✕</span></div></details></div>'}
 
-function compose(box){var f=box.dataset.file,d=getD(f),t=box.dataset.title,mark=window.PVFB&&PVFB.mark&&PVFB.mark(),
+function compose(box){var f=box.dataset.file,k=keyOf(box),d=getD(k),t=box.dataset.title,mark=window.PVFB&&PVFB.mark&&PVFB.mark(),
+  anchor=box.dataset.id||(function(){var it=ITEMS.filter(function(i){return (box.dataset.id&&i.id===box.dataset.id)||(f&&i.file===f)})[0];return it? (it.id||(it.section+'/'+(it.id||stem(f)))) :''})(),
+  page=(BASE.replace(/\/?$/,'/'))+'#'+anchor,
   body=['Preview: '+t,'Reaction: '+(d.r||'(none)'),'Note: '+(d.note||'(none)'),
   mark?('At: '+mark.tc+' (frame '+mark.frame+' @ '+mark.fps+'fps)'+(mark.held?' · marked':' · playhead')):null,
-  'Item file: '+fileUrl(f),'Page: '+BASE+'#'+(function(){var it=ITEMS.filter(function(i){return i.file===f})[0];return it?it.section+'/'+(it.id||stem(f)):''})(),
+  f?('Item file: '+fileUrl(f)):null,'Card: '+page,'Page: '+page,
   box.dataset.time?'Item posted: '+box.dataset.time:'','Sent: '+nowStr()].filter(Boolean).join('\n'),subject='Preview feedback: '+t+(mark?' @ '+mark.tc:'');
   return{subject:subject,body:body}}
 function status(box,msg,cls){var s=$('.fbst',box);if(s){s.textContent=msg;s.className='fbst'+(cls?' '+cls:'')}}
-function sync(box,skipInput){var f=box.dataset.file,d=getD(f);$$('.fb').forEach(function(b){if(b.dataset.file!==f)return;
+function sameKey(a,b){return keyOf(a)===keyOf(b)}
+function sync(box,skipInput){var k=keyOf(box),d=getD(k);$$('.fb').forEach(function(b){if(keyOf(b)!==k)return;
   $$('.fbb',b).forEach(function(x){x.setAttribute('aria-pressed',String(d.r===x.dataset.r))});var i=$('input',b);if(i&&i!==skipInput&&i.value!==(d.note||''))i.value=d.note||''})}
-function ok(box){var d=getD(box.dataset.file);if(!d.r&&!d.note){status(box,'Tap Love, Needs work or Note, or type a line first.','warn');return false}return true}
+function ok(box){var d=getD(keyOf(box));if(!d.r&&!d.note){status(box,'Tap Love, Needs work or Note, or type a line first.','warn');return false}return true}
 function send(box){freshen(box);if(!ok(box))return;var m=compose(box),url='mailto:'+TO+'?subject='+encodeURIComponent(m.subject)+'&body='+encodeURIComponent(m.body);
   status(box,'Opening your mail app… hit send there. If nothing opens, tap Copy.','ok');var a=document.createElement('a');a.href=url;a.style.display='none';document.body.appendChild(a);a.click();a.remove()}
 function copy(box){freshen(box);if(!ok(box))return;var m=compose(box),txt='To: '+TO+'\nSubject: '+m.subject+'\n\n'+m.body;
@@ -51,15 +55,15 @@ function copy(box){freshen(box);if(!ok(box))return;var m=compose(box),txt='To: '
   function fb(){var t=document.createElement('textarea');t.value=txt;t.setAttribute('readonly','');t.style.cssText='position:fixed;left:-9999px;top:0;font-size:16px';document.body.appendChild(t);t.select();t.setSelectionRange(0,txt.length);var r=false;try{r=document.execCommand('copy')}catch(e){}t.remove();r?done():status(box,'Could not copy. Long-press the note and copy it by hand.','warn')}
   if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(done,fb);else fb()}
 
-document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.fb button');if(!b)return;var box=b.closest('.fb'),f=box.dataset.file;
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.fb button');if(!b)return;var box=b.closest('.fb'),f=keyOf(box);
   if(b.classList.contains('fbb')){var d=getD(f);d.r=d.r===b.dataset.r?'':b.dataset.r;var mk=window.PVFB&&PVFB.mark&&PVFB.mark();if(d.r&&mk){d.mark=mk.tc;d.note=retc(d.note,mk.tc)} /* NOTE-TC v1 */setD(f,d);sync(box);status(box,mk&&d.r?('Marked '+mk.tc):'');if(d.r==='Note'){var i=$('input',box);if(i){i.focus();caretEnd(i)}}}
   else if(b.classList.contains('fbs'))send(box);else if(b.classList.contains('fbc'))copy(box)});
-document.addEventListener('input',function(e){var i=e.target;if(!i.closest||!i.closest('.fb')||i.tagName!=='INPUT')return;var box=i.closest('.fb'),f=box.dataset.file,d=getD(f);d.note=i.value;setD(f,d);sync(box,i);status(box,'')});
+document.addEventListener('input',function(e){var i=e.target;if(!i.closest||!i.closest('.fb')||i.tagName!=='INPUT')return;var box=i.closest('.fb'),f=keyOf(box),d=getD(f);d.note=i.value;setD(f,d);sync(box,i);status(box,'')});
 document.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.closest&&e.target.closest('.fb')&&e.target.tagName==='INPUT'){e.preventDefault();send(e.target.closest('.fb'))}});
 
 /* sky mode: a small "What's new" sheet so feedback is still one tap away from the constellation */
 var rail=document.createElement('section'),togBtn=null,shown=false;rail.className='frail sheet';rail.id='frail';rail.hidden=true;rail.setAttribute('aria-label','What\'s new: leave feedback');
-function pick(){return ITEMS.filter(function(i){return i.badge==='Latest'&&i.file&&i.type!=='placeholder'})}
+function pick(){return ITEMS.filter(function(i){return i.tier==='now'})}
 function build(){var a=pick();if(!a.length){rail.innerHTML='';return}
   rail.innerHTML='<div class="frh"><h2>What\'s new<small>Love / Needs work / Note · Send opens mail</small></h2><button type="button" class="frx" aria-label="Close">✕</button></div><ul class="frt">'+a.map(function(it){
     var bg=it.poster?' style="background-image:url(\''+esc(it.poster)+'\')"':'';
@@ -125,15 +129,15 @@ function unbindScrub(){if(SCR.raf)cancelAnimationFrame(SCR.raf);SCR.raf=0;SCR.v=
 
 /* Swipe on What's new cards: RIGHT = Love, LEFT = Needs work (card chrome only; sky pan untouched) */
 var SW={x0:0,y0:0,t0:0,el:null,locked:0};
-function swipeTarget(el){return el&&el.closest&&(el.closest('.lstrip')||el.closest('.nowrow > li')||el.closest('.nrc')||el.closest('.frt > li')||el.closest('#player .pstage'))} /* LIVE-SWIPE v1: the strip above a live player (first, so a mouse drag on it works too) */
+function swipeTarget(el){return el&&el.closest&&(el.closest('.lstrip')||el.closest('.nowrow > li')||el.closest('.clist > li')||el.closest('.nrc')||el.closest('.frt > li')||el.closest('#player .pstage'))} /* LIVE-SWIPE v1: the strip above a live player (first, so a mouse drag on it works too) */
 function flash(el,dir){if(!el)return;el.classList.remove('sw-love','sw-need');void el.offsetWidth;el.classList.add(dir>0?'sw-love':'sw-need')}
 function reactFile(file,react,el){if(!file)return;var d=getD(file);d.r=react;var mk=window.PVFB&&PVFB.mark&&PVFB.mark();if(mk){d.mark=mk.tc;d.note=retc(d.note,mk.tc)}else if(!d.note||AUTOSW.test(d.note))d.note='swipe '+react; /* NOTE-TC v1 */setD(file,d);
-  $$('.fb').forEach(function(b){if(b.dataset.file===file){sync(b);status(b,react+(mk?' @ '+mk.tc:''),'ok')}});flash(el,react==='Love'?1:-1)}
+  $$('.fb').forEach(function(b){if(keyOf(b)===file){sync(b);status(b,react+(mk?' @ '+mk.tc:''),'ok')}});flash(el,react==='Love'?1:-1)}
 function applySwipe(el,dir){var react=dir>0?'Love':'Needs work';
-  var card=el.closest('.nowrow > li, .frt > li');if(card){var box=$('.fb',card);if(box&&box.dataset.file){reactFile(box.dataset.file,react,card);return}}
-  var nrc=el.closest('.nrc');if(nrc&&nrc.dataset.file){reactFile(nrc.dataset.file,react,nrc);return}
-  if(el.closest('.lstrip')){var lli=el.closest('li[data-k]'),lbox=lli&&$('.fb',lli);if(lbox&&lbox.dataset.file){reactFile(lbox.dataset.file,react,el);return}} /* LIVE-SWIPE v1 */
-  if(el.closest('#player .pstage')){var fb=$('#pfb .fb');if(fb&&fb.dataset.file){reactFile(fb.dataset.file,react,$('#player .pstage'));return}}}
+  var card=el.closest('.nowrow > li, .frt > li, .clist > li');if(card){var box=$('.fb',card);if(box&&keyOf(box)){reactFile(keyOf(box),react,card);return}}
+  var nrc=el.closest('.nrc');if(nrc&&(nrc.dataset.id||nrc.dataset.file)){reactFile(nrc.dataset.id||nrc.dataset.file,react,nrc);return}
+  if(el.closest('.lstrip')){var lli=el.closest('li'),lbox=lli&&$('.fb',lli);if(lbox&&keyOf(lbox)){reactFile(keyOf(lbox),react,el);return}} /* LIVE-SWIPE v1 */
+  if(el.closest('#player .pstage')){var fb=$('#pfb .fb');if(fb&&keyOf(fb)){reactFile(keyOf(fb),react,$('#player .pstage'));return}}}
 document.addEventListener('pointerdown',function(e){if(e.pointerType==='mouse'&&e.button!==0)return;var t=swipeTarget(e.target);if(!t)return;
   if(e.target.closest('button:not(.nrc),input,a,.psrail,.psbtns,.fb,.push,video,audio')&&!clipSwipe(e.target))return; /* CLIP-SWIPE v1 */
   SW.x0=e.clientX;SW.y0=e.clientY;SW.t0=Date.now();SW.e0=e.timeStamp;SW.el=t;SW.locked=0},true);
@@ -158,9 +162,9 @@ document.addEventListener('pointermove',function(){if(SW.locked&&SW.el&&SW.el.ma
 document.addEventListener('pointercancel',swN,true);
 document.addEventListener('click',function(e){if(Date.now()-SWX<400&&e.target.closest&&e.target.closest('#player .pstage')){e.preventDefault();e.stopPropagation()}},true);
 
-window.PVFB={form:form,mark:markNow,stepFrame:stepFrame,
+window.PVFB={form:form,mark:markNow,stepFrame:stepFrame,keyOf:keyOf,
   mountPlayer:function(it){var m=$('#pfb'),v=$('#player video');
-    if(!it||!it.file||it.badge!=='Latest'){if(m){m.hidden=true;m.innerHTML=''}unbindScrub();return}
+    if(!it||!it.file||!(it.tier==='now'||it.badge==='Latest')||it.tier==='earlier'||it.tier==='related'){if(m){m.hidden=true;m.innerHTML=''}unbindScrub();return}
     if(m){m.hidden=false;m.innerHTML=form(it,{noHead:1})}
     if(v)bindScrub(v)},
   unmountPlayer:function(){unbindScrub()}};

@@ -1,0 +1,691 @@
+{
+  "title": "Cursor index",
+  "generated": "2026-11-13T11:19:10.742462-07:00",
+  "source": "GitHub public API · jamesgillmedia/gill-sky and jamesgillmedia/gilljames · preview-* branches and open/merged PRs",
+  "items": [
+    {
+      "repo": "jamesgillmedia/gill-sky",
+      "kind": "preview-branch",
+      "number": null,
+      "title": "preview-fresh-sites",
+      "state": "branch",
+      "branch": "preview-fresh-sites",
+      "sha": "8070a10bfdf79189b9fea0e1b2bd93aab8e51bc6",
+      "sha_short": "8070a10",
+      "time": "2026-11-13T10:52:25-07:00",
+      "desc": "fresh sites prototypes (artist + Lost Coffee)",
+      "pr": null,
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/8070a10bfdf79189b9fea0e1b2bd93aab8e51bc6/fresh-sites/artist/index.html",
+        "label": "Open fresh-sites/artist"
+      },
+      "id": "cursor-gill-sky-br-preview-fresh-sites"
+    },
+    {
+      "repo": "jamesgillmedia/gill-sky",
+      "kind": "preview-pr",
+      "number": 12,
+      "title": "Final merge: ghost arc, Sound, Objects, Photo, About, Spaces",
+      "state": "open",
+      "branch": "preview-final-1113",
+      "sha": "58081b806f687b5fb57f7e4386840e12fb28ee30",
+      "sha_short": "58081b8",
+      "time": "2026-11-13T10:29:25-07:00",
+      "desc": "Gill picked the ghost arc (style 1). This branch starts from the magic baseline `685f37e` and never touches main.",
+      "pr": "https://github.com/jamesgillmedia/gill-sky/pull/12",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/58081b806f687b5fb57f7e4386840e12fb28ee30/index.html",
+        "label": "Open preview"
+      },
+      "id": "cursor-gill-sky-pr-12"
+    },
+    {
+      "repo": "jamesgillmedia/gill-sky",
+      "kind": "preview-branch",
+      "number": null,
+      "title": "preview-proto-shell",
+      "state": "branch",
+      "branch": "preview-proto-shell",
+      "sha": "6cc5faf68fc64a137c605d58920a7bbe71d80474",
+      "sha_short": "6cc5faf",
+      "time": "2026-11-13T03:49:27-07:00",
+      "desc": "qa: only flag a tile that sits fully inside the board window. A still clipped by the bottom edge was reading as empty black.",
+      "pr": null,
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/6cc5faf68fc64a137c605d58920a7bbe71d80474/index.html",
+        "label": "Open preview"
+      },
+      "id": "cursor-gill-sky-br-preview-proto-shell"
+    },
+    {
+      "repo": "jamesgillmedia/gill-sky",
+      "kind": "preview-branch",
+      "number": null,
+      "title": "preview-magic-base",
+      "state": "branch",
+      "branch": "preview-magic-base",
+      "sha": "685f37e75438be90daa80952b0e4e17071a5e498",
+      "sha_short": "685f37e",
+      "time": "2026-11-13T00:25:11-07:00",
+      "desc": "magic baseline 1112: 4:45 constellation + 4:31 openers, snap lock, red mode, tune menu, safelight, ghost dial, stills fix, spirit eye night",
+      "pr": null,
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/685f37e75438be90daa80952b0e4e17071a5e498/index.html",
+        "label": "Open preview"
+      },
+      "id": "cursor-gill-sky-br-preview-magic-base"
+    },
+    {
+      "repo": "jamesgillmedia/gill-sky",
+      "kind": "preview-branch",
+      "number": null,
+      "title": "preview-integrate",
+      "state": "branch",
+      "branch": "preview-integrate",
+      "sha": "72f4a5a94124cc60fb294860d7e960dad82ed62a",
+      "sha_short": "72f4a5a",
+      "time": "2026-11-12T21:20:53-07:00",
+      "desc": "integrate: film board snap lock on the real site: a tap on a tile does nothing until the board has locked (not mid-snap, not before it has bloomed, not within 600 ms of the snap); then one tap goes straight to the film",
+      "pr": null,
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/72f4a5a94124cc60fb294860d7e960dad82ed62a/index.html",
+        "label": "Open preview"
+      },
+      "id": "cursor-gill-sky-br-preview-integrate"
+    },
+    {
+      "repo": "jamesgillmedia/gill-sky",
+      "kind": "preview-branch",
+      "number": null,
+      "title": "preview-film-snap",
+      "state": "branch",
+      "branch": "preview-film-snap",
+      "sha": "91e05831bbd0fb3cdce711228fa1b7f4e24c9b1a",
+      "sha_short": "91e0583",
+      "time": "2026-11-12T20:00:26-07:00",
+      "desc": "tune menu: active toggles warm white, mint reserved for new",
+      "pr": null,
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/91e05831bbd0fb3cdce711228fa1b7f4e24c9b1a/index.html",
+        "label": "Open preview"
+      },
+      "id": "cursor-gill-sky-br-preview-film-snap"
+    },
+    {
+      "repo": "jamesgillmedia/gill-sky",
+      "kind": "preview-branch",
+      "number": null,
+      "title": "preview-proto-lab",
+      "state": "branch",
+      "branch": "preview-proto-lab",
+      "sha": "707d5f1fd295300f937f00ab65f95ee971989403",
+      "sha_short": "707d5f1",
+      "time": "2026-11-12T19:50:36-07:00",
+      "desc": "proto-lab: six prototype pages with A/B/C variants",
+      "pr": null,
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/707d5f1fd295300f937f00ab65f95ee971989403/index.html",
+        "label": "Open preview"
+      },
+      "id": "cursor-gill-sky-br-preview-proto-lab"
+    },
+    {
+      "repo": "jamesgillmedia/gill-sky",
+      "kind": "preview-branch",
+      "number": null,
+      "title": "preview-cursor-sites",
+      "state": "branch",
+      "branch": "preview-cursor-sites",
+      "sha": "8028ecdfaf035a9be54624dbaa5749c9ce9dfd08",
+      "sha_short": "8028ecd",
+      "time": "2026-11-12T19:29:10-07:00",
+      "desc": "proto-sites: three original continuous-zoom directions",
+      "pr": null,
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/8028ecdfaf035a9be54624dbaa5749c9ce9dfd08/index.html",
+        "label": "Open preview"
+      },
+      "id": "cursor-gill-sky-br-preview-cursor-sites"
+    },
+    {
+      "repo": "jamesgillmedia/gill-sky",
+      "kind": "preview-branch",
+      "number": null,
+      "title": "preview-cursor-proto",
+      "state": "branch",
+      "branch": "preview-cursor-proto",
+      "sha": "8e64fd48da317ff80fd5be47f896401775aaa7c1",
+      "sha_short": "8e64fd4",
+      "time": "2026-11-12T19:23:14-07:00",
+      "desc": "proto: four isolated preview pages (tile-reveal, map-snap, mark-fusion, photo-night)",
+      "pr": null,
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/8e64fd48da317ff80fd5be47f896401775aaa7c1/index.html",
+        "label": "Open preview"
+      },
+      "id": "cursor-gill-sky-br-preview-cursor-proto"
+    },
+    {
+      "repo": "jamesgillmedia/gill-sky",
+      "kind": "preview-branch",
+      "number": null,
+      "title": "preview-grok-sky",
+      "state": "branch",
+      "branch": "preview-grok-sky",
+      "sha": "f0d96cd22d6036519ec9533af240d69334329d6c",
+      "sha_short": "f0d96cd",
+      "time": "2026-11-12T12:47:54-07:00",
+      "desc": "Redact private photo IDs from current files",
+      "pr": null,
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/f0d96cd22d6036519ec9533af240d69334329d6c/index.html",
+        "label": "Open preview"
+      },
+      "id": "cursor-gill-sky-br-preview-grok-sky"
+    },
+    {
+      "repo": "jamesgillmedia/gill-sky",
+      "kind": "preview-branch",
+      "number": null,
+      "title": "preview-restore",
+      "state": "branch",
+      "branch": "preview-restore",
+      "sha": "75ac697c0432e9195fcd9e898b5c7df9095e0ede",
+      "sha_short": "75ac697",
+      "time": "2026-11-12T12:47:53-07:00",
+      "desc": "Redact private photo IDs from current files",
+      "pr": null,
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/75ac697c0432e9195fcd9e898b5c7df9095e0ede/index.html",
+        "label": "Open preview"
+      },
+      "id": "cursor-gill-sky-br-preview-restore"
+    },
+    {
+      "repo": "jamesgillmedia/gill-sky",
+      "kind": "preview-branch",
+      "number": null,
+      "title": "preview-tonight",
+      "state": "branch",
+      "branch": "preview-tonight",
+      "sha": "0d07fea6925086a0a4c36b6774810a68921ecf27",
+      "sha_short": "0d07fea",
+      "time": "2026-11-12T12:47:43-07:00",
+      "desc": "Redact private photo IDs from current files",
+      "pr": null,
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/0d07fea6925086a0a4c36b6774810a68921ecf27/index.html",
+        "label": "Open preview"
+      },
+      "id": "cursor-gill-sky-br-preview-tonight"
+    },
+    {
+      "repo": "jamesgillmedia/gill-sky",
+      "kind": "pr",
+      "number": 11,
+      "title": "Quiet one-finger look on the sky (plus Film camera fit)",
+      "state": "open",
+      "branch": "cursor/site-camera-walk-1706",
+      "sha": "f922808fa678efc877c9d8a4a3ad050372465f2e",
+      "sha_short": "f922808",
+      "time": "2026-11-12T12:45:21-07:00",
+      "desc": "One-finger drag on the far sky barely moved the constellations but threw the depth-field stars by `look × 140`, so a finger felt like effects and only pinch seemed to answer the camera.",
+      "pr": "https://github.com/jamesgillmedia/gill-sky/pull/11",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/f922808fa678efc877c9d8a4a3ad050372465f2e/index.html",
+        "label": "Open preview"
+      },
+      "id": "cursor-gill-sky-pr-11"
+    },
+    {
+      "repo": "jamesgillmedia/gill-sky",
+      "kind": "pr",
+      "number": 10,
+      "title": "m4: final bio off the 46px crescent class",
+      "state": "open",
+      "branch": "cursor/m4-moon-crush-1850",
+      "sha": "0172ada684478fa7f8803c3cdb96296739db5f72",
+      "sha_short": "0172ada",
+      "time": "2026-11-12T12:32:07-07:00",
+      "desc": "`paintMoon` in `tonight/film/m4/js/sky.js` was setting `#laytext` to class `moon`, which is the sky’s 46px crescent.",
+      "pr": "https://github.com/jamesgillmedia/gill-sky/pull/10",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/0172ada684478fa7f8803c3cdb96296739db5f72/index.html",
+        "label": "Open preview"
+      },
+      "id": "cursor-gill-sky-pr-10"
+    },
+    {
+      "repo": "jamesgillmedia/gill-sky",
+      "kind": "pr",
+      "number": 9,
+      "title": "Fit the Film camera so a short screen stops stacking strips",
+      "state": "open",
+      "branch": "cursor/film-camera-fit-1ae1",
+      "sha": "82f62cc517ab68280b83f475ab8b17c50c273bca",
+      "sha_short": "82f62cc",
+      "time": "2026-11-12T12:01:58-07:00",
+      "desc": "The three browsers were on Film together. On the landscape phone the chapter camera stopped shrinking strips at 1×, and 25 of them landed on top of each other. Desktop and the portrait phone were already clear.",
+      "pr": "https://github.com/jamesgillmedia/gill-sky/pull/9",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/82f62cc517ab68280b83f475ab8b17c50c273bca/index.html",
+        "label": "Open preview"
+      },
+      "id": "cursor-gill-sky-pr-9"
+    },
+    {
+      "repo": "jamesgillmedia/gill-sky",
+      "kind": "preview-branch",
+      "number": null,
+      "title": "preview-archive-index",
+      "state": "branch",
+      "branch": "preview-archive-index",
+      "sha": "fa2e6ebf484707eb4bbe1969a55aa29982b93f6a",
+      "sha_short": "fa2e6eb",
+      "time": "2026-11-12T03:14:18-07:00",
+      "desc": "archive-index: boxes/dim/hide switch + film zoom-to-fit fix",
+      "pr": null,
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/fa2e6ebf484707eb4bbe1969a55aa29982b93f6a/index.html",
+        "label": "Open preview"
+      },
+      "id": "cursor-gill-sky-br-preview-archive-index"
+    },
+    {
+      "repo": "jamesgillmedia/gill-sky",
+      "kind": "pr",
+      "number": 6,
+      "title": "u3: the boards keep the earlier density",
+      "state": "open",
+      "branch": "cursor/u3-sky-8a76",
+      "sha": "f81b178aa2b49ec7383a149db7b01fd2d3e4a459",
+      "sha_short": "f81b178",
+      "time": "2026-11-11T23:17:01-07:00",
+      "desc": "u3 is a copy of u2. u2 is not edited. A later version is a copy of this folder.",
+      "pr": "https://github.com/jamesgillmedia/gill-sky/pull/6",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/f81b178aa2b49ec7383a149db7b01fd2d3e4a459/index.html",
+        "label": "Open preview"
+      },
+      "id": "cursor-gill-sky-pr-6"
+    },
+    {
+      "repo": "jamesgillmedia/gill-sky",
+      "kind": "pr",
+      "number": 8,
+      "title": "u4-opus: bring back the board level in every category",
+      "state": "open",
+      "branch": "cursor/u4-opus-5d75",
+      "sha": "1207c30ccf12318139a2e85316c86f1b4f838da5",
+      "sha_short": "1207c30",
+      "time": "2026-11-11T23:08:07-07:00",
+      "desc": "u4-opus-m3: u3 rebuilt to Gill's RULEBOOK, plus the Nov 9 media. **Published on main as new folders: `u4-opus-m3/` (3b3a55d) and `u4-opus-m4/` (2d77656). Nothing else on main was touched.**",
+      "pr": "https://github.com/jamesgillmedia/gill-sky/pull/8",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/1207c30ccf12318139a2e85316c86f1b4f838da5/index.html",
+        "label": "Open preview"
+      },
+      "id": "cursor-gill-sky-pr-8"
+    },
+    {
+      "repo": "jamesgillmedia/gill-sky",
+      "kind": "pr",
+      "number": 4,
+      "title": "u2: the same sky, as an app on the phone",
+      "state": "merged",
+      "branch": "cursor/u2-phone-8a76",
+      "sha": "ab2c562096ccbd079b5b53c03d7fd3ead3750a38",
+      "sha_short": "ab2c562",
+      "time": "2026-11-10T20:47:02-07:00",
+      "desc": "A copy of u1 in a new folder. u1 is not edited. The five chapters, the poem, the washes, and the boards are the same sky.",
+      "pr": "https://github.com/jamesgillmedia/gill-sky/pull/4",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/ab2c562096ccbd079b5b53c03d7fd3ead3750a38/index.html",
+        "label": "Open preview"
+      },
+      "id": "cursor-gill-sky-pr-4"
+    },
+    {
+      "repo": "jamesgillmedia/gill-sky",
+      "kind": "pr",
+      "number": 5,
+      "title": "u1m: motion on, and the six tracks play",
+      "state": "merged",
+      "branch": "cursor/u1m-motion-8a76",
+      "sha": "d5992588ef6c2393a8b8099b927d142b85810781",
+      "sha_short": "d599258",
+      "time": "2026-11-10T10:07:04-07:00",
+      "desc": "A copy of u1 in `u1m/`, so the live folder stays as it is. On an iPhone with Reduce Motion on, this copy still arrives, glides, and fills the boards, and the six tracks load.",
+      "pr": "https://github.com/jamesgillmedia/gill-sky/pull/5",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/d5992588ef6c2393a8b8099b927d142b85810781/index.html",
+        "label": "Open preview"
+      },
+      "id": "cursor-gill-sky-pr-5"
+    },
+    {
+      "repo": "jamesgillmedia/gill-sky",
+      "kind": "pr",
+      "number": 3,
+      "title": "u1: one sky, with site-3d’s quiet board",
+      "state": "merged",
+      "branch": "cursor/u1-unified-8a76",
+      "sha": "f1cedc5ac925a0916de5a52db3bf3f7f83def902",
+      "sha_short": "f1cedc5",
+      "time": "2026-11-10T09:38:05-07:00",
+      "desc": "One folder, `u1/`.",
+      "pr": "https://github.com/jamesgillmedia/gill-sky/pull/3",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/f1cedc5ac925a0916de5a52db3bf3f7f83def902/index.html",
+        "label": "Open preview"
+      },
+      "id": "cursor-gill-sky-pr-3"
+    },
+    {
+      "repo": "jamesgillmedia/gill-sky",
+      "kind": "pr",
+      "number": 2,
+      "title": "r11: add One With the Devil to the film chapter",
+      "state": "merged",
+      "branch": "cursor/r11-one-with-the-devil-412c",
+      "sha": "826ceeaab134fcf07321a7a9dbe1e8e6a0bccf20",
+      "sha_short": "826ceea",
+      "time": "2026-11-10T09:01:54-07:00",
+      "desc": "Adds One With the Devil as a film star in r11, beside the demo reel, using the same star, board thumbnail, and layer as the other films.",
+      "pr": "https://github.com/jamesgillmedia/gill-sky/pull/2",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/826ceeaab134fcf07321a7a9dbe1e8e6a0bccf20/index.html",
+        "label": "Open preview"
+      },
+      "id": "cursor-gill-sky-pr-2"
+    },
+    {
+      "repo": "jamesgillmedia/gill-sky",
+      "kind": "pr",
+      "number": 1,
+      "title": "r10 exact w7 copy, r11 hire, poem, and pro2 layers",
+      "state": "merged",
+      "branch": "cursor/r10-w7-copy-412c",
+      "sha": "a741ac4c7cc489ecbb1121ae43743f1c5bbaece0",
+      "sha_short": "a741ac4",
+      "time": "2026-11-10T08:51:46-07:00",
+      "desc": "`/r10/` stays the exact w7 copy. `/r11/` is a new folder on top of it. The root redirect still points at `/r9/`. r4 through r10 are untouched.",
+      "pr": "https://github.com/jamesgillmedia/gill-sky/pull/1",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/a741ac4c7cc489ecbb1121ae43743f1c5bbaece0/index.html",
+        "label": "Open preview"
+      },
+      "id": "cursor-gill-sky-pr-1"
+    },
+    {
+      "repo": "jamesgillmedia/gilljames",
+      "kind": "pr",
+      "number": 15,
+      "title": "Drop unreferenced media so Pages deploys fit under 1 GB",
+      "state": "merged",
+      "branch": "cursor/slim-pages-artifact-e965",
+      "sha": "f0aa3972652c62fd1b04a2ae8d91a77772b34c7d",
+      "sha_short": "f0aa397",
+      "time": "2026-11-10T08:49:51-07:00",
+      "desc": "The last two `pages-build-deployment` runs aborted with `Timeout reached, aborting!` after GitHub warned that the uploaded artifact was over 1 GB.",
+      "pr": "https://github.com/jamesgillmedia/gilljames/pull/15",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gilljames/f0aa3972652c62fd1b04a2ae8d91a77772b34c7d/site-v3-3d/index.html",
+        "label": "Open site-v3-3d"
+      },
+      "id": "cursor-gilljames-pr-15"
+    },
+    {
+      "repo": "jamesgillmedia/gilljames",
+      "kind": "pr",
+      "number": 14,
+      "title": "site-constellation-r4: slim media for Pages 1GB limit",
+      "state": "merged",
+      "branch": "cursor/r4-slim-pages-fd98",
+      "sha": "f8e5ad5b1fddc488d38b71a9e951b2f64eb04399",
+      "sha_short": "f8e5ad5",
+      "time": "2026-11-09T18:27:54-07:00",
+      "desc": "What changed",
+      "pr": "https://github.com/jamesgillmedia/gilljames/pull/14",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gilljames/f8e5ad5b1fddc488d38b71a9e951b2f64eb04399/site-v3-3d/index.html",
+        "label": "Open site-v3-3d"
+      },
+      "id": "cursor-gilljames-pr-14"
+    },
+    {
+      "repo": "jamesgillmedia/gilljames",
+      "kind": "pr",
+      "number": 13,
+      "title": "site-constellation-r4: dense layered sky",
+      "state": "merged",
+      "branch": "cursor/site-constellation-r4-fd98",
+      "sha": "92f0354dec9bd74273394f1a20d0abc55988ff31",
+      "sha_short": "92f0354",
+      "time": "2026-11-09T18:07:37-07:00",
+      "desc": "Site constellation r4",
+      "pr": "https://github.com/jamesgillmedia/gilljames/pull/13",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gilljames/92f0354dec9bd74273394f1a20d0abc55988ff31/site-v3-3d/index.html",
+        "label": "Open site-v3-3d"
+      },
+      "id": "cursor-gilljames-pr-13"
+    },
+    {
+      "repo": "jamesgillmedia/gilljames",
+      "kind": "pr",
+      "number": 12,
+      "title": "site-constellation-r3: Cinematographer roles",
+      "state": "merged",
+      "branch": "cursor/site-constellation-r3-cinematographer-60d7",
+      "sha": "d3e224d3281ea95b96dbb47d237d644b17cd2012",
+      "sha_short": "d3e224d",
+      "time": "2026-11-09T17:09:24-07:00",
+      "desc": "Copies `site-constellation-r2/` to `site-constellation-r3/` and sets James Gill’s role on the named client films. `site-constellation-r2` is unchanged.",
+      "pr": "https://github.com/jamesgillmedia/gilljames/pull/12",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gilljames/d3e224d3281ea95b96dbb47d237d644b17cd2012/site-v3-3d/index.html",
+        "label": "Open site-v3-3d"
+      },
+      "id": "cursor-gilljames-pr-12"
+    },
+    {
+      "repo": "jamesgillmedia/gilljames",
+      "kind": "pr",
+      "number": 11,
+      "title": "Constellation index, round 2",
+      "state": "merged",
+      "branch": "cursor/site-constellation-r2-57f8",
+      "sha": "f1bcc43aed746b7e9d74a3c2042e0eae230d7ff3",
+      "sha_short": "f1bcc43",
+      "time": "2026-11-09T16:52:19-07:00",
+      "desc": "A second build of the constellation index. `site-constellation/` is unchanged. Everything in this PR is new, under `site-constellation-r2/`.",
+      "pr": "https://github.com/jamesgillmedia/gilljames/pull/11",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gilljames/f1bcc43aed746b7e9d74a3c2042e0eae230d7ff3/site-v3-3d/index.html",
+        "label": "Open site-v3-3d"
+      },
+      "id": "cursor-gilljames-pr-11"
+    },
+    {
+      "repo": "jamesgillmedia/gilljames",
+      "kind": "pr",
+      "number": 10,
+      "title": "Add the Sky as doorway portfolio (site-c)",
+      "state": "merged",
+      "branch": "cursor/site-c-sky-doorway-f7ca",
+      "sha": "a24cf58ebd9cafd5540c9abb9e9a562a7db26c38",
+      "sha_short": "a24cf58",
+      "time": "2026-11-09T16:35:05-07:00",
+      "desc": "Phone-first portfolio in a new `site-c/` folder.",
+      "pr": "https://github.com/jamesgillmedia/gilljames/pull/10",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gilljames/a24cf58ebd9cafd5540c9abb9e9a562a7db26c38/site-v3-3d/index.html",
+        "label": "Open site-v3-3d"
+      },
+      "id": "cursor-gilljames-pr-10"
+    },
+    {
+      "repo": "jamesgillmedia/gilljames",
+      "kind": "pr",
+      "number": 9,
+      "title": "Add the constellation index",
+      "state": "merged",
+      "branch": "cursor/site-constellation-57f8",
+      "sha": "a4353e434e80de0dc6b4b0099ba37d2535dc6eb8",
+      "sha_short": "a4353e4",
+      "time": "2026-11-09T16:31:39-07:00",
+      "desc": "Gill’s portfolio as direction 2, Constellation index, with the night-water layer underneath. New folder only: `site-constellation/`. Nothing else in the repo is changed.",
+      "pr": "https://github.com/jamesgillmedia/gilljames/pull/9",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gilljames/a4353e434e80de0dc6b4b0099ba37d2535dc6eb8/site-v3-3d/index.html",
+        "label": "Open site-v3-3d"
+      },
+      "id": "cursor-gilljames-pr-9"
+    },
+    {
+      "repo": "jamesgillmedia/gilljames",
+      "kind": "pr",
+      "number": 8,
+      "title": "Replace the retired-cinematography bio sentence",
+      "state": "merged",
+      "branch": "cursor/bio-retirement-sentence-da15",
+      "sha": "596e6dc74343209f9c4d88088b4479cf65bd2f7b",
+      "sha_short": "596e6dc",
+      "time": "2026-11-09T15:26:17-07:00",
+      "desc": "The bio sentence that began “Now retired from cinematography” is replaced in every copy in this repo.",
+      "pr": "https://github.com/jamesgillmedia/gilljames/pull/8",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gilljames/596e6dc74343209f9c4d88088b4479cf65bd2f7b/site-v3-3d/index.html",
+        "label": "Open site-v3-3d"
+      },
+      "id": "cursor-gilljames-pr-8"
+    },
+    {
+      "repo": "jamesgillmedia/gilljames",
+      "kind": "pr",
+      "number": 7,
+      "title": "Name the CSC award without the student designation",
+      "state": "merged",
+      "branch": "cursor/csc-award-wording-47f6",
+      "sha": "227f23900f9f0b105cbac203ad036afb86ce55e1",
+      "sha_short": "227f239",
+      "time": "2026-11-09T14:37:09-07:00",
+      "desc": "The artist bio now says the cinematography on *One With the Devil* won a Canadian Society of Cinematographers Award and the Leo Award. The rest of that sentence is unchanged.",
+      "pr": "https://github.com/jamesgillmedia/gilljames/pull/7",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gilljames/227f23900f9f0b105cbac203ad036afb86ce55e1/site-v3-3d/index.html",
+        "label": "Open site-v3-3d"
+      },
+      "id": "cursor-gilljames-pr-7"
+    },
+    {
+      "repo": "jamesgillmedia/gilljames",
+      "kind": "pr",
+      "number": 6,
+      "title": "Drop the collaborator credit from the Spirit Eye bio sentence",
+      "state": "merged",
+      "branch": "cursor/remove-ngenda-bio-credit-af74",
+      "sha": "34d593bc402c2fda2110145f3db4dca16881dc81",
+      "sha_short": "34d593b",
+      "time": "2026-11-09T14:34:03-07:00",
+      "desc": "The artist bio sentence about Spirit Eye of skwácháýs now reads as a solo credit.",
+      "pr": "https://github.com/jamesgillmedia/gilljames/pull/6",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gilljames/34d593bc402c2fda2110145f3db4dca16881dc81/site-v3-3d/index.html",
+        "label": "Open site-v3-3d"
+      },
+      "id": "cursor-gilljames-pr-6"
+    },
+    {
+      "repo": "jamesgillmedia/gilljames",
+      "kind": "pr",
+      "number": 5,
+      "title": "Generalize the artist bio for privacy",
+      "state": "merged",
+      "branch": "cursor/generalize-artist-bio-a025",
+      "sha": "5bdc19d40ca33d2b242a11859094849d7ef2b01a",
+      "sha_short": "5bdc19d",
+      "time": "2026-11-09T14:09:37-07:00",
+      "desc": "Summary",
+      "pr": "https://github.com/jamesgillmedia/gilljames/pull/5",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gilljames/5bdc19d40ca33d2b242a11859094849d7ef2b01a/site-v3-3d/index.html",
+        "label": "Open site-v3-3d"
+      },
+      "id": "cursor-gilljames-pr-5"
+    },
+    {
+      "repo": "jamesgillmedia/gilljames",
+      "kind": "pr",
+      "number": 4,
+      "title": "Bio: real bio on site-v3-pro2 and preview (he/him, awards)",
+      "state": "merged",
+      "branch": "cursor/bio-he-him-awards-6348",
+      "sha": "b33b60cd553b7dfad65677088523a912b8380b21",
+      "sha_short": "b33b60c",
+      "time": "2026-11-09T13:27:58-07:00",
+      "desc": "Replaces the about copy on site-v3-pro2 and the site-v3-bio preview with Gill’s first-person bio (he/him), including the CSC and Leo awards.",
+      "pr": "https://github.com/jamesgillmedia/gilljames/pull/4",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gilljames/b33b60cd553b7dfad65677088523a912b8380b21/site-v3-3d/index.html",
+        "label": "Open site-v3-3d"
+      },
+      "id": "cursor-gilljames-pr-4"
+    },
+    {
+      "repo": "jamesgillmedia/gilljames",
+      "kind": "pr",
+      "number": 3,
+      "title": "Preview w8: site v4 picture on the w7 world",
+      "state": "merged",
+      "branch": "cursor/site-v8-v4-w7-c5f7",
+      "sha": "621aadee0993f4c3527a65e9ae7438c7ea1af28c",
+      "sha_short": "621aade",
+      "time": "2026-11-07T12:13:01-07:00",
+      "desc": "Isolated preview. Combines the established site v4 picture with the w7 world. Does not touch the live site, and should not be merged from this task until Gill says so.",
+      "pr": "https://github.com/jamesgillmedia/gilljames/pull/3",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gilljames/621aadee0993f4c3527a65e9ae7438c7ea1af28c/site-v3-3d/index.html",
+        "label": "Open site-v3-3d"
+      },
+      "id": "cursor-gilljames-pr-3"
+    },
+    {
+      "repo": "jamesgillmedia/gilljames",
+      "kind": "pr",
+      "number": 2,
+      "title": "Preview: site v4 surface on the w7 camera (site-v3-pro3/w8)",
+      "state": "open",
+      "branch": "cursor/site-v4-w8-preview-f39e",
+      "sha": "ad39867ace0e1907a284776747f86d3d1dcb5472",
+      "sha_short": "ad39867",
+      "time": "2026-11-07T11:04:44-07:00",
+      "desc": "What this is",
+      "pr": "https://github.com/jamesgillmedia/gilljames/pull/2",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gilljames/ad39867ace0e1907a284776747f86d3d1dcb5472/site-v3-3d/index.html",
+        "label": "Open site-v3-3d"
+      },
+      "id": "cursor-gilljames-pr-2"
+    },
+    {
+      "repo": "jamesgillmedia/gilljames",
+      "kind": "pr",
+      "number": 1,
+      "title": "Add Artist Cursor Agent for Gill James catalog Q&A",
+      "state": "open",
+      "branch": "cursor/artist-cursor-agent-b5b2",
+      "sha": "dbae03ccb1e316654c191a28fb6a6d35fca9d1d9",
+      "sha_short": "dbae03c",
+      "time": "2026-10-22T09:28:30-06:00",
+      "desc": "Summary",
+      "pr": "https://github.com/jamesgillmedia/gilljames/pull/1",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gilljames/dbae03ccb1e316654c191a28fb6a6d35fca9d1d9/index.html",
+        "label": "Open preview"
+      },
+      "id": "cursor-gilljames-pr-1"
+    }
+  ]
+}

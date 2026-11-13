@@ -2,6 +2,14 @@
   "title": "Gill James · Studio board",
   "sections": [
     {
+      "id": "now-1113",
+      "title": "Now · Nov 13"
+    },
+    {
+      "id": "cursor",
+      "title": "Cursor index"
+    },
+    {
       "id": "sound",
       "title": "Sound"
     },
@@ -28,21 +36,279 @@
   ],
   "items": [
     {
-      "section": "site",
+      "section": "now-1113",
+      "type": "image",
+      "id": "silence",
+      "file": "media/now-1113/silence-contact.jpg",
+      "poster": "posters/silence.jpg",
+      "title": "Silence · Lost Coffee (LC-0007)",
+      "changed": "Three cover directions: A Signal Drop (the cup line mark on charcoal with an ember arc); B Last Light on Water (snow on water in near-black blue); C Drained Cup (the To Go cup in grey-violet). Two 60-second A/B players are on the card (original, then the rough master, 4 seconds each, level-matched): one with no widen, one with the widen master.",
+      "open": "Release Fri Nov 27 (Amuse Pro) · submit by Mon Nov 16 for the Spotify pitch · widen master ready for your by-ear OK",
+      "need": "Pick A, B or C, and whether a full-res cup still or a vector of the mark exists.",
+      "time": "2026-11-13T11:28:00-07:00",
+      "badge": "Latest",
+      "tier": "now",
+      "gallery": [
+        {
+          "type": "image",
+          "src": "media/now-1113/silence-a-signal-drop.webp",
+          "label": "A Signal Drop"
+        },
+        {
+          "type": "image",
+          "src": "media/now-1113/silence-b-last-light-on-water.webp",
+          "label": "B Last Light on Water"
+        },
+        {
+          "type": "image",
+          "src": "media/now-1113/silence-c-drained-cup.webp",
+          "label": "C Drained Cup"
+        },
+        {
+          "type": "audio",
+          "src": "media/now-1113/silence-master-widen-v2.mp3",
+          "label": "Release master · widen v2, click at 0:04.2 fixed · full 3:42"
+        },
+        {
+          "type": "audio",
+          "src": "media/now-1113/silence-ab-nowiden.mp3",
+          "label": "A/B · no widen (alternate) · 60 s, starts on the original"
+        },
+        {
+          "type": "audio",
+          "src": "media/now-1113/silence-ab-widen.mp3",
+          "label": "A/B · widen (your pick) · 60 s, starts on the original"
+        }
+      ]
+    },
+    {
+      "section": "now-1113",
+      "type": "video",
+      "id": "artist-c",
+      "file": "media/now-1113/artist-c-phone.mp4",
+      "poster": "posters/artist-c.jpg",
+      "title": "Gill the artist · C Trail Line (locked)",
+      "changed": "Trail Line is the locked direction for the artist site.",
+      "open": "The image overlap you saw is still being fixed; a new link will follow. This preview is the current Trail Line build, not a fixed build.",
+      "need": "Open it on your phone and tell us if the overlap is still there — Love, Needs work, or a note.",
+      "time": "2026-11-13T11:16:00-07:00",
+      "badge": "Locked",
+      "tier": "now",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/8070a10bfdf79189b9fea0e1b2bd93aab8e51bc6/fresh-sites/artist/index.html?v=C",
+        "label": "Open Trail Line"
+      },
+      "gallery": [
+        {
+          "type": "image",
+          "src": "media/now-1113/artist-c-contact.jpg",
+          "label": "Trail Line · phone and desktop"
+        },
+        {
+          "type": "video",
+          "src": "media/now-1113/artist-c-phone.mp4",
+          "poster": "posters/artist-c.jpg",
+          "label": "Phone"
+        },
+        {
+          "type": "video",
+          "src": "media/now-1113/artist-c-desktop.mp4",
+          "poster": "posters/artist-c-desktop.jpg",
+          "label": "Desktop"
+        }
+      ]
+    },
+    {
+      "section": "now-1113",
+      "type": "video",
+      "id": "lostcoffee-b",
+      "file": "media/now-1113/lostcoffee-b-phone.mp4",
+      "poster": "posters/lostcoffee-b.jpg",
+      "title": "Lost Coffee · B Channel Strips (locked)",
+      "changed": "Channel Strips is the locked direction for Lost Coffee.",
+      "open": "Ready for your review.",
+      "need": "Open Channel Strips and leave Love, Needs work, or a note.",
+      "time": "2026-11-13T11:15:00-07:00",
+      "badge": "Locked",
+      "tier": "now",
+      "link": {
+        "href": "https://raw.githack.com/jamesgillmedia/gill-sky/8070a10bfdf79189b9fea0e1b2bd93aab8e51bc6/fresh-sites/lostcoffee/index.html?v=B",
+        "label": "Open Channel Strips"
+      },
+      "gallery": [
+        {
+          "type": "image",
+          "src": "media/now-1113/lostcoffee-b-contact.jpg",
+          "label": "Channel Strips · A / B / C contact"
+        },
+        {
+          "type": "video",
+          "src": "media/now-1113/lostcoffee-b-phone.mp4",
+          "poster": "posters/lostcoffee-b.jpg",
+          "label": "Phone"
+        },
+        {
+          "type": "video",
+          "src": "media/now-1113/lostcoffee-b-desktop.mp4",
+          "poster": "posters/lostcoffee-b-desktop.jpg",
+          "label": "Desktop"
+        }
+      ]
+    },
+    {
+      "section": "now-1113",
+      "type": "image",
+      "id": "sketch-options",
+      "file": "media/now-1113/sketch-side-by-side.jpg",
+      "poster": "posters/sketch-options.jpg",
+      "title": "Sketch · Options A / B / C",
+      "changed": "A board bringing Lost Coffee B elements into artist C Trail Line. A Strips: each stop becomes a channel strip and solo opens full screen. B Meter: the trail stays, plus a gold LED progress meter, and the ghost arc scrubs the trail. C Light touch: the trail is unchanged, plus a channel sheen, an LED tick and a solo lift.",
+      "open": "Waiting for your pick. The board currently shows the stops as Objects, Photo, Spaces, Film, About.",
+      "need": "Pick A, B or C, and the stop order.",
+      "time": "2026-11-13T11:16:30-07:00",
+      "badge": "Latest",
+      "tier": "now",
+      "gallery": [
+        {
+          "type": "image",
+          "src": "media/now-1113/sketch-side-by-side.jpg",
+          "label": "Side by side"
+        },
+        {
+          "type": "image",
+          "src": "media/now-1113/sketch-option-a-strips.jpg",
+          "label": "A Strips"
+        },
+        {
+          "type": "image",
+          "src": "media/now-1113/sketch-option-b-meter.jpg",
+          "label": "B Meter"
+        },
+        {
+          "type": "image",
+          "src": "media/now-1113/sketch-option-c-light-touch.jpg",
+          "label": "C Light touch"
+        }
+      ]
+    },
+    {
+      "section": "now-1113",
+      "type": "image",
+      "id": "phone-checks",
+      "file": "media/now-1113/phone-checks-contact.jpg",
+      "poster": "media/now-1113/phone-checks-contact.jpg",
+      "title": "Phone and desktop checks · fresh sites",
+      "changed": "Viewport stills and recorded gates for the fresh artist and Lost Coffee sites.",
+      "open": "Artist C, phone and desktop: all listed gate checks passed, no console errors. Reduce Motion matches the moving version. Lost Coffee B, phone and desktop: all listed gate checks passed, the dial is shown, no console errors. Reduce Motion is almost the same; desktop had a very small pixel difference (0.013% of pixels). The artist C overlap you reported is still open.",
+      "need": "Look over the stills and flag anything that looks off.",
+      "time": "2026-11-13T11:14:00-07:00",
+      "badge": "Latest",
+      "tier": "now",
+      "gallery": [
+        {
+          "type": "image",
+          "src": "media/now-1113/phone-checks-contact.jpg",
+          "label": "Contact · artist C and Lost Coffee B"
+        },
+        {
+          "type": "image",
+          "src": "media/now-1113/artist-c-phone-home.jpg",
+          "label": "Artist C · phone home"
+        },
+        {
+          "type": "image",
+          "src": "media/now-1113/artist-c-desktop-home.jpg",
+          "label": "Artist C · desktop home"
+        },
+        {
+          "type": "image",
+          "src": "media/now-1113/artist-c-phone-room.jpg",
+          "label": "Artist C · phone room"
+        },
+        {
+          "type": "image",
+          "src": "media/now-1113/artist-c-desktop-room.jpg",
+          "label": "Artist C · desktop room"
+        },
+        {
+          "type": "image",
+          "src": "media/now-1113/lostcoffee-b-phone-home.jpg",
+          "label": "Lost Coffee B · phone home"
+        },
+        {
+          "type": "image",
+          "src": "media/now-1113/lostcoffee-b-desktop-home.jpg",
+          "label": "Lost Coffee B · desktop home"
+        },
+        {
+          "type": "image",
+          "src": "media/now-1113/lostcoffee-b-phone-dial.jpg",
+          "label": "Lost Coffee B · phone dial"
+        },
+        {
+          "type": "image",
+          "src": "media/now-1113/lostcoffee-b-desktop-dial.jpg",
+          "label": "Lost Coffee B · desktop dial"
+        }
+      ]
+    },
+    {
+      "section": "now-1113",
+      "type": "image",
+      "id": "v3-3d-fixes",
+      "file": "media/now-1113/v33d-desk-home.jpg",
+      "poster": "posters/v3-3d-fixes.jpg",
+      "title": "site-v3-3d · fixes",
+      "changed": "Fixes are being built. They are not on the live page yet.",
+      "open": "Sketch listed eight blockers: YouTube is still on the site (four films, and a YouTube line in Sound). Placeholder “CAPTION / CREDITS [Gill writes]” is public, and the required credits are missing. The new film frames, slides and fallback never run for a real visitor — only when a test drives the page through internal calls. On a computer, clicking the constellation names in the sky does nothing. Back from the slides leaves the overlay stuck on the screen. The tune drawer does not match the reference: no Darkroom, no strength, no edge-only safelight. Sound does not open straight into the waveform player. Some close face portraits in Photo still need your OK before this goes live.",
+      "need": "Which of these to fix first, and whether those close portraits can stay.",
+      "time": "2026-11-13T11:13:00-07:00",
+      "badge": "Latest",
+      "tier": "now",
+      "link": {
+        "href": "https://jamesgillmedia.github.io/gilljames/site-v3-3d/",
+        "label": "Open the live page"
+      },
+      "gallery": [
+        {
+          "type": "image",
+          "src": "media/now-1113/v33d-desk-home.jpg",
+          "label": "Live home · desktop (fixes not on this page yet)"
+        }
+      ]
+    },
+    {
+      "section": "now-1113",
+      "type": "link",
+      "id": "final-build",
+      "title": "Final merged build · PR 12",
+      "changed": "Cursor’s final merge on branch preview-final-1113 (ghost arc, Sound, Objects, Photo, About, Spaces). The PR is open and not deployed. A six-device check is still pending.",
+      "open": "Not deployed. Six-device check pending.",
+      "need": "OK to deploy this for the six-device check, or hold.",
+      "time": "2026-11-13T11:12:00-07:00",
+      "badge": "Latest",
+      "tier": "now",
+      "link": {
+        "href": "https://github.com/jamesgillmedia/gill-sky/pull/12",
+        "label": "Open PR 12"
+      }
+    },
+    {
+      "section": "earlier",
       "type": "placeholder",
       "id": "site-v4",
       "title": "site-v4 prototype · sketch-3d zoom across the whole site",
       "desc": "Status: prototype, just added. building; Gill: sketch-3d is closest; closer together, locked main screens, clear way back",
       "time": "2026-10-19T19:00:00-07:00",
       "badge": "Prototype",
-      "tier": "now",
+      "tier": "earlier",
       "link": {
         "href": "https://jamesgillmedia.github.io/gilljames/site-v4/",
         "label": "Open site-v4 prototype"
       }
     },
     {
-      "section": "site",
+      "section": "earlier",
       "type": "video",
       "id": "site-sound-one",
       "file": "media/site-sound-one-phone.mp4",
@@ -51,14 +317,14 @@
       "desc": "Status: in QA. Sound sits in the same sky as the rest of the site, no turning. Phone-size clip.",
       "time": "2026-10-19T18:50:30-07:00",
       "badge": "Latest",
-      "tier": "now",
+      "tier": "earlier",
       "link": {
         "href": "https://jamesgillmedia.github.io/gilljames/site-sound-one/",
         "label": "Open site-sound-one"
       }
     },
     {
-      "section": "sound",
+      "section": "earlier",
       "type": "live",
       "id": "sound-v2b",
       "file": "../sound-v2b/",
@@ -67,14 +333,14 @@
       "desc": "Status: in QA. The Sound player without the 3D orbit, only a subtle parallax. Tap ▶ to load it here, or open it on its own.",
       "time": "2026-10-19T18:50:11-07:00",
       "badge": "Latest",
-      "tier": "now",
+      "tier": "earlier",
       "link": {
         "href": "https://jamesgillmedia.github.io/gilljames/sound-v2b/",
         "label": "Open sound-v2b"
       }
     },
     {
-      "section": "site",
+      "section": "earlier",
       "type": "video",
       "id": "site-v38",
       "file": "media/site-v38-phone.mp4",
@@ -83,28 +349,28 @@
       "desc": "Status: QA passed. The current-look preview with twinkle, depth and locks on the key moments. Phone-size clip.",
       "time": "2026-10-19T17:22:55-07:00",
       "badge": "Latest",
-      "tier": "now",
+      "tier": "earlier",
       "link": {
         "href": "https://jamesgillmedia.github.io/gilljames/site-v38/",
         "label": "Open site-v38"
       }
     },
     {
-      "section": "site",
+      "section": "earlier",
       "type": "link",
       "id": "site-keep",
       "title": "site-keep · saved copy of the current site",
       "desc": "Status: saved for comparison. A frozen copy of site-v3 as it was on Oct 19, so new versions can be compared against it.",
       "time": "2026-10-19T17:04:38-07:00",
       "badge": "Latest",
-      "tier": "now",
+      "tier": "earlier",
       "link": {
         "href": "https://jamesgillmedia.github.io/gilljames/site-keep/",
         "label": "Open site-keep"
       }
     },
     {
-      "section": "site",
+      "section": "earlier",
       "type": "video",
       "id": "sketch-3d",
       "file": "media/sketch-3d-phone.mp4",
@@ -113,14 +379,14 @@
       "desc": "Status: picked by Gill; site-v4 is being built from it. The interactive 3D fly-through sketch. Phone-size clip.",
       "time": "2026-10-19T15:57:02-07:00",
       "badge": "Current direction",
-      "tier": "now",
+      "tier": "earlier",
       "link": {
         "href": "https://jamesgillmedia.github.io/gilljames/sketch-3d/",
         "label": "Open sketch-3d"
       }
     },
     {
-      "section": "reel",
+      "section": "earlier",
       "type": "video",
       "id": "reel-v7-pass8",
       "file": "media/reel-v7-pass8.mp4",
@@ -129,10 +395,10 @@
       "desc": "The whole reel, now 70 seconds, with every Cinema note in. Gill's footage starts at 1.6 s instead of about 7 s. The tile grid is cut down to one beat. The BMW run, the warehouse walk into the light and the Weird Kid horse get stronger shots and more time, and the candles and welder are gone. The end card says producer, and the Hey Ocean! and Kiesza films carry Gill's producer and director credits. Also in: the stray voice under the golf swing is gone, the credits are bigger for phones, and the shampoo bottle is shorter. Not on /reel-v7/ yet; that page still plays 7b.",
       "time": "2026-10-19T15:00:00-07:00",
       "badge": "Latest",
-      "tier": "now"
+      "tier": "earlier"
     },
     {
-      "section": "sound",
+      "section": "earlier",
       "type": "live",
       "id": "sound-sketch-live",
       "file": "../sound-sketch/",
@@ -142,7 +408,7 @@
       "desc": "The real Sound player running inside the board, not a clip. Tap ▶ to load it, then tap a strand to hear its note or swipe across the strands for wind. To react, swipe the strip above the player: right = Love, left = Needs work.",
       "time": "2026-10-19T11:42:00-07:00",
       "badge": "Latest",
-      "tier": "now",
+      "tier": "earlier",
       "link": {
         "href": "https://jamesgillmedia.github.io/gilljames/sound-sketch/",
         "label": "Open the player on its own"
@@ -194,7 +460,7 @@
       }
     },
     {
-      "section": "board",
+      "section": "earlier",
       "type": "video",
       "file": "media/board-option-c-phone.mp4",
       "poster": "posters/board-option-c-phone.jpg",
@@ -202,7 +468,7 @@
       "desc": "Option C for this board: a denser sky where the dots become clips as you pinch in. Staged only, not live yet. Tell us if it should replace this board.",
       "time": "2026-10-19T13:10:00-07:00",
       "badge": "Latest",
-      "tier": "now"
+      "tier": "earlier"
     },
     {
       "section": "board",
