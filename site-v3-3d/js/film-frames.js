@@ -142,7 +142,9 @@ function draw(i){
   if(canvas.width!==fw||canvas.height!==fh){canvas.width=fw;canvas.height=fh}
   ctx.drawImage(sheet,x,y,fw,fh,0,0,fw,fh);
   cur=i;
+  canvas.setAttribute('data-drawn','1');
   if(poster)poster.classList.add('ff-out');
+  try{canvas.dispatchEvent(new Event('ff-drawn',{bubbles:true}))}catch(e){}
 }
 function tick(now){
   if(!playing||!rec)return;
@@ -184,6 +186,7 @@ function darkPoster(){
 function startFrames(autoplay){
   if(!has(work))return;
   rec=man[work];ensureHold();ensureToggle();darkPoster();
+  if(canvas)canvas.removeAttribute('data-drawn');
   var imm=document.querySelector('.imm');if(imm)imm.classList.add('ff-frames');
   hideVideos(true);
   playClock(false);acc=0;cur=0;
