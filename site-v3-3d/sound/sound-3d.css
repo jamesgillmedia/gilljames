@@ -18,3 +18,10 @@
 #sk[data-mode=rising] .player{opacity:1;visibility:visible}
 #sk[data-mode=sky] .intro #dive{display:none}
 :focus-visible{outline-color:#e8e4dc}
+/* fold: named waveform peaks (star chart) */
+.sc-rail .pk-chart{position:absolute;left:0;right:0;top:-30px;height:30px;pointer-events:none}
+.sc-rail .pk{position:absolute;top:0;transform:translateX(-50%);background:none;border:0;padding:0 4px;pointer-events:auto;cursor:pointer;color:#e8e4dc;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:36px;min-height:30px}
+.sc-rail .pk i{width:5px;height:5px;border-radius:50%;background:#e8e4dc;box-shadow:0 0 8px 1px rgba(232,228,220,.8)}
+.sc-rail .pk span{font:300 9px/1 Poppins,sans-serif;letter-spacing:.14em;color:rgba(232,228,220,.8)}
+.sc-rail .pk::after{content:"";position:absolute;top:12px;left:50%;width:1px;height:20px;background:linear-gradient(rgba(232,228,220,.45),rgba(232,228,220,0))}
+.sc-rail .pk-name{position:absolute;right:0;top:-16px;margin:0;font:400 8px/1 "Julius Sans One",Poppins,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:rgba(232,228,220,.55)}

@@ -56,8 +56,9 @@ body #markmenu input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;w
 body #markmenu input[type=range]::-moz-range-thumb{width:9px;height:9px;border-radius:50%;background:#e8e4dc;border:0}
 
 /* ---- A · constellation: the controls hang as small stars on a thread that falls from the mark ---- */
-#markmenu.dv-A{background:radial-gradient(ellipse 150% 100% at var(--ox,40px) 0,rgba(4,7,11,.94) 0,rgba(4,7,11,.9) 58%,rgba(4,7,11,.55) 82%,rgba(4,7,11,0) 100%)}
-#markmenu.dv-A,#markmenu.dv-B{text-shadow:0 0 2px #04070b,0 0 8px #04070b}
+/* fold: no card, no opaque ground. The drawer floats; legibility comes from a soft text shadow and a faint wash from the side dial's edge */
+#markmenu.dv-A{background:none}
+#markmenu.dv-A,#markmenu.dv-A *,#markmenu.dv-B{text-shadow:0 0 2px #04070b,0 0 6px #04070b,0 0 14px rgba(4,7,11,.9)}
 #markmenu.dv-A .mm-3d{padding-left:16px}
 #markmenu.dv-A .mm-3d::before{content:"";position:absolute;left:3px;top:-14px;bottom:6px;width:1px;background:linear-gradient(rgba(232,228,220,.5),rgba(232,228,220,.08) 85%,rgba(232,228,220,0))}
 #markmenu.dv-A label,#markmenu.dv-A .mm-seg,#markmenu.dv-A h3{position:relative}
@@ -163,3 +164,17 @@ html[data-gj-c="red"] .night{box-shadow:inset 0 0 90px rgba(80,18,22,.4)}
 #markmenu details.mm-fold>summary{min-height:44px;display:flex;align-items:center;cursor:pointer;color:rgba(232,228,220,.82);font:300 13px/1 Poppins,sans-serif;letter-spacing:.04em;list-style:none}
 #markmenu details.mm-fold>summary::-webkit-details-marker{display:none}
 #markmenu details.mm-fold .mm-foot{flex-direction:column;align-items:flex-start;gap:0}
+
+/* ---- fold: the drawer comes out of the side dial (right edge) and the ghost arc grows from the same dial ---- */
+#markmenu{left:auto;right:calc(34px + env(safe-area-inset-right,0px));top:max(calc(54px + env(safe-area-inset-top,0px)),calc(50% - 46vh));
+ width:min(300px,calc(100vw - 72px - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px)));max-height:calc(100dvh - 140px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));
+ perspective-origin:var(--ox,100%) var(--oy,50%)}
+#markmenu .mm-3d{transform-origin:var(--ox,100%) var(--oy,50%);transform:translateZ(-60px) scale(.12) rotateY(-64deg)}
+#markmenu.mm-in .mm-3d{transform:rotateX(calc(var(--py,0) * -3deg)) rotateY(calc(var(--px,0) * 4deg))}
+/* while a slider is held: everything steps away except the active slider's hairline + thumb (an 18% anchor); no flicker, no re-unfold */
+#markmenu.mm-peek{opacity:1!important}
+#markmenu.mm-peek .mm-3d>nav{opacity:0!important;transition:opacity .12s linear!important}
+#markmenu.mm-peek .mm-plate *{opacity:0!important;transition:opacity .12s linear!important}
+#markmenu.mm-peek .mm-plate :has(.mm-act),#markmenu.mm-peek .mm-plate .mm-act{opacity:1!important}
+#markmenu.mm-peek .mm-plate .mm-act input{opacity:.18!important}
+@media (prefers-reduced-motion:reduce){#markmenu .mm-3d,#markmenu.mm-in .mm-3d{transform:none!important}}

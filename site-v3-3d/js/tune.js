@@ -31,7 +31,8 @@ var RANGES=[
   {k:'light',s:'la',label:'light angle',min:0,max:360,def:210},
   {k:'motion',s:'mo',label:'motion',min:0,max:200,def:100},
   {k:'snapAt',s:'sn',label:'snap threshold',min:15,max:70,def:34},
-  {k:'safeK',s:'sk',label:'safelight strength',min:0,max:100,def:60}
+  {k:'safeK',s:'sk',label:'safelight strength',min:0,max:100,def:60},
+  {k:'redDim',s:'rk',label:'red depth',min:0,max:100,def:62}
 ];
 var ROWS=RANGES.filter(function(r){return r.sky});
 function rangeOf(k){for(var i=0;i<RANGES.length;i++)if(RANGES[i].k===k)return RANGES[i];return null}
@@ -137,7 +138,10 @@ function applyFx(){
   root.style.setProperty('--gj-safe',safe.toFixed(3));
   root.style.setProperty('--gj-gl',gl.toFixed(3));
   root.style.setProperty('--gj-gs',String(Math.max(0.35,num('glitchSpd')/100)));
-  var ink=c==='red'?'168,72,68':'232,228,220';
+  /* Red: a dimmer, deeper darkroom red. red depth 0 = brightest ruby, 100 = almost black crimson. Media are never filtered. */
+  var rk=num('redDim')/100,rr=Math.round(178-104*rk),rg=Math.round(40-26*rk),rb=Math.round(36-24*rk);
+  root.style.setProperty('--gj-red-ink',rr+','+rg+','+rb);root.style.setProperty('--gj-rb',(0.78-0.5*rk).toFixed(3));root.style.setProperty('--gj-red',Math.round(rr*.6)+','+Math.round(rg*.4)+','+Math.round(rb*.4));
+  var ink=c==='red'?rr+','+rg+','+rb:'232,228,220';
   root.style.setProperty('--gd-ink',ink);
   var ghostEl=document.getElementById('ghostdial');
   if(ghostEl)ghostEl.style.setProperty('--gd-ink',ink);
@@ -154,15 +158,17 @@ function resetAll(){
   applyAll();writeTuneUrl();
 }
 
-var HAD=tuneRaw();
+var HAD=tuneRaw(),POPPING=false;
+addEventListener('popstate',function(){if(open&&!(history.state&&history.state.gjDrawer))show(false,{pop:1});if(POPPING){POPPING=false}setTimeout(writeTuneUrl,0)});
 applyIncoming(HAD);
 
-var menu=null,open=false,HOLD=false,PTR=null,foldT=0,SWALLOW=0,kbT=0;
+var menu=null,open=false,HOLD=false,PTR=null,foldT=0,SWALLOW=0,kbT=0,FROM=null,ACT=null;
+function sideEl(){var d=document.getElementById('fold-dial');if(d){var r=d.getBoundingClientRect();if(r.width&&getComputedStyle(d).opacity!=='0')return d}return null}
 
 function setDrawer(v){DV=v==='B'||v==='C'?v:'A';wr('gj.drawer',DV);if(menu){menu.className=(menu.className.replace(/dv-[ABC]/g,'')+' dv-'+DV).trim()}writeTuneUrl();publish()}
 function planes(){if(!menu)return;var i=0,list=[].slice.call(menu.querySelectorAll('.mm-3d>nav,.mm-plate>*'));
   list.forEach(function(el){el.style.setProperty('--i',String(i));el.style.setProperty('--z',(Math.max(0,3-i)*7-6)+'px');i++});menu.style.setProperty('--n',String(i))}
-function origin(){if(!menu)return;var m=markEl(),r=m&&m.getBoundingClientRect(),b=menu.getBoundingClientRect();
+function origin(){if(!menu)return;var m=(FROM&&FROM.isConnected?FROM:null)||sideEl()||markEl(),r=m&&m.getBoundingClientRect(),b=menu.getBoundingClientRect();
   if(!r||!r.width)return;menu.style.setProperty('--ox',(r.left+r.width/2-b.left).toFixed(0)+'px');menu.style.setProperty('--oy',(r.top+r.height/2-b.top+menu.scrollTop).toFixed(0)+'px')}
 function parallax(x,y){if(!menu||!open||HOLD)return;
   menu.style.setProperty('--px',(Math.max(-1,Math.min(1,(x/innerWidth-.5)*2))).toFixed(3));
@@ -170,7 +176,11 @@ function parallax(x,y){if(!menu||!open||HOLD)return;
 
 function ghost(r,info){if(!window.GJ_GHOST||!menu)return;
   var b=r.getBoundingClientRect(),p=HOLD&&PTR?PTR:{x:b.left+b.width/2,y:b.top+b.height/2};info.x=p.x;info.y=p.y;
-  GJ_GHOST.update(info);menu.classList.toggle('mm-peek',HOLD);
+  var sd=sideEl();if(sd){var q=sd.getBoundingClientRect();info.side={r:q.left>innerWidth/2,y:q.top+q.height/2}}
+  var shown=GJ_GHOST.update(info);
+  /* while held: the drawer steps aside but the active slider's hairline + thumb stay as an 18% anchor */
+  var lab=r.closest('label');if(ACT&&ACT!==lab)ACT.classList.remove('mm-act');ACT=lab;if(lab&&HOLD)lab.classList.add('mm-act');
+  menu.classList.toggle('mm-peek',HOLD&&shown!==false);
   if(!HOLD){clearTimeout(kbT);kbT=setTimeout(function(){GJ_GHOST.release()},400)}}
 
 function sliderHtml(row){var v=num(row.k);
@@ -191,9 +201,10 @@ function paint(){
     {t:'night',on:colour()==='night',attr:'data-c="night"'},
     {t:'red',on:colour()==='red',attr:'data-c="red"'}
   ]);
+  if(colour()==='red')h+=sliderHtml(rangeOf('redDim'));
   h+='</section>';
   var sky='';ROWS.forEach(function(row){if(row.k!=='mood'&&row.k!=='depth')sky+=sliderHtml(row)});
-  var pic='';RANGES.forEach(function(row){if(!row.sky&&row.k!=='safeK')pic+=sliderHtml(row)});
+  var pic='';RANGES.forEach(function(row){if(!row.sky&&row.k!=='safeK'&&row.k!=='redDim')pic+=sliderHtml(row)});
   pic+=seg('safelight','safelight',[
     {t:'off',on:!safelight(),attr:'data-sf="0"'},
     {t:'on',on:safelight(),attr:'data-sf="1"'}
@@ -214,9 +225,11 @@ function paint(){
   pl.innerHTML=h;pl.hidden=false;planes();origin();menu.scrollTop=top;
 }
 
-function show(on){
+function show(on,opt){
   if(!menu)build();
-  var was=open;open=!!on;
+  var was=open;open=!!on;if(open)FROM=opt&&opt.from||null;
+  if(open&&!was&&!embedded()){try{if(!(history.state&&history.state.gjDrawer))history.pushState(Object.assign({},history.state||{},{gjDrawer:1}),'')}catch(e){}}
+  if(!open&&was&&!(opt&&opt.pop)&&history.state&&history.state.gjDrawer){POPPING=true;try{history.back()}catch(e){POPPING=false}}
   document.querySelectorAll('.gj-mark').forEach(function(s){s.setAttribute('aria-expanded',open?'true':'false')});
   document.documentElement.classList.toggle('mm-open',open);
   clearTimeout(foldT);
@@ -265,18 +278,18 @@ function build(){
   });
   menu.addEventListener('pointerdown',function(e){PTR={x:e.clientX,y:e.clientY};if(e.target.closest('input[type=range]'))HOLD=true},true);
   menu.addEventListener('pointermove',function(e){if(HOLD)PTR={x:e.clientX,y:e.clientY}},true);
-  function letGo(){var was=menu&&menu.classList.contains('mm-peek');HOLD=false;if(menu)menu.classList.remove('mm-peek');if(window.GJ_GHOST)GJ_GHOST.release();
-    if(was&&open&&!rmOn()){menu.classList.add('mm-snap');menu.classList.remove('mm-in');void menu.offsetWidth;menu.classList.remove('mm-snap');requestAnimationFrame(function(){if(open)menu.classList.add('mm-in')})}}
+  function letGo(){if(!HOLD&&!(menu&&menu.classList.contains('mm-peek')))return;HOLD=false;if(menu)menu.classList.remove('mm-peek');if(ACT){ACT.classList.remove('mm-act');ACT=null}if(window.GJ_GHOST)GJ_GHOST.release()}
   ['pointerup','pointercancel','touchend','touchcancel'].forEach(function(n){addEventListener(n,letGo,true)});addEventListener('blur',letGo);
   addEventListener('keydown',function(e){if(open&&e.key==='Escape'){e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();show(false)}},true);
-  document.addEventListener('pointerdown',function(e){if(open&&!e.target.closest('#markmenu,.gj-mark')){SWALLOW=Date.now()+1500;show(false)}},true);
-  document.addEventListener('click',function(e){if(SWALLOW&&Date.now()<SWALLOW&&!e.target.closest('#markmenu,.gj-mark')){SWALLOW=0;e.stopPropagation();e.preventDefault()}},true);
+  document.addEventListener('pointerdown',function(e){if(open&&!e.target.closest('#markmenu,.gj-mark,#fold-dial')){SWALLOW=Date.now()+700;show(false)}},true);
+  addEventListener('pointerup',function(){if(SWALLOW)setTimeout(function(){SWALLOW=0},380)},true);
+  document.addEventListener('click',function(e){if(SWALLOW&&Date.now()<SWALLOW&&!e.target.closest('#markmenu,.gj-mark,#fold-dial')){SWALLOW=0;e.stopPropagation();e.preventDefault()}},true);
 }
 
 document.addEventListener('click',function(e){
   var m=e.target.closest&&e.target.closest('.gj-mark');if(!m)return;
   e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();
-  show(!open);
+  show(!open,{from:m});
 },true);
 
 addEventListener('message',function(e){

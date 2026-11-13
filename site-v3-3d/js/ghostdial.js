@@ -6,7 +6,7 @@
    Reduce Motion: it appears and disappears with no animation (theme.css / the @media rule below). Modules can register screen rects to keep clear: GJ_GHOST.avoid(fn). */
 (function(w){
 'use strict';
-var NS='http://www.w3.org/2000/svg',svg=null,g=null,A={},hideT=0,fadeT=0,avoidFns=[],R=50,SPAN=110;
+var NS='http://www.w3.org/2000/svg',svg=null,g=null,A={},hideT=0,fadeT=0,avoidFns=[],R=60,SPAN=110;
 function el(n,a,p){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
 function build(){
   svg=el('svg',{id:'ghostdial','aria-hidden':'true'});g=el('g',{},svg);
@@ -16,17 +16,20 @@ function hits(r,list){return list.some(function(q){return r[0]<q[2]&&r[2]>q[0]&&
 function rects(){
   var out=[],d=document.getElementById('snd');if(d){var b=d.getBoundingClientRect();if(b.height>0)out.push([b.left,b.top-6,b.right,b.bottom])}
   avoidFns.forEach(function(f){try{(f()||[]).forEach(function(q){out.push(q)})}catch(e){}});return out}
-function place(px,py){
+function place(px,py,side){
   var W=innerWidth,H=innerHeight,lt=Math.max(10,px)<W/2,right=lt,sx=right?W:0,cy=[H*.42,H*.30,H*.55],avoid=rects();
-  var cands=[];[right,!right].forEach(function(r){cy.forEach(function(y){cands.push({r:r,y:y})})});
+  var cands=[];
+  /* site-v3-3d fold: the arc grows out of the side dial first (same edge, same height), so the hand-off never jumps */
+  if(side)cands.push({r:side.r,y:Math.max(R+8,Math.min(H-R-8,side.y)),side:1});
+  [right,!right].forEach(function(r){cy.forEach(function(y){cands.push({r:r,y:y})})});
   for(var i=0;i<cands.length;i++){var c=cands[i],ex=c.r?W:0,box=c.r?[W-R*.6,c.y-R,W,c.y+R]:[0,c.y-R,R*.6,c.y+R];
-    if(!hits(box,avoid)&&Math.abs((c.r?W:0)-px)>40)return c}
+    if(!hits(box,avoid)&&(c.side||Math.abs((c.r?W:0)-px)>40))return c}
   return null}
 function pt(cx,cy,r,deg){var a=deg*Math.PI/180;return [cx+r*Math.cos(a),cy+r*Math.sin(a)]}
 function f(p){return p[0].toFixed(1)+' '+p[1].toFixed(1)}
 /* info: {name, min, max, def, value, x, y} (x, y: where the thumb / pointer is) */
 function update(info){
-  if(!svg)build();var c=place(info.x==null?innerWidth/2:info.x,info.y==null?innerHeight/2:info.y);
+  if(!svg)build();var c=place(info.x==null?innerWidth/2:info.x,info.y==null?innerHeight/2:info.y,info.side);
   if(!c){hideNow();return false}
   var W=innerWidth,cx=c.r?W-8+R*.62:8-R*.62,cy=c.y,mid=c.r?180:0,a0=mid-SPAN/2,a1=mid+SPAN/2;
   var span=info.max-info.min||1,u=function(v){return Math.max(0,Math.min(1,(v-info.min)/span))};
@@ -49,7 +52,7 @@ function release(){if(!svg||!svg.classList.contains('on'))return;clearTimeout(hi
 if(document.body)build();else document.addEventListener('DOMContentLoaded',build);
 /* the real site: never over the film board (and its frames), the film page / player, or the calculator; there the menu simply stays */
 var RMQ=null;try{RMQ=matchMedia('(prefers-reduced-motion: reduce)')}catch(e){}
-avoidFns.push(function(){var u=w.__u1;if(!u)return null;var c=u.cur||{},all=[[0,0,innerWidth,innerHeight]];
-  if(c.k==='film'&&(c.b||c.lv>=2))return all;if(c.lv>=2)return all;if(u.bio&&u.bio.on)return all;return null});
+/* site-v3-3d: the real rects are registered by fold.js (player frame, slides stage, scope lens, calculator, film board edge). The old
+   w.__u1 check belonged to another build and never matched here. */
 w.GJ_GHOST={update:update,release:release,hide:hideNow,avoid:function(fn){avoidFns.push(fn)},get shown(){return !!svg&&svg.classList.contains('on')}};
 })(window);

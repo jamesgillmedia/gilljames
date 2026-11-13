@@ -12,7 +12,7 @@ function rewrite(href){
   if(href.indexOf('site-v3-3d')!==-1)return null;
   var m;
   if(href==='list/'||href==='list')return here()+'list/';
-  m=href.match(/^(film|photo|objects|sound|about)\/#?(w\w+|wave)?$/);
+  m=href.match(/^(film|photo|objects|spaces|sound|about)\/#?(w\w+|wave)?$/);
   if(m){
     if(m[1]==='sound'&&(!m[2]||m[2]==='wave'||m[2]==='w4'))return here()+'sound/';
     if(m[2])return here()+'#'+m[1]+'/'+m[2];
