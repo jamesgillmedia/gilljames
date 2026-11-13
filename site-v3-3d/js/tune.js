@@ -174,7 +174,7 @@ function ghost(r,info){if(!window.GJ_GHOST||!menu)return;
   if(!HOLD){clearTimeout(kbT);kbT=setTimeout(function(){GJ_GHOST.release()},400)}}
 
 function sliderHtml(row){var v=num(row.k);
-  return '<label><span>'+row.label+'</span><input type="range" min="'+row.min+'" max="'+row.max+'" step="1" value="'+v+'" data-k="'+row.k+'" aria-label="'+row.label+'"><output>'+(row.k==='safeK'?(v/100).toFixed(2):v)+'</output></label>'}
+  return '<label><span>'+row.label+'</span><input type="range" min="'+row.min+'" max="'+row.max+'" step="1" value="'+v+'" data-k="'+row.k+'" aria-label="'+row.label+'"></label>'}
 function seg(label,name,buttons){
   var h='<div class="mm-seg"><b>'+label+'</b><span role="radiogroup" aria-label="'+name+'">';
   buttons.forEach(function(b){h+='<button type="button" role="radio" aria-checked="'+(b.on?'true':'false')+'" '+b.attr+'>'+b.t+'</button>'});
@@ -182,32 +182,35 @@ function seg(label,name,buttons){
 }
 function paint(){
   if(!menu)return;
-  var top=menu.scrollTop;
-  var pl=menu.querySelector('.mm-plate'),h='<section class="mm-ctx"><h3>sky <span>here</span></h3>';
-  ROWS.forEach(function(row){h+=sliderHtml(row)});
+  var top=menu.scrollTop,openName='';
+  var cur=menu.querySelector('details.mm-fold[open] summary');if(cur)openName=cur.textContent;
+  var pl=menu.querySelector('.mm-plate'),h='<section class="mm-ctx">';
+  h+=sliderHtml(rangeOf('mood'));
+  h+=sliderHtml(rangeOf('depth'));
   h+=seg('colour mode','colour mode',[
     {t:'night',on:colour()==='night',attr:'data-c="night"'},
     {t:'red',on:colour()==='red',attr:'data-c="red"'}
   ]);
-  h+='</section><section class="mm-ctx"><h3>picture</h3>';
-  RANGES.forEach(function(row){if(!row.sky&&row.k!=='safeK')h+=sliderHtml(row)});
-  h+=seg('safelight','safelight',[
+  h+='</section>';
+  var sky='';ROWS.forEach(function(row){if(row.k!=='mood'&&row.k!=='depth')sky+=sliderHtml(row)});
+  var pic='';RANGES.forEach(function(row){if(!row.sky&&row.k!=='safeK')pic+=sliderHtml(row)});
+  pic+=seg('safelight','safelight',[
     {t:'off',on:!safelight(),attr:'data-sf="0"'},
     {t:'on',on:safelight(),attr:'data-sf="1"'}
   ]);
-  h+=sliderHtml(rangeOf('safeK'));
-  h+=seg('ripples','ripples',[
+  pic+=sliderHtml(rangeOf('safeK'));
+  pic+=seg('ripples','ripples',[
     {t:'on',on:ripples(),attr:'data-rp="1"'},
     {t:'off',on:!ripples(),attr:'data-rp="0"'}
   ]);
-  h+='</section><section class="mm-devsec"><h3>look</h3>';
-  h+=seg('drawer','drawer',[
+  var look=seg('drawer','drawer',[
     {t:'A · constellation',on:DV==='A',attr:'data-drawer="A"'},
     {t:'B · contact strip',on:DV==='B',attr:'data-drawer="B"'},
     {t:'C · ghost',on:DV==='C',attr:'data-drawer="C"'}
   ]);
-  h+='</section>';
-  h+='<p class="mm-foot"><button type="button" class="mm-copylink">Copy settings link</button><button type="button" class="mm-reset">reset</button> <button type="button" class="mm-home">home</button></p>';
+  var det='<p class="mm-foot"><button type="button" class="mm-copylink">Copy settings link</button><button type="button" class="mm-reset">reset</button><button type="button" class="mm-home">home</button></p>';
+  function fold(title,inner){return '<details class="mm-fold"'+(openName===title?' open':'')+'><summary>'+title+'</summary>'+inner+'</details>'}
+  h+=fold('Sky',sky)+fold('Picture',pic)+fold('Look',look)+fold('Details',det);
   pl.innerHTML=h;pl.hidden=false;planes();origin();menu.scrollTop=top;
 }
 
@@ -259,7 +262,6 @@ function build(){
     var v=clampInt(r.value,row.min,row.max);if(v==null)return;
     wr('gj.tune.'+row.k,v);applyAll();writeTuneUrl();
     ghost(r,{name:row.label,min:row.min,max:row.max,def:row.def,value:v});
-    var o=r.parentNode.querySelector('output');if(o)o.textContent=row.k==='safeK'?(v/100).toFixed(2):v;
   });
   menu.addEventListener('pointerdown',function(e){PTR={x:e.clientX,y:e.clientY};if(e.target.closest('input[type=range]'))HOLD=true},true);
   menu.addEventListener('pointermove',function(e){if(HOLD)PTR={x:e.clientX,y:e.clientY}},true);

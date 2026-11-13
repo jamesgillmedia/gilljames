@@ -27,6 +27,7 @@ function form(it,o){o=o||{};var f=it.file||'',kid=it.id||'',k=kid||f,d=getD(k),i
   '<div class="fbr" role="group" aria-label="Reaction to '+esc(it.title||'this preview')+'">'+REACT.map(function(r){return'<button type="button" class="fbb" data-r="'+r[0]+'" aria-pressed="'+(d.r===r[0])+'"><i aria-hidden="true">'+r[1]+'</i>'+r[0]+'</button>'}).join('')+'</div>'+
   '<div class="fbn"><input type="text" id="'+id+'" maxlength="300" enterkeyhint="send" autocomplete="off" autocapitalize="sentences" placeholder="one line for Artist Agent…" aria-label="One line of feedback for '+esc(it.title||'this preview')+'" value="'+esc(d.note||'')+'"><button type="button" class="fbs">Send</button></div>'+
   '<div class="fbx"><button type="button" class="fbc">Copy</button><span class="fbst" role="status" aria-live="polite"></span></div>'+
+  tuneDetHtml(d)+
   '<details class="fbmore"><summary>More feedback (next)</summary><div class="fbnext" aria-disabled="true">'+
   '<button type="button" class="fnx" disabled title="Coming next">hold ♪ voice</button>'+
   '<button type="button" class="fnx" disabled title="Coming next">A / B</button>'+
@@ -45,6 +46,12 @@ function compose(box){var f=box.dataset.file,k=keyOf(box),d=getD(k),t=box.datase
   return{subject:subject,body:body}}
 function tuneBlock(d,page){if(!d.tune||!d.tune.url)return null;var js;try{js=JSON.stringify(d.tune.state||d.tune)}catch(e){js='{}'}
   return 'Tune\nCard: '+(d.tune.anchor||page)+'\n'+js+'\nReopen: '+d.tune.url}
+function tuneDetHtml(d){if(!d||!d.tune||!d.tune.url)return'';
+  return '<details class="tunedet"><summary>Details</summary><a href="'+esc(d.tune.url)+'">Open these settings</a></details>'}
+function showTuneDet(box,d){if(!box)return;var el=$('.tunedet',box);
+  if(!d||!d.tune||!d.tune.url){if(el)el.remove();return}
+  if(!el){el=document.createElement('details');el.className='tunedet';var more=$('.fbmore',box);if(more)box.insertBefore(el,more);else box.appendChild(el)}
+  el.innerHTML='<summary>Details</summary><a href="'+esc(d.tune.url)+'">Open these settings</a>'}
 function status(box,msg,cls){var s=$('.fbst',box);if(s){s.textContent=msg;s.className='fbst'+(cls?' '+cls:'')}}
 function sameKey(a,b){return keyOf(a)===keyOf(b)}
 function sync(box,skipInput){var k=keyOf(box),d=getD(k);$$('.fb').forEach(function(b){if(keyOf(b)!==k)return;
@@ -178,27 +185,28 @@ window.boardFeedbackPayload=boardFeedbackPayload;
 
 /* Tune this: a same-origin sheet. Send settings writes the drawer state onto that card's draft, so Copy and Send carry it. */
 var tuneSheet=null,tuneCard='',tuneWait=0;
-function tuneStatus(msg){var s=tuneSheet&&$('.tunest',tuneSheet);if(s)s.textContent=msg||''}
+function tuneNote(msg){var s=tuneSheet&&$('.tunest',tuneSheet);if(s)s.textContent=msg||''}
 function tuneFrame(){var f=$('iframe',tuneSheet);if(f)return f;f=document.createElement('iframe');f.className='tuneframe';f.title='Tune the page';
-  var bars=tuneSheet.querySelectorAll('.tunebar');tuneSheet.insertBefore(f,bars[1]||null);return f}
+  var bar=$('.tunebar',tuneSheet);tuneSheet.insertBefore(f,bar);return f}
 function closeTune(){if(tuneWait){clearTimeout(tuneWait);tuneWait=0}if(!tuneSheet)return;tuneSheet.hidden=true;var f=$('iframe',tuneSheet);if(f)f.remove();document.documentElement.classList.remove('tune-open')}
 function openTune(btn){var src=btn.getAttribute('data-tune');if(!src)return;tuneCard=btn.getAttribute('data-card')||'';
   if(!tuneSheet){tuneSheet=document.createElement('div');tuneSheet.className='tunesheet';tuneSheet.setAttribute('role','dialog');tuneSheet.setAttribute('aria-modal','true');tuneSheet.setAttribute('aria-label','Tune this');
-    tuneSheet.innerHTML='<div class="tunebar"><button type="button" class="tunex">Close</button><span class="tunett">Tune this</span></div><div class="tunebar"><button type="button" class="tunesend">Send settings</button><span class="tunest" role="status"></span></div>';
+    tuneSheet.innerHTML='<div class="tunebar"><button type="button" class="tunex">Close</button><button type="button" class="tunesend">Send settings</button><span class="tunest" role="status"></span></div>';
     document.body.appendChild(tuneSheet);
     $('.tunex',tuneSheet).addEventListener('click',closeTune);
     $('.tunesend',tuneSheet).addEventListener('click',sendSettings)}
   var f=tuneFrame(),url;try{url=new URL(src,location.href).href}catch(e){url=src}
-  f.src=url;tuneSheet.hidden=false;document.documentElement.classList.add('tune-open');tuneStatus('')}
+  f.src=url;tuneSheet.hidden=false;document.documentElement.classList.add('tune-open');tuneNote('')}
 function boxFor(id){var boxes=$$('.fb'),i;for(i=0;i<boxes.length;i++)if(keyOf(boxes[i])===id)return boxes[i];return null}
-function sendSettings(){var f=tuneSheet&&$('iframe',tuneSheet);if(!f||!f.contentWindow){tuneStatus('The page is not ready.');return}
+function sendSettings(){var f=tuneSheet&&$('iframe',tuneSheet);if(!f||!f.contentWindow){tuneNote('Try again.');return}
   var id=tuneCard,anchor=(BASE.replace(/\/?$/,'/'))+'#'+id;
   function apply(msg){if(tuneWait){clearTimeout(tuneWait);tuneWait=0}var d=getD(id);d.tune={state:msg.state,url:msg.url,anchor:anchor};setD(id,d);
-    var box=boxFor(id);if(box){sync(box);status(box,'Settings saved. Copy or Send to pass them on.','ok')}tuneStatus('Saved.');closeTune()}
+    var box=boxFor(id);if(box){sync(box);showTuneDet(box,d);status(box,'Settings saved to this card','ok');var st=$('.fbst',box);if(st){try{st.scrollIntoView({block:'center'})}catch(e){}}}
+    closeTune()}
   function onMsg(e){if(e.origin!==location.origin)return;var msg=e.data;if(!msg||msg.type!=='gj-tune-state'||!msg.url||!msg.state)return;removeEventListener('message',onMsg);apply(msg)}
   addEventListener('message',onMsg);
   try{f.contentWindow.postMessage({type:'gj-tune-get'},location.origin)}catch(e){}
-  tuneWait=setTimeout(function(){removeEventListener('message',onMsg);tuneStatus('No settings came back. Try again.')},4000)}
+  tuneWait=setTimeout(function(){removeEventListener('message',onMsg);tuneNote('Try again.')},4000)}
 document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.tunebtn');if(!b)return;e.preventDefault();e.stopPropagation();openTune(b)},true);
 
 window.PVFB={form:form,mark:markNow,stepFrame:stepFrame,keyOf:keyOf,

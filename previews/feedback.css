@@ -234,7 +234,13 @@ li.deep > .card, section.deep, .crow.deep .card{outline:1px solid rgba(232,228,2
   padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
 .tunesheet[hidden]{display:none!important}
 .tunebar{display:flex;align-items:center;gap:12px;min-height:52px;padding:4px 12px;flex:none}
-.tunex,.tunesend{min-height:44px;min-width:44px;padding:0 16px;border-radius:22px;border:1px solid rgba(232,228,220,.4);background:#04070b;color:#e8e4dc;font:400 14px/1 Poppins,sans-serif;cursor:pointer;touch-action:manipulation}
-.tunett,.tunest{font:300 13px/1.3 Poppins,sans-serif;color:#e8e4dc}
+.tunex{flex:none;min-height:44px;min-width:44px;padding:0 16px;border-radius:22px;border:1px solid rgba(232,228,220,.4);background:#04070b;color:#e8e4dc;font:400 14px/1 Poppins,sans-serif;cursor:pointer;touch-action:manipulation}
+.tunesend{flex:1;min-height:44px;min-width:44px;padding:0 16px;border-radius:22px;border:1px solid rgba(232,228,220,.4);background:#04070b;color:#e8e4dc;font:400 14px/1 Poppins,sans-serif;cursor:pointer;touch-action:manipulation}
+.tunest:empty{display:none}
+.tunest{font:300 13px/1.3 Poppins,sans-serif;color:#e8e4dc}
+.tunedet{margin:0}
+.tunedet summary{min-height:44px;display:flex;align-items:center;cursor:pointer;color:#e8e4dc;font:300 14px/1 Poppins,sans-serif;list-style:none}
+.tunedet summary::-webkit-details-marker{display:none}
+.tunedet a{display:inline-flex;align-items:center;min-height:44px;color:#e8e4dc;font:300 14px/1.3 Poppins,sans-serif;text-decoration:none}
 .tuneframe{flex:1 1 auto;width:100%;min-height:0;border:0;background:#04070b}
 html.tune-open,html.tune-open body{overflow:hidden}
