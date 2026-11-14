@@ -78,3 +78,13 @@ html.js .skyb{display:inline-grid;border-color:rgba(201,169,110,.6);color:var(--
 .modeflip .hb.on{border-color:var(--mint);color:var(--mint);background:var(--mint-tint)}
 .grid .relh{margin:14px 0 8px;font:300 11px/1 Poppins,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--meta)}
 .grid .nowline>li.now .card{border-color:rgba(201,169,110,.55)}
+/* red mode dot (theme.js): one tap, small and quiet */
+#themeBtn{position:fixed;z-index:44;left:max(4px,var(--sl));bottom:calc(var(--sb) + 4px);width:44px;height:44px;padding:0;border:0;border-radius:50%;background:transparent;cursor:pointer;display:grid;place-items:center;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+html.sky-on #themeBtn{left:calc(max(6px,var(--sl)) + 50px);bottom:calc(var(--sb) + 10px)}
+#themeBtn i{display:block;width:11px;height:11px;border-radius:50%;border:1.5px solid rgba(201,211,214,.55);background:transparent;transition:background .2s,border-color .2s}
+#themeBtn:active i{transform:scale(.9)}
+html[data-theme=red] #themeBtn i{background:#ff4457;border-color:#ff4457}
+html[data-theme=red] .tline>li.hit .card{animation-name:hitr}
+@keyframes hitr{0%{box-shadow:0 0 0 3px #ff4457,0 0 24px rgba(255,68,87,.45)}100%{box-shadow:0 6px 18px rgba(0,0,0,.35)}}
+@media (prefers-reduced-motion:reduce){#themeBtn i{transition:none}}
+html[data-theme=red] audio{filter:invert(1) sepia(1) saturate(9) hue-rotate(-52deg) brightness(.8)}

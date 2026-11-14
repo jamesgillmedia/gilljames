@@ -70,7 +70,7 @@
     RED: RED,
     get mode() { return shown },
     refresh: function () { apply(true) },
-    set: function (v) { v = v === 'red' ? 'red' : 'night'; lsSet(v); root.setAttribute('data-theme', v); apply() }
+    set: function (v) { v = v === 'red' ? 'red' : 'night'; if (w.GJ_THEME) w.GJ_THEME.set(v); else { lsSet(v); root.setAttribute('data-theme', v) } apply() }
   };
 
   apply(true);
