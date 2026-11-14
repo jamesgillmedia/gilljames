@@ -6,7 +6,7 @@
 <script>/* old deep links (sound/#w1 … #w4) still open that work on the Sound constellation */(function(){function w(){if(/^#w\d+$/.test(location.hash))location.replace('../../site-v4/#sound/'+location.hash.slice(1))}w();addEventListener('hashchange',w)})()</script>
 <link rel="preload" href="../fonts/julius-sans-one.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png"><link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
-<link rel="stylesheet" href="../../sound-v2b/css/sound.css?v=sv2b-1020">
+<link rel="stylesheet" href="../../../dbae/sound-v2b/css/sound.css?v=sv2b-1020">
 </head><body>
 <main class="sk" id="sk" data-mode="sky">
   <canvas id="cv" aria-label="the Sound constellation: six song stars and five wind-chime strands; tap a star to choose its song, tap a strand to ring it, tap empty sky to dive into the waveform; pinch or scroll to zoom; drag with one finger or arrow keys to pan; a quick swipe that starts on a strand sways the strands; pinch or drag with two fingers to zoom and pan; double-tap the sky or the home mark to fly home"></canvas>
@@ -40,7 +40,7 @@
     <p><a href="mailto:imjamesgill@gmail.com?subject=music%20licensing">licensing · imjamesgill@gmail.com</a> · <a href="../../site-v4/list/">list</a></p></div></noscript>
 </main>
 <script src="../js/tracks.js?v=sv2b-1020"></script>
-<script src="../../sound-v2b/js/player.js?v=sv2b-1020"></script>
+<script src="../../../dbae/sound-v2b/js/player.js?v=sv2b-1020"></script>
 <script>/* ‹ : in the sky, fly back out to the Sound constellation (site-sound-one/js/sound-one.js) */
 (function(){var h=document.getElementById('home');h.addEventListener('click',function(e){try{var o=parent.__soundOne;if(o&&parent!==window){e.preventDefault();o.leave()}}catch(x){}})})();</script>
 <script>/* v4b SOUND TAP-TAP: a song (its button or its star) is chosen with one tap and played with a second tap on the same song */

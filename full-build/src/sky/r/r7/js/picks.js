@@ -235,7 +235,7 @@ window.GJ_PICKS = {
   ],
   "stills": [
     {
-      "src": "../media/nov9/A003_C016_091255.0003843.webp",
+      "src": "../../player/tonight/fable-m4/media/nov9/thumbs/film/A003_C016_091255.0003843-480.webp",
       "ar": 1.8868,
       "caption": "Eyes in warm light, cinema close-up."
     },

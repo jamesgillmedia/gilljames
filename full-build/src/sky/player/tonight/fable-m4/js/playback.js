@@ -24,6 +24,47 @@ function filmRoot(){
   catch(e){return "../media/film/"}
 }
 var FILM=filmRoot();
+var LOOP_BASE=document.currentScript&&document.currentScript.src||location.href;
+function loopUrl(rel){try{return new URL(rel, LOOP_BASE).href}catch(e){return rel}}
+var LOOP = {
+  "reel-2026":{mp4:"../../../../../v33d/site-v3/media/reel/reel-v7-720.mp4",poster:"../media/v3/media/reel/poster-960.jpg"},
+  "cinematography-demo-reel-2025":{mp4:"../../../../../v33d/site-v3/media/reel/reel-v7-720.mp4",poster:"../media/pro2/img/films/01-720.webp"},
+  "one-with-the-devil":{mp4:"../../../../tonight/stills/media/proxies/one-with-the-devil.mp4",poster:"../media/owtd/stills/09_landscape.jpg"},
+  "celebraciones":{poster:"../media/pro2/frames/02/00.webp"},
+  "stay-gold":{mp4:"../../../../../v33d/site-v3/media/films/03/film-720.mp4",poster:"../../../../../v33d/site-v3/media/films/03/poster.jpg"},
+  "legends":{mp4:"../../../../../v33d/site-v3/media/films/04/film-720.mp4",poster:"../../../../../v33d/site-v3/media/films/04/poster.jpg"},
+  "drift":{mp4:"../../../../../v33d/site-v3/media/films/05/film-720.mp4",poster:"../../../../../v33d/site-v3/media/films/05/poster.jpg"},
+  "golden-moment-directors-cut":{mp4:"../../../../../v33d/site-v3/media/films/06/film-720.mp4",poster:"../../../../../v33d/site-v3/media/films/06/poster.jpg"},
+  "cover-with-love-isabelle":{mp4:"../../../../../v33d/site-v3/media/films/07/film-720.mp4",poster:"../../../../../v33d/site-v3/media/films/07/poster.jpg"},
+  "no-place-like-home":{mp4:"../../../../../v33d/site-v3/media/films/08/film-720.mp4",poster:"../../../../../v33d/site-v3/media/films/08/poster.jpg"},
+  "the-smell-needs-to-go":{mp4:"../../../../../v33d/site-v3/media/films/09/film-720.mp4",poster:"../../../../../v33d/site-v3/media/films/09/poster.jpg"},
+  "brew-bar-coffee-teaser":{mp4:"../../../../../v33d/site-v3/media/films/10/film-720.mp4",poster:"../../../../../v33d/site-v3/media/films/10/poster.jpg"},
+  "explorers":{mp4:"../../../../../v33d/site-v3/media/films/11/film-720.mp4",poster:"../../../../../v33d/site-v3/media/films/11/poster.jpg"},
+  "sun-kissed":{mp4:"../../../../../v33d/site-v3/media/films/12/film-720.mp4",poster:"../../../../../v33d/site-v3/media/films/12/poster.jpg"},
+  "sleepwalker":{mp4:"../media/v3/media/pv/13.mp4",poster:"../media/pro2/img/films/13-720.webp"},
+  "reel-24":{poster:"../media/pro2/img/films/15-720.webp"},
+  "repeat-feat-jessie-reyez":{mp4:"../../../../../v33d/site-v3/media/films/16/film-720-1.mp4",poster:"../../../../../v33d/site-v3/media/films/16/poster.jpg"},
+  "flower-crown":{mp4:"../../../../../v33d/site-v3/media/films/17/film-720.mp4",poster:"../../../../../v33d/site-v3/media/films/17/poster.jpg"},
+  "backward-fall":{mp4:"../../../../../v33d/site-v3/media/films/18/film-720-1.mp4",poster:"../../../../../v33d/site-v3/media/films/18/poster.jpg"},
+  "s18":{mp4:"../../../../../v33d/site-v3/media/films/19/film-720.mp4",poster:"../../../../../v33d/site-v3/media/films/19/poster.jpg"},
+  "back-to-the-start":{mp4:"../media/v3/media/sc/20.mp4",poster:"../media/pro2/img/films/20-720.webp"},
+  "lets-grow-good-together":{mp4:"../../../../../v33d/site-v3/media/films/21/film-720.mp4",poster:"../../../../../v33d/site-v3/media/films/21/poster.jpg"},
+  "weird-kid":{mp4:"../media/films/weird-kid/loop-720.mp4",webm:"../media/films/weird-kid/loop-720.webm",poster:"../media/pro2/frames/22/01.webp"},
+  "veronas-obsession":{mp4:"../../../../../v33d/site-v3/media/films/23/film-720-1.mp4",poster:"../../../../../v33d/site-v3/media/films/23/poster.jpg"},
+  "obedience-gets-you-nowhere":{mp4:"../../../../../v33d/site-v3/media/films/24/film-720.mp4",poster:"../../../../../v33d/site-v3/media/films/24/poster.jpg"},
+  "fire":{mp4:"../../../../../v33d/site-v3/media/films/25/film-720.mp4",poster:"../../../../../v33d/site-v3/media/films/25/poster.jpg"},
+  "modern-man":{mp4:"../../../../../v33d/site-v3/media/films/26/film-720.mp4",poster:"../../../../../v33d/site-v3/media/films/26/poster.jpg"},
+  "phantoms-and-friends":{mp4:"../media/v3/media/pv/27.mp4",poster:"../media/pro2/img/films/27-720.webp"},
+  "summer-is-here":{mp4:"../../../../../v33d/site-v3/media/films/28/film-720.mp4",poster:"../../../../../v33d/site-v3/media/films/28/poster.jpg"},
+  "eat-well":{mp4:"../../../../../v33d/site-v3/media/films/29/film-720.mp4",poster:"../../../../../v33d/site-v3/media/films/29/poster.jpg"},
+  "buddy-time-grandpas-story":{mp4:"../../../../../v33d/site-v3/media/films/30/film-720.mp4",poster:"../../../../../v33d/site-v3/media/films/30/poster.jpg"},
+  "hike":{poster:"../media/pro2/img/films/31-720.webp"},
+  "canoe":{mp4:"../../../../../v33d/site-v3/media/films/32/film-720.mp4",poster:"../../../../../v33d/site-v3/media/films/32/poster.jpg"},
+  "mandie":{mp4:"../../../../../v33d/site-v3/media/films/33/film-720-1.mp4",poster:"../../../../../v33d/site-v3/media/films/33/poster.jpg"},
+  "just-the-beginning":{mp4:"../../../../../v33d/site-v3/media/films/34/film-720.mp4",poster:"../../../../../v33d/site-v3/media/films/34/poster.jpg"},
+  "ltl-dstryr":{mp4:"../../../../../v33d/site-v3/media/films/35/film-720-1.mp4",poster:"../../../../../v33d/site-v3/media/films/35/poster.jpg"},
+  "journeys-x-todd":{mp4:"../../../../../v33d/site-v3/media/films/36/film-720.mp4",poster:"../../../../../v33d/site-v3/media/films/36/poster.jpg"},
+};
 var HAVE={"back-to-the-start":1,"backward-fall":1,"brew-bar-coffee-teaser":1,"buddy-time-grandpas-story":1,"canoe":1,"celebraciones":1,"cinematography-demo-reel-2025":1,"cover-with-love-isabelle":1,"drift":1,"eat-well":1,"explorers":1,"fire":1,"flower-crown":1,"golden-moment-directors-cut":1,"horizon-r001":1,"horizon-r002":1,"horizon-r003":1,"horizon-r004":1,"horizon-r005":1,"horizon-r006":1,"horizon-r007":1,"horizon-r008":1,"horizon-r009":1,"horizon-r010":1,"horizon-r011":1,"horizon-r012":1,"horizon-r013":1,"horizon-r014":1,"horizon-r015":1,"horizon-r016":1,"horizon-r017":1,"horizon-r018":1,"horizon-r019":1,"horizon-r020":1,"horizon-r021":1,"horizon-r022":1,"horizon-r023":1,"horizon-r024":1,"horizon-r025":1,"horizon-r026":1,"horizon-r027":1,"horizon-r028":1,"horizon-r029":1,"horizon-r030":1,"horizon-r031":1,"horizon-r032":1,"horizon-r033":1,"horizon-r034":1,"horizon-r035":1,"horizon-r036":1,"horizon-r037":1,"horizon-r038":1,"horizon-r039":1,"horizon-r040":1,"horizon-r041":1,"horizon-r042":1,"horizon-r043":1,"horizon-r044":1,"horizon-r045":1,"horizon-r046":1,"horizon-r047":1,"horizon-r048":1,"horizon-r049":1,"horizon-r050":1,"horizon-r051":1,"horizon-r052":1,"horizon-r053":1,"horizon-r054":1,"horizon-r055":1,"horizon-r056":1,"horizon-r057":1,"horizon-r058":1,"horizon-r059":1,"horizon-r060":1,"horizon-r061":1,"horizon-r062":1,"horizon-r063":1,"horizon-r064":1,"horizon-r065":1,"horizon-r066":1,"horizon-r067":1,"horizon-r068":1,"horizon-r069":1,"horizon-r070":1,"horizon-r071":1,"horizon-r072":1,"horizon-r073":1,"horizon-r074":1,"horizon-r075":1,"horizon-r076":1,"horizon-r077":1,"horizon-r078":1,"horizon-r079":1,"horizon-r080":1,"horizon-r081":1,"horizon-r082":1,"horizon-r083":1,"horizon-r084":1,"horizon-r085":1,"horizon-r086":1,"horizon-r087":1,"horizon-r088":1,"horizon-r089":1,"horizon-r090":1,"horizon-r091":1,"horizon-r092":1,"horizon-r093":1,"horizon-r094":1,"horizon-r095":1,"horizon-r096":1,"horizon-r097":1,"horizon-r098":1,"horizon-r099":1,"horizon-r100":1,"horizon-r101":1,"horizon-r102":1,"horizon-r103":1,"horizon-r104":1,"horizon-r105":1,"horizon-r106":1,"horizon-r107":1,"horizon-r108":1,"horizon-r109":1,"horizon-r110":1,"horizon-r111":1,"horizon-r112":1,"horizon-r113":1,"horizon-r114":1,"horizon-r115":1,"horizon-r116":1,"horizon-r117":1,"horizon-r118":1,"horizon-r119":1,"horizon-r120":1,"horizon-r121":1,"horizon-r122":1,"horizon-r123":1,"horizon-r124":1,"horizon-r125":1,"horizon-r126":1,"horizon-r127":1,"horizon-r128":1,"horizon-r129":1,"horizon-r130":1,"horizon-r131":1,"horizon-r132":1,"horizon-r133":1,"horizon-r134":1,"horizon-r135":1,"horizon-r136":1,"horizon-r137":1,"horizon-r138":1,"horizon-r139":1,"horizon-r140":1,"horizon-r141":1,"horizon-r142":1,"horizon-r143":1,"horizon-r144":1,"horizon-r145":1,"horizon-r146":1,"horizon-r147":1,"horizon-r148":1,"horizon-r149":1,"horizon-r150":1,"horizon-r151":1,"horizon-r152":1,"horizon-r153":1,"horizon-r154":1,"horizon-r155":1,"horizon-r156":1,"horizon-r157":1,"horizon-r158":1,"horizon-r159":1,"horizon-r160":1,"horizon-r161":1,"horizon-r162":1,"horizon-r163":1,"horizon-r164":1,"horizon-r165":1,"horizon-r166":1,"horizon-r167":1,"horizon-r168":1,"horizon-r169":1,"horizon-r170":1,"horizon-r171":1,"horizon-r172":1,"horizon-r173":1,"horizon-r174":1,"horizon-r175":1,"horizon-r176":1,"horizon-r177":1,"horizon-r178":1,"horizon-r179":1,"horizon-r180":1,"horizon-r181":1,"horizon-r182":1,"horizon-r183":1,"horizon-r184":1,"horizon-r185":1,"horizon-r186":1,"horizon-r187":1,"horizon-r188":1,"horizon-r189":1,"horizon-r190":1,"horizon-r191":1,"horizon-r192":1,"horizon-r193":1,"horizon-r194":1,"horizon-r195":1,"horizon-r196":1,"horizon-r197":1,"horizon-r198":1,"horizon-r199":1,"horizon-r200":1,"horizon-r201":1,"journeys-x-todd":1,"just-the-beginning":1,"legends":1,"lets-grow-good-together":1,"ltl-dstryr":1,"mandie":1,"mark-snowwater":1,"modern-man":1,"no-place-like-home":1,"obedience-gets-you-nowhere":1,"one-with-the-devil":1,"phantoms-and-friends":1,"reel-2026":1,"repeat-feat-jessie-reyez":1,"s18":1,"sleepwalker":1,"stay-gold":1,"summer-is-here":1,"sun-kissed":1,"the-smell-needs-to-go":1,"veronas-obsession":1,"weird-kid":1};
 var HERO720={"weird-kid":1,"one-with-the-devil":1,"mark-snowwater":1};
 var STRIP={
@@ -48,6 +89,13 @@ function rungFor(slug){
   return HERO720[slug]?"720":"480";
 }
 function sources(slug,rung){
+  var spec=LOOP[slug];
+  if(spec&&spec.mp4){
+    var out=[];
+    if(spec.webm)out.push({src:loopUrl(spec.webm),type:'video/webm; codecs="vp9"'});
+    out.push({src:loopUrl(spec.mp4),type:'video/mp4'});
+    return out;
+  }
   var base=FILM+slug+"/";
   var stem="loop-"+rung;
   var av1=rung==="720"?"av01.0.05M.08":"av01.0.04M.08";
@@ -58,7 +106,11 @@ function sources(slug,rung){
     {src:base+stem+".mp4",type:'video/mp4; codecs="'+avc+'"'}
   ];
 }
-function poster(slug,rung){return FILM+slug+"/loop-"+rung+"-poster.jpg";}
+function poster(slug,rung){
+  var spec=LOOP[slug];
+  if(spec&&spec.poster)return loopUrl(spec.poster);
+  return FILM+slug+"/loop-"+rung+"-poster.jpg";
+}
 function maxPlay(){
   var coarse=false;
   try{coarse=matchMedia("(pointer: coarse)").matches}catch(e){}
