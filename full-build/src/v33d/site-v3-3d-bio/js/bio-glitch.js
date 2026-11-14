@@ -339,6 +339,11 @@ function onWheel(e){
 }
 
 function onKey(e){
+  if(e.key==='Escape'&&(window.__gjCamEsc||(window.GJ_CAMDIAL&&GJ_CAMDIAL.isOpen&&GJ_CAMDIAL.isOpen()))){
+    window.__gjCamEsc=0;e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+    if(GJ_CAMDIAL.isOpen())GJ_CAMDIAL.close();
+    return;
+  }
   if(!bioOn||bioExit)return;
   if(e.target&&/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName))return;
   if(e.key==='Escape'){e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();stepBack(true)}

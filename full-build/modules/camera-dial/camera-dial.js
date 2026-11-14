@@ -81,7 +81,10 @@ function show(on,opt){var was=open;open=!!on;
   if(open&&!was){/* one dial out at a time: fold the tune drawer back into its own dial first */
     if(window.GJ_MARKMENU&&GJ_MARKMENU.open)try{GJ_MARKMENU.show(false)}catch(e){}
     try{if(!(history.state&&history.state.gjCam))history.pushState(Object.assign({},history.state||{},{gjCam:1}),'')}catch(e){}}
-  if(!open&&was&&!(opt&&opt.pop)&&history.state&&history.state.gjCam){POPPING=true;try{history.back()}catch(e){POPPING=false}}
+  if(!open&&was&&!(opt&&opt.pop)&&history.state&&history.state.gjCam){
+    /* switching to TUNE must not history.back(): that pop arrives after TUNE has opened and tune.js treats it as a close */
+    if(opt&&opt.replace){try{var st=Object.assign({},history.state||{});delete st.gjCam;history.replaceState(st,'')}catch(e){}}
+    else{POPPING=true;try{history.back()}catch(e){POPPING=false}}}
   D.classList.toggle('cd-open',open);b.setAttribute('aria-expanded',open?'true':'false');clearTimeout(foldT);
   if(open){P.classList.remove('cd-in','cd-folding');P.hidden=false;resize();paintRows();origin();void P.offsetWidth;T.x=T.y=T.vx=T.vy=T.tx=T.ty=0;lastIn=now();kick();
     requestAnimationFrame(function(){if(open)P.classList.add('cd-in')})}
@@ -92,17 +95,19 @@ b.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();sh
 addEventListener('popstate',function(e){var mine=POPPING||(open&&!(history.state&&history.state.gjCam));
   if(open&&!(history.state&&history.state.gjCam))show(false,{pop:1});POPPING=false;if(mine&&e.stopImmediatePropagation)e.stopImmediatePropagation()},true);
 addEventListener('keydown',function(e){if(!open)return;
-  if(e.key==='Escape'){e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();show(false);return}
+  if(e.key==='Escape'){e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();window.__gjCamEsc=1;show(false);return}
   if(e.target&&e.target.closest&&e.target.closest('input,textarea'))return;
   var ix=RINGS.findIndex(function(r){return r.k===FOCUS});
   if(e.key==='ArrowUp'||e.key==='ArrowDown'){e.preventDefault();FOCUS=RINGS[clamp(ix+(e.key==='ArrowUp'?1:-1),0,RINGS.length-1)].k;paintRows();kick()}
   else if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();var r=RINGS[ix],j=r.opts.findIndex(function(o){return o[0]===VAL[r.k]});
     choose(r.k,r.opts[clamp(j+(e.key==='ArrowRight'?1:-1),0,r.opts.length-1)][0])}},true);
-document.addEventListener('pointerdown',function(e){if(open&&!e.target.closest('#cam-panel,#cam-dial')){SWALLOW=Date.now()+700;show(false)}},true);
+document.addEventListener('pointerdown',function(e){if(open&&!e.target.closest('#cam-panel,#cam-dial')){SWALLOW=Date.now()+700;var toTune=e.target.closest&&e.target.closest('#fold-dial');show(false,toTune?{replace:1}:null)}},true);
 addEventListener('pointerup',function(){if(SWALLOW)setTimeout(function(){SWALLOW=0},380)},true);
 document.addEventListener('click',function(e){if(SWALLOW&&Date.now()<SWALLOW&&!e.target.closest('#cam-panel,#cam-dial,#fold-dial')){/* a tap on the TUNE dial is not swallowed: one tap switches dials */SWALLOW=0;e.stopPropagation();e.preventDefault()}},true);
 /* the tune dial opening folds this one away (one dial out at a time) */
-new MutationObserver(function(){if(open&&D.classList.contains('mm-open'))show(false)}).observe(D,{attributes:true,attributeFilter:['class']});
+new MutationObserver(function(){if(open&&D.classList.contains('mm-open'))show(false,{replace:1})}).observe(D,{attributes:true,attributeFilter:['class']});
+/* registered before the calculator bio's Escape, so a keyup cannot step #about back to #sky after the camera has closed */
+addEventListener('keyup',function(e){if(e.key!=='Escape'||!window.__gjCamEsc)return;window.__gjCamEsc=0;e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation()},true);
 P.addEventListener('click',function(e){var x=e.target.closest('.cd-opts button');if(!x)return;FOCUS=x.dataset.k;choose(x.dataset.k,x.dataset.v)});
 /* drawer parallax (tune.js parallax(): the plate leans a little with the pointer) */
 addEventListener('pointermove',function(e){if(!open||drag||e.pointerType!=='mouse')return;
