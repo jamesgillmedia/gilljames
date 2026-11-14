@@ -274,7 +274,7 @@ hud.addEventListener('click',function(e){var b=e.target.closest('[data-sk]');if(
 sheet.addEventListener('wheel',function(e){e.preventDefault();tw=null;var f=Math.exp(-e.deltaY*(e.ctrlKey?.01:.0022));if(M<.02&&!MP){zoomAt(f,e.clientX,e.clientY);clampCam();req();clearTimeout(sheet._w);sheet._w=setTimeout(release,260)}
   else{pinch(f,{x:e.clientX,y:e.clientY});pm=null;req();clearTimeout(sheet._w);sheet._w=setTimeout(release,260)}},{passive:false});
 $('.sx',sheet).addEventListener('click',function(e){e.preventDefault();close()});
-$('.shome',sheet).addEventListener('click',function(e){e.preventDefault();from={y:0};close();__dive.go({k:null});scrollTo(0,0)});
+$('.shome',sheet).addEventListener('click',function(e){e.preventDefault();if(window.__foldHome){__foldHome();return}from={y:0};close();__dive.go({k:null});scrollTo(0,0)});
 addEventListener('keydown',function(e){if(!open)return;if(e.key==='Escape'){if(window.GJ_MARKMENU&&GJ_MARKMENU.open)return;close();}if(e.key==='+'||e.key==='='){e.stopImmediatePropagation();step(1)}if(e.key==='-'){e.stopImmediatePropagation();step(-1)}},true);
 addEventListener('resize',function(){if(open){size();if(!tw&&!MP){if(mode==='sky')cam=fitCam();else if(mode==='chap')cam=chapCam(FK)}req()}portalDraw()});
 addEventListener('popstate',function(){var h=location.hash,m=h.match(/^#(sky|all)(?:\/(\w+))?/);if(m){show({mode:m[1]==='all'?'all':m[2]&&C[m[2]]?'chap':'sky',k:m[2],push:false})}else if(open){close({to:null,nopush:1})}});

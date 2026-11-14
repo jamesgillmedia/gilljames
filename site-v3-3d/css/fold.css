@@ -149,7 +149,7 @@ html:not(.fold-rm) #objects.lv2 .stars>.it .vis{animation:fold-drift 10s ease-in
 @media (prefers-reduced-motion:reduce){.fold-calc .fc-obj{transition:none}}
 
 /* ---------- side dial: the tune instrument on the right edge (no box; 3D depth + drop shadow only) ---------- */
-#fold-dial{position:fixed;right:0;top:50%;z-index:61;width:34px;height:120px;margin-top:-60px;padding:0;border:0;border-radius:0;background:none;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:none;transform-style:preserve-3d;transform:perspective(240px) translate3d(calc(var(--tx,0) * 3px),calc(var(--ty,0) * 2px),18px) rotateY(calc(-10deg + var(--tx,0) * 6deg));transition:transform .45s var(--fold-ease),opacity .22s linear}
+#fold-dial{position:fixed;right:env(safe-area-inset-right,0px);top:50%;z-index:61;width:34px;height:120px;margin-top:-60px;padding:0;border:0;border-radius:0;background:transparent;background-color:transparent;-webkit-appearance:none;appearance:none;outline:none;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:none;transform-style:preserve-3d;transform:perspective(240px) translate3d(calc(var(--tx,0) * 3px),calc(var(--ty,0) * 2px),18px) rotateY(calc(-10deg + var(--tx,0) * 6deg));transition:transform .45s var(--fold-ease),opacity .22s linear}
 #fold-dial svg{position:absolute;right:2px;top:0;width:30px;height:120px;overflow:visible;filter:drop-shadow(0 2px 3px rgba(2,4,8,.98)) drop-shadow(-3px 6px 12px rgba(0,0,0,.92)) drop-shadow(0 0 16px rgba(4,7,11,.9)) drop-shadow(0 0 8px rgba(232,228,220,.26))}
 #fold-dial .fd-arc{fill:none;stroke:rgba(var(--gd-ink,232,228,220),.76);stroke-width:1.25}
 #fold-dial .fd-tick{stroke:rgba(var(--gd-ink,232,228,220),.78);stroke-width:1.05}
@@ -179,3 +179,30 @@ html[data-gj-c="red"] body #markmenu input[type=range]::-webkit-slider-runnable-
 html[data-gj-c="red"] .night{box-shadow:inset 0 0 120px rgba(40,4,4,.55)}
 /* never: film stills, photographs, object images, the player, the slides keep true colour and full brightness */
 html[data-gj-c="red"] .vis img,html[data-gj-c="red"] .imm .frame,html[data-gj-c="red"] #film-slides img,html[data-gj-c="red"] .se-face{filter:none!important;opacity:1!important}
+
+/* c9621b3 particle-scatter moon-water opener (overlay, under #fold-dial / #markmenu) */
+#c96-opener{position:fixed;inset:0;z-index:55;background:#04070b;color:#e9eef5;font:300 13px/1.4 Poppins,system-ui,sans-serif;overflow:hidden;overscroll-behavior:none;-webkit-tap-highlight-color:transparent;opacity:1;pointer-events:auto;transition:opacity .7s ease,visibility .7s ease}
+html.c96-entered #c96-opener{opacity:0;pointer-events:none;visibility:hidden}
+#c96-stage{position:absolute;inset:0;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;overflow:hidden;cursor:grab;background:radial-gradient(120% 80% at 50% 42%,#121c2e 0%,#070d18 52%,#04070b 100%)}
+#c96-stage.down{cursor:grabbing}
+#c96-water,.c96-water{position:absolute;inset:0;background:#061018 center/cover no-repeat;background-image:url(../media/water-1600.webp);opacity:.6;pointer-events:none;will-change:transform,opacity}
+#c96-water::after,.c96-water::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,transparent 0%,rgba(4,7,11,.25) 50%,rgba(4,7,11,.82) 100%)}
+#c96-water .rip,.c96-water .rip{position:absolute;width:18px;height:18px;margin:-9px;border:1px solid rgba(255,255,255,.55);border-radius:50%;animation:c96-rip 1.5s ease-out forwards;pointer-events:none}
+#c96-water .rip.soft,.c96-water .rip.soft{border-color:rgba(255,255,255,.3);animation-duration:1.8s}
+#c96-water .rip.tight,.c96-water .rip.tight{width:10px;height:10px;margin:-5px;border-color:rgba(255,255,255,.45);animation:c96-rip2 1.2s ease-out forwards}
+@keyframes c96-rip{to{transform:scale(16);opacity:0}}
+@keyframes c96-rip2{to{transform:scale(9);opacity:0}}
+#c96-cv{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
+#c96-opener .sr,#c96-srline{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+#c96-hud{position:absolute;left:0;right:0;top:0;padding:max(10px,env(safe-area-inset-top)) 12px 0;display:flex;align-items:center;gap:8px;z-index:3;pointer-events:none}
+#c96-hud>*{pointer-events:auto}
+#c96-hud button,#c96-back{font:300 13px/1 Poppins,system-ui,sans-serif;color:#e9eef5;background:rgba(10,16,24,.42);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:8px 14px;min-height:36px;min-width:36px;cursor:pointer}
+#c96-hud button[hidden],#c96-back[hidden],#c96-enter[hidden]{display:none}
+#c96-foot{position:absolute;left:0;right:0;bottom:0;padding:0 14px max(14px,env(safe-area-inset-bottom));text-align:center;color:#9fb0c4;font-size:12px;z-index:3;pointer-events:none;text-shadow:0 1px 8px #000;transition:opacity .6s ease-out;margin:0}
+#c96-foot.gone{opacity:0}
+#c96-hint{font-weight:300}
+#c96-enter{pointer-events:auto;margin-left:10px;font:300 12px/1 Poppins,system-ui,sans-serif;letter-spacing:.16em;text-transform:lowercase;color:rgba(233,238,245,.86);background:transparent;border:0;border-bottom:1px solid rgba(233,238,245,.35);padding:4px 2px;cursor:pointer;min-height:32px}
+@media (prefers-reduced-motion:reduce){
+  #c96-water .rip,.c96-water .rip{display:none;animation:none}
+  #c96-opener,html.c96-entered #c96-opener{transition:opacity .2s linear,visibility .2s linear}
+}

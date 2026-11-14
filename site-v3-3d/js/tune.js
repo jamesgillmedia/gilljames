@@ -1,5 +1,5 @@
 /* site-v3-3d · the mark's tune drawer.
-   Tap the mark (ᑕᐣᓯ) to unfold it. Sky sliders ease the real sky. Ghost arc (gold tick) while a slider is held;
+   The side dial (#fold-dial) unfolds this drawer; the artist mark (ᑕᐣᓯ) goes home to the moon-water opener. Sky sliders ease the real sky. Ghost arc (gold tick) while a slider is held;
    the drawer hides until release, then unfolds again.
    Full state rides on ?tune=<base64url JSON> (short keys, v). Unknown keys are ignored. Every value is clamped.
    Copy settings link, and postMessage: parent {type:'gj-tune-get'} -> {type:'gj-tune-state', state, url}.
@@ -233,7 +233,6 @@ function show(on,opt){
   var was=open;open=!!on;if(open)FROM=opt&&opt.from||null;
   if(open&&!was&&!embedded()){try{if(!(history.state&&history.state.gjDrawer))history.pushState(Object.assign({},history.state||{},{gjDrawer:1}),'')}catch(e){}}
   if(!open&&was&&!(opt&&opt.pop)&&history.state&&history.state.gjDrawer){POPPING=true;try{history.back()}catch(e){POPPING=false}}
-  document.querySelectorAll('.gj-mark').forEach(function(s){s.setAttribute('aria-expanded',open?'true':'false')});
   document.documentElement.classList.toggle('mm-open',open);
   clearTimeout(foldT);
   if(open){menu.classList.remove('mm-in','mm-folding');menu.hidden=false;paint();origin();void menu.offsetWidth;
@@ -244,6 +243,7 @@ function show(on,opt){
 }
 
 function goHome(){show(false);
+  if(window.__foldHome){__foldHome();return}
   if(window.__sheet&&__sheet.isOpen&&__sheet.isOpen()){
     try{__sheet.close({quick:1});if(window.__dive)__dive.go({k:null});scrollTo(0,0)}catch(e){scrollTo({top:0,behavior:rmOn()?'auto':'smooth'})}
   }else scrollTo({top:0,behavior:rmOn()?'auto':'smooth'})}
@@ -292,7 +292,8 @@ function build(){
 document.addEventListener('click',function(e){
   var m=e.target.closest&&e.target.closest('.gj-mark');if(!m)return;
   e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();
-  show(!open,{from:m});
+  if(window.__foldHome)__foldHome();
+  else{show(false);try{scrollTo(0,0)}catch(x){}}
 },true);
 
 addEventListener('message',function(e){
@@ -309,5 +310,5 @@ window.GJ_TUNE={version:1,state:named,compact:compact,url:link,
   snap:function(){return num('snapAt')},
   ripples:ripples};
 window.GJ_MARKMENU={toggle:function(){show(!open)},show:show,get open(){return open},state:named};
-if(HAD||embedded())show(true);
+/* drawer stays closed on load, even with ?tune= or an iframe; only #fold-dial opens it */
 })();

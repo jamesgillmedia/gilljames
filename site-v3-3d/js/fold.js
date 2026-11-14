@@ -225,4 +225,31 @@ if(window.GJ_GHOST&&GJ_GHOST.avoid)GJ_GHOST.avoid(function(){var out=[];
 addEventListener('hashchange',function(){setTimeout(onLevel,60);setTimeout(onLevel,700)});
 $$('.ch').forEach(function(sec){new MutationObserver(function(){clearTimeout(onLevel._t);onLevel._t=setTimeout(onLevel,40)}).observe(sec,{attributes:true,attributeFilter:['class']})});
 onLevel();
+
+/* ---------- home: the artist mark returns to the moon-water opener ---------- */
+var homeLock=0;
+function goOpener(){
+  if(homeLock)return;homeLock=1;setTimeout(function(){homeLock=0},200);
+  try{if(window.__bioGlitch&&__bioGlitch.on&&__bioGlitch.close)__bioGlitch.close()}catch(e){}
+  try{if(window.__foldScope&&__foldScope.isOpen&&__foldScope.isOpen())__foldScope.close()}catch(e){}
+  try{if(window.__filmSlides&&__filmSlides.isOpen&&__filmSlides.isOpen())__filmSlides.close()}catch(e){}
+  try{if(window.GJ_MARKMENU&&GJ_MARKMENU.open)GJ_MARKMENU.show(false)}catch(e){}
+  try{if(window.__sheet&&__sheet.isOpen&&__sheet.isOpen())__sheet.close({quick:1})}catch(e){}
+  try{if(window.__dive&&__dive.go)__dive.go({k:null},{replace:true})}catch(e){}
+  try{
+    var keep=location.pathname+location.search;
+    if(location.hash)history.replaceState(history.state||{},'',keep);
+  }catch(e){}
+  var intro=$('.intro');if(intro)intro.classList.remove('melt');
+  var bd=$('.backdrop');
+  if(bd){bd.classList.remove('sink');bd.classList.add('rise');bd.style.setProperty('--arr','1');bd.style.setProperty('--sunk','0')}
+  D.classList.remove('diving','sheet-on','gj-bio-on','fold-deep');
+  try{if(window.__water&&__water.reset)__water.reset()}catch(e){}
+  try{scrollTo(0,0)}catch(e){}
+  if(window.GJ_MOON_OPENER&&GJ_MOON_OPENER.replay)GJ_MOON_OPENER.replay();
+  else if(window.__arrival&&__arrival.replay)__arrival.replay();
+  try{dispatchEvent(new Event('scroll'))}catch(e){}
+  D.classList.toggle('fold-deep',scrollY>innerHeight*.55||sheetOn()||!!(st()&&st().k));
+}
+window.__foldHome=goOpener;
 })();
