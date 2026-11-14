@@ -9,8 +9,11 @@
 var NS='http://www.w3.org/2000/svg',svg=null,g=null,A={},hideT=0,fadeT=0,avoidFns=[],R=60,SPAN=110;
 function el(n,a,p){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
 function build(){
-  svg=el('svg',{id:'ghostdial','aria-hidden':'true'});g=el('g',{},svg);
-  A.bg=el('path',{class:'gd-bg'},g);A.arc=el('path',{class:'gd-arc'},g);A.e0=el('path',{class:'gd-end'},g);A.e1=el('path',{class:'gd-end'},g);A.def=el('path',{class:'gd-def'},g);A.cur=el('path',{class:'gd-cur'},g);
+  svg=el('svg',{id:'ghostdial','aria-hidden':'true'});
+  var defs=el('defs',{},svg),rg=el('radialGradient',{id:'gd-halo',cx:'50%',cy:'50%',r:'50%'},defs);
+  el('stop',{offset:'0%','class':'gd-stop0'},rg);el('stop',{offset:'58%','class':'gd-stop1'},rg);el('stop',{offset:'100%','class':'gd-stop2'},rg);
+  g=el('g',{},svg);
+  A.bg=el('circle',{class:'gd-bg'},g);A.arc=el('path',{class:'gd-arc'},g);A.e0=el('path',{class:'gd-end'},g);A.e1=el('path',{class:'gd-end'},g);A.def=el('path',{class:'gd-def'},g);A.cur=el('path',{class:'gd-cur'},g);
   A.name=el('text',{class:'gd-name'},g);A.val=el('text',{class:'gd-val'},g);document.body.appendChild(svg)}
 function hits(r,list){return list.some(function(q){return r[0]<q[2]&&r[2]>q[0]&&r[1]<q[3]&&r[3]>q[1]})}
 function rects(){
@@ -35,8 +38,7 @@ function update(info){
   var span=info.max-info.min||1,u=function(v){return Math.max(0,Math.min(1,(v-info.min)/span))};
   /* value runs along the arc from its first end to its second, top to bottom */
   var ang=function(v){return a0+SPAN*u(v)},P=function(v,r){return pt(cx,cy,r,ang(v))};
-  var Rb=R+14,ex=c.r?W+2:-2,bp0=pt(cx,cy,Rb,a0),bp1=pt(cx,cy,Rb,a1);
-  A.bg.setAttribute('d','M'+ex+' '+bp0[1].toFixed(1)+' L'+f(bp0)+' A'+Rb+' '+Rb+' 0 0 1 '+f(bp1)+' L'+ex+' '+bp1[1].toFixed(1)+' Z');
+  A.bg.setAttribute('cx',(c.r?W-26:26).toFixed(1));A.bg.setAttribute('cy',cy.toFixed(1));A.bg.setAttribute('r',String(R+36));
   A.arc.setAttribute('d','M'+f(pt(cx,cy,R,a0))+' A'+R+' '+R+' 0 0 1 '+f(pt(cx,cy,R,a1)));
   A.e0.setAttribute('d','M'+f(pt(cx,cy,R-5,a0))+'L'+f(pt(cx,cy,R+5,a0)));A.e1.setAttribute('d','M'+f(pt(cx,cy,R-5,a1))+'L'+f(pt(cx,cy,R+5,a1)));
   var dv=info.def!=null?info.def:info.min;A.def.setAttribute('d','M'+f(P(dv,R-3))+'L'+f(P(dv,R+3)));
@@ -44,13 +46,12 @@ function update(info){
   /* the name sits inside the arc, tiny; on the right edge it is right-aligned to the arc */
   var np=pt(cx,cy,R-16,mid);A.name.textContent=String(info.name||'').toUpperCase();A.name.setAttribute('x',np[0].toFixed(1));A.name.setAttribute('y',(cy-2).toFixed(1));A.name.setAttribute('text-anchor',c.r?'end':'start');
   A.val.textContent=String(Math.round(info.value));A.val.setAttribute('x',np[0].toFixed(1));A.val.setAttribute('y',(cy+11).toFixed(1));A.val.setAttribute('text-anchor',c.r?'end':'start');
-  clearTimeout(hideT);clearTimeout(fadeT);svg.classList.remove('out');svg.classList.add('on');return true}
-function hideNow(){clearTimeout(hideT);clearTimeout(fadeT);if(svg){svg.classList.remove('on','out')}}
+  clearTimeout(hideT);clearTimeout(fadeT);svg.classList.remove('out');svg.classList.add('on');document.documentElement.classList.add('gd-on');return true}
+function hideNow(){clearTimeout(hideT);clearTimeout(fadeT);document.documentElement.classList.remove('gd-on');if(svg){svg.classList.remove('on','out')}}
 /* released: the arc lingers, then fades; gone about a second after release */
 function release(){if(!svg||!svg.classList.contains('on'))return;clearTimeout(hideT);clearTimeout(fadeT);
   if(RMQ&&RMQ.matches){hideT=setTimeout(hideNow,1000);return} /* Reduce Motion: gone at once, about a second after release, no fade */
- 
-  hideT=setTimeout(function(){svg.classList.add('out');fadeT=setTimeout(function(){svg.classList.remove('on','out')},720)},280)}
+  hideT=setTimeout(function(){svg.classList.add('out');document.documentElement.classList.remove('gd-on');fadeT=setTimeout(function(){svg.classList.remove('on','out')},720)},280)}
 if(document.body)build();else document.addEventListener('DOMContentLoaded',build);
 /* the real site: never over the film board (and its frames), the film page / player, or the calculator; there the menu simply stays */
 var RMQ=null;try{RMQ=matchMedia('(prefers-reduced-motion: reduce)')}catch(e){}

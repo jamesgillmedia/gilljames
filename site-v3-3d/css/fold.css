@@ -148,18 +148,17 @@ html:not(.fold-rm) #objects.lv2 .stars>.it .vis{animation:fold-drift 10s ease-in
 @media (max-height:440px){.fold-calc{width:min(210px,40vw)}.fold-about{grid-template-columns:auto 1fr}}
 @media (prefers-reduced-motion:reduce){.fold-calc .fc-obj{transition:none}}
 
-/* ---------- side dial: the tune instrument on the right edge ---------- */
-#fold-dial{position:fixed;right:0;top:50%;z-index:61;width:34px;height:120px;margin-top:-60px;padding:0;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:none}
-#fold-dial svg{position:absolute;right:2px;top:0;width:30px;height:120px;overflow:visible;filter:drop-shadow(0 1px 3px rgba(4,7,11,.95))}
-#fold-dial .fd-arc{fill:none;stroke:rgba(var(--gd-ink,232,228,220),.62);stroke-width:1.1}
-#fold-dial .fd-tick{stroke:rgba(var(--gd-ink,232,228,220),.65);stroke-width:1}
-#fold-dial .fd-dot{fill:#e8e4dc}
-#fold-dial .fd-lab{font:400 7px "Julius Sans One",Poppins,sans-serif;letter-spacing:.2em;fill:rgba(var(--gd-ink,232,228,220),.88)}
-#fold-dial{transition:transform .5s var(--fold-ease),opacity .3s linear}
-html.mm-open #fold-dial{transform:translateX(-2px) perspective(200px) rotateY(-24deg)}
-html.mm-open #fold-dial .fd-arc{stroke:rgba(var(--gd-ink,232,228,220),.8)}
-html.fold-cover #fold-dial{opacity:0;pointer-events:none}
-@media (prefers-reduced-motion:reduce){#fold-dial,html.mm-open #fold-dial{transition:none;transform:none}}
+/* ---------- side dial: the tune instrument on the right edge (no box; 3D depth + drop shadow only) ---------- */
+#fold-dial{position:fixed;right:0;top:50%;z-index:61;width:34px;height:120px;margin-top:-60px;padding:0;border:0;border-radius:0;background:none;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:none;transform-style:preserve-3d;transform:perspective(240px) translate3d(calc(var(--tx,0) * 3px),calc(var(--ty,0) * 2px),18px) rotateY(calc(-10deg + var(--tx,0) * 6deg));transition:transform .45s var(--fold-ease),opacity .22s linear}
+#fold-dial svg{position:absolute;right:2px;top:0;width:30px;height:120px;overflow:visible;filter:drop-shadow(0 2px 3px rgba(2,4,8,.98)) drop-shadow(-3px 6px 12px rgba(0,0,0,.92)) drop-shadow(0 0 16px rgba(4,7,11,.9))}
+#fold-dial .fd-arc{fill:none;stroke:rgba(var(--gd-ink,232,228,220),.76);stroke-width:1.25}
+#fold-dial .fd-tick{stroke:rgba(var(--gd-ink,232,228,220),.78);stroke-width:1.05}
+#fold-dial .fd-dot{fill:#f0ece4}
+#fold-dial .fd-lab{font:400 7px "Julius Sans One",Poppins,sans-serif;letter-spacing:.2em;fill:rgba(var(--gd-ink,232,228,220),.94)}
+html.mm-open #fold-dial{transform:perspective(240px) translate3d(-4px,0,28px) rotateY(-24deg)}
+html.mm-open #fold-dial .fd-arc{stroke:rgba(var(--gd-ink,232,228,220),.9)}
+html.fold-cover #fold-dial,html.gd-on #fold-dial{opacity:0;pointer-events:none}
+@media (prefers-reduced-motion:reduce){#fold-dial,html.mm-open #fold-dial{transition:opacity .18s linear;transform:none}}
 
 /* ---------- Red: a dimmer, deeper darkroom red; media stay true colour ---------- */
 html[data-gj-c="red"]{--gd-ink:var(--gj-red-ink,140,30,28)}

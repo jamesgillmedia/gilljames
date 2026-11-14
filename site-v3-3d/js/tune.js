@@ -166,7 +166,7 @@ addEventListener('popstate',function(e){var mine=POPPING||(open&&!(history.state
 applyIncoming(HAD);
 
 var menu=null,open=false,HOLD=false,PTR=null,foldT=0,SWALLOW=0,kbT=0,FROM=null,ACT=null;
-function sideEl(){var d=document.getElementById('fold-dial');if(d){var r=d.getBoundingClientRect();if(r.width&&getComputedStyle(d).opacity!=='0')return d}return null}
+function sideEl(){var d=document.getElementById('fold-dial');if(d){var r=d.getBoundingClientRect();if(r.width&&(getComputedStyle(d).opacity!=='0'||document.documentElement.classList.contains('gd-on')))return d}return null}
 
 function setDrawer(v){DV=v==='B'||v==='C'?v:'A';wr('gj.drawer',DV);if(menu){menu.className=(menu.className.replace(/dv-[ABC]/g,'')+' dv-'+DV).trim()}writeTuneUrl();publish()}
 function planes(){if(!menu)return;var i=0,list=[].slice.call(menu.querySelectorAll('.mm-3d>nav,.mm-plate>*'));
@@ -280,7 +280,7 @@ function build(){
     ghost(r,{name:row.label,min:row.min,max:row.max,def:row.def,value:v});
   });
   menu.addEventListener('pointerdown',function(e){PTR={x:e.clientX,y:e.clientY};if(e.target.closest('input[type=range]'))HOLD=true},true);
-  menu.addEventListener('pointermove',function(e){if(HOLD)PTR={x:e.clientX,y:e.clientY}},true);
+  addEventListener('pointermove',function(e){if(HOLD)PTR={x:e.clientX,y:e.clientY}},true);
   function letGo(){if(!HOLD&&!(menu&&menu.classList.contains('mm-peek')))return;HOLD=false;if(menu)menu.classList.remove('mm-peek');if(ACT){ACT.classList.remove('mm-act');ACT=null}if(window.GJ_GHOST)GJ_GHOST.release()}
   ['pointerup','pointercancel','touchend','touchcancel'].forEach(function(n){addEventListener(n,letGo,true)});addEventListener('blur',letGo);
   addEventListener('keydown',function(e){if(open&&e.key==='Escape'){e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();show(false)}},true);
