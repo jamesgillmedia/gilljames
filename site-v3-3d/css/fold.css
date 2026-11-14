@@ -153,7 +153,7 @@ html:not(.fold-rm) #objects.lv2 .stars>.it .vis{animation:fold-drift 10s ease-in
 #fold-dial svg{position:absolute;right:2px;top:0;width:30px;height:120px;overflow:visible;filter:drop-shadow(0 2px 3px rgba(2,4,8,.98)) drop-shadow(-3px 6px 12px rgba(0,0,0,.92)) drop-shadow(0 0 16px rgba(4,7,11,.9))}
 #fold-dial .fd-arc{fill:none;stroke:rgba(var(--gd-ink,232,228,220),.76);stroke-width:1.25}
 #fold-dial .fd-tick{stroke:rgba(var(--gd-ink,232,228,220),.78);stroke-width:1.05}
-#fold-dial .fd-dot{fill:#f0ece4}
+#fold-dial .fd-dot{fill:rgb(var(--gd-ink,240,236,228))}
 #fold-dial .fd-lab{font:400 7px "Julius Sans One",Poppins,sans-serif;letter-spacing:.2em;fill:rgba(var(--gd-ink,232,228,220),.94)}
 html.mm-open #fold-dial{transform:perspective(240px) translate3d(-4px,0,28px) rotateY(-24deg)}
 html.mm-open #fold-dial .fd-arc{stroke:rgba(var(--gd-ink,232,228,220),.9)}

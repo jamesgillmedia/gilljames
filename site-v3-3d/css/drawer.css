@@ -131,7 +131,7 @@ html[data-gj-c="red"] #ghostdial .gd-stop1{stop-color:rgba(12,3,4,.4)}
 #ghostdial .gd-end{fill:none;stroke:rgba(var(--gd-ink),.22);stroke-width:1}
 #ghostdial .gd-def{fill:none;stroke:rgba(var(--gd-ink),.5);stroke-width:1.4;stroke-linecap:round}
 #ghostdial .gd-cur{fill:none;stroke:#e8c48a;stroke-width:1.6;stroke-linecap:round}
-#ghostdial .gd-name{font:400 7.5px "Julius Sans One",Poppins,sans-serif;letter-spacing:.2em;fill:rgba(var(--gd-ink),.62)}
+#ghostdial .gd-name{font:400 7.5px "Julius Sans One",Poppins,sans-serif;letter-spacing:.2em;fill:rgba(var(--gd-ink),.82)}
 #ghostdial .gd-val{font:300 8px Poppins,sans-serif;letter-spacing:.06em;fill:rgba(var(--gd-ink),.5)}
 @media (prefers-reduced-motion:reduce){#ghostdial,#ghostdial.out{transition:none}}
 
@@ -180,7 +180,7 @@ html[data-gj-c="red"] .night{box-shadow:inset 0 0 90px rgba(80,18,22,.4)}
 #markmenu .mm-3d{transform-origin:var(--ox,100%) var(--oy,50%);transform:translateZ(-60px) scale(.12) rotateY(-64deg)}
 #markmenu.mm-in .mm-3d{transform:rotateX(calc(var(--py,0) * -3deg)) rotateY(calc(var(--px,0) * 4deg))}
 /* while a slider is held: everything steps away except the active slider's hairline + thumb (an 18% anchor); no flicker, no re-unfold */
-#markmenu.mm-peek{opacity:1!important;background:transparent!important;border-color:transparent!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html #markmenu.dv-A.mm-peek,html[data-gj-c="red"] #markmenu.dv-A.mm-peek,#markmenu.mm-peek{opacity:1!important;background:transparent!important;border-color:transparent!important;border-width:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
 #markmenu.mm-peek .mm-3d::before,#markmenu.mm-peek .mm-act::before,#markmenu.mm-peek .mm-act::after{opacity:0!important;transition:opacity .12s linear!important}
 #markmenu.mm-peek .mm-3d>nav{opacity:0!important;transition:opacity .12s linear!important}
 #markmenu.mm-peek .mm-plate *{opacity:0!important;transition:opacity .12s linear!important}
