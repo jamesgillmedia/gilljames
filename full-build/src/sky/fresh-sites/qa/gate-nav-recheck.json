@@ -1,0 +1,252 @@
+[
+ {
+  "check": "LC default direction is B (no ?v)",
+  "ok": true,
+  "got": "B"
+ },
+ {
+  "check": "Artist default direction is C (no ?v)",
+  "ok": true,
+  "got": "C"
+ },
+ {
+  "check": "LC B home: spread, page zoom stays 1",
+  "ok": true,
+  "got": {
+   "h": "#/",
+   "d": 0,
+   "scale": 1
+  }
+ },
+ {
+  "check": "LC B solo: spread, page zoom stays 1",
+  "ok": true,
+  "got": {
+   "h": "#/t/to-go",
+   "d": 1,
+   "scale": 1
+  }
+ },
+ {
+  "check": "LC B solo: swipe left after a spread changes track",
+  "ok": true,
+  "got": [
+   "#/t/to-go",
+   "#/t/no-problem"
+  ]
+ },
+ {
+  "check": "LC B solo: swipe right steps back",
+  "ok": true,
+  "got": [
+   "#/t/no-problem",
+   "#/t/to-go"
+  ]
+ },
+ {
+  "check": "LC B: wordmark and \u2039 on screen and >=44px",
+  "ok": true,
+  "got": [
+   {
+    "x": 18,
+    "y": 25.3125,
+    "width": 108.4375,
+    "height": 44
+   },
+   {
+    "x": 18,
+    "y": 84.390625,
+    "width": 48.734375,
+    "height": 44
+   }
+  ]
+ },
+ {
+  "check": "LC B solo: pinch-in goes up",
+  "ok": true,
+  "got": {
+   "h": "#/",
+   "d": 0,
+   "scale": 1
+  }
+ },
+ {
+  "check": "LC B phone: no page errors",
+  "ok": true,
+  "got": []
+ },
+ {
+  "check": "LC B solo open: no blank beat (stage never drops below 60% of the desk)",
+  "ok": true,
+  "got": {
+   "desk": 36.6,
+   "during": [
+    28.5,
+    51.6,
+    55.5,
+    59.5,
+    57.3,
+    58.1,
+    51.7,
+    45.7,
+    42.9,
+    41.8
+   ],
+   "final": 41.6
+  }
+ },
+ {
+  "check": "LC B solo swap: no blank beat",
+  "ok": true,
+  "got": {
+   "before": 41.6,
+   "during": [
+    48.9,
+    54.0,
+    52.2,
+    63.6,
+    59.3,
+    56.4,
+    46.9,
+    41.7,
+    35.3,
+    35.1
+   ],
+   "final": 35.2
+  }
+ },
+ {
+  "check": "LC B: deep-link entry, then wordmark lands home (#/)",
+  "ok": true,
+  "got": {
+   "entry": "/t/equals",
+   "before": "#/t/ii",
+   "after": {
+    "h": "#/",
+    "d": 0,
+    "scale": 1
+   }
+  }
+ },
+ {
+  "check": "LC A: deep-link entry, then wordmark lands home (#/)",
+  "ok": true,
+  "got": {
+   "entry": "/t/equals",
+   "before": "#/t/equals",
+   "after": {
+    "h": "#/",
+    "d": 0,
+    "scale": 1
+   }
+  }
+ },
+ {
+  "check": "LC C: deep-link entry, then wordmark lands home (#/)",
+  "ok": true,
+  "got": {
+   "entry": "/t/equals",
+   "before": "#/t/equals",
+   "after": {
+    "h": "#/",
+    "d": 0,
+    "scale": 1
+   }
+  }
+ },
+ {
+  "check": "Artist A: deep-link entry, then wordmark lands home (#/)",
+  "ok": true,
+  "got": {
+   "entry": "/objects",
+   "before": "#/objects/stone-paper-cup",
+   "after": {
+    "h": "#/",
+    "d": 0,
+    "scale": 1
+   }
+  }
+ },
+ {
+  "check": "Artist C: deep-link entry, then wordmark lands home (#/)",
+  "ok": true,
+  "got": {
+   "entry": "/film",
+   "before": "#/objects",
+   "after": {
+    "h": "#/",
+    "d": 0,
+    "scale": 1
+   }
+  }
+ },
+ {
+  "check": "Artist B: deep-link entry, then wordmark lands home (#/)",
+  "ok": true,
+  "got": {
+   "entry": "/objects",
+   "before": "#/objects/glazed-joio-co-cup-in-hand",
+   "after": {
+    "h": "#/",
+    "d": 0,
+    "scale": 1
+   }
+  }
+ },
+ {
+  "check": "LC A phone: spread opens the track under the fingers (left vs right differ)",
+  "ok": true,
+  "got": [
+   "#/t/lost-in-time",
+   "#/t/ii"
+  ]
+ },
+ {
+  "check": "LC A desktop: wheel-back over the title area goes home",
+  "ok": true,
+  "got": {
+   "h": "#/",
+   "d": 0,
+   "scale": 1
+  }
+ },
+ {
+  "check": "Artist C #/film: spread, page zoom stays 1",
+  "ok": true,
+  "got": {
+   "h": "#/film",
+   "d": 0,
+   "scale": 1
+  }
+ },
+ {
+  "check": "Artist C #/: spread, page zoom stays 1",
+  "ok": true,
+  "got": {
+   "h": "#/spaces",
+   "d": 1,
+   "scale": 1
+  }
+ },
+ {
+  "check": "Artist B #/objects: spread, page zoom stays 1",
+  "ok": true,
+  "got": {
+   "h": "#/objects",
+   "d": 0,
+   "scale": 1
+  }
+ },
+ {
+  "check": "Artist B: wordmark tap at print level goes home",
+  "ok": true,
+  "got": {
+   "print": "#/objects/glazed-joio-co-cup-in-hand",
+   "after": {
+    "h": "#/",
+    "d": 0,
+    "scale": 1
+   }
+  }
+ }
+]

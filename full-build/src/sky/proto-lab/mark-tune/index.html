@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#070b12">
+<title>Mark tune · proto lab</title>
+<link rel="stylesheet" href="../_shared/css/lab.css">
+<style>
+  .stage{background:radial-gradient(120% 80% at 50% 30%,#152036 0%,#070b12 60%)}
+  #sky{position:absolute;inset:0;width:100%;height:100%}
+  .chrome{position:absolute;top:calc(56px + var(--safe-t));left:16px;z-index:2}
+  .wrap{position:absolute;left:16px;right:16px;top:calc(96px + var(--safe-t));bottom:calc(64px + var(--safe-b));
+    display:flex;flex-direction:column;gap:10px;z-index:2}
+  @media(min-width:900px){.wrap{left:32px;right:32px}}
+  .tabs{display:flex;gap:6px;flex-wrap:wrap}
+  .tabs button{min-height:32px;padding:0 10px;border:1px solid var(--line);border-radius:14px;
+    letter-spacing:.1em;font-size:10px;text-transform:uppercase;color:var(--dim)}
+  .tabs button[aria-pressed="true"]{color:var(--ink);border-color:rgba(196,150,96,.75)}
+  .menu{display:flex;flex-direction:column;gap:4px;color:var(--dim);font-size:12px;letter-spacing:.08em}
+  .menu [data-on]{color:var(--ink);font-weight:500}
+  .rooms{flex:1;min-height:0;display:grid;gap:10px;overflow:auto}
+  body[data-v="A"] .rooms, body[data-v="B"] .rooms{grid-template-columns:1fr}
+  body[data-v="C"] .rooms{grid-template-columns:1fr}
+  @media(min-width:900px){
+    body[data-v="C"] .rooms{grid-template-columns:repeat(5,1fr)}
+    body[data-v="C"] .tabs{display:none}
+  }
+  .panel{background:rgba(8,12,20,.72);border:1px solid var(--line);border-radius:16px;
+    padding:14px 16px 12px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);overflow:auto}
+  .panel h2{margin:0 0 10px;font:400 11px/1 Poppins,sans-serif;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--dim);font-weight:400}
+  .row{margin:0 0 14px}
+  .row label{display:flex;justify-content:space-between;align-items:baseline;font-size:11px;
+    letter-spacing:.08em;text-transform:uppercase;color:#d0d6de}
+  .row label .new{margin-left:8px;padding:1px 6px;border-radius:7px;background:rgba(40,90,70,.85);
+    color:#a0e6be;font-size:8px;letter-spacing:.1em}
+  .row input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:28px;background:transparent;margin:0}
+  .row input[type=range]::-webkit-slider-runnable-track{height:2px;background:linear-gradient(90deg,var(--gold) var(--p),rgba(90,94,104,.9) var(--p))}
+  .row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;margin-top:-6px;
+    border-radius:50%;background:#eee;border:0}
+  .sw{display:flex;align-items:center;justify-content:flex-end}
+  .sw button{width:36px;height:20px;border-radius:10px;background:#323844;position:relative;border:0}
+  .sw button[aria-pressed="true"]{background:#b4c8aa}
+  .sw button i{position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#eee;transition:left .15s}
+  .sw button[aria-pressed="true"] i{left:18px}
+  .reset{align-self:flex-start;min-height:32px;padding:0 4px;letter-spacing:.14em;font-size:11px;
+    text-transform:uppercase;color:#d0d6de}
+  body[data-v="A"] .menu, body[data-v="C"] .menu{display:none}
+  body[data-v="C"] .panel[data-hidden]{display:none}
+  @media(min-width:900px){body[data-v="C"] .panel[data-hidden]{display:block}}
+</style>
+</head>
+<body class="lab">
+<header class="labbar">
+  <a class="back" href="../">‹ lab</a>
+  <div class="who">Mark tune</div>
+  <nav class="variants" aria-label="proposals">
+    <button type="button" data-v="A" aria-pressed="true">A</button>
+    <button type="button" data-v="B">B</button>
+    <button type="button" data-v="C">C</button>
+  </nav>
+</header>
+<div class="stage">
+  <canvas id="sky"></canvas>
+  <div class="chrome"><img class="mark" src="../_shared/media/cv-mark.png" alt=""></div>
+  <div class="wrap">
+    <div class="menu" id="menu">
+      <div data-on>TUNE</div>
+      <div>LIST</div>
+      <div>CONTACT</div>
+    </div>
+    <nav class="tabs" id="tabs" aria-label="rooms"></nav>
+    <div class="rooms" id="rooms"></div>
+    <button type="button" class="reset" id="reset">Reset</button>
+  </div>
+</div>
+<p class="vnote" id="vnote"></p>
+<script src="../_shared/js/lab.js"></script>
+<script src="app.js"></script>
+<link rel="stylesheet" href="../../../../chrome.css"><script src="../../../../chrome.js" data-hub="../../../../index.html" data-rooms="../../../../rooms.json"></script></body>
+</html>

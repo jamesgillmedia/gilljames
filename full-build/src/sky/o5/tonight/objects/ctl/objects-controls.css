@@ -1,0 +1,6 @@
+.ambx.obj-ctl{--ambx-right:calc(12px + env(safe-area-inset-right,0px));--ambx-bottom:auto;--ambx-left:auto;--ambx-top:calc(52px + env(safe-area-inset-top,0px));--ambx-pr:0;--ambx-pl:auto;--ambx-pb:auto;--ambx-pt:calc(100% + 2px);--ambx-fill:rgba(232,228,220,.72);z-index:20}
+.ambx.obj-ctl .ambx-tg{color:#d9d2c6;border-color:rgba(255,236,210,.14);background:rgba(10,10,14,.42);text-transform:lowercase;letter-spacing:.06em;font-size:12px}
+.ambx.obj-ctl .ambx-tg i,
+.ambx.sk-glass.obj-ctl .ambx-tg[aria-expanded=true] i,
+.ambx.obj-ctl .ambx-sw.on .led{background:#e8e4dc;box-shadow:0 0 8px rgba(232,228,220,.55)}
+.ambx.obj-ctl .ambx-tg[aria-expanded=true]{border-color:rgba(232,228,220,.55)}

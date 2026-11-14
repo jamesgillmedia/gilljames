@@ -1,0 +1,56 @@
+/* Lost Coffee · base. Dark desktop, warm white #e8e4dc for anything active, no mint anywhere. The waveform is never dimmed. */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#070707;color:#e8e4dc;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+body{overflow:hidden;font:400 14px/1.5 'DM Mono',monospace;overscroll-behavior:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:1px solid #e8e4dc;outline-offset:3px}
+#app{position:fixed;inset:0}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:80;background:url(../media/grain.png) 0 0/256px 256px;mix-blend-mode:overlay;opacity:.1}
+.fi{opacity:0;transition:opacity 1.2s cubic-bezier(.4,0,.2,1)}
+.fi.in{opacity:1}
+img{display:block}
+.lv-stage{position:absolute;inset:0;width:100%;height:100%;display:block}
+#dev{position:fixed;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:95;display:flex;gap:2px;align-items:center;font:400 9.5px/1 'DM Mono',monospace;letter-spacing:.12em;color:rgba(232,228,220,.55);background:rgba(7,7,7,.72);border-radius:12px;padding:3px 4px 3px 9px}
+#dev span{margin-right:4px;text-transform:uppercase}
+#dev a{display:inline-block;min-width:22px;padding:5px 0;text-align:center;border-radius:9px;color:rgba(232,228,220,.6)}
+#dev a.on{color:#070707;background:#e8e4dc}
+/* tune drawer: two hairline sliders; the ghost arc takes over while one is held */
+.lv-tune{display:flex;gap:18px;align-items:center;transition:opacity .22s ease}
+.lv-tune label{display:flex;align-items:center;gap:8px;font:400 9px/1 'DM Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:rgba(232,228,220,.7)}
+.lv-tune input{-webkit-appearance:none;appearance:none;width:84px;height:22px;background:transparent;cursor:pointer;touch-action:none}
+.lv-tune input::-webkit-slider-runnable-track{height:1px;background:rgba(232,228,220,.45)}
+.lv-tune input::-moz-range-track{height:1px;background:rgba(232,228,220,.45)}
+.lv-tune input::-webkit-slider-thumb{-webkit-appearance:none;width:9px;height:9px;margin-top:-4px;border-radius:50%;background:#e8e4dc}
+.lv-tune input::-moz-range-thumb{width:9px;height:9px;border:0;border-radius:50%;background:#e8e4dc}
+.lv-links a{border-bottom:1px solid rgba(232,228,220,.35);padding-bottom:1px}
+.lv-links a+a{margin-left:16px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+/* no browser page zoom: the site owns pinch. Pan stays native where something scrolls. */
+html,body{touch-action:pan-x pan-y}
+html[data-v=A] #app,html[data-v=B] #app{touch-action:none}
+html[data-v=C] #app{touch-action:pan-y}
+html[data-v=C] .c-board,html[data-v=C] .c-veil{touch-action:none}
+html[data-v=C] .c-tin{touch-action:pan-y}
+/* phone: every tap target at least 44px */
+@media (hover:none),(max-width:720px){
+  #dev a{min-width:44px;min-height:44px;display:inline-flex;align-items:center;justify-content:center}
+  .lv-links a{min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center}
+  .lv-tune input{height:44px}
+  .a-wm,.b-wm,.c-wm{min-height:44px;display:inline-flex;align-items:center}
+  .a-back,.b-back,.c-tear,.c-nav button,.c-mm a,.b-mm a{min-height:44px;min-width:44px;display:inline-flex;align-items:center}
+  .b-pp{width:44px;height:44px}
+  .wm-mark{min-height:44px;min-width:44px;display:inline-flex;align-items:center}
+  .wm-mode button,.wm-home{min-height:44px}
+}
+/* wordmark drawer: Flash + Night/Red. The mark itself stays bare. */
+.wm-drawer{position:fixed;z-index:90;min-width:200px;max-width:min(280px,calc(100vw - 24px));padding:12px 14px 10px;background:rgba(7,7,7,.94);border:1px solid rgba(232,228,220,.28);box-shadow:0 18px 40px rgba(0,0,0,.5)}
+.wm-drawer[hidden]{display:none!important}
+.wm-flash:empty{display:none}
+.wm-mode{display:flex;align-items:center;gap:8px;margin-top:12px}
+.wm-flash:empty+.wm-mode{margin-top:0}
+.wm-mode span,.wm-home,.wm-mode button{font:400 10px/1 'DM Mono',monospace;letter-spacing:.14em;text-transform:uppercase}
+.wm-mode span{color:rgba(232,228,220,.62)}
+.wm-mode button{min-height:32px;padding:0 12px;border:1px solid rgba(232,228,220,.4)}
+.wm-mode button.on{background:#e8e4dc;color:#070707;border-color:#e8e4dc}
+.wm-home{display:flex;align-items:center;margin-top:8px;min-height:32px;color:rgba(232,228,220,.78)}

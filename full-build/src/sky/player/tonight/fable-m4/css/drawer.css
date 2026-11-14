@@ -1,0 +1,156 @@
+/* tonight/fable-m4 · the mark's tune drawer (about-1113). Not a panel: no box, no card, no heavy ground.
+   It is a small 3D object: planes at different depths (--z) that unfold out of the mark on the site's easing (cubic-bezier(.22,.7,.2,1)),
+   lean a little with the pointer / finger (parallax from the depth), and fold back into the mark. Three looks on the dev switch:
+   A constellation · B contact-sheet strip · C ghost. Active = warm white #e8e4dc; gold only on the ghost dial. Reduce Motion: a plain fade, same final state.
+   Loaded after sky.css so these rules win over the old panel rules. */
+#markmenu{position:fixed;z-index:60;left:calc(10px + env(safe-area-inset-left,0px));top:calc(54px + env(safe-area-inset-top,0px));width:min(360px,calc(100vw - 20px));overflow:auto;
+ background:none;border:0;border-radius:0;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:none;
+ padding:16px 18px 22px 20px;max-height:calc(100vh - 150px);perspective:900px;perspective-origin:var(--ox,40px) 0;scrollbar-width:none;
+ opacity:0;transition:opacity .18s linear;color:#e8e4dc;letter-spacing:.04em}
+#markmenu[hidden]{display:none}
+#markmenu::-webkit-scrollbar{display:none}
+#markmenu.mm-in{opacity:1}
+#markmenu.mm-folding{opacity:0;transition:opacity .4s linear;pointer-events:none}
+#markmenu .mm-3d{position:relative;transform-style:preserve-3d;transform-origin:var(--ox,40px) var(--oy,-20px);
+ transform:translateZ(-80px) scale(.16) rotateX(-58deg) rotateY(22deg);transition:transform .62s cubic-bezier(.22,.7,.2,1)}
+#markmenu.mm-in .mm-3d{transform:rotateX(calc(var(--py,0) * -3deg)) rotateY(calc(var(--px,0) * 4deg))}
+#markmenu.mm-folding .mm-3d{transition:transform .5s cubic-bezier(.5,0,.75,.3) .08s}
+#markmenu.mm-peek .mm-3d{transition:none}
+#markmenu .mm-plate{transform-style:preserve-3d}
+#markmenu .mm-3d>nav,#markmenu .mm-plate>*{position:relative;transform-origin:50% 50%;
+ transform:translateY(-6px) rotateX(-88deg);opacity:0;
+ transition:transform .56s cubic-bezier(.22,.7,.2,1) calc(var(--i,0) * 38ms),opacity .3s linear calc(var(--i,0) * 38ms)}
+#markmenu.mm-in .mm-3d>nav,#markmenu.mm-in .mm-plate>*{transform:translateZ(var(--z,0px));opacity:1}
+#markmenu.mm-folding .mm-3d>nav,#markmenu.mm-folding .mm-plate>*{transition:transform .38s cubic-bezier(.5,0,.75,.3) calc((var(--n,8) - var(--i,0)) * 22ms),opacity .26s linear calc((var(--n,8) - var(--i,0)) * 22ms)}
+/* the + beside the mark opens the drawer. 44px so a thumb hits it without covering the mark. */
+#marktune,.mm-tune-btn{box-sizing:border-box;flex:0 0 44px;width:44px;height:44px;min-width:44px;min-height:44px;margin:0;padding:0;border:0;background:transparent;color:#e8e4dc;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font:400 22px/44px "Julius Sans One",Poppins,sans-serif;letter-spacing:0;line-height:1;-webkit-tap-highlight-color:transparent}
+#crumb{display:flex;align-items:center;justify-content:flex-start;gap:2px}
+/* the mark itself turns in 3D as the drawer comes out of it, and turns back as it folds in */
+#crumb .sig,#omark,.lab-top .sig,[data-tn-mark]{display:inline-block;transform-origin:50% 60%;transition:transform .56s cubic-bezier(.22,.7,.2,1),text-shadow .56s linear}
+html.mm-open #crumb .sig,html.mm-open #omark,html.mm-open .lab-top .sig,html.mm-open [data-tn-mark]{transform:perspective(160px) rotateY(-34deg) rotateX(18deg) translateZ(6px);text-shadow:0 0 10px rgba(232,228,220,.55)}
+@media (prefers-reduced-motion:reduce){
+ #markmenu,#markmenu .mm-3d,#markmenu.mm-in .mm-3d,#markmenu .mm-3d>nav,#markmenu .mm-plate>*,#markmenu.mm-in .mm-3d>nav,#markmenu.mm-in .mm-plate>*,#markmenu.mm-folding,#markmenu.mm-folding .mm-3d,#markmenu.mm-folding .mm-3d>nav,#markmenu.mm-folding .mm-plate>*{transition:none!important}
+ #crumb .sig,#omark,.lab-top .sig,[data-tn-mark],html.mm-open #crumb .sig,html.mm-open #omark,html.mm-open .lab-top .sig,html.mm-open [data-tn-mark]{transition:none}}
+
+/* ---- shared type: the room labels' voice (lowercase Poppins, wide tracking); section heads in Julius caps; hairlines only ---- */
+#markmenu nav{border-bottom:0;padding:6px 0}
+#markmenu nav a,#markmenu nav button{font:400 11px "Julius Sans One",Poppins,sans-serif;letter-spacing:.2em;color:rgba(232,228,220,.62)}
+#markmenu .mm-rooms a,#markmenu .mm-rooms button{font-size:10px;color:rgba(232,228,220,.5)}
+#markmenu .mm-tune.on,#markmenu .mm-rooms [data-go].on{color:#e8e4dc;box-shadow:inset 0 -1px 0 #e8e4dc}
+#markmenu h3{font:400 9px "Julius Sans One",Poppins,sans-serif;letter-spacing:.24em;color:rgba(232,228,220,.5);margin:12px 0 4px}
+#markmenu h3 span{color:#e8e4dc;letter-spacing:.14em}
+#markmenu h3 em{color:rgba(232,228,220,.42)}
+#markmenu label{grid-template-columns:100px 1fr 30px;text-transform:none;font:300 11px Poppins,sans-serif;letter-spacing:.12em;color:rgba(232,228,220,.82);min-height:30px}
+#markmenu output{font:300 10px Poppins,sans-serif;font-variant-numeric:tabular-nums;color:rgba(232,228,220,.62)}
+#markmenu .mm-ctx,#markmenu .mm-dec,#markmenu .mm-globals,#markmenu .mm-all{border:0}
+#markmenu .mm-all{font:400 9px "Julius Sans One",Poppins,sans-serif;letter-spacing:.24em;color:rgba(232,228,220,.62);padding:12px 0 8px}
+#markmenu .mm-all[aria-expanded=true]{color:#e8e4dc}
+#markmenu .mm-seg b{font:300 11px Poppins,sans-serif;text-transform:none;letter-spacing:.12em;color:rgba(232,228,220,.82);margin-bottom:2px}
+#markmenu .mm-seg b em{font-style:normal;font-size:9px;color:rgba(232,228,220,.42);margin-left:4px}
+#markmenu .mm-seg span{gap:2px 16px}
+#markmenu .mm-seg button{border:0;border-radius:0;background:none;padding:5px 0 4px;min-height:28px;font:300 10.5px Poppins,sans-serif;letter-spacing:.1em;color:rgba(232,228,220,.5)}
+#markmenu .mm-seg button[aria-checked=true]{background:none;color:#e8e4dc;box-shadow:inset 0 -1px 0 #e8e4dc}
+#markmenu .mm-reset{font:400 9px "Julius Sans One",Poppins,sans-serif;letter-spacing:.24em;color:rgba(232,228,220,.62)}
+#markmenu .mm-devsec{display:flex;flex-direction:column;align-items:stretch;gap:8px;padding:8px 0 4px;clear:both}
+#markmenu .mm-devsec h3{margin:0;line-height:1.4;position:static}
+#markmenu .mm-devnote{display:block;margin:0;font:300 10px/1.45 Poppins,sans-serif;letter-spacing:.08em;color:rgba(232,228,220,.55);position:static}
+#markmenu .mm-devsec .mm-seg{display:flex!important;flex-direction:column!important;align-items:flex-start;gap:6px;margin:0;width:100%;position:static}
+#markmenu .mm-devsec .mm-seg b{display:block;margin:0;position:static}
+#markmenu .mm-devsec .mm-seg span{display:flex;flex-wrap:wrap;gap:6px 10px;width:100%;position:static;padding:0}
+/* sliders: a hairline and a small mark, never a chunky native control */
+body #markmenu input[type=range]{-webkit-appearance:none;appearance:none;background:none;height:24px;margin:0;accent-color:#e8e4dc}
+body #markmenu input[type=range]::-webkit-slider-runnable-track{height:1px;background:rgba(232,228,220,.30);border:0}
+body #markmenu input[type=range]::-moz-range-track{height:1px;background:rgba(232,228,220,.30);border:0}
+body #markmenu input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:9px;height:9px;margin-top:-4px;border-radius:50%;background:#e8e4dc;border:0}
+body #markmenu input[type=range]::-moz-range-thumb{width:9px;height:9px;border-radius:50%;background:#e8e4dc;border:0}
+
+/* ---- A · constellation: the controls hang as small stars on a thread that falls from the mark ---- */
+#markmenu.dv-A{background:none}
+#markmenu.dv-A,#markmenu.dv-B{text-shadow:0 0 2px #04070b,0 0 8px #04070b}
+#markmenu.dv-A .mm-3d{padding-left:16px}
+#markmenu.dv-A .mm-3d::before{content:"";position:absolute;left:3px;top:-14px;bottom:6px;width:1px;background:linear-gradient(rgba(232,228,220,.5),rgba(232,228,220,.08) 85%,rgba(232,228,220,0))}
+#markmenu.dv-A label,#markmenu.dv-A .mm-seg,#markmenu.dv-A h3{position:relative}
+#markmenu.dv-A label::before,#markmenu.dv-A .mm-seg::before{content:"";position:absolute;left:-15px;top:50%;width:3px;height:3px;margin-top:-1.5px;border-radius:50%;background:#e8e4dc;box-shadow:0 0 6px rgba(232,228,220,.8)}
+#markmenu.dv-A label::after{content:"";position:absolute;left:-12px;top:50%;width:9px;height:1px;background:rgba(232,228,220,.22)}
+#markmenu.dv-A h3::before{content:"";position:absolute;left:-16.5px;top:50%;width:5px;height:5px;margin-top:-2.5px;border-radius:50%;background:#e8e4dc;box-shadow:0 0 10px rgba(232,228,220,.9)}
+#markmenu.dv-A .mm-seg::before{top:10px}
+body #markmenu.dv-A input[type=range]::-webkit-slider-runnable-track{height:1px;background:repeating-linear-gradient(90deg,rgba(232,228,220,.45) 0 1px,transparent 1px 6px)}
+body #markmenu.dv-A input[type=range]::-moz-range-track{height:1px;background:repeating-linear-gradient(90deg,rgba(232,228,220,.45) 0 1px,transparent 1px 6px)}
+body #markmenu.dv-A input[type=range]::-webkit-slider-thumb{width:7px;height:7px;margin-top:-3px;box-shadow:0 0 8px 1px rgba(232,228,220,.85)}
+body #markmenu.dv-A input[type=range]::-moz-range-thumb{width:7px;height:7px;box-shadow:0 0 8px 1px rgba(232,228,220,.85)}
+
+/* ---- B · contact-sheet strip: typewritten labels on hairlines, edge numbers, a sprocket margin ---- */
+#markmenu.dv-B{background:none;padding-left:30px;-webkit-mask-image:none;mask-image:none}
+#markmenu.dv-B .mm-3d{counter-reset:mmf}
+#markmenu.dv-B .mm-3d::before{content:"";position:absolute;left:-20px;top:-6px;bottom:0;width:6px;
+ background:repeating-linear-gradient(180deg,rgba(232,228,220,.20) 0 7px,transparent 7px 15px);border-radius:1px;
+ opacity:1;transition:opacity .4s linear}
+#markmenu.mm-folding.dv-B .mm-3d::before,#markmenu.gd-away.dv-B .mm-3d::before,#markmenu.mm-back.dv-B .mm-3d::before{opacity:0;transition:opacity .4s linear}
+#markmenu.dv-B,#markmenu.dv-B nav a,#markmenu.dv-B nav button,#markmenu.dv-B h3,#markmenu.dv-B label,#markmenu.dv-B output,#markmenu.dv-B .mm-seg b,#markmenu.dv-B .mm-seg button,#markmenu.dv-B .mm-all,#markmenu.dv-B .mm-reset{
+ font-family:"Courier Prime","Courier New",ui-monospace,Menlo,monospace;font-weight:400;text-transform:uppercase}
+#markmenu.dv-B label,#markmenu.dv-B .mm-seg b{font-size:10px;letter-spacing:.12em}
+#markmenu.dv-B label{grid-template-columns:24px 92px 1fr 32px;border-bottom:1px solid rgba(232,228,220,.10)}
+#markmenu.dv-B label::before{content:counter(mmf,decimal-leading-zero) "A";counter-increment:mmf;font-size:8px;letter-spacing:.06em;color:rgba(232,228,220,.40)}
+#markmenu.dv-B .mm-seg{border-bottom:1px solid rgba(232,228,220,.10);padding-bottom:4px}
+#markmenu.dv-B .mm-seg b::before{content:counter(mmf,decimal-leading-zero) "A";counter-increment:mmf;display:inline-block;width:24px;font-size:8px;color:rgba(232,228,220,.40)}
+#markmenu.dv-B .mm-seg span{padding-left:24px}
+#markmenu.dv-B h3{border-bottom:1px solid rgba(232,228,220,.22);padding-bottom:4px;font-size:9px}
+#markmenu.dv-B .mm-seg button[aria-checked=true]::before{content:"\25B8 "}
+body #markmenu.dv-B input[type=range]::-webkit-slider-runnable-track{height:5px;background:linear-gradient(rgba(232,228,220,.32),rgba(232,228,220,.32)) 0 100%/100% 1px no-repeat,repeating-linear-gradient(90deg,rgba(232,228,220,.30) 0 1px,transparent 1px 8px)}
+body #markmenu.dv-B input[type=range]::-moz-range-track{height:5px;background:repeating-linear-gradient(90deg,rgba(232,228,220,.30) 0 1px,transparent 1px 8px)}
+body #markmenu.dv-B input[type=range]::-webkit-slider-thumb{width:2px;height:13px;margin-top:-5px;border-radius:0}
+body #markmenu.dv-B input[type=range]::-moz-range-thumb{width:2px;height:13px;border-radius:0}
+
+/* ---- C · ghost: only words float near the mark; no rules, no ground, every slider shows the ghost dial while held ---- */
+
+#markmenu.dv-C,#markmenu.dv-C *{text-shadow:0 0 2px #04070b,0 0 6px #04070b,0 0 12px #04070b,0 0 22px #04070b}
+#markmenu.dv-C{background:none;width:auto;max-width:min(240px,calc(100vw - 24px))}
+#markmenu.dv-C .mm-top,#markmenu.dv-C .mm-rooms,#markmenu.dv-C .mm-all,#markmenu.dv-C .mm-more,#markmenu.dv-C .mm-globals,#markmenu.dv-C .mm-foot,#markmenu.dv-C .mm-dec,#markmenu.dv-C .mm-var{display:none}
+#markmenu.dv-C h3{opacity:.75}
+#markmenu.dv-C label{grid-template-columns:100px 1fr 30px}
+body #markmenu.dv-C input[type=range]::-webkit-slider-runnable-track{background:rgba(232,228,220,.12)}
+body #markmenu.dv-C input[type=range]::-moz-range-track{background:rgba(232,228,220,.12)}
+body #markmenu.dv-C input[type=range]::-webkit-slider-thumb{width:5px;height:5px;margin-top:-2px;box-shadow:0 0 0 3px rgba(4,7,11,.6)}
+body #markmenu.dv-C input[type=range]::-moz-range-thumb{width:5px;height:5px}
+
+/* the hand-off to the ghost arc: on grab the drawer is gone at once (no fade); on release it unfolds again */
+#markmenu.mm-peek,#markmenu.mm-peek *{transition:none!important}
+#markmenu.mm-peek{opacity:0!important;visibility:visible}
+#markmenu.mm-snap,#markmenu.mm-snap *{transition:none!important}
+/* refold while the ghost arc has the drawer hidden, so the fade back in is also an unfold */
+#markmenu.mm-back .mm-3d{transform:translateZ(-80px) scale(.16) rotateX(-58deg) rotateY(22deg)!important;transition:none!important}
+#markmenu.mm-back .mm-3d>nav,#markmenu.mm-back .mm-plate>*{transform:translateY(-6px) rotateX(-88deg)!important;opacity:0!important;transition:none!important}
+
+/* structure the sky sheet already provides, so the same drawer stands up in a room that does not load sky.css */
+#markmenu nav{display:flex;gap:18px;flex-wrap:wrap}
+#markmenu nav a,#markmenu nav button{background:none;border:0;padding:6px 0;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+#markmenu .mm-rooms{flex-wrap:nowrap;justify-content:space-between;gap:6px}
+#markmenu .mm-rooms a,#markmenu .mm-rooms button{flex:0 0 auto;white-space:nowrap}
+#markmenu label{display:grid;align-items:center;gap:8px}
+#markmenu .mm-seg span{display:flex;flex-wrap:wrap}
+#markmenu .mm-all,#markmenu .mm-reset{display:block;width:100%;text-align:left;background:none;border:0;cursor:pointer}
+#markmenu .mm-foot,#markmenu .mm-resets{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+#markmenu .mm-hint{margin:0 0 6px;font:300 9px Poppins,sans-serif;letter-spacing:.02em}
+button[data-tn-mark]{position:fixed;z-index:70;top:calc(10px + env(safe-area-inset-top));left:calc(12px + env(safe-area-inset-left));
+ background:none;border:0;border-radius:0;padding:8px;min-height:0;min-width:0;color:#e8e4dc;letter-spacing:0;cursor:pointer;
+ font:18px/1 "Noto Sans Canadian Aboriginal","Noto Sans SE",sans-serif}
+/* the fixed mark sits out of flow. The + beside it has to clear that box or the mark takes the tap. */
+button[data-tn-mark]+#marktune,button[data-tn-mark]+.mm-tune-btn{position:relative;z-index:71;margin-left:44px}
+/* late planes sit at a negative --z, behind the plate, so a click never reaches the archived toggle */
+#markmenu.mm-in .mm-plate>.mm-devsec{transform:translateZ(12px)!important}
+#markmenu label input[type=range]{width:55%;max-width:55%;justify-self:start}
+#markmenu .mm-clab{display:block;width:100%;text-align:left;background:none;border:0;padding:5px 0;color:#e8e4dc;font:300 13px Poppins,sans-serif;letter-spacing:.08em;cursor:pointer}
+#crumb .sig,#where,#wcrumb,#wcrumb b,#wcrumb button,#wcrumb span{color:#e8e4dc}
+html,body,#stage,canvas#cv{background:#04070b}
+html.gj-bar #togo{display:flex!important;opacity:1!important}
+html.gj-bar #togo canvas,html.gj-bar #togo span,html.mm-open #togo,html.mm-open #togo canvas,html.mm-open #togo span{opacity:1!important}
+html.gj-bar #proof{visibility:hidden}
+#tgplayer{position:fixed;inset:0;z-index:90;background:#04070b;color:#e8e4dc;display:flex;flex-direction:column;justify-content:flex-end;gap:18px;padding:28px 20px calc(56px + env(safe-area-inset-bottom));overflow:hidden;transform-origin:50% 100%}
+#tgplayer[hidden]{display:none}
+#tgplayer.tg-from,#tgplayer.tg-shrink{animation:none}
+#tgplayer b{font:400 clamp(22px,6vw,40px) "Julius Sans One",Poppins,sans-serif;letter-spacing:.14em;font-weight:400}
+#tgplayer button{align-self:flex-start;min-height:44px;padding:0 18px;border:1px solid rgba(232,228,220,.55);border-radius:22px;background:transparent;color:#e8e4dc;letter-spacing:.12em;font:400 12px "Julius Sans One",Poppins,sans-serif}
+@media (prefers-reduced-motion:reduce){
+ #tgplayer.tg-from,#tgplayer.tg-shrink{animation:none}
+}
+#safelight{z-index:55}

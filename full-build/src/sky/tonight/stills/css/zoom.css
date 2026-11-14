@@ -1,0 +1,102 @@
+@font-face{font-family:Poppins;font-weight:300;font-display:swap;src:url(../fonts/poppins-300.woff2) format("woff2")}
+@font-face{font-family:Poppins;font-weight:200;font-display:swap;src:url(../fonts/poppins-200.woff2) format("woff2")}
+@font-face{font-family:"Julius Sans One";font-display:swap;src:url(../fonts/julius-sans-one.woff2) format("woff2")}
+:root{
+  --bg:#04070b;--ink:#eef3f5;--dim:#c9d3d6;--meta:#93a1a6;--mint:#55DAA1;
+  --line:rgba(255,255,255,.16);--top:52px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);overflow:hidden;
+  overscroll-behavior:none;-webkit-text-size-adjust:100%;text-size-adjust:100%;
+  font:300 13px/1.4 Poppins,system-ui,sans-serif}
+a{color:inherit}
+#vp{position:fixed;inset:0;overflow:hidden;touch-action:none;cursor:grab;
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
+  background:radial-gradient(ellipse at 50% 18%,#13202e,var(--bg) 70%)}
+#vp.drag{cursor:grabbing}
+#world{position:absolute;left:0;top:0;transform-origin:0 0;will-change:auto}
+#world img{-webkit-user-drag:none;user-select:none;display:block;width:100%;height:100%;
+  object-fit:cover;background:transparent}
+.cluster{position:absolute;left:0;top:0}
+.cluster .label{position:absolute;left:0;top:0;right:0;overflow:hidden;
+  font:400 13px/1.15 "Julius Sans One",sans-serif;letter-spacing:.08em;
+  color:var(--ink);display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;
+  pointer-events:none;text-shadow:0 1px 8px #04070b;align-items:flex-end}
+.cluster .mosaic{position:absolute;left:0;background:#0a1016;z-index:0}
+.cluster .mosaic canvas,.cluster .mosaic img{width:100%;height:100%;display:block}
+.cell{position:absolute;background:transparent;overflow:hidden;z-index:1}
+.cell img{width:100%;height:100%;object-fit:cover}
+#world[data-lod="1"] .cell.on{outline:1px solid rgba(85,218,161,.55);outline-offset:-1px}
+.top{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;
+  gap:12px;padding:calc(.45rem + env(safe-area-inset-top)) max(.85rem,env(safe-area-inset-right)) .7rem max(.85rem,env(safe-area-inset-left));
+  background:linear-gradient(180deg,rgba(4,7,11,.92),rgba(4,7,11,0));
+  pointer-events:none}
+.brand{margin:0;font:400 15px/1 "Julius Sans One",sans-serif;letter-spacing:.18em;
+  text-transform:lowercase;color:#f4f7fb;
+  text-shadow:1.5px 0 0 rgba(10,189,240,.75),-1.5px 0 0 rgba(254,1,1,.6)}
+.crumb{flex:1;margin:0;min-width:0;text-align:right;font:300 10.5px/1 Poppins,sans-serif;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--dim);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ui{position:fixed;inset:0;z-index:50;pointer-events:none}
+.out{position:fixed;right:max(.7rem,env(safe-area-inset-right));
+  bottom:calc(.8rem + env(safe-area-inset-bottom));
+  min-width:44px;min-height:44px;padding:0 14px;pointer-events:auto;
+  border:1px solid var(--line);border-radius:22px;background:rgba(4,7,11,.82);
+  color:var(--ink);font:300 11px/1 Poppins,sans-serif;letter-spacing:.16em;
+  text-transform:uppercase;cursor:pointer}
+.out:hover,.out:focus-visible{border-color:rgba(85,218,161,.7);outline:none;color:#fff}
+.lvl{position:fixed;left:max(.7rem,env(safe-area-inset-left));
+  bottom:calc(.8rem + env(safe-area-inset-bottom));
+  display:flex;align-items:center;gap:4px;padding:3px 7px;
+  background:rgba(4,7,11,.8);font:300 9.5px/1 Poppins,sans-serif;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--dim);pointer-events:none}
+.lvl i{width:16px;height:3px;background:rgba(238,243,245,.25)}
+.lvl i.on{background:var(--mint)}
+.lvl span{margin-left:6px}
+.hint{position:fixed;left:50%;bottom:calc(5.2rem + env(safe-area-inset-bottom));
+  transform:translateX(-50%);margin:0;padding:.5rem .85rem;
+  background:rgba(4,7,11,.88);border:1px solid rgba(85,218,161,.45);
+  font:300 10px/1 Poppins,sans-serif;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink);white-space:nowrap;transition:opacity .6s;pointer-events:none}
+.hint.off{opacity:0;visibility:hidden}
+.hint .fine{display:none}
+@media (min-width:700px){.hint .tch{display:none}.hint .fine{display:inline}}
+.cap{position:fixed;left:50%;bottom:calc(4.4rem + env(safe-area-inset-bottom));
+  transform:translateX(-50%);z-index:45;max-width:calc(100vw - 96px);
+  padding:8px 14px;border-radius:999px;background:rgba(6,12,20,.9);
+  border:1px solid rgba(85,218,161,.5);text-align:center;pointer-events:none}
+.cap[hidden]{display:none}
+.cap-title{margin:0;font:400 13px/1.2 "Julius Sans One",sans-serif;letter-spacing:.06em;color:var(--ink)}
+.cap-tc{margin:3px 0 0;font:300 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.12em;
+  font-variant-numeric:tabular-nums;color:var(--mint)}
+#motion{position:fixed;z-index:20;display:block;opacity:0;background:#000;object-fit:contain;
+  pointer-events:none}
+#motion.show{opacity:1}
+@media (max-width:400px){.brand{font-size:13px;letter-spacing:.14em}.crumb{font-size:9.5px}}
+@media (prefers-reduced-motion:reduce){.hint{transition:none}}
+
+#labels{position:fixed;inset:0;z-index:30;pointer-events:none;overflow:hidden}
+#labels .lab{position:absolute;font:400 12px/1.2 "Julius Sans One",sans-serif;letter-spacing:.06em;
+  color:var(--ink);text-shadow:0 1px 8px #04070b,0 0 12px #04070b;overflow:hidden;padding:0 1px}
+#world[data-lod="0"] ~ #labels .lab, body.lod0 #labels .lab{white-space:nowrap;text-overflow:ellipsis}
+#world[data-lod="1"] ~ #labels .lab, body.lod1 #labels .lab{white-space:normal;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}
+#hero{position:fixed;z-index:19;display:none;object-fit:contain;background:#000;pointer-events:none}
+#hero.show{display:block}
+
+.mode{position:fixed;left:max(.7rem,env(safe-area-inset-left));
+  bottom:calc(2.35rem + env(safe-area-inset-bottom));
+  display:flex;align-items:stretch;pointer-events:auto;
+  border:1px solid var(--line);border-radius:22px;background:rgba(4,7,11,.82);overflow:hidden}
+.mode button{min-height:36px;padding:0 13px;border:0;background:transparent;color:var(--dim);
+  font:300 10.5px/1 Poppins,sans-serif;letter-spacing:.16em;text-transform:uppercase;cursor:pointer}
+.mode button[aria-pressed=true]{color:var(--ink);background:rgba(85,218,161,.16)}
+.mode button:hover,.mode button:focus-visible{color:#fff;outline:none}
+.allfield{position:absolute;left:0;top:0;background:#0a1016}
+.allfield .mosaic{position:absolute;left:0;top:0;width:100%;height:100%}
+body.view-all .cell img,body.view-all #hero{object-fit:contain;background:#0a1016}
+body.view-all #labels{display:none}
+
+/* At frame level the still is presented alone (hero / motion sit in screen space). */
+#world{transition:opacity .22s ease}
+body.lod2.has-hero #world{opacity:0}
+@media (prefers-reduced-motion:reduce){#world{transition:none}}

@@ -1,0 +1,145 @@
+[
+ {
+  "site": "artist",
+  "v": "C",
+  "dev": "desktop",
+  "errors": [],
+  "home": [
+   {
+    "h": "#/",
+    "d": 0
+   },
+   {
+    "h": "#/",
+    "d": 0
+   }
+  ],
+  "wave": [
+   [
+    {
+     "sel": "pw",
+     "op": 1,
+     "lum": 0.895
+    }
+   ],
+   [
+    {
+     "sel": "pw",
+     "op": 1,
+     "lum": 0.895
+    }
+   ]
+  ],
+  "checks": [
+   {
+    "check": "route #/objects",
+    "got": "#/objects",
+    "ok": true
+   },
+   {
+    "check": "at home, depth 0 (no duplicate entry)",
+    "got": {
+     "h": "#/",
+     "d": 0
+    },
+    "ok": true
+   },
+   {
+    "check": "trailhead scroll (px)",
+    "got": 0,
+    "ok": true
+   },
+   {
+    "check": "at home, depth 0 (no duplicate entry)",
+    "got": {
+     "h": "#/",
+     "d": 0
+    },
+    "ok": true
+   }
+  ],
+  "snaps": [
+   "/workspace/share/fresh-sites-1113/build/qa/frames/artist-C-desktop-home.png",
+   "/workspace/share/fresh-sites-1113/build/qa/frames/artist-C-desktop-room.png",
+   "/workspace/share/fresh-sites-1113/build/qa/frames/artist-C-desktop-act.png"
+  ],
+  "clip": "/workspace/share/fresh-sites-1113/build/qa/clips/artist-C-desktop.mp4",
+  "frames_captured": 666
+ },
+ {
+  "site": "artist",
+  "v": "C",
+  "dev": "phone",
+  "errors": [],
+  "home": [
+   {
+    "h": "#/",
+    "d": 0
+   },
+   {
+    "h": "#/",
+    "d": 0
+   },
+   {
+    "h": "#/",
+    "d": 0
+   }
+  ],
+  "wave": [
+   [
+    {
+     "sel": "pw",
+     "op": 1,
+     "lum": 0.895
+    }
+   ],
+   [
+    {
+     "sel": "pw",
+     "op": 1,
+     "lum": 0.895
+    }
+   ]
+  ],
+  "checks": [
+   {
+    "check": "route #/objects",
+    "got": "#/objects",
+    "ok": true
+   },
+   {
+    "check": "at home, depth 0 (no duplicate entry)",
+    "got": {
+     "h": "#/",
+     "d": 0
+    },
+    "ok": true
+   },
+   {
+    "check": "trailhead scroll (px)",
+    "got": 0,
+    "ok": true
+   },
+   {
+    "check": "route #/spaces",
+    "got": "#/spaces",
+    "ok": true
+   },
+   {
+    "check": "at home, depth 0 (no duplicate entry)",
+    "got": {
+     "h": "#/",
+     "d": 0
+    },
+    "ok": true
+   }
+  ],
+  "snaps": [
+   "/workspace/share/fresh-sites-1113/build/qa/frames/artist-C-phone-home.png",
+   "/workspace/share/fresh-sites-1113/build/qa/frames/artist-C-phone-room.png",
+   "/workspace/share/fresh-sites-1113/build/qa/frames/artist-C-phone-act.png"
+  ],
+  "clip": "/workspace/share/fresh-sites-1113/build/qa/clips/artist-C-phone.mp4",
+  "frames_captured": 1031
+ }
+]

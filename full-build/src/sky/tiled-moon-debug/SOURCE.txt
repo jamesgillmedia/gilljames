@@ -1,0 +1,13 @@
+Debug copy of the earlier tiled moon-and-water site.
+
+Source: /workspace/gilljames-v3
+  gill james v3.1 — the constellation one-sheet over The Dive
+  scripts tagged ?v=v351back
+  CSS comment: "the sky at the bottom"
+  Moon + water backdrop, the poem, chapter tiles, sky / constellation at the bottom.
+
+Original folder was not modified. This copy:
+  - adds a dbg panel (star count, spread, depth; reset; copy values)
+  - removes YouTube and Vimeo links
+  - omits film mp4 media (posters kept) so the package stays small
+  - omits _shots, _tools, and backups

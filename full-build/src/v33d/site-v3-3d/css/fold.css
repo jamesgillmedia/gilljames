@@ -1,0 +1,180 @@
+/* site-v3-3d · fold (preview-v33d-fold, Nov 13).
+   One stack, physically layered: deep sky/water (z far) · constellation + board plane (mid) · chrome, dock, tune (fore).
+   Tilt comes from fold.js (--tx/--ty, -1..1, eased; pointer, gyro where allowed). Reduce Motion: vars stay 0, no drift, no tilt.
+   Chrome cap #e8e4dc. No mint. Film stills never dim. */
+:root{--tx:0;--ty:0;--fold-ease:cubic-bezier(.22,.7,.2,1)}
+html,body{overflow-x:hidden}
+
+/* ---------- Z planes ---------- */
+.backdrop{transform:translate3d(calc(var(--tx) * -9px),calc(var(--ty) * -7px),0) scale(1.03);will-change:transform}
+.main{perspective:1400px;perspective-origin:50% 40%}
+.intro{transform:translate3d(calc(var(--tx) * 4px),calc(var(--ty) * 3px),0)}
+html.fold-settled .ch.lv2 .sky-wrap{transform:rotateX(calc(var(--ty) * -.9deg)) rotateY(calc(var(--tx) * 1.1deg));transform-origin:50% 30%;transition:transform .2s linear}
+html.fold-settled .ch.lv2 .head{transform:translate3d(calc(var(--tx) * 3px),calc(var(--ty) * 2px),0)}
+.ch.lv2 .vis{box-shadow:0 10px 24px -14px rgba(0,0,0,.9)}
+.sheet canvas{transform:translate3d(calc(var(--tx) * -4px),calc(var(--ty) * -3px),0) scale(1.012)}
+.imm-stage .frame{transform:perspective(1600px) rotateY(calc(var(--tx) * .7deg)) rotateX(calc(var(--ty) * -.5deg))}
+.imm-top,.imm-bot{transform:translate3d(calc(var(--tx) * 2px),calc(var(--ty) * 2px),0)}
+.dock{box-shadow:0 -18px 30px -24px rgba(0,0,0,.9)}
+@media (prefers-reduced-motion:reduce){
+ .backdrop,.intro,.ch .sky-wrap,.ch .head,.sheet canvas,.imm-stage .frame,.imm-top,.imm-bot{transform:none!important;transition:none!important}}
+
+/* ---------- opener: moon water ---------- */
+.intro .arv{display:none!important}            /* never show the arrival / snow / moon switcher pills */
+#fold-moon{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:1;transition:opacity .8s linear}
+html.fold-deep #fold-moon{opacity:0}
+#fold-moon .fm-disc{position:absolute;right:13%;top:9%;width:clamp(46px,11vw,96px);aspect-ratio:1;border-radius:50%;
+ background:radial-gradient(circle at 38% 36%,#f4f1ea 0,#e8e4dc 38%,#cfcac0 70%,#a9a59c 100%);
+ box-shadow:0 0 30px 6px rgba(232,228,220,.22),0 0 120px 30px rgba(232,228,220,.08);
+ transform:translate3d(calc(var(--tx) * -14px),calc(var(--ty) * -10px),0)}
+#fold-moon .fm-path{position:absolute;right:calc(13% - 40px);width:calc(clamp(46px,11vw,96px) + 80px);top:46%;bottom:0;
+ background:repeating-linear-gradient(180deg,rgba(232,228,220,.0) 0 5px,rgba(232,228,220,.16) 5px 6px,rgba(232,228,220,0) 6px 13px);
+ -webkit-mask-image:radial-gradient(ellipse 50% 70% at 50% 30%,#000 0,transparent 100%);mask-image:radial-gradient(ellipse 50% 70% at 50% 30%,#000 0,transparent 100%);
+ animation:fm-shim 5.6s ease-in-out infinite alternate;transform:translate3d(calc(var(--tx) * -6px),0,0)}
+@keyframes fm-shim{from{background-position:0 0;opacity:.75}to{background-position:0 26px;opacity:1}}
+#fold-mark{display:block;width:min(74vw,380px);height:auto;aspect-ratio:2.2/1;margin:6px 0 14px -6px;pointer-events:none}
+.intro .poem{background:none!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;padding:0!important;
+ text-shadow:0 1px 2px #04070b,0 0 14px rgba(4,7,11,.9)}
+.intro .poem span:nth-child(-n+3){font-size:clamp(20px,5.4vw,30px);line-height:1.22;letter-spacing:.04em;color:#e8e4dc}
+.intro .poem span:nth-child(n+4){font-size:13px;line-height:1.6;color:rgba(232,228,220,.62)}
+.intro .poem span:nth-child(4){margin-top:12px}
+.intro .hint{opacity:.7}
+.fold-ripple{position:fixed;left:0;top:0;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;pointer-events:none;z-index:2;
+ border:1px solid rgba(232,228,220,.55);transform:scale(1,.36);animation:fold-rip 1.5s cubic-bezier(.2,.6,.3,1) forwards}
+.fold-ripple.r2{animation-delay:.16s;opacity:0}
+@keyframes fold-rip{0%{opacity:.9;width:10px;height:10px;margin:-5px 0 0 -5px}100%{opacity:0;width:180px;height:180px;margin:-90px 0 0 -90px}}
+@media (prefers-reduced-motion:reduce){#fold-moon .fm-path{animation:none}.fold-ripple{display:none}}
+
+/* ---------- boards (site-3d): counts line, snap, hint, muted preview loops ---------- */
+.ch .sum.fold-counts{font:400 10px/1.5 "Julius Sans One",Poppins,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:rgba(232,228,220,.78)}
+.ch .sum.fold-counts b{font-weight:400;color:#e8e4dc}
+html:not(.fold-rm) .ch.fold-snap .stars>.it{animation:fold-snap .34s var(--fold-ease) both;animation-delay:calc(min(var(--fi,0),18) * 14ms)}
+@keyframes fold-snap{from{transform:translate3d(0,10px,0) scale(.965)}to{transform:none}}
+#fold-hint{position:fixed;left:50%;bottom:calc(var(--dock,104px) + env(safe-area-inset-bottom,0px) + 14px);transform:translateX(-50%);z-index:45;
+ font:300 11px/1 Poppins,sans-serif;letter-spacing:.16em;color:rgba(232,228,220,.82);text-shadow:0 0 10px #04070b,0 0 3px #04070b;pointer-events:none;opacity:0;transition:opacity .5s linear;white-space:nowrap}
+#fold-hint.on{opacity:1}
+.ch .vis .fold-pv{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;filter:none;pointer-events:none}
+.ch .vis{position:relative}
+
+/* ---------- Spaces: Spirit Eye ---------- */
+#spaces .se-room{display:grid;gap:18px;margin:6px 0 18px;grid-template-columns:1fr}
+@media (min-width:860px){#spaces .se-room{grid-template-columns:minmax(320px,1.1fr) 1fr;align-items:center}}
+#spaces .se-stage{position:relative;aspect-ratio:4/3;max-height:58vh;overflow:hidden;border-radius:2px;background:radial-gradient(ellipse 90% 70% at 50% 75%,#18202a 0,#0b1016 60%,#04070b 100%);perspective:900px;touch-action:pan-y}
+#spaces .se-disc{position:absolute;left:50%;top:52%;width:min(62%,330px);aspect-ratio:1;margin-left:calc(min(62%,330px) / -2);transform-style:preserve-3d;
+ transform:translateY(-50%) rotateX(calc(58deg + var(--sey,0) * 1deg)) rotateZ(calc(var(--sez,0) * 1deg));transition:transform .5s var(--fold-ease)}
+#spaces .se-face{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%;filter:none;opacity:1;box-shadow:0 0 0 2px rgba(232,228,220,.25),0 30px 60px rgba(0,0,0,.6)}
+#spaces .se-rim{position:absolute;inset:-6%;border-radius:50%;border:1px solid rgba(232,228,220,.28);transform:translateZ(-14px)}
+#spaces .se-glint{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from calc(var(--sez,0) * 1deg),transparent 0 70%,rgba(232,228,220,.22) 78%,transparent 86%);mix-blend-mode:screen;transform:translateZ(2px)}
+#spaces .se-water{position:absolute;left:0;right:0;bottom:0;height:34%;background:linear-gradient(rgba(4,7,11,0),rgba(4,7,11,.7));pointer-events:none}
+#spaces .se-fog{position:absolute;left:-30%;right:-30%;height:46%;pointer-events:none;background:radial-gradient(ellipse 50% 50% at 50% 50%,rgba(214,206,190,.13),transparent 70%);filter:blur(6px);animation:se-fog 22s ease-in-out infinite alternate}
+#spaces .se-fog.f1{top:18%}#spaces .se-fog.f2{top:52%;animation-duration:30s;animation-direction:alternate-reverse;opacity:.8}
+@keyframes se-fog{from{transform:translate3d(-12%,0,0)}to{transform:translate3d(12%,-4%,0)}}
+#spaces .se-shaft{position:absolute;top:-10%;width:14%;height:80%;pointer-events:none;background:linear-gradient(rgba(232,228,220,.16),rgba(232,228,220,0));transform:skewX(-14deg);filter:blur(3px);animation:se-breathe 7s ease-in-out infinite}
+#spaces .se-shaft.s1{left:26%}#spaces .se-shaft.s2{left:46%;animation-delay:-2.4s;width:9%}#spaces .se-shaft.s3{left:62%;animation-delay:-4.6s;width:11%}
+@keyframes se-breathe{0%,100%{opacity:.35}50%{opacity:1}}
+#spaces .se-copy p{margin:0 0 .8em;font:300 14px/1.6 Poppins,sans-serif;color:rgba(232,228,220,.86);max-width:36rem}
+#spaces .se-copy .se-k{font:400 13px/1.3 "Julius Sans One",Poppins,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#e8e4dc;margin-bottom:.4em}
+#spaces .se-copy .se-by,#spaces .se-copy .se-aw{font-size:12px;letter-spacing:.06em;color:rgba(232,228,220,.66);margin-bottom:.3em}
+#spaces .se-copy .se-aw{margin-bottom:1em}
+#spaces .se-copy .se-hint{font-size:11px;letter-spacing:.14em;color:rgba(232,228,220,.5)}
+#spaces:not(.lv2) .se-room{display:none}
+@media (prefers-reduced-motion:reduce){#spaces .se-fog,#spaces .se-shaft{animation:none}#spaces .se-disc{transition:none}}
+
+/* ---------- Photo: Horizon shelf ---------- */
+.fold-chip{appearance:none;background:none;border:1px solid rgba(232,228,220,.32);border-radius:22px;color:#e8e4dc;min-height:36px;padding:0 14px;margin:4px 0 10px;
+ font:400 10px/1 "Julius Sans One",Poppins,sans-serif;letter-spacing:.2em;text-transform:uppercase;cursor:pointer}
+.fold-chip[aria-pressed=true]{background:#e8e4dc;color:#04070b}
+.ch:not(.lv2) .fold-chip{display:none}
+#photo.fold-hz .sky-wrap .lines{display:none}
+#photo.fold-hz .stars{display:flex!important;grid-template-columns:none!important;flex-wrap:nowrap;gap:8px;overflow-x:auto;overflow-y:visible;scroll-snap-type:x mandatory;
+ padding:46px 34vw 16px!important;margin:0 -16px;align-items:flex-end;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+ background:linear-gradient(rgba(0,0,0,0) calc(100% - 15px),rgba(206,206,206,.42) calc(100% - 15px),rgba(206,206,206,.42) calc(100% - 14px),rgba(0,0,0,0) calc(100% - 14px))}
+#photo.fold-hz .stars::-webkit-scrollbar{display:none}
+#photo.fold-hz .stars>.it{flex:0 0 auto;width:min(34vw,200px);margin:0!important;scroll-snap-align:center;transition:transform .45s var(--fold-ease)}
+#photo.fold-hz .stars>.it .cap{display:none}
+#photo.fold-hz .stars>.it.fold-up{transform:translate3d(0,-26px,0) scale(1.1);z-index:2}
+#photo.fold-hz .stars>.it.fold-up .vis{box-shadow:0 26px 30px -18px rgba(0,0,0,.95),0 0 0 1px rgba(214,214,214,.35)}
+@media (prefers-reduced-motion:reduce){#photo.fold-hz .stars>.it{transition:none}}
+/* darkroom harmony: in Red the photo room gets a low safelight wash at the edges; the photographs stay true colour */
+html[data-gj-c="red"] #photo.lv2{box-shadow:inset 0 0 120px rgba(var(--gj-red,110,16,14),.35)}
+
+/* ---------- Objects: drift + inspection ---------- */
+html:not(.fold-rm) #objects.lv2 .stars>.it .vis{animation:fold-drift 10s ease-in-out infinite;animation-delay:calc(var(--fi,0) * -.83s);transform-style:preserve-3d}
+@keyframes fold-drift{0%,100%{transform:perspective(700px) translate3d(0,0,0) rotateY(-3deg)}50%{transform:perspective(700px) translate3d(0,-5px,18px) rotateY(3deg)}}
+.imm.fold-obj .frame{transition:transform .5s var(--fold-ease);transform:perspective(1100px) rotateY(var(--ory,0deg)) rotateX(var(--orx,0deg))}
+.imm.fold-obj .frame.fold-drag{transition:none}
+
+/* ---------- Film: Scope eyepiece from the slides ---------- */
+#film-slides .fold-scope-b{position:absolute;top:calc(10px + env(safe-area-inset-top,0px));right:12px;z-index:3;appearance:none;background:none;border:1px solid rgba(232,228,220,.4);border-radius:22px;
+ color:#e8e4dc;min-height:40px;padding:0 14px;font:400 10px/1 "Julius Sans One",Poppins,sans-serif;letter-spacing:.2em;text-transform:uppercase;cursor:pointer}
+#film-slides .fs-title{right:120px}
+#fold-scope{position:fixed;inset:0;z-index:90;background:#020305;display:flex;align-items:center;justify-content:center;touch-action:none}
+#fold-scope[hidden]{display:none}
+#fold-scope .sc-lens{position:relative;width:min(84vw,76vh);aspect-ratio:1;border-radius:50%;overflow:hidden;background-color:#04070b;background-repeat:no-repeat;
+ box-shadow:0 0 0 1px rgba(232,228,220,.4),0 0 0 9px #050608,0 0 0 10px rgba(232,228,220,.14),0 0 80px rgba(0,0,0,.9) inset;
+ clip-path:circle(50% at 50% 50%);animation:sc-iris .5s var(--fold-ease) both}
+@keyframes sc-iris{from{clip-path:circle(0% at 50% 50%)}to{clip-path:circle(50% at 50% 50%)}}
+#fold-scope .sc-ret{position:absolute;inset:0;pointer-events:none}
+#fold-scope .sc-ret::before,#fold-scope .sc-ret::after{content:"";position:absolute;background:rgba(232,228,220,.35)}
+#fold-scope .sc-ret::before{left:50%;top:8%;bottom:8%;width:1px}
+#fold-scope .sc-ret::after{top:50%;left:8%;right:8%;height:1px}
+#fold-scope .sc-lab{position:absolute;left:0;right:0;bottom:calc(18px + env(safe-area-inset-bottom,0px));text-align:center;margin:0;font:400 10px/1.4 "Julius Sans One",Poppins,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:rgba(232,228,220,.78)}
+#fold-scope .sc-x{position:absolute;top:calc(10px + env(safe-area-inset-top,0px));left:12px;background:none;border:0;color:#e8e4dc;font:400 22px/1 "Julius Sans One",sans-serif;min-width:44px;min-height:44px;cursor:pointer}
+#fold-scope .sc-z{position:absolute;top:calc(10px + env(safe-area-inset-top,0px));right:12px;display:flex;gap:6px}
+#fold-scope .sc-z button{background:none;border:1px solid rgba(232,228,220,.4);border-radius:50%;color:#e8e4dc;width:40px;height:40px;font:300 18px/1 Poppins,sans-serif;cursor:pointer}
+@media (prefers-reduced-motion:reduce){#fold-scope .sc-lens{animation:none}}
+
+/* ---------- About: short poem + green VFD calculator (the only green on the site, About only) ---------- */
+.fold-about{display:grid;grid-template-columns:1fr;gap:16px;margin:6px 0 16px;align-items:center}
+@media (min-width:760px){.fold-about{grid-template-columns:auto 1fr}}
+.fold-poem{margin:0;font:300 clamp(18px,4.6vw,26px)/1.3 Poppins,sans-serif;letter-spacing:.04em;color:#e8e4dc}
+.fold-poem span{display:block}
+.fold-calc{width:min(250px,64vw);perspective:900px;justify-self:start;touch-action:pan-y;cursor:grab;margin:4px 0 8px 6px}
+.fold-calc .fc-obj{position:relative;transform-style:preserve-3d;transform:rotateX(calc(14deg + var(--cry,0) * 1deg)) rotateY(calc(-18deg + var(--crx,0) * 1deg));transition:transform .6s var(--fold-ease);
+ background:linear-gradient(160deg,#2a2d31,#151719 60%,#0e0f11);border-radius:14px;padding:14px 14px 16px;box-shadow:0 1px 0 rgba(232,228,220,.18) inset,0 -1px 0 rgba(0,0,0,.8) inset}
+.fold-calc.fc-drag .fc-obj{transition:none}
+.fold-calc .fc-obj::before{content:"";position:absolute;inset:0;border-radius:14px;background:#08090a;transform:translateZ(-16px);box-shadow:0 26px 40px rgba(0,0,0,.7)}
+.fold-calc .fc-obj::after{content:"";position:absolute;left:6%;right:6%;bottom:-22px;height:16px;border-radius:50%;background:rgba(0,0,0,.55);filter:blur(8px);transform:translateZ(-30px)}
+.fold-calc .fc-vfd{position:relative;height:44px;border-radius:5px;background:#030805;box-shadow:inset 0 2px 6px rgba(0,0,0,.9),0 0 0 1px rgba(0,0,0,.6);transform:translateZ(4px);overflow:hidden;
+ display:flex;align-items:center;justify-content:flex-end;padding:0 10px;margin-bottom:12px}
+.fold-calc .fc-vfd b{font:400 19px/1 "Courier Prime","Courier New",ui-monospace,monospace;letter-spacing:.14em;color:#7dffb0;text-shadow:0 0 4px rgba(90,255,160,.9),0 0 14px rgba(60,255,140,.45);white-space:nowrap}
+.fold-calc .fc-vfd i{position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(0,0,0,.25) 0 1px,transparent 1px 3px);pointer-events:none}
+.fold-calc .fc-keys{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;transform:translateZ(6px)}
+.fold-calc .fc-keys button{appearance:none;border:0;border-radius:6px;min-height:34px;background:linear-gradient(#3a3d42,#26282c);color:#e8e4dc;font:300 12px/1 Poppins,sans-serif;letter-spacing:.06em;
+ box-shadow:0 2px 0 #0b0c0d,0 3px 6px rgba(0,0,0,.6);cursor:pointer;transform:translateZ(3px);transition:transform .08s linear,box-shadow .08s linear}
+.fold-calc .fc-keys button:active,.fold-calc .fc-keys button.dn{transform:translateZ(0) translateY(2px);box-shadow:0 0 0 #0b0c0d}
+.fold-calc .fc-keys button.w{background:linear-gradient(#5a5c60,#3e4044)}
+.fold-calc .fc-cap{margin:10px 0 0;font:400 8px/1 "Julius Sans One",Poppins,sans-serif;letter-spacing:.3em;color:rgba(232,228,220,.5);text-transform:uppercase;transform:translateZ(4px)}
+@media (max-height:440px){.fold-calc{width:min(210px,40vw)}.fold-about{grid-template-columns:auto 1fr}}
+@media (prefers-reduced-motion:reduce){.fold-calc .fc-obj{transition:none}}
+
+/* ---------- side dial: the tune instrument on the right edge ---------- */
+#fold-dial{position:fixed;right:0;top:50%;z-index:61;width:34px;height:120px;margin-top:-60px;padding:0;border:1px solid rgba(var(--gd-ink,232,228,220),.2);border-right:0;border-radius:16px 0 0 16px;background:rgba(4,7,11,.54);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:-4px 6px 22px rgba(0,0,0,.46),inset 0 1px 0 rgba(232,228,220,.08);cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:none}
+html[data-gj-c="red"] #fold-dial{background:rgba(12,3,4,.68);border-color:rgba(var(--gj-red-ink,140,30,28),.36)}
+#fold-dial svg{position:absolute;right:2px;top:0;width:30px;height:120px;overflow:visible}
+#fold-dial .fd-arc{fill:none;stroke:rgba(var(--gd-ink,232,228,220),.62);stroke-width:1.1}
+#fold-dial .fd-tick{stroke:rgba(var(--gd-ink,232,228,220),.65);stroke-width:1}
+#fold-dial .fd-dot{fill:#e8e4dc}
+#fold-dial .fd-lab{font:400 7px "Julius Sans One",Poppins,sans-serif;letter-spacing:.2em;fill:rgba(var(--gd-ink,232,228,220),.88)}
+#fold-dial{transition:transform .5s var(--fold-ease),opacity .3s linear}
+html.mm-open #fold-dial{transform:translateX(-2px) perspective(200px) rotateY(-24deg)}
+html.mm-open #fold-dial .fd-arc{stroke:rgba(var(--gd-ink,232,228,220),.8)}
+html.fold-cover #fold-dial{opacity:0;pointer-events:none}
+@media (prefers-reduced-motion:reduce){#fold-dial,html.mm-open #fold-dial{transition:none;transform:none}}
+
+/* ---------- Red: a dimmer, deeper darkroom red; media stay true colour ---------- */
+html[data-gj-c="red"]{--gd-ink:var(--gj-red-ink,140,30,28)}
+html[data-gj-c="red"] .backdrop,html[data-gj-c="red"] .sheet canvas,html[data-gj-c="red"] #fold-moon,html[data-gj-c="red"] #fold-mark{
+ filter:grayscale(1) sepia(1) saturate(5.5) hue-rotate(-38deg) brightness(var(--gj-rb,.55)) contrast(1.05)}
+html[data-gj-c="red"] .top,html[data-gj-c="red"] .dock,html[data-gj-c="red"] .ch .head,html[data-gj-c="red"] .ch .sum,html[data-gj-c="red"] .ch .cap,html[data-gj-c="red"] .intro,
+html[data-gj-c="red"] .sheet .slabs,html[data-gj-c="red"] .sheet .shud,html[data-gj-c="red"] .shint,html[data-gj-c="red"] #markmenu,html[data-gj-c="red"] #fold-hint,html[data-gj-c="red"] .se-copy,html[data-gj-c="red"] .fold-poem{
+ color:rgb(var(--gj-red-ink,140,30,28))!important}
+html[data-gj-c="red"] .top *,html[data-gj-c="red"] .dock *,html[data-gj-c="red"] .ch .head *,html[data-gj-c="red"] .intro *,html[data-gj-c="red"] .sheet .slabs *,html[data-gj-c="red"] .sheet .shud *,html[data-gj-c="red"] #markmenu *,html[data-gj-c="red"] .se-copy *,html[data-gj-c="red"] .ch .cap *{
+ color:inherit!important;border-color:rgba(var(--gj-red-ink,140,30,28),.5)!important}
+html[data-gj-c="red"] .ch .glyph,html[data-gj-c="red"] .sky-nav .glyph{filter:grayscale(1) sepia(1) saturate(5) hue-rotate(-38deg) brightness(var(--gj-rb,.55))}
+html[data-gj-c="red"] .zb,html[data-gj-c="red"] .imm-b .ib.play,html[data-gj-c="red"] .imm .play{background:rgba(var(--gj-red-ink,140,30,28),.16)!important;color:rgb(var(--gj-red-ink,140,30,28))!important}
+html[data-gj-c="red"] body #markmenu input[type=range]::-webkit-slider-thumb{background:rgb(var(--gj-red-ink,140,30,28))}
+html[data-gj-c="red"] body #markmenu input[type=range]::-webkit-slider-runnable-track{background:rgba(var(--gj-red-ink,140,30,28),.5)}
+html[data-gj-c="red"] .night{box-shadow:inset 0 0 120px rgba(40,4,4,.55)}
+/* never: film stills, photographs, object images, the player, the slides keep true colour and full brightness */
+html[data-gj-c="red"] .vis img,html[data-gj-c="red"] .imm .frame,html[data-gj-c="red"] #film-slides img,html[data-gj-c="red"] .se-face{filter:none!important;opacity:1!important}

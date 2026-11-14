@@ -1,0 +1,85 @@
+/* C · Counter Ticket — Bricolage Grotesque + DM Mono */
+html[data-v=C] .c-veil{position:absolute;inset:0;background:radial-gradient(120% 90% at 30% 60%,rgba(7,7,7,.0),rgba(7,7,7,.55));pointer-events:none;transition:background 1s}
+html[data-v=C] #app.ticket .c-veil{pointer-events:auto}
+.c-hd{position:absolute;left:clamp(22px,4vw,56px);top:calc(clamp(22px,4vh,44px) + env(safe-area-inset-top));pointer-events:none}
+.c-wm{font:700 clamp(30px,4.4vw,60px)/.9 'Bricolage Grotesque',sans-serif;letter-spacing:-.035em;text-transform:lowercase}
+.c-sub{margin-top:10px;font:400 10px/1 'DM Mono',monospace;letter-spacing:.2em;text-transform:uppercase;color:rgba(232,228,220,.62)}
+.c-board{position:absolute;left:clamp(22px,4vw,56px);bottom:calc(clamp(60px,9vh,96px) + env(safe-area-inset-bottom));width:min(440px,calc(100vw - 44px))}
+.c-bh{display:flex;justify-content:space-between;font:400 9px/1 'DM Mono',monospace;letter-spacing:.22em;text-transform:uppercase;color:rgba(232,228,220,.55);padding-bottom:10px;border-bottom:1px solid rgba(232,228,220,.18)}
+.c-row{display:flex;align-items:center;gap:14px;width:100%;padding:10px 0;text-align:left;border-bottom:1px solid rgba(232,228,220,.09);transition:padding .5s}
+.c-row .th{width:34px;height:34px;flex:0 0 auto;background:#121212;overflow:hidden}
+.c-row .th img{width:100%;height:100%;object-fit:cover}
+.c-row .tt{font:500 22px/1 'Bricolage Grotesque',sans-serif;letter-spacing:-.01em}
+.c-row.lead .th{width:58px;height:58px}.c-row.lead .tt{font-size:clamp(30px,3.4vw,42px);font-weight:600;letter-spacing:-.03em}
+.c-row .ld{flex:1;min-width:30px;height:16px;margin:0 2px}
+.c-row .ln{font:400 11px/1 'DM Mono',monospace;letter-spacing:.08em;color:rgba(232,228,220,.75)}
+.c-row .pl{width:6px;height:6px;border-radius:50%}
+.c-row.now .pl{background:#e8c48a;box-shadow:0 0 8px rgba(232,196,138,.7)}
+.c-row:hover .tt,.c-row:focus-visible .tt{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px}
+.c-foot{margin-top:16px;font:400 10px/1 'DM Mono',monospace;letter-spacing:.14em;text-transform:uppercase}
+.c-mm{margin-top:12px;font:400 10px/1.4 'DM Mono',monospace;letter-spacing:.06em;color:rgba(232,228,220,.6)}
+.c-mm a{border-bottom:1px solid rgba(232,228,220,.25)}
+.c-tune{position:absolute;left:clamp(22px,4vw,56px);top:calc(clamp(22px,4vh,44px) + env(safe-area-inset-top) + clamp(62px,7.4vw,92px))}
+
+/* the slot + ticket */
+.c-slot{position:absolute;right:clamp(28px,8vw,140px);top:0;width:min(380px,calc(100vw - 32px));height:100%;overflow:hidden;pointer-events:none;z-index:10}
+.c-slot::before{content:"";position:absolute;left:-12px;right:-12px;top:calc(env(safe-area-inset-top) + 2px);height:4px;border-radius:2px;background:#000;box-shadow:0 1px 0 rgba(232,228,220,.25),0 6px 18px rgba(0,0,0,.8);z-index:2;opacity:0;transition:opacity .4s}
+.c-slot.on::before{opacity:1}
+.c-ticket{position:absolute;left:0;right:0;top:4px;transform:translateY(-100%);pointer-events:auto;filter:drop-shadow(0 30px 50px rgba(0,0,0,.7));max-height:calc(100% - 8px);display:flex;flex-direction:column}
+.c-slot:not(.on) .c-ticket{visibility:hidden}
+.c-tin{position:relative;background:#141312;padding:20px 22px 18px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none}
+.c-perf{height:10px;background:radial-gradient(circle at 7px -1px,transparent 5px,#141312 5.5px) 0 0/14px 10px repeat-x}
+.c-perf.top{display:none}
+.c-perf.bot{transform:scaleY(-1)}
+.c-tr1,.c-tr2,.c-tr3,.c-tr4{display:flex;justify-content:space-between;align-items:center;font:400 9.5px/1 'DM Mono',monospace;letter-spacing:.2em;color:rgba(232,228,220,.72)}
+.c-tr1{padding-bottom:14px;border-bottom:1px dashed rgba(232,228,220,.24)}
+.c-tcov{margin:16px 0 0;aspect-ratio:1;background:#0c0c0c;overflow:hidden}
+.c-tcov img{width:100%;height:100%;object-fit:cover}
+.c-tt{margin-top:16px;font:700 clamp(38px,5vw,54px)/.95 'Bricolage Grotesque',sans-serif;letter-spacing:-.035em;word-break:break-word}
+.c-tr2{margin-top:10px}
+.c-wave{margin:16px -4px 0;height:62px}
+.c-wave canvas{width:100%;height:100%;display:block;cursor:pointer}
+.c-tr3{margin-top:10px;justify-content:flex-start;gap:14px}
+.c-pv{margin-left:auto;color:rgba(232,228,220,.5)}
+.c-pp{width:34px;height:34px;border:1px solid rgba(232,228,220,.6);border-radius:50%;display:grid;place-items:center}
+.c-pp i{width:0;height:0;border-left:9px solid #e8e4dc;border-top:6px solid transparent;border-bottom:6px solid transparent;margin-left:3px}
+.c-pp.on i{width:9px;height:11px;border:0;border-left:3px solid #e8e4dc;border-right:3px solid #e8e4dc;margin:0}
+.c-pp.on{background:#e8e4dc}.c-pp.on i{border-color:#141312}
+.c-plates{display:flex;gap:10px;margin:22px 0 4px;align-items:flex-end}
+.c-plate{flex:1;aspect-ratio:3/4;overflow:hidden;background:#0c0c0c;transform:rotate(var(--r));box-shadow:0 8px 18px rgba(0,0,0,.55)}
+.c-plate img{width:100%;height:100%;object-fit:cover}
+.c-tl{margin-top:18px;font:400 10px/1 'DM Mono',monospace;letter-spacing:.14em;text-transform:uppercase}
+.c-tr4{margin-top:20px;padding-top:12px;border-top:1px dashed rgba(232,228,220,.24)}
+.c-tear{padding:8px 0;letter-spacing:.2em;text-transform:uppercase;font-size:9.5px}
+.c-nav button{font:400 20px/1 'DM Mono',monospace;padding:4px 10px}
+@media (max-width:720px){
+  .c-board{bottom:calc(58px + env(safe-area-inset-bottom))}
+  .c-row .tt{font-size:19px}.c-row.lead .tt{font-size:30px}
+  .c-tune .lv-tune{gap:12px}.c-tune input{width:70px}
+  #app.ticket .c-tune{opacity:0;pointer-events:none}
+  .c-slot{right:16px;left:16px;width:auto}
+  .c-tcov{aspect-ratio:auto;height:32vh}
+}
+.c-tin::before{content:"";position:absolute;inset:0;background:url(../media/grain.png) 0 0/220px;mix-blend-mode:overlay;opacity:.16;pointer-events:none}
+.c-tin>*{position:relative}
+#app.ticket .c-tune{opacity:0;pointer-events:none}
+.c-ttune{margin-top:16px}.c-ttune .lv-tune{gap:14px}.c-ttune input{width:90px}
+/* the wordmark is a live link home, above the veil and the ticket */
+.c-hd{z-index:12}.c-wm{pointer-events:auto;text-align:left;cursor:pointer}
+@media (max-width:720px){
+  .c-hd{top:calc(18px + env(safe-area-inset-top))}
+  .c-wm{font-size:30px}
+  /* phone: the counter leads, right under the header; the slot runs across the top */
+  .c-board{top:calc(118px + env(safe-area-inset-top));bottom:auto}
+  .c-slot{top:calc(78px + env(safe-area-inset-top));height:calc(100% - 78px - env(safe-area-inset-top))}
+  .c-slot::before{opacity:.55;top:0}
+  .c-slot.on::before{opacity:1}
+  .c-ticket{top:4px}
+  .c-tcov{height:24vh}
+  .c-tin{padding:16px 18px 14px}
+  .c-tt{font-size:36px;margin-top:12px}
+  .c-plates{margin:14px 0 2px}
+  .c-plate{aspect-ratio:4/3}
+}
+@media (max-width:720px){#app.ticket .c-sub{opacity:0;transition:opacity .3s}}
+@media (hover:none),(max-width:720px){html .c-pp{width:44px;height:44px}}

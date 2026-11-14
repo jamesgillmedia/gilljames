@@ -1,0 +1,88 @@
+/* proto-shell · THE THEME LAYER. Every colour in the shell comes from the variables below; nothing else decides night or red.
+   html[data-theme] is "night" (the default, the look the shell has always had) or "red" (Gill's red mode). core/theme.js sets it
+   and reads these same variables for the canvas, so one table drives CSS, the sky, the film labels and the waveform.
+   Night values here are the values that used to be written in shell.css / markmenu.css / the canvas code, unchanged.
+   A module paints with GJ_THEME.pal (or these variables), never with its own hex, and inherits red for free.
+   Red vs the Safelight (they must never read as the same thing): Red is a crimson-rose ink (hue 354, #ff4457) that draws the ELEMENTS (lines, text,
+   marks) across the whole site on a black that stays black; the Safelight is a warm orange-amber light (255,92,40, hue 14) cast from the screen EDGES only
+   (a 10px band, under every layer, off by default) and recolours nothing. Red never lights the page; the Safelight never colours an element.
+   Never themed: photographs, film frames, video (drawn untouched), the mint "new" marker, the safelight, the Photo room's own look. */
+:root{
+  --bg:#04070b;--bg-rgb:4,7,11;--ink:#eef3f5;--dim:#c9d3d6;--meta:#93a1a6;--mint:#55DAA1;--line:rgba(255,255,255,.16);
+  --panel-rgb:6,10,16;--note-rgb:200,207,214;--rip-rgb:255,255,255;
+  --ctl-rgb:230,230,236;--ctl-ink:#e8eef4;--tc:#d8dee6;--snd-ink:#eef3f5;--snd-dim:#c9d3d6;--pill-on:rgba(196,150,96,.8);--toggle-dot:#ff4d41;
+  --mm-bg:rgba(6,10,16,.84);--mm-ink:#e4ebf5;--mm-ink-rgb:228,235,245;--mm-line-rgb:207,216,230;--mm-accent:#d9b98a;
+  --mm-on-bg:#e8e4dc;--mm-on-ink:#04070b;--mm-on-text:#e8e4dc;
+  /* canvas (read by theme.js): rgb triplets, or a full colour where noted */
+  --c-field:223,231,242;--c-field-cool:150,175,215;--c-field-warm:244,230,208;--c-wash:19,32,46;--c-glow:205,225,255;--c-core:#fff;--c-core-cool:#fff;--c-core-warm:#fff;
+  --c-chapter:none;--c-active:none;--c-grid:none;
+  --c-label:#e6edf0;--c-slot:rgba(201,211,214,.5);
+  --c-snd-on:#eef3f5;--c-snd-off:rgb(255,214,206);--c-snd-lbl-on:#eef3f5;--c-snd-lbl:rgba(201,211,214,.85);
+  --c-rail-line:rgba(230,214,200,.38);--c-rail-on:rgba(238,243,245,.95);--c-rail-off:rgba(201,211,214,.4);
+  --c-rail-star-on:#eef3f5;--c-rail-star-off:rgba(201,211,214,.7);--c-rail-head:#fff}
+/* RED: bright red on black, thin line work, a dotted floor. The room or part you are adjusting lights up gold (--c-active). */
+html[data-theme=red]{
+  color-scheme:dark;
+  --bg:#000;--bg-rgb:0,0,0;--ink:#ff4457;--dim:#f23a4e;--meta:#e6384c;--line:rgba(255,68,87,.30);
+  --panel-rgb:14,0,0;--note-rgb:255,68,87;--rip-rgb:255,68,87;
+  --ctl-rgb:255,168,176;--ctl-ink:#ffa8b0;--tc:#ffb0b8;--snd-ink:#ffb0b8;--snd-dim:#ff8d99;--pill-on:rgba(232,196,138,.85);--toggle-dot:#eef3f5;
+  --mm-bg:rgba(14,0,0,.9);--mm-ink:#ff4457;--mm-ink-rgb:255,68,87;--mm-line-rgb:255,68,87;--mm-accent:#e8c48a;
+  --mm-on-bg:#ff4457;--mm-on-ink:#000;--mm-on-text:#ff4457;
+  --c-field:255,120,135;--c-field-cool:120,24,40;--c-field-warm:255,176,186;--c-wash:none;--c-glow:255,60,80;--c-core:#ff7a88;--c-core-cool:#c0304a;--c-core-warm:#ffd0d6;
+  --c-chapter:255,64,84;--c-active:232,196,138;--c-grid:255,64,84;
+  --c-label:#ff4457;--c-slot:rgba(255,68,87,.55);
+  --c-snd-on:#e8c48a;--c-snd-off:rgb(255,64,84);--c-snd-lbl-on:#e8c48a;--c-snd-lbl:rgba(255,68,87,.92);
+  /* the waveform player is the brightest thing in Red: a lighter rose than any other ink, and nothing (mood, brightness) ever dims it */
+  --c-rail-line:rgba(255,150,160,.55);--c-rail-on:rgba(255,168,176,1);--c-rail-off:rgba(255,110,125,.75);
+  --c-rail-star-on:#ffb0b8;--c-rail-star-off:rgba(255,110,125,.95);--c-rail-head:#ffe6e9}
+/* the quiet colour-mode control (top right, left of the A/B/C pills): a ring with a dot in the colour you would switch to */
+#themeBtn{width:28px;height:28px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;flex:0 0 auto;margin-right:2px}
+#themeBtn i{display:block;width:8px;height:8px;border-radius:50%;background:var(--toggle-dot)}
+#themeBtn:focus-visible{outline:1px solid var(--ink);outline-offset:2px}
+/* red: native range tracks stay readable (thin red line, red thumb that turns gold while it is being dragged) */
+html[data-theme=red] #markmenu input[type=range]{-webkit-appearance:none;appearance:none;background:none;height:22px}
+html[data-theme=red] #markmenu input[type=range]::-webkit-slider-runnable-track{height:2px;background:rgba(var(--mm-ink-rgb),.45);border-radius:1px}
+html[data-theme=red] #markmenu input[type=range]::-moz-range-track{height:2px;background:rgba(var(--mm-ink-rgb),.45);border-radius:1px}
+html[data-theme=red] #markmenu input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;margin-top:-6px;border-radius:50%;background:var(--mm-ink);border:0}
+html[data-theme=red] #markmenu input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--mm-ink);border:0}
+html[data-theme=red] #markmenu input[type=range]:active::-webkit-slider-thumb{background:var(--mm-accent)}
+html[data-theme=red] #markmenu input[type=range]:active::-moz-range-thumb{background:var(--mm-accent)}
+/* red: red carries less light than the night inks, so the dimmer menu text steps up to stay readable (disabled items stay dim) */
+html[data-theme=red] #markmenu .mm-rooms a,html[data-theme=red] #markmenu .mm-rooms button:not(.mm-off):not([aria-disabled=true]){color:rgba(var(--mm-ink-rgb),.92)}
+html[data-theme=red] #markmenu .mm-rooms [data-go].on{color:var(--mm-accent)}
+html[data-theme=red] #markmenu h3{color:rgba(var(--mm-ink-rgb),.92)}
+html[data-theme=red] #markmenu h3 em,html[data-theme=red] #markmenu .mm-foot,html[data-theme=red] #markmenu .mm-off-room h3 em,html[data-theme=red] #markmenu .mm-theme b em{color:rgba(var(--mm-ink-rgb),.94)}
+html[data-theme=red] #markmenu output{color:var(--mm-ink)}
+html[data-theme=red] #markmenu .mm-seg button{color:rgba(var(--mm-ink-rgb),.95)}
+html[data-theme=red] #markmenu .mm-seg button[aria-checked=true]{color:var(--mm-on-ink)}
+html[data-theme=red] #markmenu .mm-off-room label{opacity:.7}
+
+/* red only: the floating callout (core/callout.js), the zoom-level scale (#lvl, shell.js), and the tune menu stepping aside while a slider moves */
+#callouts,#lvl{display:none}
+html[data-theme=red] #callouts{display:block;position:fixed;inset:0;width:100%;height:100%;z-index:46;pointer-events:none;overflow:visible}
+#callouts .co-br{fill:none;stroke:rgba(232,196,138,.55);stroke-width:1}
+#callouts .co-ln{fill:none;stroke:rgba(232,196,138,.85);stroke-width:1.2;stroke-linecap:round;stroke-dasharray:.1 4.5}
+#callouts .co-box{fill:rgba(14,0,0,.86);stroke:#e8c48a;stroke-width:1}
+#callouts .co-t1{font:400 9px "Julius Sans One",Poppins,sans-serif;letter-spacing:.2em;fill:#e8c48a}
+#callouts .co-t2{font:300 11px Poppins,sans-serif;letter-spacing:.04em;fill:var(--ink)}
+html[data-theme=red] #lvl{display:block;position:fixed;z-index:46;left:calc(8px + var(--sl));top:50%;width:64px;height:132px;margin-top:-66px;pointer-events:none}
+#lvl .rail{position:absolute;left:3px;top:0;bottom:0;width:0;border-left:1.5px dotted rgba(var(--ctl-rgb),.6)}
+#lvl b{position:absolute;left:0;height:12px;margin-top:-6px;padding-left:13px;font:400 8px/12px "Julius Sans One",Poppins,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+#lvl b::before{content:"";position:absolute;left:1px;top:4px;width:4px;height:4px;border-radius:50%;background:currentColor;box-shadow:0 0 3px 0 currentColor}
+#lvl b.off{opacity:.4}
+#lvl b.on{color:#e8c48a}
+#lvl s{position:absolute;left:0;top:0;width:8px;height:8px;margin:-4px 0 0 -1px;border-radius:50%;background:#ffe9c4;box-shadow:0 0 4px 1px #e8c48a}
+
+/* the ghost dial (core/ghostdial.js): thin, nearly transparent; the ink follows the menu's ink (Night: light, Red: red); the current value is gold */
+#ghostdial{position:fixed;inset:0;width:100%;height:100%;z-index:43;pointer-events:none;overflow:visible;opacity:0;transition:opacity .15s linear}
+#ghostdial.on{opacity:1}
+#ghostdial.out{opacity:0;transition:opacity .72s linear}
+#ghostdial .gd-arc{fill:none;stroke:rgba(var(--mm-ink-rgb),.34);stroke-width:1}
+#ghostdial .gd-end{fill:none;stroke:rgba(var(--mm-ink-rgb),.22);stroke-width:1}
+#ghostdial .gd-def{fill:none;stroke:rgba(var(--mm-ink-rgb),.5);stroke-width:1.4;stroke-linecap:round}
+#ghostdial .gd-cur{fill:none;stroke:#e8c48a;stroke-width:1.6;stroke-linecap:round}
+#ghostdial .gd-name{font:400 7.5px "Julius Sans One",Poppins,sans-serif;letter-spacing:.2em;fill:rgba(var(--mm-ink-rgb),.62)}
+#ghostdial .gd-val{font:300 8px Poppins,sans-serif;letter-spacing:.06em;fill:rgba(var(--mm-ink-rgb),.5)}
+@media (prefers-reduced-motion:reduce){#ghostdial,#ghostdial.out{transition:none}}
+/* while a slider is held the menu disappears (it is still there under the finger, so the drag carries on); only when the ghost dial found a safe place */
+#markmenu.mm-peek{opacity:0;-webkit-backdrop-filter:none;backdrop-filter:none}

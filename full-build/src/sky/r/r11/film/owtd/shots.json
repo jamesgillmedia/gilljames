@@ -1,0 +1,24 @@
+{
+  "film": "owtd",
+  "dur": 8.007,
+  "fps": 24,
+  "w": 1280,
+  "h": 544,
+  "ar": 2.3529,
+  "poster": "stills/05_lantern_portrait.jpg",
+  "parts": [{ "src": "one-with-the-devil-clip.mp4", "t": 0, "d": 8.007 }],
+  "shots": [
+    { "t": 0.0, "d": 0.667, "n": 0, "title": "", "film": 0, "th": "stills/01_wood_chop.jpg" },
+    { "t": 0.667, "d": 0.667, "n": 1, "title": "", "film": 0, "th": "stills/02_dallas_snow.jpg" },
+    { "t": 1.334, "d": 0.667, "n": 2, "title": "", "film": 0, "th": "stills/03_colton_snow_trees.jpg" },
+    { "t": 2.001, "d": 0.667, "n": 3, "title": "", "film": 0, "th": "stills/04_table_twoshot.jpg" },
+    { "t": 2.668, "d": 0.667, "n": 4, "title": "", "film": 0, "th": "stills/05_lantern_portrait.jpg" },
+    { "t": 3.335, "d": 0.667, "n": 5, "title": "", "film": 0, "th": "stills/06_colton_cabin.jpg" },
+    { "t": 4.002, "d": 0.667, "n": 6, "title": "", "film": 0, "th": "stills/07_dallas_cu.jpg" },
+    { "t": 4.669, "d": 0.667, "n": 7, "title": "", "film": 0, "th": "stills/08_rose.jpg" },
+    { "t": 5.336, "d": 0.667, "n": 8, "title": "", "film": 0, "th": "stills/09_landscape.jpg" },
+    { "t": 6.003, "d": 0.667, "n": 9, "title": "", "film": 0, "th": "stills/10_rifle_doorway.jpg" },
+    { "t": 6.67, "d": 0.667, "n": 10, "title": "", "film": 0, "th": "stills/11_night_cabin.jpg" },
+    { "t": 7.337, "d": 0.67, "n": 11, "title": "", "film": 0, "th": "stills/12_candlelight.jpg" }
+  ]
+}

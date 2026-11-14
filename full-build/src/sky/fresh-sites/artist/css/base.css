@@ -1,0 +1,61 @@
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#0b0a09;color:#e8e4dc;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+body{overflow:hidden;overscroll-behavior:none;font:400 15px/1.5 'Newsreader',Georgia,serif}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+img{display:block;user-select:none;-webkit-user-select:none}
+#app{position:fixed;inset:0;overflow:hidden}
+/* the page's own material: graphite tooth lifted from Gill's pencil drawing (069ab99d), not decoration on top of UI */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:80;background:url(../media/tex/grain.png) 0 0/256px 256px;mix-blend-mode:overlay;opacity:.09}
+/* dark placeholders that develop like a print: light first, then the image settles */
+.fi{opacity:0;filter:brightness(1.5) contrast(.8);transition:opacity 1.4s cubic-bezier(.4,0,.2,1),filter 2.2s cubic-bezier(.4,0,.2,1)}
+.fi.in{opacity:1;filter:none}
+/* dev toggle */
+#dev{position:fixed;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:95;display:flex;gap:2px;align-items:center;font:400 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(232,228,220,.55);background:rgba(11,10,9,.72);border-radius:12px;padding:3px 4px 3px 9px}
+#dev span{margin-right:4px;text-transform:uppercase}
+#dev a{display:inline-block;min-width:22px;padding:5px 0;text-align:center;border-radius:9px;color:rgba(232,228,220,.6)}
+#dev a.on{color:#0b0a09;background:#e8e4dc}
+/* the player: To Go · Lost Coffee, waveform always full bright */
+.gplay{position:fixed;left:max(14px,env(safe-area-inset-left));bottom:calc(12px + env(safe-area-inset-bottom));z-index:90;display:flex;align-items:center;gap:10px;height:30px;font:400 10px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#e8e4dc;pointer-events:auto}
+.gplay .pp{width:26px;height:26px;display:grid;place-items:center}
+.gplay .tri{width:0;height:0;border-left:7px solid #e8e4dc;border-top:4.5px solid transparent;border-bottom:4.5px solid transparent}
+.gplay.on .tri{width:7px;height:9px;border:0;border-left:2px solid #e8e4dc;border-right:2px solid #e8e4dc}
+.gplay .pl em{font-style:normal;color:rgba(232,228,220,.62)}
+.gplay .pw{width:150px;height:20px;cursor:pointer}
+@media (max-width:600px){.gplay .pw{width:110px}}
+/* index: the flat escape hatch */
+.gindex{position:fixed;inset:0;z-index:85;background:#0b0a09;overflow:auto;-webkit-overflow-scrolling:touch;opacity:0;visibility:hidden;transition:opacity .7s ease,visibility 0s linear .7s}
+.gindex.open{opacity:1;visibility:visible;transition:opacity .7s ease}
+.gindex .gx{position:fixed;top:calc(18px + env(safe-area-inset-top));right:20px;font:400 11px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;text-transform:uppercase;padding:10px 4px;color:#e8e4dc}
+.gi-in{max-width:980px;margin:0 auto;padding:110px 28px 120px;columns:2 300px;column-gap:80px}
+.gindex section{break-inside:avoid;margin-bottom:46px}
+.gindex h3{font:400 italic 30px/1 'Instrument Serif',serif;margin-bottom:14px;color:#e8e4dc}
+.gindex li{list-style:none;font:400 16px/1.9 'Newsreader',serif;color:rgba(232,228,220,.86)}
+.gindex li a{cursor:pointer;border-bottom:1px solid transparent}
+.gindex li a:hover{border-color:rgba(232,228,220,.5)}
+.gindex small{font:400 10px 'IBM Plex Mono',monospace;letter-spacing:.1em;color:rgba(232,228,220,.55);margin-left:6px}
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* no browser page zoom: the site owns pinch */
+html,body{touch-action:pan-x pan-y}
+html[data-v=B] #app,html[data-v=B] .b-lift{touch-action:pan-y}
+/* phone: every tap target at least 44px */
+@media (hover:none),(max-width:720px){
+  #dev a{min-width:44px;min-height:44px;display:inline-flex;align-items:center;justify-content:center}
+  .c-wm,.c-map,.a-wm,.b-bwm{min-height:44px;display:inline-flex;align-items:center}
+  .c-back,.c-next,.c-index a,.c-index button{min-height:44px;min-width:44px;display:inline-flex;align-items:center}
+  .c-sign{min-height:44px;min-width:44px}
+  .b-band{height:44px;line-height:44px}
+  .wm-mark{min-height:44px;min-width:44px;display:inline-flex;align-items:center}
+  .wm-mode button,.wm-home{min-height:44px}
+}
+/* wordmark drawer: Night/Red. The mark itself stays bare. */
+.wm-drawer{position:fixed;z-index:90;min-width:200px;max-width:min(280px,calc(100vw - 24px));padding:12px 14px 10px;background:rgba(11,10,9,.94);border:1px solid rgba(232,228,220,.28);box-shadow:0 18px 40px rgba(0,0,0,.5)}
+.wm-drawer[hidden]{display:none!important}
+.wm-flash:empty{display:none}
+.wm-mode{display:flex;align-items:center;gap:8px}
+.wm-mode span,.wm-home,.wm-mode button{font:400 10px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;text-transform:uppercase}
+.wm-mode span{color:rgba(232,228,220,.62)}
+.wm-mode button{min-height:32px;padding:0 12px;border:1px solid rgba(232,228,220,.4)}
+.wm-mode button.on{background:#e8e4dc;color:#0b0a09;border-color:#e8e4dc}
+.wm-home{display:flex;align-items:center;margin-top:8px;min-height:32px;color:rgba(232,228,220,.78)}

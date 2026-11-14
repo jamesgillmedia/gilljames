@@ -1,0 +1,287 @@
+[
+ [
+  "phone-390x844 cup layers in order",
+  true,
+  "['whole piece', 'surface', 'making', 'use', 'shop']"
+ ],
+ [
+  "phone-390x844 cup stop count",
+  true,
+  "25"
+ ],
+ [
+  "phone-390x844 Escape up one stop at a time to whole piece",
+  true,
+  ""
+ ],
+ [
+  "phone-390x844 up at the top does nothing",
+  true,
+  ""
+ ],
+ [
+  "phone-390x844 wheel burst toward = exactly one layer in",
+  true,
+  "stop 1"
+ ],
+ [
+  "phone-390x844 wheel burst away = exactly one layer up",
+  true,
+  "stop 0"
+ ],
+ [
+  "phone-390x844 ctrl+wheel pinch = one step",
+  true,
+  "1"
+ ],
+ [
+  "phone-390x844 rapid Enter x4 = one step",
+  true,
+  "1"
+ ],
+ [
+  "phone-390x844 ArrowDown / ArrowUp",
+  true,
+  ""
+ ],
+ [
+  "phone-390x844 pinch in = one layer",
+  true,
+  "1"
+ ],
+ [
+  "phone-390x844 second pinch in = next stop",
+  true,
+  ""
+ ],
+ [
+  "phone-390x844 pinch out = one up",
+  true,
+  ""
+ ],
+ [
+  "phone-390x844 pinch out again = whole piece",
+  true,
+  ""
+ ],
+ [
+  "phone-390x844 tap = one layer in",
+  true,
+  ""
+ ],
+ [
+  "phone-390x844 Back = one up",
+  true,
+  ""
+ ],
+ [
+  "phone-390x844 one gesture = next specimen (scoop, whole piece)",
+  true,
+  "ice cream scoop"
+ ],
+ [
+  "phone-390x844 scoop layers (making and use skipped)",
+  true,
+  "['whole piece', 'surface', 'shop']"
+ ],
+ [
+  "phone-390x844 Home = cup whole piece",
+  true,
+  ""
+ ],
+ [
+  "phone-390x844 no console errors / 4xx",
+  true,
+  "[]"
+ ],
+ [
+  "phone-390x844 RM reduce-motion run gives the same steps",
+  true,
+  "[1, 2, 3, 1]"
+ ],
+ [
+  "phone-390x844 RM no console errors / 4xx",
+  true,
+  "[]"
+ ],
+ [
+  "landscape-844x390 cup layers in order",
+  true,
+  "['whole piece', 'surface', 'making', 'use', 'shop']"
+ ],
+ [
+  "landscape-844x390 cup stop count",
+  true,
+  "25"
+ ],
+ [
+  "landscape-844x390 Escape up one stop at a time to whole piece",
+  true,
+  ""
+ ],
+ [
+  "landscape-844x390 up at the top does nothing",
+  true,
+  ""
+ ],
+ [
+  "landscape-844x390 wheel burst toward = exactly one layer in",
+  true,
+  "stop 1"
+ ],
+ [
+  "landscape-844x390 wheel burst away = exactly one layer up",
+  true,
+  "stop 0"
+ ],
+ [
+  "landscape-844x390 ctrl+wheel pinch = one step",
+  true,
+  "1"
+ ],
+ [
+  "landscape-844x390 rapid Enter x4 = one step",
+  true,
+  "1"
+ ],
+ [
+  "landscape-844x390 ArrowDown / ArrowUp",
+  true,
+  ""
+ ],
+ [
+  "landscape-844x390 pinch in = one layer",
+  true,
+  "1"
+ ],
+ [
+  "landscape-844x390 second pinch in = next stop",
+  true,
+  ""
+ ],
+ [
+  "landscape-844x390 pinch out = one up",
+  true,
+  ""
+ ],
+ [
+  "landscape-844x390 pinch out again = whole piece",
+  true,
+  ""
+ ],
+ [
+  "landscape-844x390 tap = one layer in",
+  true,
+  ""
+ ],
+ [
+  "landscape-844x390 Back = one up",
+  true,
+  ""
+ ],
+ [
+  "landscape-844x390 one gesture = next specimen (scoop, whole piece)",
+  true,
+  "ice cream scoop"
+ ],
+ [
+  "landscape-844x390 scoop layers (making and use skipped)",
+  true,
+  "['whole piece', 'surface', 'shop']"
+ ],
+ [
+  "landscape-844x390 Home = cup whole piece",
+  true,
+  ""
+ ],
+ [
+  "landscape-844x390 no console errors / 4xx",
+  true,
+  "[]"
+ ],
+ [
+  "landscape-844x390 RM reduce-motion run gives the same steps",
+  true,
+  "[1, 2, 3, 1]"
+ ],
+ [
+  "landscape-844x390 RM no console errors / 4xx",
+  true,
+  "[]"
+ ],
+ [
+  "desktop-1440x900 cup layers in order",
+  true,
+  "['whole piece', 'surface', 'making', 'use', 'shop']"
+ ],
+ [
+  "desktop-1440x900 cup stop count",
+  true,
+  "25"
+ ],
+ [
+  "desktop-1440x900 Escape up one stop at a time to whole piece",
+  true,
+  ""
+ ],
+ [
+  "desktop-1440x900 up at the top does nothing",
+  true,
+  ""
+ ],
+ [
+  "desktop-1440x900 wheel burst toward = exactly one layer in",
+  true,
+  "stop 1"
+ ],
+ [
+  "desktop-1440x900 wheel burst away = exactly one layer up",
+  true,
+  "stop 0"
+ ],
+ [
+  "desktop-1440x900 ctrl+wheel pinch = one step",
+  true,
+  "1"
+ ],
+ [
+  "desktop-1440x900 rapid Enter x4 = one step",
+  true,
+  "1"
+ ],
+ [
+  "desktop-1440x900 ArrowDown / ArrowUp",
+  true,
+  ""
+ ],
+ [
+  "desktop-1440x900 one gesture = next specimen (scoop, whole piece)",
+  true,
+  "ice cream scoop"
+ ],
+ [
+  "desktop-1440x900 scoop layers (making and use skipped)",
+  true,
+  "['whole piece', 'surface', 'shop']"
+ ],
+ [
+  "desktop-1440x900 Home = cup whole piece",
+  true,
+  ""
+ ],
+ [
+  "desktop-1440x900 no console errors / 4xx",
+  true,
+  "[]"
+ ],
+ [
+  "desktop-1440x900 RM reduce-motion run gives the same steps",
+  true,
+  "[1, 2, 3, 1]"
+ ],
+ [
+  "desktop-1440x900 RM no console errors / 4xx",
+  true,
+  "[]"
+ ]
+]

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no">
+<title>Gill James · ᑕᐣᓯ</title>
+<meta name="description" content="Gill James. Film, photographs, objects and sound — one sky, and a page for every piece.">
+<meta name="theme-color" content="#04070b">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ᑕᐣᓯ">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="css/sky.css">
+<link rel="stylesheet" href="css/scope.css">
+<link rel="stylesheet" href="css/filmplayer.css">
+<link rel="stylesheet" href="../../_tn/back.css"><script src="../../_tn/back.js" data-tn-root="../../" defer></script></head>
+<body>
+<div id="stage" role="application" aria-label="Gill James. Pinch in to go deeper, pinch out to step back one level.">
+<div class="water" id="water" aria-hidden="true"></div>
+<canvas id="cv" aria-hidden="true"></canvas>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="moon" id="moon" aria-hidden="true"></div>
+<div class="path" id="path" aria-hidden="true"></div>
+<div class="horizon" id="horizon" aria-hidden="true"></div>
+<div class="dust" id="dust" aria-hidden="true"></div>
+<div class="poem" id="poem"></div>
+<button type="button" id="dive">touch the water</button>
+<div id="land" aria-hidden="true"><img id="landimg" alt=""><p id="landcap"></p></div>
+<header id="bar">
+<button type="button" id="back" hidden aria-label="out one level">‹</button>
+<p id="crumb"><a class="sig" href="#/" lang="cr">ᑕᐣᓯ</a> · <span id="where">the sky</span></p>
+<nav class="chips" aria-label="shortcuts"><button type="button" data-ch="film" aria-label="film">▶</button><button type="button" data-jump="poem" aria-label="moon">○</button><button type="button" data-jump="joio" aria-label="joio">◻</button><button type="button" data-ch="sound" aria-label="music">∿</button><button type="button" data-ch="about" aria-label="bio">ᑕ</button></nav>
+<button type="button" id="reel">▶ Reel</button>
+<nav class="nav" aria-label="pages"><button type="button" id="hire" hidden aria-expanded="false">Hire</button><a href="list/">List</a><a href="contact/">Contact</a><a href="3d/" id="go3d" aria-label="enter in 3D">3D</a></nav>
+</header>
+<nav id="wcrumb" aria-label="where you are" hidden></nav>
+<nav id="wrail" aria-label="depth" hidden></nav>
+<a id="ginside" href="../inside/#objects" hidden>go inside <span aria-hidden="true">›</span></a>
+<a id="gobj3d" class="g3" href="objects-3d/" hidden>objects in 3d <span aria-hidden="true">›</span></a>
+<button type="button" id="ochip" hidden></button>
+<p id="shint" hidden>pinch to fly in · drag to look around · double-tap to pull back</p>
+<div id="apro" hidden>
+  <div class="ahead">
+    <svg class="glyph" viewBox="0 0 72 36" aria-hidden="true"><path d="M23.8,11.6L17.4,11.6M17.4,11.6L11.2,14.2M11.2,14.2L8.3,20.4M8.3,20.4L10.6,26.6M10.6,26.6L17.0,29.3M17.0,29.3L23.8,28.7M41.3,30.3L41.7,21.1M41.7,21.1L47.6,20.4M47.6,20.4L51.2,16.6M51.2,16.6L51.9,10.3M63.7,7.6L65.6,9.8M65.6,9.8L65.2,12.5"/><circle cx="51.9" cy="10.3" r="2.5"/><circle cx="8.3" cy="20.4" r="2.4"/><circle cx="23.8" cy="11.6" r="2.2"/><circle cx="41.3" cy="30.3" r="2.1"/><circle cx="17" cy="29.3" r="2"/><circle cx="65.2" cy="12.5" r="1.9"/></svg>
+    <span class="nm">about</span>
+    <span class="lvlab">star chart</span>
+    <span class="ct">bio · contact · poem</span>
+  </div>
+  <div class="about-l1" id="aprobio"></div>
+  <div class="achart">
+    <svg class="alines" viewBox="0 0 28 220" preserveAspectRatio="none" aria-hidden="true"><path d="M10 10 C 8 36, 16 48, 12 72 S 6 120, 12 148 S 18 190, 11 210"/></svg>
+    <ol class="astars" id="astars"></ol>
+  </div>
+  <p class="amore"><button type="button" id="aprox">close −</button></p>
+</div>
+<p id="proof" hidden>BMW · Coca-Cola · AXE · Band-Aid</p>
+<p id="foot">© 2025 joioco · <a href="mailto:imjamesgill@gmail.com">imjamesgill@gmail.com</a></p>
+<button type="button" id="mmap" hidden aria-label="map of the sky"><canvas id="mmapc" width="152" height="200"></canvas></button>
+<div id="hirecard" class="hire-card" hidden role="dialog" aria-label="Hire">
+<button type="button" class="x" id="hirex" aria-label="close">×</button>
+<p class="h">Hire</p>
+<p>Film, objects, space and sound.</p>
+<p><a href="mailto:imjamesgill@gmail.com">imjamesgill@gmail.com</a></p>
+</div>
+<iframe id="snd" title="sound" hidden allow="autoplay" src="about:blank"></iframe>
+<div id="layers" hidden>
+<div id="calcstage">
+<div id="calczoom">
+<video id="calc" muted loop playsinline autoplay preload="auto" src="media/about/calculator.mp4"></video>
+<canvas id="glitch" aria-hidden="true"></canvas>
+</div>
+<canvas id="grain" aria-hidden="true"></canvas>
+</div>
+<video id="moons" muted loop playsinline preload="auto" src="media/about/moon-grid.mp4"></video>
+<div id="laytext" class="copy"></div>
+<div id="lrail" aria-hidden="true"></div>
+</div>
+<div id="layer"></div>
+</div>
+<noscript><p style="position:absolute;z-index:30;top:0;left:0;padding:24px"><a href="list/" style="color:#eef3f5">Everything as a list</a></p></noscript>
+<script src="js/reelshots.js"></script>
+<script src="js/reelview.js"></script>
+<script src="js/joio.js"></script>
+<script src="js/copy.js"></script>
+<script src="js/frames.js"></script>
+<script src="js/nov9.js"></script>
+<script src="js/inner.js"></script>
+<script src="js/framing.js"></script>
+<script src="js/filmdata.js"></script>
+<script src="js/scope.js"></script>
+<script src="js/filmplayer.js"></script>
+<script src="js/depth.js"></script>
+<script src="js/layers.js"></script>
+<script src="js/opening.js"></script>
+<script src="js/sky.js"></script>
+<script src="js/debug.js"></script>
+<script>if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js')</script>
+<link rel="stylesheet" href="../../../../../../chrome.css"><script src="../../../../../../chrome.js" data-hub="../../../../../../index.html" data-rooms="../../../../../../rooms.json"></script></body>
+</html>

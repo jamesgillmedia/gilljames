@@ -1,0 +1,46 @@
+/* Shared wayfinding for the full-build preview. Quiet, never a grade on pictures. */
+@font-face{font-family:Syl;font-weight:700;font-display:swap;src:url(fonts/noto-canadian-aboriginal-subset.woff2) format("woff2");unicode-range:U+1400-167F}
+html.gj-nomoon .moon, html.gj-nomoon #moon, html.gj-nomoon [data-moon]{opacity:0!important}
+#gj-back, #gj-red, #gj-dial {
+  position: fixed; z-index: 2147483000;
+  font: 300 13px Poppins, system-ui, sans-serif;
+  color: #e6edf0; background: rgba(6,10,18,.62);
+  border: 1px solid rgba(200,225,255,.22);
+  border-radius: 22px; min-height: 44px; min-width: 44px;
+  cursor: pointer; text-decoration: none;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+#gj-back { top: calc(env(safe-area-inset-top) + 8px); left: 8px; padding: 0 12px; gap: 6px; }
+#gj-back b { font: 700 18px Syl, "Noto Sans Canadian Aboriginal", sans-serif; font-weight: 700; }
+#gj-red, #gj-dial { top: calc(env(safe-area-inset-top) + 8px); }
+#gj-red { right: 8px; width: 44px; padding: 0; }
+#gj-red i { width: 10px; height: 10px; border-radius: 50%; background: #c9d3d6; display: block; }
+html.rm #gj-red i { background: #c23b3b; }
+#gj-dial { right: 58px; padding: 0 12px; letter-spacing: .08em; }
+#gj-drawer {
+  position: fixed; z-index: 2147483000; top: 0; right: 0; bottom: 0; width: min(360px, 100vw);
+  background: rgba(6,10,16,.88); color: #e6edf0;
+  border-left: 1px solid rgba(200,225,255,.16);
+  transform: translateX(104%); transition: transform .35s ease;
+  overflow: auto; -webkit-overflow-scrolling: touch;
+  padding: calc(env(safe-area-inset-top) + 64px) 16px calc(env(safe-area-inset-bottom) + 24px);
+  font: 300 13px/1.4 Poppins, system-ui, sans-serif;
+}
+#gj-drawer.on { transform: none; }
+#gj-drawer h2 { margin: 18px 0 8px; font: 400 11px "Julius Sans One", sans-serif; letter-spacing: .14em; text-transform: uppercase; color: #9eb0b6; }
+#gj-drawer label.row, #gj-drawer a.row {
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  min-height: 40px; color: inherit; text-decoration: none;
+  border-bottom: 1px solid rgba(200,225,255,.08);
+}
+#gj-drawer a.row:hover, #gj-drawer a.row:focus-visible { color: #55DAA1; }
+#gj-drawer select, #gj-drawer button.tog {
+  font: inherit; color: #e6edf0; background: transparent;
+  border: 1px solid rgba(200,225,255,.25); border-radius: 14px; min-height: 32px; padding: 0 8px;
+}
+html.gj-noreflect .refl, html.gj-noreflect .reflection, html.gj-noreflect [data-reflect] { opacity: 0 !important; visibility: hidden !important; }
+html.gj-nowater .water, html.gj-nowater #water { opacity: 0 !important; }
+@media (prefers-reduced-motion: reduce) {
+  #gj-drawer { transition: none; }
+}
+body.gj-hub #gj-back { display: none; }

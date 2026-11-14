@@ -1,0 +1,9 @@
+/* tonight · the opener's name chip (magic baseline). Text in the sky with one hairline: Julius Sans One, no box, no fill. */
+.tn-chip{position:fixed;left:0;top:0;z-index:2147483000;display:flex;align-items:baseline;gap:14px;padding:6px 2px 4px;border-top:1px solid rgba(200,225,255,.28);
+ font:400 11px "Julius Sans One",Poppins,sans-serif;letter-spacing:.14em;text-transform:lowercase;color:#e8e4dc;text-shadow:0 0 8px #04070b,0 0 3px #04070b;opacity:0;transition:opacity .25s}
+.tn-chip.on{opacity:1}.tn-chip[hidden]{display:none}
+.tn-chip .nm{font-size:12px;letter-spacing:.16em;text-transform:uppercase}
+.tn-chip a{color:#e8e4dc;text-decoration:none;display:inline-block;min-height:32px;line-height:32px}
+.tn-chip a:focus-visible{outline:2px solid #e8e4dc;outline-offset:2px}
+/* the hand-off: the sky keeps going toward the fingers for a moment (the same with Reduce Motion on) */
+html.tn-going #stage{transition:transform .26s ease-in,opacity .26s ease-in;transform:scale(1.35);opacity:.35}

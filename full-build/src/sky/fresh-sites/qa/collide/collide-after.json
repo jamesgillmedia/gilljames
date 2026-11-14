@@ -1,0 +1,50 @@
+{
+ "phone390": {
+  "fail": 0,
+  "by_ctx": [],
+  "items": [],
+  "errors": []
+ },
+ "phone375": {
+  "fail": 0,
+  "by_ctx": [],
+  "items": [],
+  "errors": []
+ },
+ "land844": {
+  "fail": 0,
+  "by_ctx": [],
+  "items": [],
+  "errors": []
+ },
+ "ipad820": {
+  "fail": 0,
+  "by_ctx": [],
+  "items": [],
+  "errors": []
+ },
+ "desk1440": {
+  "fail": 0,
+  "by_ctx": [],
+  "items": [],
+  "errors": []
+ },
+ "desk1280x720": {
+  "fail": 0,
+  "by_ctx": [],
+  "items": [],
+  "errors": []
+ },
+ "wide1920": {
+  "fail": 0,
+  "by_ctx": [],
+  "items": [],
+  "errors": []
+ },
+ "car1280x480": {
+  "fail": 0,
+  "by_ctx": [],
+  "items": [],
+  "errors": []
+ }
+}

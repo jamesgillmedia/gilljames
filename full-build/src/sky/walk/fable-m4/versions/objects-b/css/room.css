@@ -1,0 +1,90 @@
+/* Objects · version B (real cup photography in the specimen case). m4 / photo lab language.
+   Motion is the same with Reduce Motion on: nothing here reads prefers-reduced-motion. */
+@font-face{font-family:Poppins;font-weight:200;font-display:swap;src:url(../media/fonts/poppins-200.woff2) format("woff2")}
+@font-face{font-family:Poppins;font-weight:300;font-display:swap;src:url(../media/fonts/poppins-300.woff2) format("woff2")}
+@font-face{font-family:"Julius Sans One";font-display:swap;src:url(../media/fonts/julius-sans-one.woff2) format("woff2")}
+@font-face{font-family:Syl;font-weight:700;font-display:block;src:url(../media/fonts/noto-canadian-aboriginal-subset.woff2) format("woff2");unicode-range:U+1400-167F}
+:root{--bg:#050506;--ink:#eef0ee;--dim:#c9cfcc;--mute:#8e9894;--warm:#e9d7b8;--mint:#55DAA1;--line:rgba(255,255,255,.16);
+ --ease:cubic-bezier(.22,1,.36,1);
+ --st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px);--sl:env(safe-area-inset-left,0px);--sr:env(safe-area-inset-right,0px)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:300 14px/1.5 Poppins,system-ui,sans-serif;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
+body{overflow:hidden;overscroll-behavior:none;touch-action:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+a{color:inherit;-webkit-tap-highlight-color:transparent}
+img{-webkit-user-drag:none;user-select:none;-webkit-user-select:none}
+.ju{font-family:"Julius Sans One",Poppins,sans-serif;letter-spacing:.14em;text-transform:uppercase}
+#c{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
+.top{position:fixed;z-index:50;left:0;right:0;top:0;display:flex;align-items:center;gap:10px;padding:calc(10px + var(--st)) calc(14px + var(--sr)) 10px calc(14px + var(--sl));pointer-events:none}
+.top>*{pointer-events:auto}
+.top .sig{font:700 22px/1 Syl,Poppins,sans-serif;text-decoration:none;color:var(--ink);opacity:.92}
+.top .crumb{flex:1;min-width:0;font-size:10.5px;letter-spacing:.2em;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .crumb b{font-weight:300;color:var(--ink)}
+.btn{display:inline-grid;place-items:center;min-width:44px;min-height:44px;padding:0 14px;border:1px solid var(--line);border-radius:22px;background:rgba(5,5,6,.42);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);font-size:12px;letter-spacing:.12em;color:var(--ink);text-decoration:none;transition:border-color .5s var(--ease),color .5s var(--ease)}
+.btn:hover{border-color:rgba(255,255,255,.34)}
+.btn.on{border-color:rgba(233,215,184,.7);color:var(--warm)}
+.btn.ic{padding:0;font-size:18px}
+.btn.sm{min-height:36px;font-size:11px}
+/* the specimen label: name · layer, then the repo caption (if one exists), then where on the axis */
+.label{position:fixed;z-index:20;left:50%;bottom:calc(18px + var(--sb));transform:translateX(-50%);width:min(560px,calc(100% - 120px));text-align:center;pointer-events:none;transition:opacity .7s var(--ease)}
+.label .t{display:block;font-size:11.5px;letter-spacing:.22em;color:var(--warm)}
+.label .c{display:block;margin-top:4px;font-size:12.5px;line-height:1.45;color:var(--dim);min-height:1.45em}
+.label .n{display:block;margin-top:3px;font-size:10.5px;letter-spacing:.14em;color:var(--mute)}
+.label.hide{opacity:0}
+/* the depth rail: one tick per photograph of this piece, the layer names beside */
+.layers{position:fixed;z-index:20;right:calc(12px + var(--sr));top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:5px;align-items:flex-end;pointer-events:none}
+.layers i{display:block;width:10px;height:2px;background:rgba(255,255,255,.22);transition:width .6s var(--ease),background .6s var(--ease)}
+.layers i.on{width:22px;background:var(--warm)}
+.layers b{font-weight:300;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);margin-top:6px}
+.layers b.on{color:var(--warm)}
+.side{position:fixed;z-index:20;top:50%;transform:translateY(-50%);width:44px;height:64px;font-size:26px;color:rgba(238,240,238,.55);transition:color .4s var(--ease),opacity .6s var(--ease)}
+.side:hover{color:var(--ink)}
+.side.l{left:calc(4px + var(--sl))}.side.r{right:calc(40px + var(--sr))}
+.side[disabled]{opacity:.15;pointer-events:none}
+/* proof sheet */
+.proof{position:fixed;inset:0;z-index:30;background:rgba(5,5,6,.97);opacity:0;transition:opacity .9s var(--ease)}
+.proof.open{opacity:1}
+.psc{position:absolute;inset:0;overflow:auto;-webkit-overflow-scrolling:touch;touch-action:pan-y;padding:calc(66px + var(--st)) calc(14px + var(--sr)) calc(40px + var(--sb)) calc(14px + var(--sl))}
+.phd{display:flex;justify-content:space-between;align-items:center;gap:12px;max-width:1100px;margin:0 auto 10px;font-size:11px;color:var(--dim)}
+.pset{max-width:1100px;margin:0 auto 26px}
+.pset h2{margin:0 0 8px;font:300 11px/1.4 "Julius Sans One",Poppins,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:var(--warm);display:flex;justify-content:space-between;gap:10px}
+.pset h2 span{color:var(--mute);letter-spacing:.14em}
+.pgrid{display:grid;grid-template-columns:repeat(var(--cols,4),1fr);gap:8px}
+.cell{position:relative;display:block;padding:0 0 18px;text-align:left}
+.cell .win{display:block;aspect-ratio:4/5;background:#0d0d0f;overflow:hidden;outline:1px solid rgba(255,255,255,.08)}
+.cell img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .9s var(--ease)}
+.cell:hover img{transform:scale(1.03)}
+.cell .no{position:absolute;left:0;bottom:0;font-size:10px;letter-spacing:.12em;color:var(--mute)}
+.cell .ly{position:absolute;right:0;bottom:0;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(233,215,184,.6)}
+.cell.cur .win{outline:2px solid var(--warm);outline-offset:2px}
+/* detail page */
+.detail{position:fixed;inset:0;z-index:35;background:#070708;opacity:0;transition:opacity .9s var(--ease)}
+.detail.open{opacity:1}
+.dsc{position:absolute;inset:0;overflow:auto;-webkit-overflow-scrolling:touch;touch-action:pan-y;padding:calc(64px + var(--st)) calc(16px + var(--sr)) calc(40px + var(--sb)) calc(16px + var(--sl))}
+.hero{margin:0 auto;max-width:900px;display:flex;justify-content:center;background:radial-gradient(ellipse at 50% 60%,rgba(233,215,184,.07),transparent 70%);padding:18px 0}
+.hero img{max-width:100%;max-height:calc(100vh - 220px);max-height:calc(100dvh - 220px);display:block;box-shadow:0 30px 60px rgba(0,0,0,.6);outline:1px solid rgba(255,255,255,.08);outline-offset:10px}
+.dmeta{max-width:900px;margin:14px auto 0;text-align:center}
+.dmeta .t{font-size:12px;letter-spacing:.22em;color:var(--warm)}
+.dmeta .c{margin:6px auto 0;max-width:520px;color:var(--dim);font-size:13.5px}
+.dmeta .n{margin-top:4px;font-size:10.5px;letter-spacing:.14em;color:var(--mute)}
+.more,.onboard{max-width:900px;margin:30px auto 0}
+.more h3,.onboard h3{font:300 10.5px/1.4 "Julius Sans One",Poppins,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:var(--mute);margin:0 0 10px}
+.strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px}
+.strip button,.strip a{display:block;aspect-ratio:4/5;overflow:hidden;background:#0d0d0f;outline:1px solid rgba(255,255,255,.08)}
+.strip button.cur{outline:2px solid var(--warm)}
+.strip img{width:100%;height:100%;object-fit:cover;display:block}
+.strip a{position:relative;aspect-ratio:auto;text-decoration:none}
+.strip a img{aspect-ratio:4/5;height:auto}
+.strip a span{display:block;padding:5px 2px 0;font-size:10px;line-height:1.3;color:var(--dim);background:#070708}
+.end{display:block;margin:34px auto 0;font-size:11px;color:var(--mute);min-height:44px;padding:0 16px}
+.hint{position:fixed;z-index:40;left:50%;top:calc(64px + var(--st));transform:translateX(-50%);max-width:calc(100% - 32px);padding:8px 16px;border-radius:20px;background:rgba(5,5,6,.6);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid var(--line);font-size:11.5px;letter-spacing:.05em;color:var(--dim);text-align:center;pointer-events:none;transition:opacity 1.2s var(--ease)}
+.hint.gone{opacity:0}
+.veil{position:fixed;inset:0;z-index:90;background:var(--bg);pointer-events:none;opacity:1;transition:opacity 1s var(--ease)}
+.veil.off{opacity:0}
+.ns{padding:80px 20px;color:var(--dim)}
+/* no WebGL: the proof sheet and the photo pages are the room */
+.nogl #c,.nogl .label,.nogl .layers,.nogl .side{display:none}
+@media (orientation:landscape) and (max-height:500px){.label{bottom:calc(8px + var(--sb));width:min(520px,calc(100% - 160px))}.label .c{font-size:11.5px}.layers{gap:3px}.layers b{margin-top:3px}}
+@media (max-width:560px){.layers b{display:none}.layers{gap:4px}.side.r{right:calc(28px + var(--sr))}}
+@media (min-width:561px){.side.r{right:calc(84px + var(--sr))}}
+.label .t,.label .c,.label .n{text-shadow:0 1px 12px rgba(0,0,0,.9),0 0 3px rgba(0,0,0,.8)}

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#070b12">
+<title>Tile reveal · proto lab</title>
+<link rel="stylesheet" href="../_shared/css/lab.css">
+<style>
+  .stage{background:#070b12}
+  #sky{position:absolute;inset:0;width:100%;height:100%}
+  .chrome{position:absolute;top:calc(56px + var(--safe-t));left:16px;right:16px;
+    display:flex;align-items:center;justify-content:space-between;pointer-events:none;z-index:2}
+  .mosaic{position:absolute;left:16px;right:16px;top:calc(96px + var(--safe-t));bottom:calc(88px + var(--safe-b));
+    display:grid;gap:6px}
+  @media(min-width:900px){.mosaic{left:48px;right:48px;top:calc(88px + var(--safe-t));bottom:calc(80px + var(--safe-b))}}
+  .tile{position:relative;overflow:hidden;background:#0a1018;min-height:0}
+  .tile .img{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0}
+  .tile[data-kind="wash"] .img{display:none}
+  .tile .wash{position:absolute;inset:0}
+  .tile .lead{position:absolute;top:0;bottom:0;width:3px;background:rgba(255,245,230,.45);opacity:0;pointer-events:none}
+  /* treatments applied via data-state: wait, mid, open */
+  .tile[data-kind="open"][data-state="open"] .img,
+  .tile[data-kind="blur"][data-state="open"] .img,
+  .tile[data-kind="wipe"][data-state="open"] .img,
+  .tile[data-kind="stars"][data-state="open"] .img,
+  .tile[data-kind="delay"][data-state="open"] .img,
+  .tile[data-kind="sliver"][data-state="open"] .img{opacity:1}
+  .tile[data-kind="blur"][data-state="mid"] .img{opacity:.85;filter:blur(8px)}
+  .tile[data-kind="blur"][data-state="open"] .img{filter:blur(0)}
+  .tile[data-kind="wipe"][data-state="mid"] .img,
+  .tile[data-kind="wipe"][data-state="open"] .img{opacity:1;clip-path:inset(0 45% 0 0)}
+  .tile[data-kind="wipe"][data-state="open"] .img{clip-path:inset(0 0 0 0)}
+  .tile[data-kind="wipe"][data-state="mid"] .lead{opacity:1;left:55%}
+  .tile[data-kind="stars"][data-state="mid"] .img,
+  .tile[data-kind="stars"][data-state="open"] .img{opacity:1;
+    -webkit-mask-image:radial-gradient(circle at 30% 40%,#000 12px,transparent 13px),
+      radial-gradient(circle at 62% 28%,#000 16px,transparent 17px),
+      radial-gradient(circle at 48% 62%,#000 20px,transparent 21px),
+      radial-gradient(circle at 78% 70%,#000 14px,transparent 15px),
+      radial-gradient(circle at 20% 78%,#000 10px,transparent 11px),
+      radial-gradient(circle at 70% 48%,#000 11px,transparent 12px);
+    mask-image:radial-gradient(circle at 30% 40%,#000 12px,transparent 13px),
+      radial-gradient(circle at 62% 28%,#000 16px,transparent 17px),
+      radial-gradient(circle at 48% 62%,#000 20px,transparent 21px),
+      radial-gradient(circle at 78% 70%,#000 14px,transparent 15px),
+      radial-gradient(circle at 20% 78%,#000 10px,transparent 11px),
+      radial-gradient(circle at 70% 48%,#000 11px,transparent 12px);
+    -webkit-mask-composite:source-over;mask-composite:add;mask-repeat:no-repeat}
+  .tile[data-kind="stars"][data-state="open"] .img{
+    -webkit-mask-image:none;mask-image:none}
+  .tile[data-kind="delay"][data-state="mid"] .img{opacity:.2}
+  .tile[data-kind="delay"][data-state="open"] .img{opacity:1}
+  .tile[data-kind="sliver"][data-state="mid"] .img,
+  .tile[data-kind="sliver"][data-state="open"] .img{opacity:1;clip-path:inset(0 31% 0 31%)}
+  .tile[data-kind="wash"][data-state="mid"] .wash,
+  .tile[data-kind="wash"][data-state="open"] .wash{opacity:1}
+  .tile[data-kind="wash"][data-state="open"] .img{display:block;opacity:1}
+  .tile[data-kind="wash"] .wash{opacity:0;background:#e4d6c4}
+  .tile[data-kind="tealwash"] .wash{background:#7f8f96}
+  .tile[data-kind="tealwash"][data-state="mid"] .wash,
+  .tile[data-kind="tealwash"][data-state="open"] .wash{opacity:1}
+  .tile[data-kind="tealwash"][data-state="open"] .img{display:block;opacity:1}
+  .tile[data-kind="tealwash"] .img{display:none}
+  .acts{position:absolute;left:0;right:0;bottom:calc(56px + var(--safe-b));display:flex;justify-content:center;gap:10px;z-index:3}
+  .acts button{min-height:36px;padding:0 16px;border:1px solid var(--line);border-radius:18px;
+    letter-spacing:.12em;text-transform:uppercase;font-size:11px;color:#d8dde4}
+  /* layouts */
+  body[data-layout="A"] .mosaic{grid-template-columns:1fr 1fr;grid-template-rows:1.1fr 1.3fr 1.4fr 0.9fr}
+  body[data-layout="A"] .mosaic .t0{grid-column:1;grid-row:1/2}
+  body[data-layout="A"] .mosaic .t1{grid-column:2;grid-row:1/2}
+  body[data-layout="A"] .mosaic .t2{grid-column:1;grid-row:2/3}
+  body[data-layout="A"] .mosaic .t3{grid-column:2;grid-row:2/4}
+  body[data-layout="A"] .mosaic .t4{grid-column:1;grid-row:3/5}
+  body[data-layout="A"] .mosaic .t5{grid-column:2;grid-row:4/5}
+  @media(min-width:900px){
+    body[data-layout="A"] .mosaic{grid-template-columns:1.15fr 1fr 1.05fr;grid-template-rows:0.95fr 1.25fr 1.1fr}
+    body[data-layout="A"] .mosaic .t0{grid-column:1;grid-row:1/2}
+    body[data-layout="A"] .mosaic .t1{grid-column:2/4;grid-row:1/2}
+    body[data-layout="A"] .mosaic .t2{grid-column:1;grid-row:2/3}
+    body[data-layout="A"] .mosaic .t3{grid-column:2;grid-row:2/4}
+    body[data-layout="A"] .mosaic .t4{grid-column:1;grid-row:3/4}
+    body[data-layout="A"] .mosaic .t5{grid-column:3;grid-row:3/4}
+  }
+  body[data-layout="B"] .mosaic{grid-template-columns:1fr 1fr;grid-template-rows:repeat(4,1fr)}
+  body[data-layout="C"] .mosaic{grid-template-columns:1.2fr 0.8fr 1fr;grid-template-rows:1fr 0.7fr 1.1fr}
+  @media(max-width:700px){
+    body[data-layout="C"] .mosaic{grid-template-columns:1fr 1fr;grid-template-rows:1fr 0.8fr 1.1fr 0.9fr}
+  }
+</style>
+</head>
+<body class="lab">
+<header class="labbar">
+  <a class="back" href="../">‹ lab</a>
+  <div class="who">Tile reveal</div>
+  <nav class="variants" aria-label="proposals">
+    <button type="button" data-v="A" aria-pressed="true">A</button>
+    <button type="button" data-v="B">B</button>
+    <button type="button" data-v="C">C</button>
+  </nav>
+</header>
+<div class="stage">
+  <canvas id="sky"></canvas>
+  <div class="chrome"><img class="mark" src="../_shared/media/cv-mark.png" alt=""></div>
+  <div class="mosaic" id="mosaic" aria-label="tile reveal"></div>
+  <div class="acts">
+    <button type="button" id="replay">replay</button>
+  </div>
+</div>
+<p class="vnote" id="vnote"></p>
+<script src="../_shared/js/lab.js"></script>
+<script src="app.js"></script>
+<link rel="stylesheet" href="../../../../chrome.css"><script src="../../../../chrome.js" data-hub="../../../../index.html" data-rooms="../../../../rooms.json"></script></body>
+</html>

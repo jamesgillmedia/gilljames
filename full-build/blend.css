@@ -1,0 +1,44 @@
+@font-face{font-family:Poppins;font-weight:300;font-display:swap;src:url(fonts/poppins-300.woff2) format("woff2")}
+@font-face{font-family:"Julius Sans One";font-display:swap;src:url(fonts/julius-sans-one.woff2) format("woff2")}
+@font-face{font-family:Syl;font-weight:700;font-display:block;src:url(fonts/noto-canadian-aboriginal-subset.woff2) format("woff2");unicode-range:U+1400-167F}
+html,body{margin:0;height:100%;background:#04060c;color:#e6edf0;overflow:hidden;overscroll-behavior:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+#c{position:fixed;inset:0;width:100%;height:100%;touch-action:none;display:block}
+#bar{position:fixed;left:0;right:0;top:0;display:flex;align-items:center;gap:8px;padding:calc(env(safe-area-inset-top) + 8px) 12px 8px;pointer-events:none;font:300 13px Poppins,system-ui,sans-serif}
+#bar>*{pointer-events:auto}
+#bar .sp{flex:1;pointer-events:none}
+#bar button,#bar a{font:inherit;color:#e6edf0;background:rgba(6,10,18,.55);border:1px solid rgba(200,225,255,.18);border-radius:22px;min-height:44px;min-width:44px;padding:0 14px;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center}
+#bar button:focus-visible{outline:2px solid #55DAA1;outline-offset:2px}
+#bar .sig{font:700 20px Syl,sans-serif;letter-spacing:.02em;padding:0 12px}
+#bar button[aria-pressed="true"]{border-color:#55DAA1;color:#55DAA1}
+#where{font:400 12px "Julius Sans One",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#c9d3d6;pointer-events:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:48vw}
+#hint{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 14px);transform:translateX(-50%);margin:0;padding:8px 14px;border-radius:18px;background:rgba(6,10,18,.6);border:1px solid rgba(200,225,255,.14);font:300 12px Poppins,sans-serif;color:#c9d3d6;white-space:nowrap;pointer-events:none;transition:opacity .6s}
+#hint.gone{opacity:0}
+
+/* film board (dot -> board -> deeper detail) */
+#board{position:fixed;inset:0;z-index:5;overflow-y:auto;-webkit-overflow-scrolling:touch;touch-action:pan-y;background:rgba(4,6,12,.975);opacity:0;transform:scale(.985);transition:opacity .22s ease,transform .22s ease;font:300 14px/1.45 Poppins,system-ui,sans-serif;color:#e6edf0;-webkit-user-select:text;user-select:text}
+#board.on{opacity:1;transform:none}
+#board[hidden]{display:none}
+#bar{z-index:6}
+#board .bw{max-width:1100px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 68px) 16px 96px;display:grid;grid-template-columns:1fr;gap:14px}
+#board .bp{margin:0}
+#board .bp img{display:block;width:100%;height:auto;border-radius:6px;background:#0b0f18}
+#board h2{margin:0 0 4px;font:400 17px/1.3 "Julius Sans One",sans-serif;letter-spacing:.06em}
+#board .bf p{margin:0 0 2px;color:#c9d3d6}
+#board .br{color:#e6edf0!important}
+#board .bm{color:#9aa8ad!important;font-size:13px}
+#board .bc{list-style:none;margin:10px 0 0;padding:10px 0 0;border-top:1px solid rgba(200,225,255,.12);font-size:13px;color:#b8c4c8}
+#board .bc li{margin:0 0 2px}
+#board .bs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+#board .bs.n3{grid-template-columns:repeat(3,1fr)}#board .bs.n2{grid-template-columns:repeat(2,1fr)}#board .bs.n1{grid-template-columns:1fr}
+#board .bs img{display:block;width:100%;aspect-ratio:var(--ar,1.78);object-fit:cover;border-radius:4px;background:#0b0f18}
+#board.masked .bw{min-height:60vh;align-content:center;text-align:center}
+#board .bn{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:space-between;gap:10px;padding:10px 12px calc(env(safe-area-inset-bottom) + 10px);background:linear-gradient(rgba(4,6,12,0),rgba(4,6,12,.9) 40%)}
+#board .bn button{font:300 13px Poppins,sans-serif;color:#e6edf0;background:rgba(6,10,18,.75);border:1px solid rgba(200,225,255,.22);border-radius:22px;min-height:44px;padding:0 18px;cursor:pointer;white-space:nowrap}
+#board .bn button:focus-visible{outline:2px solid #55DAA1;outline-offset:2px}
+#board .bn button[hidden]{display:none}
+/* landscape / desktop: picture left, facts right, strip under the picture */
+#board.side .bw{grid-template-columns:minmax(0,1.55fr) minmax(220px,1fr);grid-template-areas:"p f" "s f";align-items:start;padding-top:64px;column-gap:22px}
+#board.side .bp{grid-area:p}#board.side .bf{grid-area:f;padding-top:4px}#board.side .bs{grid-area:s}
+#board.side .bp img{max-height:calc(100vh - 64px - 150px);width:auto;max-width:100%}
+#board.side.masked .bw{grid-template-columns:1fr;grid-template-areas:"f"}
+#board:focus{outline:none}

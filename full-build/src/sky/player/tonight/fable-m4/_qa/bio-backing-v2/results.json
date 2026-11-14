@@ -1,0 +1,126 @@
+{
+ "console_errors": {
+  "phone-390x844-motion": [],
+  "desktop-1440x900-motion": [],
+  "phone-390x844-reduced": []
+ },
+ "http_errors": {
+  "phone-390x844-motion": [],
+  "desktop-1440x900-motion": [],
+  "phone-390x844-reduced": []
+ },
+ "shots": [
+  "phone-390x844-motion-layer3.jpg",
+  "phone-390x844-motion-layer4.jpg",
+  "phone-390x844-motion-layer5.jpg",
+  "phone-390x844-motion-layer6.jpg",
+  "phone-390x844-motion-layer7.jpg",
+  "desktop-1440x900-motion-layer4.jpg",
+  "desktop-1440x900-motion-layer5.jpg",
+  "desktop-1440x900-motion-layer6.jpg",
+  "desktop-1440x900-motion-layer7.jpg",
+  "phone-390x844-reduced-layer5.jpg"
+ ],
+ "layer_styles": {
+  "phone-390x844-motion-layer3": {
+   "lv": 3,
+   "bg": "linear-gradient(rgba(0, 0, 0, 0) 8%, rgba(4, 7, 11, 0.45) 28|rgba(0, 0, 0, 0)",
+   "radius": "0px",
+   "shadow": "none",
+   "backdrop": "none",
+   "maxH": "none",
+   "bottom": "118.156px",
+   "reduce": false
+  },
+  "phone-390x844-motion-layer4": {
+   "lv": 4,
+   "bg": "none|rgba(4, 7, 11, 0.52)",
+   "radius": "18px",
+   "shadow": "rgba(4, 7, 11, 0.42) 0px 0px 26px 14px",
+   "backdrop": "blur(10px)",
+   "maxH": "calc(100% - 104px)",
+   "bottom": "309.562px",
+   "reduce": false
+  },
+  "phone-390x844-motion-layer5": {
+   "lv": 5,
+   "bg": "none|rgba(4, 7, 11, 0.52)",
+   "radius": "18px",
+   "shadow": "rgba(4, 7, 11, 0.42) 0px 0px 26px 14px",
+   "backdrop": "blur(10px)",
+   "maxH": "calc(100% - 104px)",
+   "bottom": "268.969px",
+   "reduce": false
+  },
+  "phone-390x844-motion-layer6": {
+   "lv": 6,
+   "bg": "none|rgba(4, 7, 11, 0.52)",
+   "radius": "18px",
+   "shadow": "rgba(4, 7, 11, 0.42) 0px 0px 26px 14px",
+   "backdrop": "blur(10px)",
+   "maxH": "calc(100% - 104px)",
+   "bottom": "24px",
+   "reduce": false
+  },
+  "phone-390x844-motion-layer7": {
+   "lv": 7,
+   "bg": "none|rgba(4, 7, 11, 0.52)",
+   "radius": "18px",
+   "shadow": "rgba(4, 7, 11, 0.42) 0px 0px 26px 14px",
+   "backdrop": "blur(10px)",
+   "maxH": "calc(100% - 104px)",
+   "bottom": "24px",
+   "reduce": false
+  },
+  "desktop-1440x900-motion-layer4": {
+   "lv": 4,
+   "bg": "none|rgba(4, 7, 11, 0.52)",
+   "radius": "18px",
+   "shadow": "rgba(4, 7, 11, 0.42) 0px 0px 26px 14px",
+   "backdrop": "blur(10px)",
+   "maxH": "calc(100% - 104px)",
+   "bottom": "657.656px",
+   "reduce": false
+  },
+  "desktop-1440x900-motion-layer5": {
+   "lv": 5,
+   "bg": "none|rgba(4, 7, 11, 0.52)",
+   "radius": "18px",
+   "shadow": "rgba(4, 7, 11, 0.42) 0px 0px 26px 14px",
+   "backdrop": "blur(10px)",
+   "maxH": "calc(100% - 104px)",
+   "bottom": "594.594px",
+   "reduce": false
+  },
+  "desktop-1440x900-motion-layer6": {
+   "lv": 6,
+   "bg": "none|rgba(4, 7, 11, 0.52)",
+   "radius": "18px",
+   "shadow": "rgba(4, 7, 11, 0.42) 0px 0px 26px 14px",
+   "backdrop": "blur(10px)",
+   "maxH": "calc(100% - 104px)",
+   "bottom": "506.891px",
+   "reduce": false
+  },
+  "desktop-1440x900-motion-layer7": {
+   "lv": 7,
+   "bg": "none|rgba(4, 7, 11, 0.52)",
+   "radius": "18px",
+   "shadow": "rgba(4, 7, 11, 0.42) 0px 0px 26px 14px",
+   "backdrop": "blur(10px)",
+   "maxH": "calc(100% - 104px)",
+   "bottom": "374.25px",
+   "reduce": false
+  },
+  "phone-390x844-reduced-layer5": {
+   "lv": 5,
+   "bg": "none|rgba(4, 7, 11, 0.52)",
+   "radius": "18px",
+   "shadow": "rgba(4, 7, 11, 0.42) 0px 0px 26px 14px",
+   "backdrop": "blur(10px)",
+   "maxH": "calc(100% - 104px)",
+   "bottom": "268.969px",
+   "reduce": true
+  }
+ }
+}

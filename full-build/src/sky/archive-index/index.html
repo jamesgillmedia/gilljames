@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#0a0b0d">
+<title>archive index · gill</title>
+<link rel="icon" href="data:,">
+<link rel="preload" href="data/index.json" as="fetch" crossorigin>
+<link rel="stylesheet" href="css/archive.css">
+<link rel="stylesheet" href="css/beyond.css">
+<script src="js/theme.js"></script>
+</head>
+<body>
+<div id="vp" aria-label="Archive index of film frames. Drag to move, pinch or scroll to zoom, tap a box to lift it out.">
+  <canvas id="cv"></canvas>
+</div>
+<svg id="eye" aria-hidden="true" focusable="false"><path id="eyeMask"/><path id="eyeLine"/></svg>
+
+<header class="top">
+  <h1 class="brand">archive&nbsp;index</h1>
+  <p class="count" id="count"></p>
+  <nav class="modes" aria-label="Order">
+    <button type="button" data-mode="film" aria-pressed="true">by film</button>
+    <button type="button" data-mode="all" aria-pressed="false">continuous</button>
+  </nav>
+  <nav class="modes boxsw" aria-label="Boxes">
+    <button type="button" data-boxes="boxes" aria-pressed="true">boxes</button>
+    <button type="button" data-boxes="dim" aria-pressed="false">dim</button>
+    <button type="button" data-boxes="hide" aria-pressed="false">hide</button>
+  </nav>
+  <button type="button" class="filmsbtn" id="filmsbtn" aria-expanded="false">films</button>
+</header>
+
+<aside class="films" id="films" hidden>
+  <ol id="filmlist"></ol>
+</aside>
+
+<div class="corner">
+  <button type="button" id="fit" class="q" aria-label="Whole field">whole field</button>
+  <span class="lvl" id="lvl" aria-hidden="true"></span>
+</div>
+
+<div id="lt" class="lt" tabindex="-1" hidden role="dialog" aria-modal="true" aria-label="Frame">
+  <div class="lt-bg" id="ltbg"></div>
+  <button type="button" class="lt-mark lt-ch" id="ltmark" aria-label="Back to the index">archive&nbsp;index</button>
+  <button type="button" class="lt-x lt-ch" id="ltx" aria-label="Back to the index">&#215;</button>
+  <figure class="lt-fig" id="ltfig">
+    <div class="lt-box" id="ltbox"><img id="ltlo" alt=""><img id="lthi" alt=""></div>
+  </figure>
+  <button type="button" class="lt-nav lt-ch prev" id="ltprev" aria-label="Previous frame">&#8249;</button>
+  <button type="button" class="lt-nav lt-ch next" id="ltnext" aria-label="Next frame">&#8250;</button>
+  <div class="lt-cap lt-ch">
+    <span class="lt-line"><span class="lt-num" id="ltnum"></span><span class="lt-title"><button type="button" id="lttitle" title="Highlight this film's boxes"></button></span><span class="lt-tc" id="lttc"></span></span>
+    <span class="lt-hint" id="lthint">swipe for next or previous &nbsp;&middot;&nbsp; pinch or scroll to move closer &nbsp;&middot;&nbsp; esc to return</span>
+  </div>
+</div>
+
+<script src="js/beyond.js"></script>
+<script src="js/beyonddial.js"></script>
+<script src="js/constellation.js"></script>
+<script src="js/archive.js"></script>
+<link rel="stylesheet" href="../../../chrome.css"><script src="../../../chrome.js" data-hub="../../../index.html" data-rooms="../../../rooms.json"></script></body>
+</html>

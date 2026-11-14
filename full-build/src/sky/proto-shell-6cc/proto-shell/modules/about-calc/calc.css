@@ -1,0 +1,99 @@
+/* proto-shell module · about-calc. 2D = the m4 #layers rules VERBATIM (fable-m4 css/sky.css @ 0d07fea, lines 280-307),
+   with the container #layers renamed #acalc (fixed, under the crumb 50 / Sound dock 44 / vnote 40 / mark menu 60).
+   3D = CSS 3D preserve-3d planes. No library. No prefers-reduced-motion branch (STANDARDS §3: identical output). */
+#acalc{position:fixed;inset:0;z-index:8;overflow:hidden;background:#04070b;font:300 14px/1.45 Poppins,Syl,system-ui,sans-serif;color:#eef3f5;
+ -webkit-font-smoothing:antialiased;pointer-events:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
+#acalc[hidden]{display:none}
+/* ---- 2D: verbatim ---- */
+#acalc #calcstage{position:absolute;inset:0;overflow:hidden;z-index:0}
+#acalc #calczoom{position:absolute;inset:0;transform-origin:52% 66%;transition:transform .48s ease}
+#acalc #calc{position:absolute;width:2px;height:2px;opacity:0;pointer-events:none}
+#acalc #glitch{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#acalc #moons{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .75s ease;z-index:1}
+#acalc.exit #calcstage,#acalc.exit #laytext,#acalc.exit #lrail,#acalc.exit .ac3{opacity:0;transition:opacity .75s ease}
+#acalc.exit #moons{opacity:1}
+#acalc.exit.moonfade #moons{opacity:0;transition:opacity 1.2s ease}
+#acalc #grain{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.16;mix-blend-mode:overlay;z-index:2}
+#acalc #laytext{position:absolute;z-index:3;left:7%;right:12%;top:calc(52px + var(--st));bottom:14%;display:flex;flex-direction:column;justify-content:center;
+ color:#f4f7ef;font-weight:300;text-shadow:0 1px 2px rgba(0,0,0,.85);pointer-events:none;
+ background:linear-gradient(transparent 8%,rgba(4,7,11,.45) 28%,rgba(4,7,11,.62) 72%,transparent);padding:22px 10px}
+#acalc #laytext.lv4,#acalc #laytext.lv5,#acalc #laytext.lv6,#acalc #laytext.lv7{justify-content:flex-start;top:calc(68px + var(--st));bottom:calc(36px + var(--sb));overflow:auto;pointer-events:auto;padding-bottom:28px}
+#acalc #laytext.lv4,#acalc #laytext.lv5,#acalc #laytext.lv6,#acalc #laytext.lv7{background:rgba(4,7,11,.52);border-radius:18px;box-shadow:0 0 26px 14px rgba(4,7,11,.42);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);padding-left:16px;padding-right:16px;bottom:auto;max-height:calc(100% - 104px - var(--st) - var(--sb))}
+#acalc #laytext.flick{opacity:.62}
+#acalc #laytext span{display:block;font-size:14.5px;line-height:1.55;letter-spacing:.01em}
+#acalc #laytext.lv1 span{font-size:30px;line-height:1.2;letter-spacing:.01em}
+#acalc #laytext.lv2 span{font-size:15px;line-height:1.35}
+@media(min-width:900px){#acalc #laytext.lv2{right:auto;width:fit-content;max-width:62%;height:fit-content;margin:auto 0;padding:28px 40px;background:rgba(4,7,11,.52);border-radius:18px;box-shadow:0 0 26px 14px rgba(4,7,11,.42);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);text-shadow:0 1px 3px rgba(0,0,0,.9)}#acalc #laytext.lv2 span{font-size:22px;line-height:1.4}}
+#acalc .copy.sel,#acalc .copy.sel *{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+#acalc #lrail{position:absolute;z-index:3;right:10px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;align-items:center}
+#acalc #lrail i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.35);display:block}
+#acalc #lrail i.on{background:#e7f6c8;box-shadow:0 0 8px #e7f6c8}
+#acalc #lrail b{font-size:10px;letter-spacing:.14em;font-weight:400;color:rgba(236,244,230,.85)}
+#acalc .empty-slot{position:absolute;inset:auto 0 40% 0;text-align:center;color:#93a1a6;font-size:12px;z-index:2}
+#acalc[data-v=B] #calcstage,#acalc[data-v=B] #laytext{display:none}
+#acalc[data-v=A] .ac3{display:none}
+
+/* ---- 3D: one object, planes in preserve-3d ----
+   --w/--h object size, --d depth (slider), --rx/--ry tilt (spring), --la light angle. Body edges are the photo's own edge pixels
+   stretched (side canvases), shaded by the light angle. Text is the cap #e8e4dc (tokens). */
+#acalc .ac3{position:absolute;inset:0;z-index:2;perspective:1200px;perspective-origin:50% 46%;pointer-events:none}
+#acalc .ac3-obj{position:absolute;left:50%;top:var(--top,50%);width:var(--w);height:var(--h);margin-left:calc(var(--w) / -2);margin-top:calc(var(--h) / -2);
+ transform-style:preserve-3d;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));pointer-events:auto;touch-action:none;cursor:grab}
+#acalc .ac3-obj.drag{cursor:grabbing}
+#acalc .ac3-obj>*{position:absolute;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+/* the edge is cut, not rounded: the corners are chamfered (--ch), and four corner planes close the body behind each cut */
+#acalc .ac3-face{inset:0;transform:translateZ(calc(var(--d) / 2));clip-path:polygon(var(--ch) 0,calc(100% - var(--ch)) 0,100% var(--ch),100% calc(100% - var(--ch)),calc(100% - var(--ch)) 100%,var(--ch) 100%,0 calc(100% - var(--ch)),0 var(--ch));-webkit-clip-path:polygon(var(--ch) 0,calc(100% - var(--ch)) 0,100% var(--ch),100% calc(100% - var(--ch)),calc(100% - var(--ch)) 100%,var(--ch) 100%,0 calc(100% - var(--ch)),0 var(--ch));overflow:hidden}
+#acalc .ac3-face canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+/* bevel: a rim ring at the face plane, lit by the light angle (a chamfer read, no new imagery) */
+#acalc .ac3-bevel{inset:0;transform:translateZ(calc(var(--d) / 2 + .5px));clip-path:polygon(var(--ch) 0,calc(100% - var(--ch)) 0,100% var(--ch),100% calc(100% - var(--ch)),calc(100% - var(--ch)) 100%,var(--ch) 100%,0 calc(100% - var(--ch)),0 var(--ch));-webkit-clip-path:polygon(var(--ch) 0,calc(100% - var(--ch)) 0,100% var(--ch),100% calc(100% - var(--ch)),calc(100% - var(--ch)) 100%,var(--ch) 100%,0 calc(100% - var(--ch)),0 var(--ch));pointer-events:none;
+ box-shadow:inset 0 0 0 1px rgba(255,255,255,.10),inset 0 0 0 3px rgba(0,0,0,.28);
+ background:linear-gradient(var(--la),rgba(255,255,255,calc(.16 * var(--spec,1))) 0%,rgba(255,255,255,0) 38%,rgba(0,0,0,0) 62%,rgba(0,0,0,.30) 100%)}
+#acalc .ac3-back{inset:0;transform:rotateY(180deg) translateZ(calc(var(--d) / 2));clip-path:polygon(var(--ch) 0,calc(100% - var(--ch)) 0,100% var(--ch),100% calc(100% - var(--ch)),calc(100% - var(--ch)) 100%,var(--ch) 100%,0 calc(100% - var(--ch)),0 var(--ch));-webkit-clip-path:polygon(var(--ch) 0,calc(100% - var(--ch)) 0,100% var(--ch),100% calc(100% - var(--ch)),calc(100% - var(--ch)) 100%,var(--ch) 100%,0 calc(100% - var(--ch)),0 var(--ch));background:var(--body,#8d9190);filter:brightness(.45)}
+#acalc .ac3-side{left:50%;top:50%;overflow:hidden}
+#acalc .ac3-side canvas{width:100%;height:100%;display:block}
+#acalc .ac3-side i{position:absolute;inset:0;background:#000;opacity:var(--sh,.4)}
+#acalc .ac3-side.l,#acalc .ac3-side.r{width:var(--d);height:calc(var(--h) - 2 * var(--ch));margin:calc((var(--h) - 2 * var(--ch)) / -2) 0 0 calc(var(--d) / -2)}
+#acalc .ac3-side.t,#acalc .ac3-side.b{height:var(--d);width:calc(var(--w) - 2 * var(--ch));margin:calc(var(--d) / -2) 0 0 calc((var(--w) - 2 * var(--ch)) / -2)}
+#acalc .ac3-side.tl,#acalc .ac3-side.tr,#acalc .ac3-side.br,#acalc .ac3-side.bl{width:calc(var(--ch) * 1.4142 + 1px);height:var(--d);margin:calc(var(--d) / -2) 0 0 calc((var(--ch) * 1.4142 + 1px) / -2)}
+#acalc .ac3-side.l{transform:rotateY(-90deg) translateZ(calc(var(--w) / 2))}
+#acalc .ac3-side.r{transform:rotateY(90deg) translateZ(calc(var(--w) / 2))}
+#acalc .ac3-side.t{transform:rotateX(90deg) translateZ(calc(var(--h) / 2))}
+#acalc .ac3-side.b{transform:rotateX(-90deg) translateZ(calc(var(--h) / 2))}
+/* the recessed display: a well cut into the face at the photo's own display; floor = the same glitched pixels, dimmed, set back */
+#acalc .ac3-well{left:var(--dx);top:var(--dy);width:var(--dw);height:var(--dh);transform-style:preserve-3d;transform:translateZ(calc(var(--d) / 2));pointer-events:none}
+#acalc .ac3-well>*{position:absolute;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+#acalc .ac3-floor{inset:0;transform:translateZ(calc(var(--rd) * -1));background:#04070b;overflow:hidden;border-radius:3px}
+#acalc .ac3-floor canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.8}
+#acalc .ac3-wall{background:#04070b}
+#acalc .ac3-wall.t{left:0;top:0;width:100%;height:var(--rd);transform-origin:50% 0;transform:rotateX(90deg);background:linear-gradient(#000,#0b1210)}
+#acalc .ac3-wall.b{left:0;bottom:0;width:100%;height:var(--rd);transform-origin:50% 100%;transform:rotateX(-90deg);background:#26302c}
+#acalc .ac3-wall.l{left:0;top:0;height:100%;width:var(--rd);transform-origin:0 50%;transform:rotateY(-90deg);background:#0d1513}
+#acalc .ac3-wall.r{right:0;top:0;height:100%;width:var(--rd);transform-origin:100% 50%;transform:rotateY(90deg);background:#1c2522}
+#acalc .ac3-words{inset:0;transform:translateZ(calc(var(--rd) * -1 + 1px));display:flex;flex-direction:column;justify-content:center;padding:0 calc(100% - var(--ww,100%)) 0 10px;
+ color:#e8e4dc;text-shadow:0 0 6px rgba(232,228,220,.35),0 1px 2px rgba(0,0,0,.9);font-weight:300;letter-spacing:.01em;overflow:hidden}
+#acalc .ac3-words span{display:block;font-size:var(--wf,15px);line-height:1.18;white-space:nowrap}
+#acalc .ac3-words.flick{opacity:.62}
+/* the four boxes: the poem and the bio as real text, each a plane at a slight depth offset */
+#acalc .ac3-box{left:var(--bx);top:var(--by);width:var(--bw);height:var(--bh);transform:translateZ(calc(var(--d) / 2 + var(--bz)));
+ background:rgba(4,7,11,.70);border-radius:8px;box-shadow:0 0 0 1px rgba(232,228,220,.10),0 calc(var(--bz) * .6) calc(var(--bz) * 1.4) rgba(0,0,0,.45);
+ color:#e8e4dc;overflow:hidden;padding:7px 8px;box-sizing:border-box;font-size:7.5px;line-height:1.35;opacity:.92;
+ transition:left .48s ease,top .48s ease,width .48s ease,height .48s ease,transform .48s ease,font-size .48s ease,opacity .48s ease,padding .48s ease;pointer-events:none}
+#acalc .ac3-box span{display:block}
+#acalc .ac3-box.on{left:5%;top:5%;width:90%;height:90%;transform:translateZ(calc(var(--d) / 2 + var(--bz) + 22px));font-size:13px;line-height:1.5;padding:16px 14px 24px;
+ opacity:1;overflow:auto;pointer-events:auto;touch-action:pan-y;background:rgba(4,7,11,.86);z-index:3;overscroll-behavior:contain}
+#acalc .ac3-box.on.lv2{font-size:13.5px;line-height:1.38}
+#acalc .ac3-box.dim{opacity:.18}
+#acalc .ac3-box.flick{opacity:.62}
+#acalc .ac3-box.sel,#acalc .ac3-box.sel *{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+@media(min-width:900px){#acalc .ac3-box{font-size:9px}#acalc .ac3-box.on{font-size:14.5px;padding:22px 20px 28px}#acalc .ac3-box.on.lv2{font-size:15px}}
+#acalc[data-v=B]{background:transparent}
+/* touch without select, on the object: the same ring as core #water .rip (STANDARDS §touch-without-select) */
+#acalc .ac-water{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:4}
+#acalc .ac-water .rip{position:absolute;width:18px;height:18px;margin:-9px;border:1px solid rgba(255,255,255,.55);border-radius:50%;animation:rip 1.5s ease-out forwards;pointer-events:none}
+
+/* Red: red ink carries less light than the night ink, so the poem and the bio sit on a darker ground (measured in NOTES.md); photos stay true colour above and around */
+html[data-theme=red] body #acalc #laytext{background:linear-gradient(transparent 6%,rgba(0,0,0,.84) 24%,rgba(0,0,0,.88) 76%,transparent)}
+html[data-theme=red] body #acalc #laytext.lv4,html[data-theme=red] body #acalc #laytext.lv5,html[data-theme=red] body #acalc #laytext.lv6,html[data-theme=red] body #acalc #laytext.lv7{background:rgba(0,0,0,.88)}
+html[data-theme=red] body #acalc .ac3-box{background:rgba(0,0,0,.84)}
+html[data-theme=red] body #acalc .ac3-box.on{background:rgba(0,0,0,.92)}
+@media(min-width:900px){html[data-theme=red] body #acalc #laytext.lv2{background:rgba(0,0,0,.88)}}

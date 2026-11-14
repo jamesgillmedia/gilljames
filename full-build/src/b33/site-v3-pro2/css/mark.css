@@ -1,0 +1,14 @@
+/* site-v3-pro2 · the mark as the constellation (opening view) */
+.mk-on,.mk-on body{overflow:hidden}
+.mk{position:fixed;inset:0;z-index:95;touch-action:none;-webkit-user-select:none;user-select:none;cursor:zoom-in;--mk:0;transition:opacity .35s linear}
+.mk canvas{position:absolute;inset:0;display:block}
+.mk.gone{opacity:0;pointer-events:none}
+.mk-t{position:absolute;left:0;right:0;top:calc(44% + min(16vh, 38vw) + 18px);margin:0;text-align:center;display:flex;flex-direction:column;gap:6px;opacity:calc(1 - var(--mk) * 4);pointer-events:none}
+.mk-n{font:400 15px/1 "Julius Sans One",Poppins,sans-serif;letter-spacing:.42em;text-transform:lowercase;color:#e6eeff;padding-left:.42em}
+.mk-r{font:300 10.5px/1.4 Poppins,sans-serif;letter-spacing:.16em;color:#8a9bb0}
+.mk-new{position:absolute;left:0;right:0;bottom:max(86px,calc(env(safe-area-inset-bottom) + 76px));margin:0;text-align:center;font:400 10px/1.4 Poppins,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#55DAA1;opacity:calc(.85 - var(--mk) * 4);pointer-events:none}
+.mk-go{position:absolute;left:50%;bottom:max(30px,calc(env(safe-area-inset-bottom) + 20px));transform:translateX(-50%);border:1px solid rgba(85,218,161,.55);background:rgba(3,6,10,.4);color:#e6eeff;
+  font:400 11px/1 Poppins,sans-serif;letter-spacing:.2em;text-transform:uppercase;padding:12px 18px;border-radius:22px;cursor:pointer;opacity:calc(1 - var(--mk) * 4);-webkit-tap-highlight-color:transparent}
+.mk-go i{font-style:normal;color:#55DAA1;margin-left:6px}
+.mk-go:focus-visible{outline:2px solid #55DAA1;outline-offset:3px}
+.mk-h{position:absolute;left:0;right:0;top:max(18px,env(safe-area-inset-top));margin:0;text-align:center;font:400 10px/1 Poppins,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#6f8196;opacity:calc(.9 - var(--mk) * 4);pointer-events:none}

@@ -1,0 +1,100 @@
+/* Film room pass (Nov 13): the featured player. Film-only; nothing here touches another room. */
+#layer .sheet.film.fp,html.wc #layer .sheet.film.fp{background:#020304;display:block;padding-top:calc(104px + var(--st));padding-left:max(14px,env(safe-area-inset-left));padding-right:max(14px,env(safe-area-inset-right))}
+.fp-stage{position:relative;margin:6px auto 0;width:min(100%,1180px)}
+.fp-spill{position:absolute;left:-8%;right:-8%;top:-14%;bottom:-10%;pointer-events:none;
+  background:radial-gradient(ellipse 60% 55% at 50% 46%,rgba(232,228,220,.055),rgba(232,228,220,.018) 55%,rgba(0,0,0,0) 78%)}
+#layer .sheet.film.fp .heroframe.fp-frame{position:relative;flex:none;min-height:0;height:auto;width:100%;aspect-ratio:2.2;margin:0;background:#000;
+  box-shadow:0 0 0 1px rgba(232,228,220,.06),0 18px 60px rgba(0,0,0,.9);cursor:zoom-in}
+/* The player is a full-size state that scrolls: the picture and rail first, then stills, credits and awards, then featured. Vertical pans belong to the browser; sideways ones to the rail and the swipe. */
+#layer .sheet.film.fp{overflow-x:hidden;overflow-y:auto;touch-action:pan-y;overscroll-behavior:contain}
+#layer .sheet.film.fp.fp-full{position:fixed;inset:0;z-index:6;overflow-x:hidden;overflow-y:auto;max-height:none;touch-action:pan-y;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+#layer .sheet.film.fp.fp-from,#layer .sheet.film.fp.fp-shrink{animation:none}
+/* A still is either fully there or not in the stack. No dissolve: a fade lets the black plate show through and dims the picture. */
+.fp-frame>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;filter:none;transition:none;animation:none;z-index:1}
+.fp-frame>img.on{opacity:1;z-index:2}
+.fp-frame video.fp-loop{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:4;background:#04070b;pointer-events:none;opacity:0;transition:none}
+.fp-frame video.fp-loop.live{opacity:1}
+.fp-frame>img.fp-now{transition:none}
+/* Featured tiles stay at full brightness while the player is open. Selection is not a dim. */
+#layer .sheet.film.fp .fp-cards,#layer .sheet.film.fp .fp-card,#layer .sheet.film.fp .fp-cim,#layer .sheet.film.fp .fp-cim img{opacity:1;filter:none}
+#layer .sheet.film.fp .fp-t,#layer .sheet.film.fp .fp-card b{color:#e8e4dc}
+#togo{position:fixed;z-index:100;left:0;right:0;bottom:0;display:flex;align-items:center;gap:12px;height:calc(36px + env(safe-area-inset-bottom,0px));padding:0 14px env(safe-area-inset-bottom,0px);background:#04070b;color:#e8e4dc;opacity:1;cursor:pointer;font:400 11px/1 "Julius Sans One",Poppins,sans-serif;letter-spacing:.14em}
+#togo[hidden]{display:none}
+#togo canvas,#togo span{opacity:1;display:block}
+#togo span{white-space:nowrap}
+@media (prefers-reduced-motion:reduce){
+  .fp-frame>img{transition:none;filter:none;animation:none}
+  #layer .sheet.film.fp.fp-from,#layer .sheet.film.fp.fp-shrink{animation:none}
+}
+.fp-bar{position:relative;height:2px;background:rgba(232,228,220,.12);margin:8px 0 0}
+.fp-bar i{position:absolute;left:0;top:0;bottom:0;width:0;background:#e8e4dc;transition:width .6s ease}
+.fp-strip{display:flex;gap:3px;margin:6px 0 0;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.fp-strip::-webkit-scrollbar{display:none}
+.fp-strip button{flex:0 0 auto;width:clamp(44px,12vw,78px);height:auto;padding:0;border:0;background:#000;line-height:0;opacity:1;filter:none;cursor:pointer;outline:1px solid transparent;outline-offset:-1px}
+.fp-strip button.on{opacity:1;outline-color:#e8e4dc}
+.fp-strip img{width:100%;height:auto;object-fit:cover;display:block;opacity:1;filter:none}
+.fp-meta{width:min(100%,1180px);margin:14px auto 0;text-align:left}
+#layer .sheet.film.fp .fp-meta *{text-align:left}
+.fp-pre{display:block;font:300 11px Poppins,sans-serif;letter-spacing:.04em;color:rgba(232,228,220,.62);margin:0 0 2px}
+.fp-t{font:400 clamp(20px,5.4vw,30px) "Julius Sans One",Poppins,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#e8e4dc;margin:0;line-height:1.15}
+.fp-r{font:300 12.5px Poppins,sans-serif;letter-spacing:.03em;color:#e8e4dc;margin:6px 0 0}
+.fp-aw,.fp-cr{list-style:none;margin:8px 0 0;padding:0;font:300 11px/1.55 Poppins,sans-serif;color:rgba(232,228,220,.66)}
+.fp-aw li{color:#d9c27a}
+.fp-aw li::before{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;background:#d9c27a;margin:0 7px 1px 0;vertical-align:middle}
+.fp-next{width:min(100%,1180px);margin:20px auto 0}
+.fp-lab{font:400 11px "Julius Sans One",sans-serif;letter-spacing:.24em;text-transform:uppercase;color:rgba(232,228,220,.55);margin:0 0 8px}
+.fp-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px 10px}
+.fp-card{display:block;color:#e8e4dc;text-decoration:none;min-width:0}
+.fp-cim{display:block;aspect-ratio:16/9;overflow:hidden;background:#000}
+.fp-cim img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.fp-card:hover .fp-cim img{transform:scale(1.03)}
+.fp-card b{display:block;font:400 11.5px "Julius Sans One",sans-serif;letter-spacing:.12em;text-transform:uppercase;margin:6px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fp-card small{display:block;font:300 10px Poppins,sans-serif;color:rgba(232,228,220,.6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fp-card em{display:block;font:300 10px/1.35 Poppins,sans-serif;font-style:normal;color:rgba(232,228,220,.8);margin-top:1px}
+#layer .sheet.film.fp .framewall.under{width:min(100%,1180px);margin:22px auto 0;padding:0}
+.fp-next{padding-bottom:calc(120px + var(--sb))}
+#layer .sheet.film.fp .framewall.under img{opacity:1;filter:none}
+@media (min-width:1000px) and (orientation:landscape){
+  #layer .sheet.film.fp,html.wc #layer .sheet.film.fp{display:grid;grid-template-columns:minmax(0,1fr) 250px;column-gap:26px;align-content:start;align-items:start;padding-top:calc(70px + var(--st));padding-left:40px;padding-right:110px}
+  .fp-main{grid-column:1;grid-row:1;min-width:0}
+  .fp-stage{width:auto;margin:6px 0 0}
+  #layer .sheet.film.fp .heroframe.fp-frame{width:min(100%,calc((100vh - 290px)*2.2))}
+  .fp-meta{width:auto;margin:12px 0 0}
+  .fp-next{grid-column:2;grid-row:1;width:auto;margin:6px 0 0}
+  .fp-cards{grid-template-columns:1fr;gap:12px}
+  #layer .sheet.film.fp .framewall.under{grid-column:1 / span 2;grid-row:2;width:auto;margin-top:26px}
+  .fp-info{grid-column:1 / span 2;grid-row:3;width:auto;padding-bottom:calc(120px + var(--sb))}
+}
+/* DEV variants (js/variants.js): B and C used to dissolve the still. Every variant now cuts at full brightness. */
+html[data-var-film="B"] .fp-stage{animation:none}
+html[data-var-film="B"] .fp-frame>img,html[data-var-film="C"] .fp-frame>img{transition:none;filter:none}
+#markmenu .mm-var em{font-style:normal;opacity:.7}
+
+/* Frame rail, shared. Under the picture, between it and the title. */
+.fp-railhost{margin:6px 0 0}
+.fp-railhost .fr-rail{height:62px}
+.fp-frame>img.fr-pv{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;z-index:5}
+.fp-frame video.fp-loop{touch-action:pan-y}
+/* Credits and awards, below the stills. */
+.fp-info{width:min(100%,1180px);margin:6px auto 0;padding:0 0 4px}
+.fp-info .fp-lab{margin:18px 0 0}
+/* The Demo Reel inside the player: the card fills the picture box; its shot strip and frame rail hang under it. */
+#layer .sheet.film.fp .heroframe.fp-frame .rl.emb{position:absolute;inset:0;overflow:visible;background:transparent;touch-action:pan-y}
+#layer .sheet.film.fp.fp-reel .heroframe.fp-frame{margin-bottom:150px;cursor:pointer;overflow:visible}
+.rl.emb .rl-st{inset:0}
+.rl.emb .rl-st::before,.rl.emb .rl-st::after{display:none}
+.rl.emb .rl-ui{inset:0}
+.rl.emb .rl-k{left:8px;top:8px;font-size:9px}
+.rl.emb .rl-h,.rl.emb .rl-fit,.rl.emb .rl-v,.rl.emb .rl-b small{display:none}
+.rl.emb .rl-b{left:8px;right:8px;bottom:8px;top:auto}
+.rl.emb .rl-b b{font-size:11px}
+/* The clips (shot strip) live inside the rail's dock. Playing: they are tucked into the rail and not there at all. Paused: they slide up out of the rail
+   and the strip reveals from its bottom edge, so it grows out of the rail instead of arriving as a layer. A fast scrub (shuttle) tucks them away again, quickly. */
+.rl.emb .rl-fs{position:absolute;left:0;right:0;top:calc(100% + 12px);bottom:auto;height:56px;
+  transform:translateY(40px);clip-path:inset(100% 0 0 0);pointer-events:none;
+  transition:transform .18s cubic-bezier(.4,0,.6,1),clip-path .18s cubic-bezier(.4,0,.6,1)}
+.rl.emb.paused:not(.shuttling) .rl-fs{transform:none;clip-path:inset(0 0 0 0);pointer-events:auto;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1),clip-path .3s cubic-bezier(.2,.8,.2,1)}
+@media (prefers-reduced-motion:reduce){.rl.emb .rl-fs,.rl.emb.paused:not(.shuttling) .rl-fs{transition:none}}
+.rl.emb .fr-rail{position:absolute;left:0;right:0;top:calc(100% + 68px);bottom:auto}
+.rl.emb .fr-pv{object-fit:cover}

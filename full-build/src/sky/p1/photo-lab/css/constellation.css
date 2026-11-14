@@ -1,0 +1,12 @@
+/* Photo lab · constellation level + the level mark. */
+.cstl{position:fixed;inset:0;z-index:27;background:radial-gradient(ellipse 80% 70% at 50% 46%,#0b121b,#04070b 72%);opacity:0;transition:opacity .9s var(--ease);pointer-events:none;touch-action:none;cursor:default}
+.cstl.open{opacity:1;pointer-events:auto}
+.cstl[hidden]{display:none}
+.cstl canvas{display:block;position:absolute;inset:0}
+body.safe .cstl{background:radial-gradient(ellipse 80% 70% at 50% 46%,#1a0a09,#0a0506 72%)}
+
+.lvl{position:fixed;z-index:39;left:calc(16px + var(--sl));bottom:calc(18px + var(--sb));display:flex;align-items:center;gap:5px;pointer-events:none;transition:opacity .6s var(--ease);opacity:.78}
+.lvl.off{opacity:0}
+.lvl i{display:block;width:5px;height:5px;border-radius:50%;border:1px solid rgba(238,243,245,.5);background:transparent;transition:background .6s var(--ease),border-color .6s var(--ease)}
+.lvl i.on{background:var(--mint);border-color:var(--mint)}
+.lvl span{margin-left:6px;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(238,243,245,.6);text-shadow:0 1px 6px #04070b;white-space:nowrap}

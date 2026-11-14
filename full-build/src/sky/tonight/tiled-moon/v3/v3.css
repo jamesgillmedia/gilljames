@@ -1,0 +1,85 @@
+/* tiled-moon-v3 additions. Ambience pill: from box:opener-snowwater (native, photo-lab safelight family), placed above the dock. */
+.ambui{position:fixed;z-index:8;left:max(10px,env(safe-area-inset-left));bottom:max(12px,env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:flex-start;gap:8px;pointer-events:none;max-width:min(320px,calc(100vw - 20px))}
+.ambui>*{pointer-events:auto}
+.amb-toggle{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px 0 14px;border:1px solid rgba(255,255,255,.16);border-radius:22px;background:rgba(10,16,24,.42);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#eef3f5;font:300 11px/1 "Julius Sans One",Poppins,system-ui,sans-serif;letter-spacing:.16em;text-transform:lowercase;cursor:pointer;-webkit-tap-highlight-color:transparent;box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 8px 24px rgba(0,0,0,.28)}
+.amb-toggle:hover{border-color:rgba(255,255,255,.28)}
+.ambui.open .amb-toggle{border-color:rgba(255,233,207,.45);color:#ffe9cf}
+.amb-glyph{width:8px;height:8px;border-radius:50%;background:radial-gradient(circle at 32% 32%,#ffe9cf 0 42%,#cfe0f2 58%,transparent 72%);box-shadow:0 0 8px rgba(255,233,207,.5);flex:none}
+.amb-tray{width:min(280px,calc(100vw - 24px));padding:8px 14px 10px;border:1px solid rgba(255,255,255,.16);border-radius:22px;background:rgba(10,16,24,.48);-webkit-backdrop-filter:blur(10px) saturate(1.1);backdrop-filter:blur(10px) saturate(1.1);box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 16px 40px rgba(0,0,0,.4)}
+.amb-tray[hidden]{display:none!important}
+.amb-row{display:grid;grid-template-columns:92px 1fr;align-items:center;gap:8px 10px;min-height:44px}
+.amb-lab{display:flex;align-items:baseline;justify-content:space-between;gap:6px;min-width:0}
+.amb-lab label{font:300 10.5px/1 "Julius Sans One",Poppins,system-ui,sans-serif;letter-spacing:.14em;text-transform:lowercase;color:#c9d3d6;white-space:nowrap}
+.amb-val{font:300 10px/1 Poppins,system-ui,sans-serif;letter-spacing:.06em;color:#ffe9cf;text-align:right;font-variant-numeric:tabular-nums}
+.amb-row input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:44px;margin:0;padding:0;background:transparent;cursor:pointer;touch-action:none}
+.amb-row input[type=range]::-webkit-slider-runnable-track{height:2px;border:0;border-radius:1px;background:rgba(255,255,255,.18)}
+.amb-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;margin-top:-6px;border:0;border-radius:50%;background:#ffe9cf;box-shadow:0 0 8px 2px rgba(255,233,207,.5)}
+.amb-row input[type=range]::-moz-range-track{height:2px;border:0;border-radius:1px;background:rgba(255,255,255,.18)}
+.amb-row input[type=range]::-moz-range-thumb{width:14px;height:14px;border:0;border-radius:50%;background:#ffe9cf;box-shadow:0 0 8px 2px rgba(255,233,207,.5)}
+.amb-reset{display:block;width:100%;margin-top:2px;min-height:36px;padding:8px 12px;border:1px solid rgba(255,255,255,.16);border-radius:18px;background:transparent;color:#cfe0f2;font:300 10.5px/1 "Julius Sans One",Poppins,system-ui,sans-serif;letter-spacing:.16em;text-transform:lowercase;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.amb-reset:hover,.amb-reset:active{background:rgba(255,233,207,.08);color:#ffe9cf}
+@media (orientation:landscape) and (max-height:500px){
+  .ambui{left:max(8px,env(safe-area-inset-left));right:max(8px,env(safe-area-inset-right));bottom:max(8px,env(safe-area-inset-bottom));max-width:none;width:auto;flex-direction:row;align-items:flex-end;gap:8px}
+  .amb-tray{width:auto;flex:1;min-width:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) auto;align-items:center;gap:4px 10px;padding:6px 12px;border-radius:20px}
+  .amb-row{display:flex;flex-direction:column;align-items:stretch;min-height:0;gap:0}
+  .amb-lab{width:100%;padding:0 2px}
+  .amb-lab label{font-size:9.5px}
+  .amb-row input[type=range]{height:32px}
+  .amb-row input[type=range]::-webkit-slider-thumb{margin-top:-6px}
+  .amb-reset{width:auto;min-width:52px;margin:0;min-height:44px;padding:0 12px}
+}
+#snow{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;opacity:1!important}
+.ambui{z-index:31;bottom:calc(var(--dock,104px) + var(--sb,env(safe-area-inset-bottom,0px)) + 10px)}
+@media (orientation:landscape) and (max-height:500px){.ambui{right:auto;bottom:calc(var(--dock,64px) + var(--sb,env(safe-area-inset-bottom,0px)) + 6px)}.ambui.open{right:max(8px,env(safe-area-inset-right))}}
+html:not(.gjdbg-on) .intro .arv{display:none!important}
+@media (min-width:900px) and (min-height:501px){.ambui{left:auto;right:max(16px,env(safe-area-inset-right));align-items:flex-end}}
+/* idle tiles: full-screen category tiles, one per screen */
+html.itl-on,html.itl-on body{overflow:hidden!important}
+.itl{position:fixed;inset:0;z-index:95;background:#04070b;opacity:0;transition:opacity .42s cubic-bezier(.2,.8,.2,1)}
+.itl.in{opacity:1}
+.itl[hidden]{display:none}
+.itl-track{position:absolute;inset:0;display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;overscroll-behavior:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch;touch-action:pan-x}
+.itl-track::-webkit-scrollbar{display:none}
+.itl-tile{position:relative;flex:0 0 100%;width:100%;height:100%;scroll-snap-align:start;scroll-snap-stop:always;overflow:hidden}
+.itl-img{position:absolute;inset:0;background:center/cover no-repeat;transform:scale(1.04);transition:transform 1.2s cubic-bezier(.2,.8,.2,1)}
+.itl.in .itl-img{transform:none}
+.itl-sound .itl-img{filter:blur(1px)}
+.itl-water{position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,6,10,.28),rgba(3,6,10,0) 30%,rgba(3,6,10,.25) 58%,rgba(3,6,10,.86))}
+.itl-water::after{content:"";position:absolute;inset:0;background:url(../img/hero/water-900.webp) center 30%/cover;-webkit-mask-image:linear-gradient(180deg,transparent 50%,#000 92%);mask-image:linear-gradient(180deg,transparent 50%,#000 92%);mix-blend-mode:screen;opacity:.5}
+.itl-about .itl-water::after{display:none}
+.itl-go{position:absolute;left:0;right:0;bottom:0;top:0;display:flex;flex-direction:column;justify-content:flex-end;gap:10px;padding:0 max(28px,env(safe-area-inset-left)) calc(96px + env(safe-area-inset-bottom)) max(28px,env(safe-area-inset-left));color:#eef3f5;text-decoration:none;-webkit-tap-highlight-color:transparent}
+.itl-glyph svg{width:min(46vw,260px);height:auto;overflow:visible}
+.itl-glyph svg path{fill:none;stroke:rgba(var(--t,220,232,240),.7);stroke-width:.6}
+.itl-glyph svg circle{fill:rgb(var(--t,230,240,250))}
+.itl-nm{font:400 clamp(40px,11vw,96px)/1 "Julius Sans One",Poppins,sans-serif;letter-spacing:.14em;text-transform:uppercase;text-shadow:0 2px 24px rgba(0,0,0,.5)}
+.itl-ct{font:300 13px/1.4 Poppins,system-ui,sans-serif;letter-spacing:.06em;color:#c9d3d6}
+.itl-in{align-self:flex-start;margin-top:6px;min-height:44px;line-height:44px;padding:0 20px;border:1px solid rgba(255,255,255,.28);border-radius:22px;background:rgba(10,16,24,.38);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);font:300 11px/44px "Julius Sans One",Poppins,sans-serif;letter-spacing:.16em}
+.itl-dots{position:absolute;left:0;right:0;bottom:calc(36px + env(safe-area-inset-bottom));display:flex;justify-content:center;gap:2px;pointer-events:auto}
+.itl-dot{width:44px;height:44px;border:0;background:transparent;padding:0;cursor:pointer;display:grid;place-items:center}
+.itl-dot::after{content:"";width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.3);transition:background .25s,transform .25s}
+.itl-dot[aria-selected=true]::after{background:#ffe9cf;transform:scale(1.25);box-shadow:0 0 8px rgba(255,233,207,.55)}
+.itl-out{position:absolute;top:max(12px,env(safe-area-inset-top));left:max(14px,env(safe-area-inset-left));display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px 0 12px;border:1px solid rgba(255,255,255,.2);border-radius:22px;background:rgba(10,16,24,.38);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#eef3f5;font:300 11px/1 "Julius Sans One",Poppins,sans-serif;letter-spacing:.16em;cursor:pointer}
+.itl-out i{width:14px;height:14px;border-radius:50%;box-shadow:inset -4px 2px 0 0 #e9eef2;transform:rotate(-20deg)}
+.itl-hint{position:absolute;left:0;right:0;bottom:calc(12px + env(safe-area-inset-bottom));margin:0;text-align:center;font:300 10px/1 Poppins,sans-serif;letter-spacing:.14em;color:rgba(220,230,236,.6);pointer-events:none}
+@media (orientation:landscape) and (max-height:500px){.itl-go{padding-bottom:calc(64px + env(safe-area-inset-bottom));gap:6px}.itl-glyph svg{width:min(26vw,170px)}.itl-nm{font-size:clamp(34px,8vh,60px)}.itl-dots{bottom:calc(14px + env(safe-area-inset-bottom))}.itl-hint{display:none}}
+@media (min-width:900px) and (min-height:501px){.itl-go{padding-left:9vw;padding-bottom:16vh}}
+.links.rooms{margin-top:6px}.lk.room{border-color:rgba(255,233,207,.28);color:#ffe9cf}
+/* category tiles menu (m4 tiles look) */
+.tm-btn{display:inline-grid;grid-template-columns:5px 5px;gap:3px;place-content:center;width:44px;height:44px;margin-left:auto;margin-right:6px;border:0;background:transparent;cursor:pointer;opacity:.82}
+.tm-btn i{width:5px;height:5px;border:1px solid #dfe8f2;border-radius:1px}
+.tm-btn[aria-expanded=true]{opacity:1}
+.tm{position:fixed;inset:0;z-index:90;display:grid;place-items:center;background:rgba(3,6,10,.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.tm[hidden]{display:none}
+.tm-card{width:min(420px,calc(100vw - 32px));max-height:calc(100dvh - 32px);overflow:auto;overscroll-behavior:contain;padding:10px 0}
+.tm-hd{display:flex;align-items:center;justify-content:space-between;padding:0 2px 10px}
+.tm-sig{font:400 18px/1 "Noto Sans Canadian Aboriginal",sans-serif;color:#eef3f5}
+.tm-x{width:44px;height:44px;border:0;background:transparent;color:#dfe8f2;font:300 22px/44px Poppins,sans-serif;cursor:pointer}
+.tm-row{margin:0 0 8px;border:1px solid rgba(255,255,255,.16);border-radius:8px;background:rgba(8,12,18,.62)}
+.tm-go{display:grid;grid-template-columns:62px 1fr auto;align-items:center;gap:8px;min-height:50px;padding:0 14px 0 10px;color:#eef3f5;text-decoration:none}
+.tm-g svg{width:46px;height:23px}
+.tm-nm{font:400 15px/1 "Julius Sans One",Poppins,sans-serif;letter-spacing:.2em;text-transform:uppercase}
+.tm-ct{font:300 11px/1 Poppins,sans-serif;color:#c9d3d6}
+.tm-rooms{display:flex;flex-wrap:wrap;gap:6px;padding:0 12px 10px 80px}
+.tm-room{display:inline-flex;align-items:center;min-height:36px;padding:0 12px;border:1px solid rgba(255,233,207,.25);border-radius:18px;color:#ffe9cf;font:300 11px/1 Poppins,sans-serif;text-decoration:none}
+.tm-swipe{display:block;margin:6px auto 0;min-height:44px;padding:0 18px;border:1px solid rgba(255,255,255,.2);border-radius:22px;background:transparent;color:#cfe0f2;font:300 11px/1 "Julius Sans One",Poppins,sans-serif;letter-spacing:.16em;cursor:pointer}
+html.tm-on,html.tm-on body{overflow:hidden}

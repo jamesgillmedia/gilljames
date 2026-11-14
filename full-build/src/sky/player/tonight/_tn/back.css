@@ -1,0 +1,6 @@
+/* tonight · the way back is the ᑕᐣᓯ mark in each piece's own bar (spec K12): no floating pill, no added mark */
+.tn-back,.tn-mark{display:none!important}
+/* one position marker: crumb + depth rail; the cards' bottom dot-pager is dropped */
+#opc .oc-dots{display:none!important}
+.rooms[hidden]{display:none!important}
+.deck .p-room{display:none!important}

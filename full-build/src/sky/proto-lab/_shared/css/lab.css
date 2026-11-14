@@ -1,0 +1,85 @@
+@font-face{font-family:"Julius Sans One";src:url("../fonts/julius-sans-one.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Poppins";src:url("../fonts/poppins-300.woff2") format("woff2");font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:"Poppins";src:url("../fonts/poppins-400.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Poppins";src:url("../fonts/poppins-500.ttf") format("truetype");font-weight:500;font-style:normal;font-display:swap}
+
+:root{
+  --bg:#070b12; --ink:#e8eef4; --dim:#9aa3b0; --line:rgba(220,226,234,.18);
+  --gold:#c49660; --mint:#7dcea0; --safe-t:env(safe-area-inset-top,0px);
+  --safe-b:env(safe-area-inset-bottom,0px); --safe-l:env(safe-area-inset-left,0px);
+  --safe-r:env(safe-area-inset-right,0px);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);
+  font:300 14px/1.4 Poppins,system-ui,sans-serif;-webkit-font-smoothing:antialiased;
+  -webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:1px solid var(--mint);outline-offset:3px;border-radius:8px}
+
+/* proto chrome — sits above the experiment, does not pretend to be the site */
+.labbar{
+  position:fixed; left:0; right:0; top:0; z-index:40;
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  padding:calc(8px + var(--safe-t)) max(12px,var(--safe-r)) 8px max(12px,var(--safe-l));
+  background:linear-gradient(rgba(7,11,18,.92),rgba(7,11,18,.55) 70%,rgba(7,11,18,0));
+  pointer-events:none;
+}
+.labbar > *{pointer-events:auto}
+.labbar .back{
+  font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--dim);
+  min-height:32px; padding:0 8px;
+}
+.labbar .who{flex:1; min-width:120px; font:400 12px/1.2 "Julius Sans One",sans-serif;
+  letter-spacing:.22em; text-transform:uppercase; color:var(--ink)}
+.variants{display:flex; gap:6px}
+.variants button{
+  min-width:36px; min-height:32px; padding:0 10px; border:1px solid var(--line);
+  border-radius:16px; letter-spacing:.14em; font-size:11px; color:var(--dim);
+}
+.variants button[aria-pressed="true"]{
+  color:var(--ink); border-color:rgba(196,150,96,.8);
+  box-shadow:0 0 0 1px rgba(196,150,96,.25);
+}
+.vnote{
+  position:fixed; left:0; right:0; bottom:0; z-index:40;
+  margin:0; padding:10px max(16px,var(--safe-r)) calc(12px + var(--safe-b)) max(16px,var(--safe-l));
+  font-size:11px; letter-spacing:.04em; color:#c8cfd6;
+  background:linear-gradient(rgba(7,11,18,0),rgba(7,11,18,.88) 40%);
+  pointer-events:none;
+}
+.stage{position:fixed; inset:0; overflow:hidden}
+
+/* site-like bits used inside stages */
+.mark{height:22px; width:auto; display:block; filter:drop-shadow(0 0 6px rgba(200,210,230,.35))}
+.hint{position:absolute; left:0; right:0; text-align:center; font-size:11px;
+  letter-spacing:.16em; text-transform:uppercase; color:rgba(200,206,214,.7); pointer-events:none}
+
+/* index */
+.index{min-height:100vh; padding:48px 24px 80px; max-width:860px; margin:0 auto}
+.index h1{font:400 22px/1.2 "Julius Sans One",sans-serif; letter-spacing:.2em;
+  text-transform:uppercase; margin:0 0 8px}
+.index .lede{color:var(--dim); margin:0 0 36px; max-width:40em}
+.cards{display:grid; gap:14px}
+@media(min-width:800px){.cards{grid-template-columns:1fr 1fr}}
+.card{display:block; padding:18px 18px 16px; border:1px solid var(--line);
+  border-radius:16px; background:rgba(8,12,20,.55); transition:border-color .2s}
+.card:hover{border-color:rgba(196,150,96,.55)}
+.card b{display:block; font:400 13px/1.2 "Julius Sans One",sans-serif;
+  letter-spacing:.18em; text-transform:uppercase; margin-bottom:8px}
+.card p{margin:0; color:var(--dim); font-size:13px}
+.card .n{color:var(--gold); margin-right:8px}
+
+body.lab{overflow:hidden; height:100vh; height:100dvh}
+
+/* index phone compact — all six cards should fit a portrait frame */
+@media(max-width:700px){
+  .index{padding:32px 20px 28px}
+  .index h1{font-size:20px;margin-bottom:6px}
+  .index .lede{margin:0 0 18px;font-size:13px;line-height:1.4}
+  .cards{gap:10px}
+  .card{padding:12px 14px 11px}
+  .card b{margin-bottom:5px;font-size:12px}
+  .card p{font-size:12px;line-height:1.35}
+  .foot{margin-top:18px;font-size:11px}
+}

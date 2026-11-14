@@ -1,0 +1,35 @@
+/* Photo lab · shared look (m4 / R10 language: dark sky #04070b, mint for new, Julius Sans One + Poppins).
+   Motion is the same with Reduce Motion on: nothing here reads prefers-reduced-motion,
+   except gate weave, which can be switched off. */
+@font-face{font-family:Poppins;font-weight:200;font-display:swap;src:url(../media/fonts/poppins-200.woff2) format("woff2")}
+@font-face{font-family:Poppins;font-weight:300;font-display:swap;src:url(../media/fonts/poppins-300.woff2) format("woff2")}
+@font-face{font-family:"Julius Sans One";font-display:swap;src:url(../media/fonts/julius-sans-one.woff2) format("woff2")}
+@font-face{font-family:Caveat;font-display:swap;src:url(../media/fonts/caveat-400.woff2) format("woff2")}
+@font-face{font-family:Syl;font-weight:700;font-display:block;src:url(../media/fonts/noto-canadian-aboriginal-subset.woff2) format("woff2");unicode-range:U+1400-167F}
+:root{--bg:#04070b;--ink:#eef3f5;--dim:#c9d3d6;--mute:#8fa3aa;--mint:#55DAA1;--tint:170,245,212;--line:rgba(255,255,255,.16);--paper:#e4ddd2;
+ --ease:cubic-bezier(.22,.61,.36,1);--slow:900ms;
+ --st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px);--sl:env(safe-area-inset-left,0px);--sr:env(safe-area-inset-right,0px);
+ --spill:80,90,100}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:300 14px/1.5 Poppins,system-ui,sans-serif;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
+body{overflow:hidden;overscroll-behavior:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+a{color:inherit;-webkit-tap-highlight-color:transparent}
+img,video{-webkit-user-drag:none;user-select:none;-webkit-user-select:none}
+.ju{font-family:"Julius Sans One",Poppins,sans-serif;letter-spacing:.14em;text-transform:uppercase}
+.lab-top{position:fixed;z-index:50;left:0;right:0;top:0;display:flex;align-items:center;gap:8px;padding:calc(10px + var(--st)) calc(14px + var(--sr)) 10px calc(14px + var(--sl));pointer-events:none}
+.lab-top>*{pointer-events:auto}
+.lab-top .sig{font:700 22px/1 Syl,Poppins,sans-serif;text-decoration:none;color:var(--ink);opacity:.92}
+.lab-top .crumb{flex:1;min-width:0;font-size:10.5px;letter-spacing:.2em;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lab-top .crumb b{font-weight:300;color:var(--ink)}
+.lab-btn{display:inline-grid;place-items:center;min-width:44px;min-height:44px;padding:0 12px;border:1px solid var(--line);border-radius:22px;background:rgba(4,7,11,.42);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);font-size:11.5px;letter-spacing:.12em;color:var(--ink);transition:border-color .5s var(--ease),background .5s var(--ease),color .5s var(--ease)}
+.lab-btn:hover{border-color:rgba(255,255,255,.34)}
+.lab-btn.on{border-color:rgba(85,218,161,.7);color:var(--mint)}
+.lab-btn.ic{padding:0;font-size:18px}
+.lab-btn[hidden]{display:none}
+.lab-hint{position:fixed;z-index:40;left:50%;bottom:calc(16px + var(--sb));transform:translateX(-50%);max-width:calc(100% - 32px);padding:8px 16px;border-radius:20px;background:rgba(4,7,11,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid var(--line);font-size:11.5px;letter-spacing:.06em;color:var(--dim);text-align:center;pointer-events:none;transition:opacity 1.2s var(--ease)}
+.lab-hint.gone{opacity:0}
+.fadein{animation:labin 1.1s var(--ease) both}
+@keyframes labin{from{opacity:0}to{opacity:1}}
+@media (max-width:620px){.lab-top .crumb{display:none}}
+@media (max-width:520px){.lab-btn:not(.ic):not(.on){padding:0 9px}}

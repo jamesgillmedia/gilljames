@@ -1,0 +1,58 @@
+PASS phone-390x844 cup layers in order ['whole piece', 'surface', 'making', 'use', 'shop']
+PASS phone-390x844 cup stop count 25
+PASS phone-390x844 Escape up one stop at a time to whole piece 
+PASS phone-390x844 up at the top does nothing 
+PASS phone-390x844 wheel burst toward = exactly one layer in stop 1
+PASS phone-390x844 wheel burst away = exactly one layer up stop 0
+PASS phone-390x844 ctrl+wheel pinch = one step 1
+PASS phone-390x844 rapid Enter x4 = one step 1
+PASS phone-390x844 ArrowDown / ArrowUp 
+PASS phone-390x844 pinch in = one layer 1
+PASS phone-390x844 second pinch in = next stop 
+PASS phone-390x844 pinch out = one up 
+PASS phone-390x844 pinch out again = whole piece 
+PASS phone-390x844 tap = one layer in 
+PASS phone-390x844 Back = one up 
+PASS phone-390x844 one gesture = next specimen (scoop, whole piece) ice cream scoop
+PASS phone-390x844 scoop layers (making and use skipped) ['whole piece', 'surface', 'shop']
+PASS phone-390x844 Home = cup whole piece 
+PASS phone-390x844 no console errors / 4xx []
+PASS phone-390x844 RM reduce-motion run gives the same steps [1, 2, 3, 1]
+PASS phone-390x844 RM no console errors / 4xx []
+PASS landscape-844x390 cup layers in order ['whole piece', 'surface', 'making', 'use', 'shop']
+PASS landscape-844x390 cup stop count 25
+PASS landscape-844x390 Escape up one stop at a time to whole piece 
+PASS landscape-844x390 up at the top does nothing 
+PASS landscape-844x390 wheel burst toward = exactly one layer in stop 1
+PASS landscape-844x390 wheel burst away = exactly one layer up stop 0
+PASS landscape-844x390 ctrl+wheel pinch = one step 1
+PASS landscape-844x390 rapid Enter x4 = one step 1
+PASS landscape-844x390 ArrowDown / ArrowUp 
+PASS landscape-844x390 pinch in = one layer 1
+PASS landscape-844x390 second pinch in = next stop 
+PASS landscape-844x390 pinch out = one up 
+PASS landscape-844x390 pinch out again = whole piece 
+PASS landscape-844x390 tap = one layer in 
+PASS landscape-844x390 Back = one up 
+PASS landscape-844x390 one gesture = next specimen (scoop, whole piece) ice cream scoop
+PASS landscape-844x390 scoop layers (making and use skipped) ['whole piece', 'surface', 'shop']
+PASS landscape-844x390 Home = cup whole piece 
+PASS landscape-844x390 no console errors / 4xx []
+PASS landscape-844x390 RM reduce-motion run gives the same steps [1, 2, 3, 1]
+PASS landscape-844x390 RM no console errors / 4xx []
+PASS desktop-1440x900 cup layers in order ['whole piece', 'surface', 'making', 'use', 'shop']
+PASS desktop-1440x900 cup stop count 25
+PASS desktop-1440x900 Escape up one stop at a time to whole piece 
+PASS desktop-1440x900 up at the top does nothing 
+PASS desktop-1440x900 wheel burst toward = exactly one layer in stop 1
+PASS desktop-1440x900 wheel burst away = exactly one layer up stop 0
+PASS desktop-1440x900 ctrl+wheel pinch = one step 1
+PASS desktop-1440x900 rapid Enter x4 = one step 1
+PASS desktop-1440x900 ArrowDown / ArrowUp 
+PASS desktop-1440x900 one gesture = next specimen (scoop, whole piece) ice cream scoop
+PASS desktop-1440x900 scoop layers (making and use skipped) ['whole piece', 'surface', 'shop']
+PASS desktop-1440x900 Home = cup whole piece 
+PASS desktop-1440x900 no console errors / 4xx []
+PASS desktop-1440x900 RM reduce-motion run gives the same steps [1, 2, 3, 1]
+PASS desktop-1440x900 RM no console errors / 4xx []
+57 checks, 0 failed

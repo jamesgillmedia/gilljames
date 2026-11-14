@@ -1,0 +1,107 @@
+/* Photo lab · shared look (m4 / R10 language: dark sky #04070b, mint for new, Julius Sans One + Poppins, Caveat for grease-pencil notes).
+   Motion is the same with Reduce Motion on: nothing here reads prefers-reduced-motion. */
+@font-face{font-family:Poppins;font-weight:200;font-display:swap;src:url(../media/fonts/poppins-200.woff2) format("woff2")}
+@font-face{font-family:Poppins;font-weight:300;font-display:swap;src:url(../media/fonts/poppins-300.woff2) format("woff2")}
+@font-face{font-family:"Julius Sans One";font-display:swap;src:url(../media/fonts/julius-sans-one.woff2) format("woff2")}
+@font-face{font-family:Caveat;font-display:swap;src:url(../media/fonts/caveat-400.woff2) format("woff2")}
+@font-face{font-family:Syl;font-weight:700;font-display:block;src:url(../media/fonts/noto-canadian-aboriginal-subset.woff2) format("woff2");unicode-range:U+1400-167F}
+:root{--bg:#04070b;--ink:#eef3f5;--dim:#c9d3d6;--mute:#8fa3aa;--mint:#55DAA1;--tint:170,245,212;--line:rgba(255,255,255,.16);--paper:#e4ddd2;
+ --ease:cubic-bezier(.22,.61,.36,1);--slow:900ms;
+ --st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px);--sl:env(safe-area-inset-left,0px);--sr:env(safe-area-inset-right,0px)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:300 14px/1.5 Poppins,system-ui,sans-serif;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
+body{overflow:hidden;overscroll-behavior:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+a{color:inherit;-webkit-tap-highlight-color:transparent}
+img{-webkit-user-drag:none;user-select:none;-webkit-user-select:none}
+.ju{font-family:"Julius Sans One",Poppins,sans-serif;letter-spacing:.14em;text-transform:uppercase}
+/* the bar every room shares */
+.lab-top{position:fixed;z-index:50;left:0;right:0;top:0;display:flex;align-items:center;gap:10px;padding:calc(10px + var(--st)) calc(14px + var(--sr)) 10px calc(14px + var(--sl));pointer-events:none}
+.lab-top>*{pointer-events:auto}
+.lab-top .sig{font:700 22px/1 Syl,Poppins,sans-serif;text-decoration:none;color:var(--ink);opacity:.92}
+.lab-top .crumb{flex:1;min-width:0;font-size:10.5px;letter-spacing:.2em;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lab-top .crumb b{font-weight:300;color:var(--ink)}
+.lab-top .crumb i{font-style:normal;color:var(--mint)}
+.lab-btn{display:inline-grid;place-items:center;min-width:44px;min-height:44px;padding:0 14px;border:1px solid var(--line);border-radius:22px;background:rgba(4,7,11,.42);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);font-size:12px;letter-spacing:.12em;text-rendering:geometricPrecision;color:var(--ink);transition:border-color .5s var(--ease),background .5s var(--ease),color .5s var(--ease)}
+.lab-btn:hover{border-color:rgba(255,255,255,.34)}
+.lab-btn.on{border-color:rgba(85,218,161,.7);color:var(--mint)}
+.lab-btn.ic{padding:0;font-size:18px}
+#sort{white-space:nowrap;flex-shrink:0}
+.lab-btn[hidden]{display:none}
+.lab-hint{position:fixed;z-index:40;left:50%;bottom:calc(16px + var(--sb));transform:translateX(-50%);max-width:calc(100% - 32px);padding:8px 16px;border-radius:20px;background:rgba(4,7,11,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid var(--line);font-size:11.5px;letter-spacing:.06em;color:var(--dim);text-align:center;pointer-events:none;transition:opacity 1.2s var(--ease)}
+.lab-hint.gone{opacity:0}
+.mint{color:var(--mint)}
+.heart{color:var(--mint)}
+.fadein{animation:labin 1.1s var(--ease) both}
+@keyframes labin{from{opacity:0}to{opacity:1}}
+.veil{position:fixed;inset:0;z-index:90;background:var(--bg);pointer-events:none;opacity:0;transition:opacity .8s var(--ease)}
+.veil.on{opacity:1}
+noscript .ns{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px;padding:70px 10px 20px;height:100%;overflow:auto}
+noscript .ns img{width:100%;height:auto;display:block}
+
+/* ---------- camera back (the deeper layer, shared) ---------- */
+.cb{position:fixed;inset:0;z-index:70;display:flex;align-items:center;justify-content:center;background:rgba(4,7,11,.0);pointer-events:none;opacity:0;transition:opacity var(--slow) var(--ease),background var(--slow) var(--ease)}
+.cb.open{opacity:1;pointer-events:auto;background:rgba(4,7,11,.94)}
+.cb-body{position:relative;display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;padding:18px 18px 18px 22px;border-radius:26px;background:linear-gradient(160deg,#1a1d20,#0b0d0f 60%);box-shadow:0 30px 80px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.07),inset 0 0 0 1px rgba(255,255,255,.04);transform:scale(.92) translateY(18px);transition:transform var(--slow) var(--ease)}
+.cb.open .cb-body{transform:none}
+.cb-scr{position:relative;width:min(64vw,calc((100vh - 120px)*1.5));aspect-ratio:3/2;border-radius:6px;background:#000;overflow:hidden;box-shadow:inset 0 0 0 2px #050607,0 0 0 1px rgba(255,255,255,.05);touch-action:none}
+.cb-grid{position:absolute;inset:0;display:grid;gap:2px;padding:2px;transition:opacity .45s var(--ease)}
+.cb-cell{position:relative;overflow:hidden;background:#0b0e10;cursor:pointer}
+.cb-cell img{width:100%;height:100%;object-fit:cover;display:block}
+.cb-cell.sel{outline:2px solid var(--mint);outline-offset:-2px;z-index:1}
+.cb-cell.h::after{content:"♥";position:absolute;right:3px;top:0;font-size:11px;color:var(--mint);text-shadow:0 0 4px #000}
+.cb-one{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.cb-one img{max-width:100%;max-height:100%;transition:transform .7s var(--ease);transform-origin:50% 50%}
+.cb-osd{position:absolute;left:8px;right:8px;bottom:6px;display:flex;justify-content:space-between;font:300 10.5px/1.2 Poppins,sans-serif;letter-spacing:.12em;color:#e8eef0;text-shadow:0 1px 3px #000;pointer-events:none}
+.cb-osd .lv{color:var(--mint)}
+.cb-side{display:flex;flex-direction:column;align-items:center;gap:12px}
+.cb-dial{position:relative;width:118px;height:118px;border-radius:50%;background:radial-gradient(circle at 50% 50%,#0d0f11 0 30%,#24282b 31% 33%,#15181a 34%);box-shadow:inset 0 2px 3px rgba(255,255,255,.08),inset 0 -3px 6px rgba(0,0,0,.6),0 4px 14px rgba(0,0,0,.6);touch-action:none;cursor:grab}
+.cb-dial .knurl{position:absolute;inset:0;border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(255,255,255,.10) 0 3deg,rgba(0,0,0,0) 3deg 9deg);-webkit-mask:radial-gradient(circle,transparent 0 62%,#000 63% 98%,transparent 99%);mask:radial-gradient(circle,transparent 0 62%,#000 63% 98%,transparent 99%)}
+.cb-dial .dot{position:absolute;left:50%;top:9px;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:var(--mint);box-shadow:0 0 6px rgba(85,218,161,.8)}
+.cb-dial .set{position:absolute;inset:36%;border-radius:50%;display:grid;place-items:center;font-size:9px;letter-spacing:.14em;color:#cfd6d9;background:#121517;box-shadow:inset 0 1px 2px rgba(255,255,255,.06)}
+.cb-keys{display:grid;grid-template-columns:repeat(2,48px);gap:8px}
+.cb-k{height:40px;border-radius:20px;background:#15181a;box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 2px 6px rgba(0,0,0,.5);font-size:13px;color:#dfe6e8;display:grid;place-items:center}
+.cb-k:active{background:#1d2124}
+.cb-k.h.on{color:var(--mint)}
+.cb-x{position:absolute;right:calc(14px + var(--sr));top:calc(10px + var(--st))}
+.cb-name{font-size:9.5px;letter-spacing:.3em;color:#9aa6aa}
+@media (orientation:portrait){
+ .cb-body{grid-template-columns:1fr;padding:16px;gap:14px;width:calc(100vw - 20px)}
+ .cb-scr{width:100%}
+ .cb-side{flex-direction:row;justify-content:space-between;padding:0 6px}
+ .cb-dial{width:128px;height:128px}
+}
+@media (max-width:520px){
+ .lab-top .crumb b{display:none}
+ .lab-top{gap:5px;padding-left:calc(10px + var(--sl));padding-right:calc(10px + var(--sr))}
+ .lab-top>.sig,.lab-top>.lab-btn{flex-shrink:0}
+ .lab-top>.sig{margin-right:auto}
+ .lab-top .lab-btn{white-space:nowrap}
+ .lab-top .lab-btn:not(.ic){font-size:11px;letter-spacing:.06em}
+ .lab-top .lab-btn.ic{min-width:40px}
+}
+
+/* ---------- safelight (darkroom spill: ambient red on the room, not a grade on the photograph) ---------- */
+body.safe{--bg:#0a0506;--ink:#f3e0dc;--dim:#d9b8b2;--mute:#a07a76;--line:rgba(255,92,78,.20);--mint:#e38b7c;--tint:255,186,176}
+body.safe{background:var(--bg)}
+body.safe .lab-btn{background:rgba(18,6,6,.48)}
+body.safe .lab-btn:hover{border-color:rgba(255,140,120,.38)}
+body.safe .lab-btn.on{border-color:rgba(227,139,124,.75);color:var(--mint)}
+body.safe .lab-hint{background:rgba(18,6,6,.58);border-color:rgba(255,92,78,.20)}
+body.safe .veil{background:var(--bg)}
+/* very slight surround on the camera-back cells; the image itself is unfiltered */
+body.safe .cb{background:rgba(12,4,4,.94)}
+body.safe .cb.open{background:rgba(12,4,4,.94)}
+body.safe .cb-body{background:linear-gradient(160deg,#2a1412,#100808 60%);box-shadow:0 30px 80px rgba(40,0,0,.55),inset 0 1px 0 rgba(255,180,160,.08),inset 0 0 0 1px rgba(255,90,80,.06)}
+body.safe .cb-cell.sel{outline-color:var(--mint)}
+body.safe .cb-cell img,body.safe .cb-one img,body.safe .cb-one video{filter:none}
+body.safe .cb-scr{box-shadow:inset 0 0 0 2px #140808,0 0 24px rgba(120,16,10,.22)}
+
+/* ---------- dial halo: a soft ring of light just outside the dial, with a small backdrop blur.
+   It lives on the panel only (9px < the 12-18px gap to the screen), never over a photograph, and takes no touches. ---------- */
+.cb-dial{--dg:226,238,242;--dg2:226,238,242;--da:.15;--db:.07;isolation:isolate}
+body.safe .cb-dial{--dg:227,139,124;--dg2:160,24,16;--da:.26;--db:.14}
+.cb-dial::before{content:"";position:absolute;inset:-9px;border-radius:50%;z-index:-1;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(var(--dg),0) calc(100% - 10px),rgba(var(--dg),var(--da)) calc(100% - 8px),rgba(var(--dg2),var(--db)) calc(100% - 4px),rgba(var(--dg2),0) 100%);
+  -webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);
+  -webkit-mask:radial-gradient(closest-side,transparent calc(100% - 9px),#000 calc(100% - 8px));mask:radial-gradient(closest-side,transparent calc(100% - 9px),#000 calc(100% - 8px))}

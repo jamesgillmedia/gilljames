@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>builds</title>
+<link rel="icon" href="../icons/icon-192.png">
+<style>
+:root{--ink:#eef3f5;--dim:#9fb0b6;--mint:#55DAA1;--bg:#04070b;--glass:rgba(10,18,28,.62)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);overflow:hidden;font:13px/1.3 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;overscroll-behavior:none}
+#frame{position:fixed;inset:0;width:100%;height:100%;border:0;background:#04070b}
+#empty{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;color:var(--dim);letter-spacing:.14em;text-transform:uppercase;font-size:11px}
+#empty.off{display:none}
+#pv{position:fixed;inset:0;z-index:15;display:none;align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:64px 20px 230px;background:radial-gradient(120% 80% at 50% 40%,#121c2e 0%,#070d18 55%,#04070b 100%)}
+#pv.on{display:flex}
+#pv img{display:block;max-width:100%;min-height:0;flex:0 1 auto;max-height:calc(100% - 28px);object-fit:contain;border-radius:12px;border:1px solid rgba(255,255,255,.16);box-shadow:0 10px 40px rgba(0,0,0,.55)}
+#pv span{flex:none;color:var(--dim);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase}
+.glass{background:var(--glass);-webkit-backdrop-filter:blur(14px) saturate(1.3);backdrop-filter:blur(14px) saturate(1.3);border:1px solid rgba(255,255,255,.18);box-shadow:0 6px 28px rgba(0,0,0,.45),inset 0 0 0 1px rgba(255,255,255,.04)}
+#pill{position:fixed;left:0;top:0;z-index:20;height:42px;border-radius:21px;display:flex;align-items:center;gap:2px;padding:0 4px;touch-action:none;user-select:none;-webkit-user-select:none;transition:opacity .25s ease,transform .25s ease}
+#pill.gone,#dot.gone{opacity:0;pointer-events:none;transform:scale(.6)}
+#pill button{all:unset;cursor:pointer;display:flex;align-items:center;justify-content:center;height:34px;color:var(--ink);border-radius:17px}
+#pill .arr{width:34px;font-size:20px;line-height:1}
+#pill .arr:active,#pill .lbl:active,#pill .min:active{background:rgba(255,255,255,.12)}
+#pill .lbl{min-width:112px;padding:0 10px;flex-direction:column;gap:0;font-size:12px;letter-spacing:.02em}
+#pill .lbl b{font-weight:600}
+#pill .lbl i{font-style:normal;font-size:9.5px;color:var(--dim);letter-spacing:.12em;text-transform:uppercase}
+#pill .grip{width:22px;cursor:grab;flex-direction:column;gap:3px;opacity:.7}
+#pill .grip s{display:block;width:12px;height:2px;border-radius:1px;background:currentColor}
+#pill .min{width:30px;color:var(--dim);font-size:16px}
+#dot{position:fixed;left:0;top:0;z-index:21;width:30px;height:30px;border-radius:50%;touch-action:none;transition:opacity .25s ease,transform .25s ease}
+#dot::after{content:"";position:absolute;inset:9px;border-radius:50%;background:var(--mint);box-shadow:0 0 10px rgba(85,218,161,.7)}
+#dot::before{content:"";position:absolute;inset:0;border-radius:50%;border:1px solid rgba(85,218,161,.55);animation:rip 2.4s ease-out infinite}
+@keyframes rip{0%{transform:scale(.7);opacity:.9}100%{transform:scale(1.7);opacity:0}}
+#sheet{position:fixed;left:0;right:0;bottom:0;z-index:19;padding:12px max(14px,env(safe-area-inset-right)) calc(14px + env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left));border-radius:18px 18px 0 0;border-bottom:0;transform:translateY(105%);transition:transform .28s cubic-bezier(.2,.8,.2,1);max-width:640px;margin:0 auto}
+#sheet.on{transform:none}
+#card{display:flex;gap:12px;align-items:center;margin:0 0 12px;min-height:96px}
+#card img{height:96px;width:44px;object-fit:cover;object-position:top;border-radius:8px;background:#0a121c;flex:none;border:1px solid rgba(255,255,255,.14)}
+#card .t{flex:1;min-width:0}
+#card h2{margin:0;font-size:16px;font-weight:600}
+#card p{margin:3px 0 0;color:var(--dim);font-size:11.5px}
+#card .go{all:unset;cursor:pointer;flex:none;padding:10px 16px;border-radius:20px;background:rgba(85,218,161,.16);border:1px solid rgba(85,218,161,.55);color:var(--mint);font-size:12px;letter-spacing:.06em}
+#card .go:active{background:rgba(85,218,161,.3)}
+#chips{display:flex;gap:8px;overflow-x:auto;padding:2px 0;scrollbar-width:none;-webkit-overflow-scrolling:touch;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 12px,#000 calc(100% - 12px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 12px,#000 calc(100% - 12px),transparent 100%)}
+#chips::before,#chips::after{content:"";flex:none;width:4px}
+#chips::-webkit-scrollbar{display:none}
+.chip{all:unset;cursor:pointer;flex:none;padding:8px 12px;border-radius:16px;border:1px solid rgba(255,255,255,.2);color:var(--ink);font-size:12px}
+.chip.sel{border-color:var(--mint);color:var(--mint);background:rgba(85,218,161,.1)}
+.chip.cur::after{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--mint);margin-left:7px;vertical-align:middle}
+@media (orientation:landscape) and (max-height:480px){
+ #pv{padding:52px 20px 160px}
+ #card{min-height:0;margin-bottom:8px}#card img{height:64px;width:30px}#sheet{padding-top:8px}
+}
+</style><link rel="stylesheet" href="../../_tn/back.css"><script src="../../_tn/back.js" data-tn-root="../../" defer></script></head><body>
+<iframe id="frame" title="build" allow="autoplay; fullscreen"></iframe>
+<div id="empty">pick a build</div>
+<div id="pv" aria-hidden="true"><img id="pvimg" alt=""><span id="pvtag"></span></div>
+<div id="sheet" class="glass" aria-hidden="true">
+ <div id="card"><img id="cimg" alt=""><div class="t"><h2 id="cname"></h2><p id="cmeta"></p></div><button class="go" id="cgo">Open</button></div>
+ <div id="chips" role="listbox"></div>
+</div>
+<div id="pill" class="glass">
+ <button class="grip" id="grip" aria-label="move"><s></s><s></s></button>
+ <button class="arr" id="prev" aria-label="previous build">&#8249;</button>
+ <button class="lbl" id="lbl"><b id="lname">-</b><i id="lsub">builds</i></button>
+ <button class="arr" id="next" aria-label="next build">&#8250;</button>
+ <button class="min" id="min" aria-label="collapse">&#8211;</button>
+</div>
+<div id="dot" class="glass gone" aria-label="builds"></div>
+<script>
+(function(){
+var B=[{"id": "r4", "ts": "2026-11-10T02:01:16Z"}, {"id": "r5", "ts": "2026-11-10T02:39:09Z"}, {"id": "r6", "ts": "2026-11-10T03:18:16Z"}, {"id": "r7", "ts": "2026-11-10T03:40:33Z"}, {"id": "r8", "ts": "2026-11-10T04:32:17Z"}, {"id": "r9", "ts": "2026-11-10T05:10:33Z"}, {"id": "r10", "ts": "2026-11-10T05:50:20Z"}, {"id": "r11", "ts": "2026-11-10T15:41:45Z"}, {"id": "u1", "ts": "2026-11-10T16:38:04Z"}, {"id": "u1m", "ts": "2026-11-10T17:07:03Z"}, {"id": "u3", "ts": "2026-11-10T20:03:14Z"}, {"id": "u3-r2", "ts": "2026-11-10T21:51:12Z"}, {"id": "u3-r3", "ts": "2026-11-10T22:01:01Z"}, {"id": "u4-opus-m1", "ts": "2026-11-10T21:45:39Z"}, {"id": "u4-opus-m2", "ts": "2026-11-10T23:35:59Z"}, {"id": "u4-opus-m3", "ts": "2026-11-10T23:41:30Z"}, {"id": "u4-opus-m4", "ts": "2026-11-11T01:13:46Z"}];
+var LS='gjv.', $=function(i){return document.getElementById(i)};
+var frame=$('frame'),pill=$('pill'),dot=$('dot'),sheet=$('sheet'),chips=$('chips');
+function get(k,d){try{var v=localStorage.getItem(LS+k);return v==null?d:JSON.parse(v)}catch(e){return d}}
+function set(k,v){try{localStorage.setItem(LS+k,JSON.stringify(v))}catch(e){}}
+var DF=new Intl.DateTimeFormat('en-US',{timeZone:'America/Vancouver',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+function fmt(ts){return DF.format(new Date(ts))+' PT'}
+function idx(id){for(var i=0;i<B.length;i++)if(B[i].id===id)return i;return -1}
+
+var cur=-1,sel=-1,open=false;
+var q=(location.search.match(/[?&]b=([^&]+)/)||[])[1];
+var start=idx(q||get('last',''));
+
+B.forEach(function(b,i){
+  var c=document.createElement('button');c.className='chip';c.textContent=b.id;c.setAttribute('role','option');
+  c.onclick=function(){chipTap(i)};chips.appendChild(c);b.el=c;
+});
+function paintChips(){B.forEach(function(b,i){b.el.className='chip'+(i===sel?' sel':'')+(i===cur?' cur':'')})}
+function paintPreview(){
+  var on=open&&sel>=0&&sel!==cur;
+  $('pv').classList.toggle('on',on);
+  if(on){var b=B[sel];$('pvimg').src='thumbs/'+b.id+'.jpg';$('pvtag').textContent='preview \u00b7 tap again to open'}
+}
+function paintCard(i){
+  var b=B[i];$('cimg').src='thumbs/'+b.id+'.jpg';$('cname').textContent=b.id;
+  $('cmeta').textContent=fmt(b.ts)+' \u00b7 '+(i+1)+' of '+B.length+(i===cur?' \u00b7 showing':'');
+  $('cgo').textContent=i===cur?'Close':'Open';
+  paintPreview();
+}
+function setOpen(v){
+  open=v;if(!v)paintPreview();sheet.classList.toggle('on',v);sheet.setAttribute('aria-hidden',v?'false':'true');
+  if(v){sel=sel<0?(cur<0?0:cur):sel;paintCard(sel);paintChips();
+    if(!setOpen.started){setOpen.started=1;chips.scrollLeft=0}
+    else{var e=B[sel].el,l=e.offsetLeft-chips.offsetLeft,cw=chips.clientWidth,sl=chips.scrollLeft;
+      if(l<sl+6||l+e.offsetWidth>sl+cw-6)chips.scrollTo({left:l-cw/2+e.offsetWidth/2,behavior:'smooth'})}}
+}
+function chipTap(i){
+  if(i===sel){ if(i===cur)setOpen(false);else load(i,true); return }
+  sel=i;paintCard(i);paintChips();
+}
+function load(i,close){
+  i=(i+B.length)%B.length;cur=sel=i;set('last',B[i].id);
+  frame.src='../../'+B[i].id+'/';$('empty').className='off';
+  $('lname').textContent=B[i].id;$('lsub').textContent=(i+1)+' / '+B.length;
+  try{history.replaceState(null,'','?b='+encodeURIComponent(B[i].id))}catch(e){}
+  paintChips();if(open){paintCard(i);if(close)setOpen(false)}
+}
+$('cgo').onclick=function(){if(sel===cur)setOpen(false);else load(sel,true)};
+$('prev').onclick=function(){load(cur<0?B.length-1:cur-1)};
+$('next').onclick=function(){load(cur<0?0:cur+1)};
+$('lbl').onclick=function(){setOpen(!open)};
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowLeft')$('prev').click();else if(e.key==='ArrowRight')$('next').click();else if(e.key==='Escape')setOpen(false)});
+
+var pos=get('pos',null),collapsed=get('min',false);
+function layout(){
+  var pw=pill.offsetWidth||250,ph=42;
+  [[pill,pw,ph],[dot,30,30]].forEach(function(a){
+    var el=a[0],w=a[1],h=a[2];
+    var p=pos||{x:.5,y:(10+h/2)/innerHeight};
+    var x=Math.max(6,Math.min(innerWidth-w-6,p.x*innerWidth-w/2));
+    var y=Math.max(6,Math.min(innerHeight-h-6,p.y*innerHeight-h/2));
+    el.style.left=x+'px';el.style.top=y+'px';
+  });
+  pill.classList.toggle('gone',collapsed);dot.classList.toggle('gone',!collapsed);
+}
+addEventListener('resize',layout);
+$('min').onclick=function(){collapsed=true;set('min',true);setOpen(false);layout()};
+
+function drag(el,w,h,onTap,swipe){
+  var s=null;
+  el.addEventListener('pointerdown',function(e){
+    if(el===pill&&!(swipe||e.target.closest('#grip')))return;
+    s={id:e.pointerId,x:e.clientX,y:e.clientY,ox:parseFloat(el.style.left),oy:parseFloat(el.style.top),moved:0,grip:!!e.target.closest('#grip')||el===dot,t:e.target};
+    if(s.grip){try{el.setPointerCapture(e.pointerId)}catch(_){}}
+  });
+  el.addEventListener('pointermove',function(e){
+    if(!s||e.pointerId!==s.id)return;
+    var dx=e.clientX-s.x,dy=e.clientY-s.y;
+    if(!s.moved&&Math.hypot(dx,dy)>6){s.moved=1;try{el.setPointerCapture(e.pointerId)}catch(_){} }
+    if(!s.moved)return;
+    if(s.grip){
+      var W=el===pill?pill.offsetWidth:30,H=el===pill?42:30;
+      var x=Math.max(6,Math.min(innerWidth-W-6,s.ox+dx)),y=Math.max(6,Math.min(innerHeight-H-6,s.oy+dy));
+      el.style.left=x+'px';el.style.top=y+'px';
+      pos={x:(x+W/2)/innerWidth,y:(y+H/2)/innerHeight};
+    }
+  });
+  function end(e){
+    if(!s||e.pointerId!==s.id)return;var m=s.moved,dx=e.clientX-s.x,dy=e.clientY-s.y,g=s.grip;s=null;
+    if(m&&g){set('pos',pos);layout();el._swiped=1;setTimeout(function(){el._swiped=0},0);return}
+    if(m&&swipe&&Math.abs(dx)>34&&Math.abs(dx)>Math.abs(dy)*1.4){el._swiped=1;setTimeout(function(){el._swiped=0},0);load(cur+(dx<0?1:-1));return}
+    if(m){el._swiped=1;setTimeout(function(){el._swiped=0},0);return}
+    if(onTap)onTap(e);
+  }
+  el.addEventListener('pointerup',end);
+  el.addEventListener('pointercancel',function(){s=null});
+  el.addEventListener('click',function(e){if(el._swiped){e.stopPropagation();e.preventDefault()}},true);
+}
+drag(pill,0,0,null,true);
+drag(dot,30,30,function(){collapsed=false;set('min',false);layout()},false);
+
+layout();
+if(start>=0)load(start);
+else{sel=B.length-1;setOpen(true)}
+window.__v={load:load,state:function(){return{cur:cur,sel:sel,open:open,collapsed:collapsed,pos:pos}}};
+})();
+</script><link rel="stylesheet" href="../../../../../../chrome.css"><script src="../../../../../../chrome.js" data-hub="../../../../../../index.html" data-rooms="../../../../../../rooms.json"></script></body></html>

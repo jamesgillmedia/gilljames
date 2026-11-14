@@ -1,0 +1,135 @@
+@font-face{font-family:Poppins;font-weight:300;font-display:swap;src:url(../../media/pro2/fonts/poppins-300.woff2) format("woff2")}
+@font-face{font-family:"Julius Sans One";font-display:swap;src:url(../../media/pro2/fonts/julius-sans-one.woff2) format("woff2")}
+@font-face{font-family:Syl;font-weight:700;font-display:block;src:url(../../media/pro2/fonts/noto-canadian-aboriginal-subset.woff2) format("woff2");unicode-range:U+1400-167F}
+:root{--ink:#e4ebf5;--dim:rgba(200,214,232,.62);--mint:#55daa1;--mint2:#bff5df;--line:rgba(207,216,230,.28);--bg:#04060c}
+html,body{margin:0;height:100%;background:var(--bg);color:#cfd8e6;overflow:hidden;font-family:Poppins,system-ui,sans-serif;font-weight:300;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+#c{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
+#home{position:fixed;left:12px;top:max(10px,env(safe-area-inset-top));z-index:3;color:var(--mint2);font:700 17px/1 Syl,Poppins,sans-serif;padding:7px 11px;border:1px solid rgba(191,245,223,.4);border-radius:16px;background:rgba(4,6,12,.5);cursor:pointer}
+#where{position:fixed;left:0;right:0;padding:0 96px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;top:max(18px,calc(env(safe-area-inset-top) + 8px));text-align:center;z-index:2;pointer-events:none;font:300 13px/1 "Julius Sans One",sans-serif;letter-spacing:.22em;opacity:.8}
+#site{position:fixed;right:12px;top:max(10px,env(safe-area-inset-top));z-index:3;color:#cfd8e6;text-decoration:none;font:300 12px/1 Poppins,sans-serif;letter-spacing:.08em;opacity:.7;padding:8px 10px;border:1px solid rgba(207,216,230,.25);border-radius:16px;background:rgba(4,6,12,.4)}
+#cap{position:fixed;left:0;right:0;bottom:max(22px,env(safe-area-inset-bottom));z-index:2;text-align:center;padding:0 22px;opacity:0;transition:opacity .9s;pointer-events:none}
+#cap.on{opacity:1;pointer-events:auto}
+#cap .t{display:block;font:300 clamp(17px,4.6vw,24px)/1.2 "Julius Sans One",sans-serif;letter-spacing:.16em;color:var(--ink)}
+#cap .b{display:block;margin-top:6px;font-size:12px;letter-spacing:.12em;color:var(--dim)}
+#cap .p{display:block;max-width:560px;margin:8px auto 0;font-size:12.5px;line-height:1.55;letter-spacing:.03em;color:rgba(214,226,242,.82)}
+#cap a{display:inline-block;margin-top:10px;color:var(--mint2);font-size:12px;letter-spacing:.1em;text-decoration:none;padding:7px 13px;border:1px solid rgba(191,245,223,.4);border-radius:16px}
+#panel{position:fixed;left:50%;transform:translateX(-50%);bottom:max(20px,env(safe-area-inset-bottom));z-index:3;display:flex;align-items:center;gap:14px;padding:9px 10px 9px 16px;border:1px solid var(--line);border-radius:20px;background:rgba(4,6,12,.66);white-space:nowrap}
+#panel[hidden]{display:none}
+#panel .n{font:300 15px/1 "Julius Sans One",sans-serif;letter-spacing:.2em;color:var(--ink)}
+#panel .m{font-size:11px;letter-spacing:.08em;color:var(--dim)}
+#panel a{color:var(--mint2);font-size:12.5px;letter-spacing:.08em;text-decoration:none;padding:8px 13px;border:1px solid rgba(191,245,223,.45);border-radius:16px}
+#fb{display:none}
+.nogl #c,.nogl #where,.nogl #cap,.nogl #panel{display:none}
+.nogl body{overflow:auto;background:var(--bg) radial-gradient(1px 1px at 20% 30%,#cfd8e6,transparent),radial-gradient(1px 1px at 70% 60%,#cfd8e6,transparent)}
+.nogl #fb{display:block;position:relative;min-height:100%;padding:64px 20px 40px;box-sizing:border-box;text-align:center}
+.se-fb{margin:0 auto;max-width:600px}.se-fb img{width:100%;height:auto;display:block;border:1px solid var(--line)}
+.se-fb h1{font:300 22px/1.25 "Julius Sans One",sans-serif;letter-spacing:.16em;color:var(--ink);margin:18px 0 6px}
+.se-fb .by{font-size:12px;letter-spacing:.12em;color:var(--dim);margin:0}
+.se-fb p{font-size:13px;line-height:1.6;margin:10px 0}.se-fb a,#fb li a{color:var(--mint2);text-decoration:none;letter-spacing:.1em}
+#fb ul{list-style:none;padding:0;margin:28px auto 0;display:flex;flex-wrap:wrap;justify-content:center;gap:10px 18px;max-width:600px}
+#fb li a{font:300 17px/1 "Julius Sans One",sans-serif;letter-spacing:.2em;display:inline-block;padding:10px 6px}
+/* ---------- photo reel ---------- */
+.rl{position:fixed;inset:0;z-index:6;overflow:hidden;touch-action:none;background:transparent}
+.rl[hidden]{display:none}
+.nogl .rl{background:#04060c;background-image:radial-gradient(1.2px 1.2px at 12% 18%,rgba(230,238,255,.9),transparent 60%),radial-gradient(1px 1px at 33% 72%,rgba(230,238,255,.75),transparent 60%),radial-gradient(1.4px 1.4px at 58% 26%,rgba(230,238,255,.85),transparent 60%),radial-gradient(1px 1px at 81% 64%,rgba(230,238,255,.7),transparent 60%),radial-gradient(1px 1px at 91% 12%,rgba(230,238,255,.8),transparent 60%),radial-gradient(1px 1px at 46% 90%,rgba(230,238,255,.7),transparent 60%),radial-gradient(60% 50% at 30% 30%,rgba(39,64,122,.25),transparent),radial-gradient(50% 50% at 75% 70%,rgba(74,42,106,.22),transparent);background-size:220px 220px,260px 260px,300px 300px,240px 240px,280px 280px,200px 200px,100% 100%,100% 100%}
+.rl-stage{position:absolute;inset:0;cursor:grab}
+.rl.live .rl-stage{cursor:grabbing}
+.rl-ph{position:absolute;left:0;top:0;display:block;will-change:transform;pointer-events:none;-webkit-user-drag:none;opacity:1;transition:opacity .12s}
+.rl-ph.nb{opacity:0;transition:opacity .35s}
+.rl.live .rl-ph.nb{opacity:1;transition:opacity .1s}
+.rl-ui{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .6s ease}
+.rl.ui .rl-ui,.rl.paused .rl-ui{opacity:1;transition:opacity .18s ease}
+.rl-ui>*{pointer-events:auto}
+.rl-x{position:absolute;left:8px;top:max(6px,env(safe-area-inset-top));font:300 30px/1 Poppins,sans-serif;color:#cfd8e6;background:rgba(4,6,12,.35);border:0;border-radius:20px;padding:6px 13px 9px;cursor:pointer}
+.rl-cnt{position:absolute;right:14px;top:max(14px,calc(env(safe-area-inset-top) + 4px));text-align:right;display:flex;flex-direction:column;gap:3px;pointer-events:none;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+.rl-cnt b{font:400 13px/1 Poppins,sans-serif;letter-spacing:.14em;color:var(--ink);font-variant-numeric:tabular-nums}
+.rl-ser{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.rl-ttl{font:300 13px/1.3 "Julius Sans One",sans-serif;letter-spacing:.12em;color:var(--ink);max-width:60vw}
+.rl-ttl[hidden]{display:none}
+.rl-bot{position:absolute;left:0;right:0;bottom:0;padding:0 0 max(8px,env(safe-area-inset-bottom));background:linear-gradient(transparent,rgba(4,6,12,.55))}
+.rl-thumbs{position:relative;height:30px;margin-bottom:2px;touch-action:none}
+.rl-thumbs .th{position:absolute;left:0;bottom:2px;width:30px;height:22px;object-fit:cover;border-radius:2px;background:#0b1015;cursor:pointer;-webkit-user-drag:none}
+.rl-thumbs .th.on{outline:1px solid var(--mint);outline-offset:1px;box-shadow:0 0 10px rgba(85,218,161,.45)}
+.rl-rail{position:relative;height:40px;touch-action:none;cursor:ew-resize;outline:0}
+.rl-rail>*{position:absolute;pointer-events:none}
+.rl-line{left:18px;right:18px;top:26px;height:1px;background:var(--line)}
+.rl-stars,.rl-ticks{left:0;right:0;top:0;bottom:0}
+.rl-stars .tk{position:absolute;top:26px;width:3px;height:3px;margin:-1px 0 0 -1.5px;border-radius:50%;background:#8fa3aa;box-shadow:0 0 3px rgba(190,225,255,.55)}
+.rl-stars .tk.on{background:#e8f1f4}
+.rl-cur{left:0;top:26px;width:7px;height:7px;margin:-3px 0 0 -3.5px;border-radius:50%;background:var(--mint);box-shadow:0 0 6px 2px rgba(85,218,161,.65),0 0 14px 4px rgba(85,218,161,.25);will-change:transform}
+.rl-rail.drag .rl-cur{width:9px;height:9px;margin:-4px 0 0 -4.5px}
+.rl-tick{position:absolute;top:20px;width:1px;height:13px;margin-left:-.5px;background:rgba(207,216,230,.55)}
+.rl-sname{position:absolute;top:6px;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
+.rl-grid{position:absolute;inset:0;z-index:2;background:rgba(4,6,12,.9);overflow-y:auto;-webkit-overflow-scrolling:touch;touch-action:pan-y;padding:max(56px,calc(env(safe-area-inset-top) + 48px)) 10px 30px;box-sizing:border-box}
+.rl-grid[hidden]{display:none}
+.rl-gx{position:fixed;left:8px;top:max(6px,env(safe-area-inset-top));font:300 30px/1 Poppins,sans-serif;color:#cfd8e6;background:none;border:0;padding:6px 13px 9px;cursor:pointer;z-index:3}
+.rl-gin{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:6px;max-width:1200px;margin:0 auto}
+.rl-gh{grid-column:1/-1;margin:10px 2px 2px;font:400 10.5px/1 Poppins,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);text-align:left}
+.rl-cell{aspect-ratio:1;padding:0;border:0;background:#0b1015;border-radius:2px;cursor:pointer;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.rl-cell img{max-width:100%;max-height:100%;display:block;-webkit-user-drag:none}
+.rl-cell.on{outline:1px solid var(--mint);outline-offset:1px}
+.reelon #panel,.reelon #cap,.reelon #where,.reelon #home,.reelon #site,.reelon #hyb{display:none}
+/* ---------- save 2 · Spirit Eye (js/spirit-eye.js) ---------- */
+.sx{position:fixed;left:0;right:0;bottom:0;z-index:2;max-height:56vh;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
+  padding:44px max(20px,env(safe-area-inset-left)) max(22px,calc(env(safe-area-inset-bottom) + 14px));box-sizing:border-box;text-align:center;
+  background:linear-gradient(rgba(4,6,12,0),rgba(4,6,12,.72) 38px,rgba(4,6,12,.86));pointer-events:none;opacity:0;transition:opacity .2s}
+.sx.on{opacity:1;pointer-events:auto;transition:opacity .25s}
+#setext:empty{display:none}
+.sx>*{max-width:620px;margin-left:auto;margin-right:auto;opacity:0;transform:none;transition:opacity .7s ease}
+.sx.on>*{opacity:1}
+.sx:not(.on)>*{transition-delay:0s!important;transition-duration:.15s}
+.sx h2{margin:0 auto 8px;font:300 clamp(15px,4vw,20px)/1.25 "Julius Sans One",sans-serif;letter-spacing:.2em;color:var(--ink)}
+.sx[data-k=arrival] h2{font-size:clamp(18px,5vw,26px);letter-spacing:.14em}
+.sx p{margin:0 auto 9px;font-size:13.5px;line-height:1.6;letter-spacing:.02em;color:rgba(222,232,244,.9)}
+.sx p.by{font-size:12px;letter-spacing:.12em;color:var(--dim)}
+.sx p.sub{font:300 14px/1.4 "Julius Sans One",sans-serif;letter-spacing:.12em;color:var(--mint2)}
+.sx p.pair b{font-weight:400;color:var(--ink);letter-spacing:.06em}
+.sx ul.cv{list-style:none;padding:0;margin:0 auto}
+.sx ul.cv li{margin:0 0 5px;font-size:13.5px;line-height:1.5;opacity:0;transition:opacity .7s}
+.sx.on ul.cv li{opacity:1}
+.sx ul.cv li::before{content:"-";margin-right:.25em;color:var(--dim)}
+.sx ul.plants{list-style:none;padding:0;margin:12px auto 0;display:flex;flex-wrap:wrap;justify-content:center;gap:4px 14px;font-size:12px;line-height:1.45;letter-spacing:.04em;color:rgba(191,245,223,.78)}
+#sedial{position:fixed;left:50%;top:max(10px,env(safe-area-inset-top));margin-left:-24px;width:48px;height:48px;border-radius:50%;z-index:3;border:1px solid rgba(207,216,230,.28);background:rgba(4,6,12,.45);box-sizing:border-box}
+#sedial b{position:absolute;left:50%;top:50%;width:14px;height:22px;margin:-22px 0 0 -7px;transform-origin:7px 22px;transform:rotate(var(--a));cursor:pointer}
+#sedial b::after{content:"";position:absolute;left:6.5px;top:3px;width:1px;height:6px;background:rgba(230,238,242,.6)}
+#sedial b.lt::after{height:9px;top:1px;background:rgba(255,236,200,.9)}
+#sedial b.on::after{background:#fff}
+#sedial .sun{position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:#ffd58a;box-shadow:0 0 8px 3px rgba(255,213,138,.6);pointer-events:none}
+.sem #where{display:none}
+html:not(.sem) #sedial,html:not(.sem) #setext,html:not(.sem) #seprog{display:none}
+.reelon .sx,.reelon #sedial,.reelon #seprog,.reelon #back{display:none}
+.nogl .sx,.nogl #sedial,.nogl #seprog,.nogl #back{display:none}
+.se-seq{max-width:640px;margin:0 auto;text-align:center}
+.se-s{margin:0 0 46px}.se-s img{width:100%;height:auto;display:block;border:1px solid var(--line);margin:0 0 14px}
+.se-s h2{font:300 18px/1.3 "Julius Sans One",sans-serif;letter-spacing:.18em;color:var(--ink);margin:0 0 8px}
+.se-s p{font-size:13.5px;line-height:1.6;margin:0 0 9px}.se-s p.by{font-size:12px;letter-spacing:.12em;color:var(--dim)}.se-s p.sub{font-family:"Julius Sans One",sans-serif;letter-spacing:.12em;color:var(--mint2)}
+.se-s ul{list-style:none;padding:0;margin:0}.se-s ul.cv li{margin:0 0 5px}.se-s ul.cv li::before{content:"-";margin-right:.25em}
+.se-s ul.plants{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 14px;font-size:11px;color:rgba(191,245,223,.78);margin-top:10px}
+.se-s.light{height:62vh;position:relative;background:#06090b;border:1px solid var(--line)}
+.se-s.light .beam{position:absolute;left:50%;top:0;bottom:12%;width:44%;transform:translateX(-50%);clip-path:polygon(38% 0,62% 0,100% 100%,0 100%);background:linear-gradient(rgba(255,240,205,.55),rgba(255,236,190,.85))}
+.se-s.light::after{content:"";position:absolute;left:12%;right:12%;bottom:6%;height:14%;border-radius:50%;background:radial-gradient(closest-side,rgba(255,246,222,.95),rgba(255,220,160,.35),transparent)}
+/* ---------- se-full-pdf: every page of the PDF ---------- */
+#semeasure{visibility:hidden;opacity:0;pointer-events:none;z-index:-1}
+#semeasure>*{opacity:0}
+#back{position:fixed;left:66px;top:max(10px,env(safe-area-inset-top));z-index:3;color:#cfd8e6;font:300 20px/1 Poppins,sans-serif;padding:5px 13px 8px;border:1px solid rgba(207,216,230,.3);border-radius:16px;background:rgba(4,6,12,.5);cursor:pointer}
+#seprog{position:fixed;left:50%;transform:translateX(-50%);top:calc(max(10px,env(safe-area-inset-top)) + 54px);z-index:3;display:flex;align-items:center;gap:6px;font:400 11px/1 Poppins,sans-serif;letter-spacing:.14em;color:rgba(214,226,242,.8);font-variant-numeric:tabular-nums;white-space:nowrap;text-shadow:0 1px 6px rgba(0,0,0,.7);padding:3px 4px 3px 12px;border-radius:14px;background:rgba(4,6,12,.5)}
+#seprog .nx{font:300 18px/1 Poppins,sans-serif;color:var(--mint2);background:none;border:0;padding:2px 6px 4px;cursor:pointer}
+#seprog.last .nx{visibility:hidden}
+.sx p.note{font-size:11.5px;line-height:1.5;color:var(--dim);font-style:italic}
+.sx p.hint{font-size:12px;line-height:1.5;letter-spacing:.06em;color:var(--mint2);margin-top:12px}
+.sx img.pimg{display:block;width:100%;max-width:560px;height:auto;margin:8px auto 4px;opacity:0;transition:opacity .7s;-webkit-user-drag:none;pointer-events:none}
+.sx.on img.pimg{opacity:1}
+#sedial b.no{cursor:default}#sedial b.no::after{opacity:.35}
+@media (min-width:700px){.sx{max-height:46vh}.sx img.pimg{max-width:400px}}
+.se-s .pn{font-size:11px;letter-spacing:.14em;color:var(--dim)}
+.se-s img.pimg{width:100%;height:auto}
+#hyb{position:fixed;right:12px;top:calc(max(10px,env(safe-area-inset-top)) + 38px);z-index:3;color:#cfd8e6;text-decoration:none;font:300 12px/1 Poppins,sans-serif;letter-spacing:.08em;opacity:.7;padding:8px 10px;border:1px solid rgba(207,216,230,.25);border-radius:16px;background:rgba(4,6,12,.4)}
+/* chapter labels under the entry stars: gilljames/previews .sl (Julius 12px, .22em, uppercase; Poppins count; 96x46 target) */
+#cll{position:fixed;inset:0;pointer-events:none;z-index:2}
+.sl3{position:absolute;left:0;top:0;min-width:96px;min-height:46px;padding:4px 10px;border:0;background:none;color:#e6edf0;pointer-events:auto;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:3px;transition:opacity .25s;will-change:transform;font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.sl3[hidden]{display:none}
+.sl3 b{font:400 12px/1 "Julius Sans One",sans-serif;letter-spacing:.22em;text-transform:uppercase;padding-left:.22em;white-space:nowrap;text-shadow:0 0 6px #03050a,0 0 2px #03050a;transition:color .2s,text-shadow .2s}
+.sl3 small{font:300 10.5px/1.15 Poppins,sans-serif;color:#c3ccd0;letter-spacing:.05em;white-space:nowrap;text-shadow:0 0 4px #03050a}
+.sl3:hover b,.sl3:focus-visible b{color:#fff;text-shadow:0 0 10px rgba(205,225,255,.65),0 0 2px #03050a}
+.sl3:focus-visible{outline:1px solid rgba(85,218,161,.8);outline-offset:-4px;border-radius:10px}
+.reelon #cll{display:none}

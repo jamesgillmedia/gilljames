@@ -1,0 +1,208 @@
+[
+ {
+  "site": "lostcoffee",
+  "v": "C",
+  "dev": "desktop",
+  "errors": [],
+  "home": [
+   {
+    "h": "#/",
+    "d": 0
+   },
+   {
+    "h": "#/",
+    "d": 0
+   }
+  ],
+  "wave": [
+   [
+    {
+     "sel": "ld",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "ld",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "ld",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "ld",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "ld",
+     "op": 1,
+     "lum": 0.895
+    }
+   ],
+   [
+    {
+     "sel": "ld",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "ld",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "ld",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "ld",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "ld",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "c-wave",
+     "op": 1,
+     "lum": 0.895
+    }
+   ]
+  ],
+  "checks": [
+   {
+    "check": "at home, depth 0 (no duplicate entry)",
+    "got": {
+     "h": "#/",
+     "d": 0
+    },
+    "ok": true
+   },
+   {
+    "check": "at home, depth 0 (no duplicate entry)",
+    "got": {
+     "h": "#/",
+     "d": 0
+    },
+    "ok": true
+   }
+  ],
+  "snaps": [
+   "/workspace/share/fresh-sites-1113/build/qa/frames/lostcoffee-C-desktop-home.png",
+   "/workspace/share/fresh-sites-1113/build/qa/frames/lostcoffee-C-desktop-room.png",
+   "/workspace/share/fresh-sites-1113/build/qa/frames/lostcoffee-C-desktop-act.png"
+  ],
+  "dial_shown": true,
+  "clip": null,
+  "frames_captured": 0
+ },
+ {
+  "site": "lostcoffee",
+  "v": "C",
+  "dev": "phone",
+  "errors": [],
+  "home": [
+   {
+    "h": "#/",
+    "d": 0
+   },
+   {
+    "h": "#/",
+    "d": 0
+   }
+  ],
+  "wave": [
+   [
+    {
+     "sel": "ld",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "ld",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "ld",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "ld",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "ld",
+     "op": 1,
+     "lum": 0.895
+    }
+   ],
+   [
+    {
+     "sel": "ld",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "ld",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "ld",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "ld",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "ld",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "c-wave",
+     "op": 1,
+     "lum": 0.895
+    }
+   ]
+  ],
+  "checks": [
+   {
+    "check": "at home, depth 0 (no duplicate entry)",
+    "got": {
+     "h": "#/",
+     "d": 0
+    },
+    "ok": true
+   },
+   {
+    "check": "at home, depth 0 (no duplicate entry)",
+    "got": {
+     "h": "#/",
+     "d": 0
+    },
+    "ok": true
+   }
+  ],
+  "snaps": [
+   "/workspace/share/fresh-sites-1113/build/qa/frames/lostcoffee-C-phone-home.png",
+   "/workspace/share/fresh-sites-1113/build/qa/frames/lostcoffee-C-phone-room.png",
+   "/workspace/share/fresh-sites-1113/build/qa/frames/lostcoffee-C-phone-act.png"
+  ],
+  "dial_shown": true,
+  "clip": null,
+  "frames_captured": 0
+ }
+]

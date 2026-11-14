@@ -1,0 +1,125 @@
+/* Darkroom · a red-lit room of hung prints. Groupings: salon, row, grid, pairs.
+   A quiet pill cycles them; they never auto-advance. Safelight is the room (lamp, walls, spill),
+   not a grade on the photograph. Room light dims the wash only. Same motion with Reduce Motion on. */
+body.dr{background:var(--bg,#0d0303)}
+#room[hidden]{display:none}
+.room{position:fixed;inset:0;background:radial-gradient(120% 75% at 80% 0%,#6a4a42,#2a1e1b 55%,#171110),#171110;transition:background 1.4s var(--ease);overflow:hidden}
+.room::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;
+  background:
+    radial-gradient(ellipse 90% 70% at 80% -10%, rgba(150,22,14,.18), transparent 58%),
+    radial-gradient(ellipse 80% 50% at 50% 110%, rgba(80,10,8,.20), transparent 62%);
+  opacity:0;transition:opacity 1.4s var(--ease)}
+body.safe.dr .room{background:radial-gradient(120% 75% at 80% 0%,#5a2a24,#241210 55%,#120808),#120808}
+body.safe.dr .room::after{opacity:1}
+body.dr:not(.safe) .room{background:radial-gradient(130% 90% at 50% 0%,#4a4540,#262321 70%)}
+.lamp{position:absolute;z-index:4;right:18%;top:calc(var(--bar-h,78px) + 4px);width:46px;height:22px;border-radius:24px 24px 6px 6px;background:radial-gradient(circle at 50% 80%,#ff4d36,#7a0d05 70%);box-shadow:0 0 60px 26px rgba(255,40,20,.28),0 0 140px 70px rgba(255,30,10,.12);transition:opacity 1.4s var(--ease),box-shadow 1.4s var(--ease);pointer-events:none}
+body.dr:not(.safe) .lamp{opacity:.25;box-shadow:none}
+@media (max-width:720px), (max-height:500px){ .lamp{right:22px;width:38px;height:18px} }
+
+/* the wall of prints */
+.hangs{position:absolute;left:0;right:0;top:var(--bar-h,62px);bottom:0;z-index:3;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;outline:none;padding:36px calc(16px + var(--sr)) calc(28px + var(--sb)) calc(16px + var(--sl))}
+html.debug .hangs{bottom:var(--dbg-h,64px)}
+.hangs-inner{position:relative;min-height:100%}
+.pr{position:relative;margin:0;padding:0;border:0;background:none;color:inherit;cursor:pointer;display:block;min-width:0;-webkit-tap-highlight-color:transparent}
+.pr .pp{display:block;background:var(--paper);padding:6px 6px 16px;box-shadow:0 10px 22px rgba(0,0,0,.55),0 0 0 1px rgba(255,220,200,.08)}
+.pr img,.pr video{display:block;width:100%;height:auto;filter:none;-webkit-filter:none;mix-blend-mode:normal;background:#1a1210;vertical-align:top}
+.pr .no{position:absolute;left:10px;bottom:2px;font-size:9px;letter-spacing:.12em;color:#6c6258;pointer-events:none}
+.pr .hn{position:absolute;right:8px;bottom:1px;font-size:10px;color:var(--mint)}
+body.safe.dr .pr .pp{box-shadow:0 10px 22px rgba(40,0,0,.55),0 0 0 1px rgba(255,160,140,.10),0 0 18px rgba(120,16,10,.12)}
+
+/* salon cluster: mixed sizes, a slightly packed hang */
+.hangs-inner.salon{display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px 12px;padding-top:8px}
+.hangs-inner.salon .pr{width:calc(33.333% - 8px)}
+.hangs-inner.salon .pr:nth-child(5n+1){width:calc(42% - 8px)}
+.hangs-inner.salon .pr:nth-child(5n+2){width:calc(24% - 8px)}
+.hangs-inner.salon .pr:nth-child(5n+3){width:calc(31% - 8px)}
+.hangs-inner.salon .pr:nth-child(5n+4){width:calc(38% - 8px)}
+.hangs-inner.salon .pr:nth-child(7n){margin-bottom:18px}
+@media (min-width:900px){
+  .hangs-inner.salon .pr{width:calc(22% - 10px)}
+  .hangs-inner.salon .pr:nth-child(5n+1){width:calc(28% - 10px)}
+  .hangs-inner.salon .pr:nth-child(5n+2){width:calc(16% - 10px)}
+  .hangs-inner.salon .pr:nth-child(5n+3){width:calc(20% - 10px)}
+  .hangs-inner.salon .pr:nth-child(5n+4){width:calc(24% - 10px)}
+}
+@media (max-width:520px){
+  .hangs-inner.salon .pr{width:calc(48% - 6px)}
+  .hangs-inner.salon .pr:nth-child(5n+1),
+  .hangs-inner.salon .pr:nth-child(5n+2),
+  .hangs-inner.salon .pr:nth-child(5n+3),
+  .hangs-inner.salon .pr:nth-child(5n+4){width:calc(48% - 6px)}
+  .hangs-inner.salon .pr:nth-child(3n){width:100%}
+}
+
+/* single row */
+.hangs-inner.row{display:flex;flex-flow:row nowrap;align-items:flex-end;gap:18px;min-height:calc(100% - 8px);padding:8px 8px 20px}
+.hangs-inner.row .pr{flex:none;height:min(62vh,560px);width:auto}
+.hangs-inner.row .pr .pp{height:100%;padding:8px 8px 20px}
+.hangs-inner.row .pr img,.hangs-inner.row .pr video{height:calc(100% - 12px);width:auto;max-width:none}
+
+/* grid */
+.hangs-inner.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px 12px;align-items:start}
+@media (min-width:900px){.hangs-inner.grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:18px 16px}}
+@media (max-width:520px){.hangs-inner.grid{grid-template-columns:repeat(3,1fr);gap:8px}}
+
+/* pairs */
+.hangs-inner.pairs{display:grid;grid-template-columns:1fr 1fr;gap:22px 20px;max-width:980px;margin:0 auto;padding-top:8px}
+.hangs-inner.pairs .pr:nth-child(4n+1),.hangs-inner.pairs .pr:nth-child(4n+2){margin-top:0}
+.hangs-inner.pairs .pr:nth-child(4n+3),.hangs-inner.pairs .pr:nth-child(4n){margin-top:10px}
+@media (min-width:1100px){.hangs-inner.pairs{grid-template-columns:1fr 1fr 1fr 1fr;max-width:1280px}}
+
+/* wall: one print, free-scroll strip, bar on top of the debug-safe bottom */
+.wall{position:fixed;inset:0;z-index:30;padding:calc(var(--bar-h,66px)) 0 calc(72px + var(--sb));background:radial-gradient(100% 80% at 50% 30%,#4a3631,#1c1513);opacity:0;transition:opacity 1s var(--ease),background 1.4s var(--ease);touch-action:none;display:block}
+.wall.open{opacity:1}
+.wall[hidden]{display:none}
+body.safe.dr .wall{background:radial-gradient(100% 80% at 50% 30%,#4a201c,#1a0a09)}
+body.dr:not(.safe) .wall{background:#2b2826}
+.wall .strip{position:absolute;left:0;right:0;top:0;bottom:calc(64px + var(--sb))}
+html.debug .wall .strip{bottom:calc(64px + var(--dbg-h,64px) + var(--sb))}
+.wall .wbar{position:absolute;left:0;right:0;bottom:calc(12px + var(--sb));display:flex;justify-content:center;gap:10px;z-index:3}
+html.debug .wall .wbar{bottom:calc(12px + var(--dbg-h,64px) + var(--sb))}
+.wall .page{background:transparent}
+.wall .page img,.wall .page video{max-width:calc(100vw - 56px);max-height:calc(100% - 36px);background:var(--paper);padding:12px 12px 30px;box-shadow:0 30px 60px rgba(0,0,0,.6);filter:none;-webkit-filter:none;mix-blend-mode:normal}
+
+/* room light dims the wash and the lamp, never the photograph */
+.room::after,.lamp{filter:brightness(var(--amb,1))}
+.pr img,.pr video,.wall .page img,.wall .page video{filter:none;-webkit-filter:none;mix-blend-mode:normal}
+.lab-hint{z-index:48}
+
+/* arrange pill lives with the other modes; hide it in Horizon */
+body.hz #arrange{display:none}
+body.dr #arrange{display:inline-grid}
+body.dr #sort,body.dr #clips{display:none}
+
+/* ---------- Darkroom · wall, floor and lighting (12 Nov, 2:44–2:50 AM) ----------
+   The prints hang on the wall plane from a nail and wire. The wall ends at a floor line; the control
+   panel (css/deck.css) is mounted on the wainscot below it. Entering the room is a lighting cut:
+   the room comes up out of the dark — nothing slides or rises. The safelight toggles only the light
+   (red wash, lamp, spill on the walls and frames). Same motion with Reduce Motion on. */
+body.dr{--fh:calc(var(--deck-h,96px) + 20px)}
+.hangs{bottom:var(--fh)}
+html.debug .hangs{bottom:calc(var(--fh) + var(--dbg-h,64px))}
+html.debug .floor{bottom:var(--dbg-h,64px)}
+.floor{position:absolute;left:0;right:0;bottom:0;height:var(--fh);z-index:2;pointer-events:none;
+  background:linear-gradient(180deg,#191413,#0e0b0a 80%);border-top:1px solid rgba(255,230,210,.08);
+  box-shadow:0 -1px 0 rgba(0,0,0,.6),inset 0 10px 18px -8px rgba(0,0,0,.7);transition:background 1.4s var(--ease),border-color 1.4s var(--ease)}
+body.safe.dr .floor{background:linear-gradient(180deg,#200a08,#100504 80%);border-top-color:rgba(255,90,70,.18)}
+.floor{filter:brightness(var(--amb,1))}
+/* lighting cut into the room: dark, then the light comes up. Opacity/brightness only. */
+body.dr .room.fadein{animation:rlg-cut 1.1s linear both}
+@keyframes rlg-cut{0%{filter:brightness(0)}18%{filter:brightness(0)}24%{filter:brightness(.55)}30%{filter:brightness(.35)}100%{filter:brightness(1)}}
+
+/* prints hang from a nail on a wire, on the wall plane */
+.pr{margin-top:16px}
+.pr .pp{position:relative}
+.pr .pp::before{content:"";position:absolute;left:30%;right:30%;top:-15px;height:15px;pointer-events:none;
+  background:linear-gradient(to top right,transparent calc(50% - .7px),rgba(225,200,185,.32) 50%,transparent calc(50% + .7px)) left/50% 100% no-repeat,
+             linear-gradient(to top left,transparent calc(50% - .7px),rgba(225,200,185,.32) 50%,transparent calc(50% + .7px)) right/50% 100% no-repeat}
+.pr .pp::after{content:"";position:absolute;left:50%;top:-18px;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:#8a7a70;box-shadow:0 1px 2px rgba(0,0,0,.7);pointer-events:none}
+.pr .pp{box-shadow:4px 12px 18px -4px rgba(0,0,0,.6),0 0 0 1px rgba(255,220,200,.08)}
+body.safe.dr .pr .pp{box-shadow:4px 12px 18px -4px rgba(40,0,0,.6),0 0 0 1px rgba(255,160,140,.10),0 0 18px rgba(120,16,10,.12)}
+.hangs-inner.row .pr{height:min(52vh,500px)}
+
+/* bottom edge: no red floor haze, no frosted band */
+.room::after{background:radial-gradient(ellipse 90% 70% at 80% -10%, rgba(150,22,14,.18), transparent 58%)}
+body.dr .lab-hint{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(10,4,4,.82)}

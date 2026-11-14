@@ -1,0 +1,73 @@
+/* Control panel mounted low on the wall (12 Nov, 2:50 AM). Clear hierarchy: room (largest) · light · view.
+   Physical feel: plates with screws, a rocker, lever switches with pilot lights, a stepped fader, keys.
+   Not a glow: no blur, no light bleeding off the bottom edge. Same motion with Reduce Motion on. */
+.deck{position:fixed;left:0;right:0;bottom:0;z-index:27;display:flex;flex-wrap:wrap;justify-content:center;align-items:stretch;gap:8px 10px;
+  padding:9px calc(12px + var(--sr)) calc(9px + var(--sb)) calc(12px + var(--sl));
+  background:linear-gradient(180deg,#1f1c1a,#141211);border-top:1px solid rgba(255,235,220,.10);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035),inset 0 -1px 0 rgba(0,0,0,.6);transition:background 1.4s var(--ease),border-color 1.4s var(--ease)}
+body.safe .deck{background:linear-gradient(180deg,#231312,#150a09);border-top-color:rgba(255,90,70,.20)}
+html.debug .deck{bottom:var(--dbg-h,64px)}
+.plate{position:relative;display:flex;align-items:center;gap:6px;padding:15px 12px 6px;border-radius:5px;
+  background:linear-gradient(180deg,#2b2826,#1c1a19);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),inset 0 -1px 0 rgba(0,0,0,.65),0 2px 5px rgba(0,0,0,.55)}
+body.safe .plate{background:linear-gradient(180deg,#2c1d1b,#1b1110)}
+.plate::before,.plate::after{content:"";position:absolute;top:5px;width:5px;height:5px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#9a948e,#3a3633 70%);box-shadow:0 1px 0 rgba(0,0,0,.6)}
+.plate::before{left:5px}.plate::after{right:5px}
+.plate-k{position:absolute;left:14px;right:14px;top:3px;text-align:center;font-size:7.5px;letter-spacing:.32em;text-transform:uppercase;color:#8f877f;pointer-events:none}
+.deck .lab-btn{-webkit-backdrop-filter:none;backdrop-filter:none;background:transparent;border:0;box-shadow:none;border-radius:4px;min-height:40px;padding:0 8px;color:#d9d0c7;font-size:11px;letter-spacing:.12em}
+.deck .lab-btn.on{color:#f3e8de}
+/* 1 · room: a rocker — the pressed side sits in, the other stands proud */
+.deck .rooms{border:0;border-radius:4px;background:#0c0b0a;padding:3px;gap:3px;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:inset 0 1px 3px rgba(0,0,0,.9)}
+.deck .rooms .lab-btn{min-height:44px;padding:0 14px;font-size:12.5px;background:linear-gradient(180deg,#3a3633,#24211f);box-shadow:0 2px 0 #0a0908,inset 0 1px 0 rgba(255,255,255,.10);color:#bdb4ab}
+.deck .rooms .lab-btn + .lab-btn{border-left:0}
+.deck .rooms .lab-btn.on{background:linear-gradient(180deg,#191716,#22201e);box-shadow:inset 0 2px 4px rgba(0,0,0,.85);color:var(--mint);transform:translateY(1px)}
+body.safe .deck .rooms .lab-btn.on{color:#ff8f7c}
+/* lever switches with a pilot light */
+.deck .sw{display:inline-flex;align-items:center;gap:7px}
+.deck .sw::before{content:"";flex:none;width:30px;height:16px;border-radius:9px;background-color:#0b0a09;
+  background-image:radial-gradient(circle at 8px 8px,#e2d9cf 0 4.5px,#7a726b 5.5px,transparent 6.5px);background-repeat:no-repeat;background-position:0 0;
+  box-shadow:inset 0 1px 3px #000,0 1px 0 rgba(255,255,255,.06);transition:background-position .16s cubic-bezier(.3,1.6,.5,1)}
+.deck .sw[aria-pressed=true]::before{background-position:14px 0}
+.deck .sw::after{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:#2a1a17;box-shadow:inset 0 1px 1px rgba(0,0,0,.8)}
+.deck #safe[aria-pressed=true]::after{background:#ff3b26;box-shadow:0 0 6px 1px rgba(255,59,38,.7)}
+.deck #video[aria-pressed=true]::after{background:var(--mint);box-shadow:0 0 5px 1px color-mix(in srgb,var(--mint) 60%,transparent)}
+/* 2 · room light: stepped fader, 7 detents */
+.deck .amb{position:relative;border:0;background:transparent;-webkit-backdrop-filter:none;backdrop-filter:none;padding:0 6px 8px;min-height:40px}
+.deck .amb input[type=range]{width:118px;height:30px}
+.deck .amb input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:2px;background:#0b0a09;box-shadow:inset 0 1px 2px #000}
+.deck .amb input[type=range]::-webkit-slider-thumb{width:12px;height:22px;margin-top:-9px;border-radius:2px;background:linear-gradient(180deg,#ece4da,#a59b92 48%,#5f5852 52%,#c9c0b6);box-shadow:0 2px 3px rgba(0,0,0,.7)}
+.deck .amb input[type=range]::-moz-range-track{height:4px;border-radius:2px;background:#0b0a09}
+.deck .amb input[type=range]::-moz-range-thumb{width:12px;height:22px;border:0;border-radius:2px;background:linear-gradient(180deg,#ece4da,#a59b92 48%,#5f5852 52%,#c9c0b6);box-shadow:0 2px 3px rgba(0,0,0,.7)}
+.deck .amb .ticks{position:absolute;left:12px;right:12px;bottom:3px;height:5px;pointer-events:none;
+  background:repeating-linear-gradient(90deg,#8d857d 0 1px,transparent 1px calc((100% - 1px) / 6)),transparent}
+/* 3 · view: selector keys */
+.deck .key{border:1px solid rgba(255,235,220,.12);background:linear-gradient(180deg,#2f2c29,#1d1b1a);box-shadow:0 2px 0 #0a0908,inset 0 1px 0 rgba(255,255,255,.08);font-size:10.5px;min-height:34px;padding:0 10px}
+.deck .key:active{transform:translateY(1px);box-shadow:0 1px 0 #0a0908}
+.deck .p-view .lab-btn{font-size:10.5px}
+/* the rooms make room for the panel; the top bar is one row again */
+html.has-deck{--bar-h:calc(64px + var(--st))}
+.sky{bottom:var(--deck-h,0px)}
+html.debug .sky{bottom:calc(var(--deck-h,0px) + var(--dbg-h,64px))}
+.lab-hint{bottom:calc(var(--deck-h,0px) + 12px)}
+html.debug .lab-hint{bottom:calc(var(--deck-h,0px) + var(--dbg-h,64px) + 12px)}
+@media (max-width:520px){
+  .deck{gap:6px;padding:7px calc(8px + var(--sr)) calc(7px + var(--sb)) calc(8px + var(--sl))}
+  .plate{padding:14px 8px 5px;gap:4px}
+  .deck .rooms .lab-btn{padding:0 10px;font-size:11.5px;min-height:40px}
+  .deck .amb input[type=range]{width:62px}
+  .deck .amb{padding:0 2px 8px}
+  .deck .amb .ticks{left:8px;right:8px}
+  .deck .lab-btn{padding:0 4px;font-size:10px;letter-spacing:.06em}
+  .deck .sw{gap:5px}
+  .deck .sw::before{width:26px;height:14px;background-image:radial-gradient(circle at 7px 7px,#e2d9cf 0 4px,#7a726b 5px,transparent 6px)}
+  .deck .sw[aria-pressed=true]::before{background-position:12px 0}
+  .deck .key{padding:0 7px;min-height:32px}
+  .deck .p-room{flex:1 1 100%;justify-content:center}
+}
+@media (max-height:500px){
+  .deck{flex-wrap:nowrap;gap:6px;padding-top:5px;padding-bottom:calc(5px + var(--sb))}
+  .plate{padding:12px 8px 3px}
+  .deck .rooms .lab-btn{min-height:34px}
+  .deck .lab-btn{min-height:34px}
+  .plate-k{top:2px}
+}

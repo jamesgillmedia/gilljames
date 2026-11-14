@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no">
+<meta name="robots" content="noindex">
+<title>ice cream scoop · 2.5D sketch</title>
+<meta name="theme-color" content="#04070b">
+<link rel="icon" href="../../../icons/apple-touch-icon.png">
+<style>
+@font-face{font-family:Poppins;font-weight:300;font-display:swap;src:url(../../../media/pro2/fonts/poppins-300.woff2) format("woff2")}
+@font-face{font-family:"Julius Sans One";font-display:swap;src:url(../../../media/pro2/fonts/julius-sans-one.woff2) format("woff2")}
+@font-face{font-family:Syl;font-weight:700;font-display:block;src:url(../../../media/pro2/fonts/noto-canadian-aboriginal-subset.woff2) format("woff2");unicode-range:U+1400-167F}
+:root{--icon-k:1;--tx:1}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:#04070b;color:#e9eef5;font:300 calc(13px*var(--tx))/1.4 Poppins,system-ui,sans-serif;overflow:hidden;overscroll-behavior:none}
+#stage{position:absolute;inset:0;touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;overflow:hidden}
+#stage.down{cursor:grabbing}
+#sky{position:absolute;inset:0;width:100%;height:100%;display:block}
+#glow{position:absolute;left:50%;top:50%;width:90vmin;height:90vmin;margin:-45vmin 0 0 -45vmin;border-radius:50%;pointer-events:none;
+ background:radial-gradient(circle,rgba(255,226,190,.16),rgba(255,226,190,.05) 40%,transparent 68%)}
+#cam{position:absolute;inset:0;perspective:900px;perspective-origin:50% 46%;pointer-events:none}
+#world{position:absolute;left:50%;top:46%;width:0;height:0;transform-style:preserve-3d;will-change:transform}
+.node{position:absolute;left:0;top:0;transform-style:preserve-3d}
+.plane{position:absolute;inset:0;overflow:hidden;background:#0a1016;backface-visibility:hidden;
+ -webkit-mask-image:linear-gradient(to right,transparent,#000 9%,#000 91%,transparent),linear-gradient(to bottom,transparent,#000 9%,#000 91%,transparent);
+ -webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent,#000 9%,#000 91%,transparent),linear-gradient(to bottom,transparent,#000 9%,#000 91%,transparent);mask-composite:intersect}
+.plane img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;max-width:none;pointer-events:none}
+.cap{position:absolute;left:-20%;right:-20%;top:100%;margin-top:6px;text-align:center;font-size:calc(10px*var(--tx));color:#7f93a8;letter-spacing:.04em;white-space:nowrap;backface-visibility:hidden}
+#ring{position:absolute;left:0;top:0;border-radius:50%;border:1px solid rgba(255,226,190,.26);box-shadow:0 0 14px rgba(255,226,190,.08);pointer-events:none}
+#hud{position:fixed;left:0;right:0;top:0;padding:max(10px,env(safe-area-inset-top)) 12px 0;display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;z-index:3;pointer-events:none}
+#hud>*{pointer-events:auto}
+#hud .sig{font-family:Syl,"Noto Sans Canadian Aboriginal",sans-serif;font-weight:700;font-size:calc(16px*var(--icon-k));color:#fff;text-decoration:none;padding:6px 6px;line-height:1}
+#hud h1{font:200 calc(14px*var(--tx))/1 "Julius Sans One",Poppins,sans-serif;letter-spacing:.14em;text-transform:lowercase;margin-right:auto;text-shadow:0 1px 8px #000;pointer-events:none}
+#hud button,#hud #back{font:inherit;font-size:calc(13px*var(--tx));color:#e9eef5;background:rgba(10,16,24,.62);border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:8px 14px;min-height:36px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+#hud #back{padding:8px 14px;font-size:calc(18px*var(--tx));line-height:1}
+#hud button[aria-pressed=true]{background:rgba(255,226,190,.2);border-color:rgba(255,226,190,.7)}
+#hud button[hidden]{display:none}
+#hud #tilt{min-height:28px;padding:4px 11px;font-size:calc(11px*var(--tx));letter-spacing:.08em;color:#9fb0c4;background:rgba(10,16,24,.22);border-color:rgba(255,255,255,.14)}
+#hud #tilt[aria-pressed=true]{color:#cfe0f2;background:rgba(255,226,190,.12);border-color:rgba(255,226,190,.45)}
+#hud #reset{margin-left:auto}
+#foot{position:fixed;left:0;right:0;bottom:0;padding:0 14px max(14px,env(safe-area-inset-bottom));text-align:center;color:#9fb0c4;font-size:calc(12px*var(--tx));z-index:3;pointer-events:none;text-shadow:0 1px 8px #000,0 0 14px #04070b,0 0 22px #04070b}
+#foot b{color:#e9eef5;font-weight:300}
+</style>
+</head>
+<body>
+<div id="stage" aria-label="ice cream scoop, 2.5D sketch: one finger orbits, two fingers resize, tilt the phone to look around">
+<canvas id="sky" aria-hidden="true"></canvas>
+<div id="glow" aria-hidden="true"></div>
+<div id="cam"><div id="world"><div id="ring"></div></div></div>
+</div>
+<header id="hud">
+<a id="back" href="../" aria-label="back to objects">&#8249;</a>
+<a class="sig" id="sig" href="../../../" lang="cr" aria-label="home">ᑕᐣᓯ</a>
+<h1 id="ttl">ice cream scoop</h1>
+<button type="button" id="tilt" hidden aria-pressed="false" aria-label="tilt off, tap to turn on">tilt</button>
+<button type="button" id="reset">reset</button>
+</header>
+<p id="foot"><b id="hint">drag to orbit · pinch to resize</b></p>
+<script>
+(function(){
+'use strict';
+var P='../rings/scoop/';
+/* x, y, z are in U (1% of the shorter screen side); lx, ly are the same spots when the screen is wide. az/el turn each still on its own spot. */
+var VIEWS=[
+  {n:'in hand',s:'01-three-quarter-0456C57F-49C0-4B5D-B7DE-D67B647AC163.jpg',x:-20,y:-27,lx:-46,ly:-6,z:34,az:16,el:-5,w:26},
+  {n:'in hand',s:'02-in-hand-SCOOP-03.jpg',x:21,y:-11,lx:-16,ly:12,z:-14,az:-20,el:4,w:26},
+  {n:'side view of the bowl',s:'03-side-SCOOP-04.jpg',x:-20,y:11,lx:15,ly:-12,z:-46,az:22,el:-6,w:26},
+  {n:'lying on the paddles',s:'04-context-64521049469__FE6EAC94-47E0-4BE1-B5CA-50AE12B31586.jpg',x:21,y:27,lx:46,ly:8,z:22,az:-12,el:-3,w:25}
+];
+var RING_D=104,LIM=30;
+var $=function(i){return document.getElementById(i)};
+var stage=$('stage'),world=$('world'),sky=$('sky'),g=sky.getContext('2d'),ring=$('ring');
+var W=0,H=0,DPR=1,U=1,KY=1,WIDE=false,cam=$('cam');
+var S={yaw:0,pitch:0,scale:1,px:0,py:0};
+var T={yaw:0,pitch:0,scale:1,px:0,py:0};
+var V={yaw:0,pitch:0};
+var tilt={x:0,y:0,tx:0,ty:0,w:1,ref:null,on:false};
+var ptr={},ptrN=0,gest=null;
+var nodes=[],tiltOK=false;
+
+function clamp(v,a,b){return v<a?a:v>b?b:v}
+function seeded(seed){var s=seed>>>0;return function(){s=(s+0x6D2B79F5)>>>0;var t=s;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296}}
+var STARS=[];
+function makeStars(){
+  var r=seeded(7),i;STARS=[];
+  for(i=0;i<170;i++){var d=r();STARS.push({x:r(),y:r(),z:.15+d*.85,r:.5+r()*1.3,b:.35+r()*.65,ph:r()*6.28})}
+}
+var GLOW=(function(){
+  var c=document.createElement('canvas');c.width=c.height=48;var x=c.getContext('2d');
+  var gr=x.createRadialGradient(24,24,0,24,24,24);
+  gr.addColorStop(0,'rgba(255,255,255,.9)');gr.addColorStop(.25,'rgba(210,225,255,.35)');gr.addColorStop(1,'rgba(210,225,255,0)');
+  x.fillStyle=gr;x.fillRect(0,0,48,48);return c;
+})();
+function drawSky(t){
+  g.setTransform(DPR,0,0,DPR,0,0);g.clearRect(0,0,W,H);
+  var ox=-S.yaw*3.2-S.px*.25,oy=S.pitch*3.2-S.py*.25,zs=.75+S.scale*.25;
+  STARS.forEach(function(s){
+    var x=(s.x*W+ox*s.z*3+W*10)%W,y=(s.y*H+oy*s.z*3+H*10)%H;
+    x=W/2+(x-W/2)*zs;y=H/2+(y-H/2)*zs;
+    var tw=.75+.25*Math.sin(t*.0011+s.ph);
+    g.globalAlpha=Math.min(1,s.b*tw*(.5+s.z*.5));
+    if(s.r>1.25){var gs=s.r*7;g.drawImage(GLOW,x-gs,y-gs,gs*2,gs*2)}
+    g.fillStyle='#dfe9ff';g.beginPath();g.arc(x,y,s.r*s.z+.2,0,7);g.fill();
+  });
+  g.globalAlpha=1;
+}
+function layout(){
+  W=innerWidth;H=innerHeight;DPR=Math.min(2,devicePixelRatio||1);
+  sky.width=Math.round(W*DPR);sky.height=Math.round(H*DPR);
+  U=Math.min(W,H)/100;WIDE=W/H>1.15;KY=WIDE?1:clamp(H/W/1.6,1,1.4);cam.style.perspective=(230*U).toFixed(0)+'px';placeNodes();
+}
+function placeNodes(){
+  nodes.forEach(function(p){
+    var sp=p.spec,w=sp.w*U,h=w*p.ar;
+    p.el.style.width=w+'px';p.el.style.height=h+'px';
+    p.el.style.transform='translate3d('+((WIDE?sp.lx:sp.x)*U).toFixed(1)+'px,'+((WIDE?sp.ly:sp.y)*U*KY).toFixed(1)+'px,'+(sp.z*U).toFixed(1)+'px) rotateY('+sp.az+'deg) rotateX('+sp.el+'deg) translate('+(-w/2).toFixed(1)+'px,'+(-h/2).toFixed(1)+'px)';
+  });
+  var d=RING_D*U;
+  ring.style.width=d+'px';ring.style.height=d+'px';
+  ring.style.transform='translate('+(-d/2)+'px,'+(-d/2)+'px) rotateX(74deg)';
+}
+function mount(){
+  VIEWS.forEach(function(sp,i){
+    var el=document.createElement('div');el.className='node';
+    var pl=document.createElement('div');pl.className='plane';
+    var im=document.createElement('img');im.alt=sp.n;im.decoding='async';im.src=P+sp.s;
+    pl.appendChild(im);el.appendChild(pl);
+    var cp=document.createElement('div');cp.className='cap';cp.textContent=sp.n;el.appendChild(cp);
+    var depth=clamp((sp.z+46)/80,0,1);
+    pl.style.filter='brightness('+(.62+.38*depth).toFixed(3)+')';
+    world.appendChild(el);
+    var p={el:el,spec:sp,ar:1.25};
+    im.addEventListener('load',function(){p.ar=im.naturalHeight/im.naturalWidth;placeNodes()});
+    nodes.push(p);
+  });
+  placeNodes();
+}
+function resetView(){T.px=T.py=0;T.scale=1;T.yaw=0;T.pitch=0;V.yaw=V.pitch=0}
+
+function onDown(e){
+  if(e.target.closest('#hud'))return;
+  ptr[e.pointerId]={x:e.clientX,y:e.clientY};ptrN=Object.keys(ptr).length;
+  try{stage.setPointerCapture(e.pointerId)}catch(_){}
+  stage.classList.add('down');
+  if(ptrN===1)gest={mode:'orbit',lx:e.clientX,ly:e.clientY};
+  if(ptrN===2)startPinch();
+  V.yaw=V.pitch=0;
+}
+function startPinch(){
+  var k=Object.keys(ptr),a=ptr[k[0]],b=ptr[k[1]];
+  gest={mode:'pinch',d:Math.hypot(a.x-b.x,a.y-b.y)||1,s0:T.scale,mx:(a.x+b.x)/2,my:(a.y+b.y)/2};
+}
+function onMove(e){
+  if(!ptr[e.pointerId]){
+    if(e.pointerType==='mouse'&&!tilt.on){tilt.tx=(e.clientX/W-.5)*2;tilt.ty=(e.clientY/H-.5)*2}
+    return;
+  }
+  ptr[e.pointerId]={x:e.clientX,y:e.clientY};
+  if(!gest)return;
+  if(gest.mode==='orbit'&&ptrN===1){
+    var dx=e.clientX-gest.lx,dy=e.clientY-gest.ly;
+    gest.lx=e.clientX;gest.ly=e.clientY;
+    T.yaw=clamp(T.yaw+dx*.24,-LIM,LIM);T.pitch=clamp(T.pitch-dy*.2,-LIM,LIM);
+    V.yaw=dx*.24;V.pitch=-dy*.2;
+  }else if(gest.mode==='pinch'&&ptrN>=2){
+    var k=Object.keys(ptr),a=ptr[k[0]],b=ptr[k[1]];
+    var d=Math.hypot(a.x-b.x,a.y-b.y),mx=(a.x+b.x)/2,my=(a.y+b.y)/2,raw=gest.s0*d/gest.d;
+    T.scale=clamp(raw,.55,2.8);
+    T.px=clamp(T.px+(mx-gest.mx),-W*.7,W*.7);T.py=clamp(T.py+(my-gest.my),-H*.7,H*.7);
+    gest.mx=mx;gest.my=my;
+  }
+}
+function onUp(e){
+  if(!ptr[e.pointerId])return;
+  delete ptr[e.pointerId];ptrN=Object.keys(ptr).length;
+  if(ptrN===1){var k=Object.keys(ptr)[0];gest={mode:'orbit',lx:ptr[k].x,ly:ptr[k].y}}
+  if(ptrN===0){gest=null;stage.classList.remove('down')}
+}
+function onWheel(e){
+  e.preventDefault();
+  T.scale=clamp(T.scale*Math.exp(-e.deltaY*(e.ctrlKey?.012:.0016)),.55,2.8);
+}
+
+var TILT_KEY='gjObjTilt';
+function tiltStore(v){try{sessionStorage.setItem(TILT_KEY,v)}catch(e){}}
+function tiltPressed(on){var b=$('tilt');b.setAttribute('aria-pressed',String(on));b.setAttribute('aria-label',on?'tilt on, tap to turn off':'tilt off, tap to turn on')}
+function tiltListen(){window.addEventListener('deviceorientation',onOri,true)}
+/* Only the tilt button calls this, from its own click. Nothing else asks for motion permission. */
+function enableTilt(){
+  var D=window.DeviceOrientationEvent;
+  function ok(){tiltListen();tilt.on=true;tilt.ref=null;tiltPressed(true);tiltStore('1')}
+  function no(){tilt.on=false;tiltPressed(false);tiltStore('0')}
+  if(D&&typeof D.requestPermission==='function'){
+    D.requestPermission().then(function(r){r==='granted'?ok():no()}).catch(no);
+  }else ok();
+}
+function disableTilt(){
+  window.removeEventListener('deviceorientation',onOri,true);
+  tilt.on=false;tilt.tx=tilt.ty=0;tiltPressed(false);tiltStore('0');
+}
+function tiltRestore(){
+  var v=null;try{v=sessionStorage.getItem(TILT_KEY)}catch(e){}
+  if(v==='1'&&tiltOK)tiltListen();
+}
+function onOri(e){
+  if(e.beta==null||e.gamma==null)return;
+  if(!tilt.on){tilt.on=true;tilt.ref=null;tiltPressed(true)}
+  var ang=(screen.orientation&&screen.orientation.angle)||window.orientation||0,b=e.beta,gm=e.gamma,x,y;
+  if(ang===90){x=b;y=-gm}else if(ang===270||ang===-90){x=-b;y=gm}else if(ang===180){x=-gm;y=-b}else{x=gm;y=b}
+  if(!tilt.ref)tilt.ref={x:x,y:y};
+  tilt.tx=clamp((x-tilt.ref.x)/28,-1,1);
+  tilt.ty=clamp((y-tilt.ref.y)/28,-1,1);
+}
+
+var lastT=0;
+function frame(t){
+  var dt=Math.min(.05,(t-(lastT||t))/1000);lastT=t;
+  var touching=ptrN>0;
+  if(!touching){
+    T.yaw=clamp(T.yaw+V.yaw,-LIM,LIM);T.pitch=clamp(T.pitch+V.pitch,-LIM,LIM);
+    V.yaw*=Math.pow(1e-5,dt);V.pitch*=Math.pow(1e-5,dt);
+    if(Math.abs(V.yaw)<.01)V.yaw=0;if(Math.abs(V.pitch)<.01)V.pitch=0;
+  }
+  var kw=1-Math.exp(-dt*(touching?14:2.2));tilt.w+=((touching?0:1)-tilt.w)*kw;
+  var kt=1-Math.exp(-dt*7);tilt.x+=(tilt.tx-tilt.x)*kt;tilt.y+=(tilt.ty-tilt.y)*kt;
+  var ks=1-Math.exp(-dt*16);
+  S.yaw+=(T.yaw-S.yaw)*ks;S.pitch+=(T.pitch-S.pitch)*ks;S.scale+=(T.scale-S.scale)*ks;
+  S.px+=(T.px-S.px)*ks;S.py+=(T.py-S.py)*ks;
+  var ry=S.yaw+tilt.x*tilt.w*20,rx=S.pitch-tilt.y*tilt.w*14;
+  world.style.transform='translate3d('+S.px.toFixed(1)+'px,'+S.py.toFixed(1)+'px,0px) scale('+S.scale.toFixed(4)+') rotateX('+rx.toFixed(2)+'deg) rotateY('+ry.toFixed(2)+'deg)';
+  var gl=$('glow');gl.style.transform='translate('+(-Math.sin(ry*.0174533)*80).toFixed(1)+'px,'+(Math.sin(rx*.0174533)*80).toFixed(1)+'px) scale('+(.8+S.scale*.2).toFixed(3)+')';
+  S.ry=ry;S.rx=rx;
+  drawSky(t);
+  requestAnimationFrame(frame);
+}
+
+function init(){
+  makeStars();layout();mount();
+  tiltOK=!!(window.DeviceOrientationEvent&&('ontouchstart' in window||navigator.maxTouchPoints>0));
+  $('tilt').hidden=!tiltOK;
+  addEventListener('resize',layout);
+  stage.addEventListener('pointerdown',onDown);
+  stage.addEventListener('pointermove',onMove);
+  stage.addEventListener('pointerup',onUp);
+  stage.addEventListener('pointercancel',onUp);
+  stage.addEventListener('wheel',onWheel,{passive:false});
+  stage.addEventListener('touchmove',function(e){if(e.cancelable)e.preventDefault()},{passive:false});
+  $('reset').addEventListener('click',resetView);
+  $('tilt').addEventListener('click',function(){tilt.on?disableTilt():enableTilt()});
+  tiltPressed(false);tiltRestore();
+  requestAnimationFrame(frame);
+}
+window.GJ_SCOOP3D={state:S,target:T,tilt:tilt,views:VIEWS,reset:resetView};
+init();
+})();
+</script>
+<link rel="stylesheet" href="../../../../../../../chrome.css"><script src="../../../../../../../chrome.js" data-hub="../../../../../../../index.html" data-rooms="../../../../../../../rooms.json"></script></body>
+</html>

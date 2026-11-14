@@ -1,0 +1,10 @@
+html.has-ctl #daynight{display:none!important}
+.ambx.garden-ctl{--ambx-lw:98px;--ambx-font:Poppins,system-ui,sans-serif;--ambx-right:calc(92px + env(safe-area-inset-right,0px));--ambx-bottom:auto;--ambx-left:auto;--ambx-top:calc(8px + env(safe-area-inset-top,0px));--ambx-pr:-80px;--ambx-pl:auto;--ambx-pb:auto;--ambx-pt:calc(100% + 2px)}
+html.debug .ambx.garden-ctl{--ambx-top:calc(max(6px,env(safe-area-inset-top,0px)) + 48px)}
+
+/* spaces-1113: the dial sits beside the tune pill (top right); the mark and crumb hold the top left. Active switches are warm white. */
+.ambx.garden-ctl .ambx-sw.on{border-color:#e8e4dc;color:#e8e4dc}.ambx.garden-ctl .ambx-sw.on .led{background:#e8e4dc;box-shadow:0 0 6px 1px rgba(232,228,220,.6)}
+.ambx.garden-ctl .ambx-tg{color:#e8e4dc;border-color:rgba(232,228,220,.28)}
+.ambx.garden-ctl .ambx-tg i,.ambx.garden-ctl .ambx-tg[aria-expanded=true] i{background:#e8e4dc;box-shadow:0 0 6px rgba(232,228,220,.55)}
+.ambx.garden-ctl .ambx-tg[aria-expanded=true]{border-color:rgba(232,228,220,.6)}
+.ambx.garden-ctl .ambx-tg:focus-visible{outline-color:rgba(232,228,220,.8)}

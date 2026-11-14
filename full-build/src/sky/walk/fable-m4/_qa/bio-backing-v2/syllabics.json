@@ -1,0 +1,38 @@
+{
+ "layer2": {
+  "text": "I am Gill\nI am James\nI am an artist\na Cree voice rising\nweaving sound into the u",
+  "fonts": [
+   {
+    "familyName": "Noto Sans Canadian Aboriginal",
+    "postScriptName": "NotoSansCanadianAboriginal-Regular",
+    "isCustomFont": true,
+    "glyphCount": 3
+   },
+   {
+    "familyName": "Poppins Light",
+    "postScriptName": "Poppins-Light",
+    "isCustomFont": true,
+    "glyphCount": 311
+   }
+  ],
+  "css_font": "Poppins, Syl, system-ui, sans-serif"
+ },
+ "layer4": {
+  "text": "∞ ᑕᐣᓯ James Gill is a Canadian indigenous multidisciplinary artist. He blends vi",
+  "fonts": [
+   {
+    "familyName": "Noto Sans Canadian Aboriginal",
+    "postScriptName": "NotoSansCanadianAboriginal-Regular",
+    "isCustomFont": true,
+    "glyphCount": 3
+   },
+   {
+    "familyName": "Poppins Light",
+    "postScriptName": "Poppins-Light",
+    "isCustomFont": true,
+    "glyphCount": 616
+   }
+  ],
+  "css_font": "Poppins, Syl, system-ui, sans-serif"
+ }
+}

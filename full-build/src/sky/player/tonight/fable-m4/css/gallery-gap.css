@@ -1,0 +1,7 @@
+/* Gallery spacing only. The still strip keeps its own brightness rules in filmplayer.css.
+   Eight pixels between stills. On a wide film page the strip sits beside the featured
+   column, so a still that will not fit wraps onto the next line instead of crossing that column. */
+.fp-strip{gap:8px}
+@media (min-width:1000px) and (orientation:landscape){
+  .fp-strip{flex-wrap:wrap;max-width:100%;overflow:visible}
+}

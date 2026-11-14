@@ -1,0 +1,23 @@
+/* proto-shell · the Sound room (core/sound.js): the track list, and a taller rail in the player while you are in the room. Colours are the theme tokens, so Night and Red both follow. */
+#sl{position:fixed;z-index:42;left:max(14px,var(--sl));right:max(14px,var(--sr));bottom:120px;margin:0;pointer-events:auto;font:300 11px Poppins,sans-serif;color:var(--dim)}
+#sl[hidden]{display:none}
+#sl .sl-h{margin:0 0 4px;font:400 9px "Julius Sans One",Poppins,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:var(--meta)}
+#sl ol{list-style:none;margin:0;padding:0}
+#sl button{display:grid;grid-template-columns:14px 1fr auto;align-items:center;column-gap:8px;row-gap:0;width:100%;min-height:30px;text-align:left;color:inherit;padding:2px 0}
+#sl button i{width:5px;height:5px;border-radius:50%;background:var(--c-snd-off);opacity:.8}
+#sl button b{font:300 11px Poppins,sans-serif;letter-spacing:.1em;text-transform:uppercase;font-weight:300;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--dim)}
+#sl button span{font:300 8.5px Poppins,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--meta)}
+#sl .sl-l{margin:-2px 0 4px 22px;font:300 8px Poppins,sans-serif;letter-spacing:.06em;color:var(--meta)}
+#sl .sl-l a{color:var(--dim);text-decoration:underline;text-underline-offset:2px}
+#sl button small{grid-column:2/4;margin-top:-3px;font:300 8px Poppins,sans-serif;letter-spacing:.06em;color:var(--meta);opacity:.85}
+#sl button i{grid-row:1/3;align-self:start;margin-top:7px}
+#sl button.on i{background:var(--ink);opacity:1;box-shadow:0 0 5px var(--ink)}
+#sl button.on b{color:var(--ink)}
+#sl button:focus-visible{outline:1px solid var(--ink);outline-offset:1px}
+/* desktop and landscape: a right-hand column, title over artist */
+#sl.side{left:auto;right:max(28px,var(--sr));top:88px;bottom:auto;width:min(300px,30vw)}
+#sl.side button{min-height:40px}
+/* the rail is taller in the room; the dock stays where it is, bottom, never covered */
+html.in-sound #snd{grid-template-rows:auto 64px}
+html.in-sound #snd .rail{height:64px}
+html.in-sound #vnote{display:none}

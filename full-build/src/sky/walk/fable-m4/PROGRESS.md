@@ -1,0 +1,12 @@
+# fable-m4 PROGRESS
+- Pass 0: test save (Grok 4.7), Nov 11 2026 ~9:32 PM PT. No site changes.
+- Pass 1 groundwork (on Gill's computer, no cloud credits), Nov 11 2026 ~9:55 PM PT, one local commit per step:
+  - Step 1 done: foundation = u4-opus-m4 84dad4c + arch-reset patch, byte-identical to morning m4 5503e73 (all paths relative, works at /gill-sky/fable-m4/).
+  - Step 2 done: security fixes only (live-fix f33af15 equivalent): IMG_1342 and the removed photo/removed photo copies removed with every reference; public build notes removed; sw.js deletes only its own caches. Spirit Eye untouched.
+  - Step 3 done: cards star inside the Film constellation opens the card board at #film/cards; cards never auto-swipe.
+  - Step 4 done: Objects lighting (objects-3d specimen viewer with the approved drab fixes), door "objects in 3d" at the Objects landing. No orbit layout.
+  - Step 5 done: Photo door "photo lab" at the Photo landing points at ../photo-lab/ (Horizon room + contact sheet, the lab root). No other lab rooms linked.
+  - Step 6 done: the 11 Drive picks at the end of the joio studio feed in Objects (8 silent full-length clips, 3 stills, no titles); EXIF/GPS clean.
+  - Hard-rule fix + step 7 done: no Vimeo or YouTube links anywhere; leftover _spec/ deleted.
+  - Sweep done: 390x844, 844x390, 1440x900; 0 console errors, 0 4xx.
+- Next: pass 2, push this groundwork to fable-m4-run and verify (Grok 4.7 publisher). Then pass 3, Grok review.

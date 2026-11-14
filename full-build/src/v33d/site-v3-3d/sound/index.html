@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#03050a">
+<title>sound · Gill James</title>
+<meta name="description" content="Gill James · sound: inside the waveform. Lofi music as Mothers Moniker and Lost Coffee.">
+<link rel="preload" href="../../site-v3/fonts/julius-sans-one.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" type="image/png" sizes="32x32" href="../../site-v3/img/favicon-32.png">
+<link rel="apple-touch-icon" href="../../site-v3/img/apple-touch-icon.png">
+<link rel="stylesheet" href="../../site-v3/css/sound.css">
+<link rel="stylesheet" href="sound-3d.css">
+</head><body>
+<main class="sk" id="sk" data-mode="sky">
+  <canvas id="cv" aria-label="the Sound constellation: six song stars and five wind-chime strands; the player opens first"></canvas>
+  <header class="hud">
+    <a class="shome" id="home" href="../#sky/sound" aria-label="back to the sound constellation">‹</a>
+    <p class="crumb"><span class="sig off">ᑕᐣᓯ</span> &nbsp;sound<span id="crumbSec"></span></p>
+    <button type="button" class="shome rise" id="rise" aria-label="rise out to the constellation">↑</button>
+  </header>
+  <section class="intro" id="intro">
+    <p class="sl"><b>SOUND</b><small>6 songs · inside the waveform</small></p>
+    <div class="picks" id="picks" role="radiogroup" aria-label="track"></div>
+  </section>
+  <section class="player" id="player" aria-label="player">
+    <div class="sc-row">
+      <button type="button" class="ib sc-b" id="pp" aria-label="pause">❚❚</button>
+      <div class="sc-lab"><span class="l1"><b id="ttl">TO GO</b> <span id="art">LOST COFFEE</span></span>
+        <span class="l2"><span class="tc" id="tc">00:00 / 01:20</span> <span class="sn" id="sn"></span></span></div>
+    </div>
+    <div class="sc-rail" id="rail" role="slider" tabindex="0" aria-label="timeline: drag to fly through the song" aria-valuemin="0" aria-valuemax="80" aria-valuenow="0">
+      <canvas class="wf" id="wf"></canvas><span class="sc-line"></span><span class="sc-fill" id="fill"></span><b class="sc-head" id="head"></b>
+    </div>
+    <p class="gest">drag the rail to fly · tap to pause · swipe down or ↑ to rise</p>
+  </section>
+  <audio id="au" preload="auto" crossorigin="anonymous"></audio>
+  <button type="button" id="dive" hidden aria-hidden="true"></button>
+  <noscript><div class="ns"><p><b>SOUND</b> · lofi music as Mothers Moniker and Lost Coffee</p><ul>
+    <li><a href="https://open.spotify.com/artist/4NLF1yvahl2gE91fWHxkDc" rel="noopener">Mothers Moniker · Spotify</a></li>
+    <li><a href="https://open.spotify.com/artist/5boqZWhWg5ZwPAURnNQDYK" rel="noopener">Lost Coffee · Spotify</a></li>
+    <li><a href="https://music.apple.com/ca/artist/lost-coffee/1690001432" rel="noopener">Lost Coffee · Apple Music</a></li>
+    </ul>
+    <p><a href="mailto:imjamesgill@gmail.com?subject=music%20licensing">licensing · imjamesgill@gmail.com</a> · <a href="../list/">list</a></p></div></noscript>
+</main>
+<script src="../../site-v3/js/tracks.js"></script>
+<script src="../../site-v3/js/player.js"></script>
+<script src="sound-3d.js"></script>
+<script src="peaks.js"></script>
+<link rel="stylesheet" href="../../../../chrome.css"><script src="../../../../chrome.js" data-hub="../../../../index.html" data-rooms="../../../../rooms.json"></script></body></html>

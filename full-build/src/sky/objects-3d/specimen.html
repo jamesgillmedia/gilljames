@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no">
+<meta name="robots" content="noindex">
+<title>Gill James · objects · 3d prototype</title>
+<meta name="theme-color" content="#050507">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/objects3d.css">
+<script>(function(){try{var c=document.createElement('canvas');if(!(c.getContext('webgl2')||c.getContext('webgl'))||/[?&]nogl\b/.test(location.search))throw 0}catch(e){document.documentElement.className='nogl'}})();</script>
+</head><body>
+<canvas id="c" aria-label="one specimen alone in a dark room. Drag to orbit it, pinch or scroll to move closer."></canvas>
+<img id="fb" alt="">
+<div id="hud">
+  <div class="row">
+    <button id="back" type="button" aria-label="up one layer">‹ Back</button>
+    <button id="home" type="button">Home</button>
+  </div>
+  <div id="where" role="status" aria-live="polite"><span class="w"></span><span class="n"></span></div>
+</div>
+<div id="cap"><span class="t"></span><span class="s"></span></div>
+<button id="prev" class="side" type="button" aria-label="previous specimen">‹</button>
+<button id="next" class="side" type="button" aria-label="next specimen">›</button>
+<div id="axis" aria-hidden="true"></div>
+<script type="module" src="js/main.js"></script>
+<link rel="stylesheet" href="../../../chrome.css"><script src="../../../chrome.js" data-hub="../../../index.html" data-rooms="../../../rooms.json"></script></body></html>

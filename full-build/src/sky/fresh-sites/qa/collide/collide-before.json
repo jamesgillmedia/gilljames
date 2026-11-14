@@ -1,0 +1,2376 @@
+{
+ "phone390": {
+  "fail": 175,
+  "by_ctx": [
+   "film",
+   "objects",
+   "photo",
+   "spaces",
+   "trail@ 1",
+   "trail@ 2",
+   "trail@ 3",
+   "trail@ 4",
+   "trail@ 5"
+  ],
+  "items": [
+   {
+    "ctx": "trail at stop 1 (screen)",
+    "a": "img:spaces",
+    "b": "fixed:c-prof",
+    "w": 41.6,
+    "h": 44
+   },
+   {
+    "ctx": "trail at stop 1 (screen)",
+    "a": "img:spaces",
+    "b": "fixed:gplay",
+    "w": 80.8,
+    "h": 11.1
+   },
+   {
+    "ctx": "trail at stop 1 (screen)",
+    "a": "img:spaces",
+    "b": "fixed:dev",
+    "w": 109.5,
+    "h": 4.6
+   },
+   {
+    "ctx": "trail at stop 1 (screen)",
+    "a": "img:spaces",
+    "b": "fixed:c-prof",
+    "w": 175.5,
+    "h": 44
+   },
+   {
+    "ctx": "trail at stop 1 (screen)",
+    "a": "img:spaces",
+    "b": "fixed:gplay",
+    "w": 175.5,
+    "h": 30
+   },
+   {
+    "ctx": "trail at stop 2 (screen)",
+    "a": "img:film",
+    "b": "fixed:c-prof",
+    "w": 41.6,
+    "h": 15.1
+   },
+   {
+    "ctx": "trail at stop 2 (screen)",
+    "a": "img:film",
+    "b": "fixed:gplay",
+    "w": 80.8,
+    "h": 30
+   },
+   {
+    "ctx": "trail at stop 2 (screen)",
+    "a": "img:film",
+    "b": "fixed:dev",
+    "w": 109.5,
+    "h": 25.5
+   },
+   {
+    "ctx": "trail at stop 3 (screen)",
+    "a": "img:objects",
+    "b": "fixed:c-prof",
+    "w": 232.7,
+    "h": 44
+   },
+   {
+    "ctx": "trail at stop 3 (screen)",
+    "a": "img:objects",
+    "b": "fixed:gplay",
+    "w": 271.9,
+    "h": 30
+   },
+   {
+    "ctx": "trail at stop 3 (screen)",
+    "a": "img:objects",
+    "b": "fixed:dev",
+    "w": 92.2,
+    "h": 25.5
+   },
+   {
+    "ctx": "trail at stop 4 (screen)",
+    "a": "img:objects",
+    "b": "fixed:c-sub",
+    "w": 112.3,
+    "h": 9.5
+   },
+   {
+    "ctx": "trail at stop 4 (screen)",
+    "a": "img:objects",
+    "b": "fixed:c-wm",
+    "w": 111.4,
+    "h": 15
+   },
+   {
+    "ctx": "trail at stop 4 (screen)",
+    "a": "img:objects",
+    "b": "fixed:c-sub",
+    "w": 112.3,
+    "h": 9.5
+   },
+   {
+    "ctx": "trail at stop 4 (screen)",
+    "a": "img:photo",
+    "b": "fixed:c-prof",
+    "w": 232.7,
+    "h": 39.8
+   },
+   {
+    "ctx": "trail at stop 5 (screen)",
+    "a": "img:photo",
+    "b": "fixed:c-wm",
+    "w": 111.4,
+    "h": 10.2
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "fixed:gplay",
+    "b": "view0",
+    "w": 115.5,
+    "h": 30
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "fixed:gplay",
+    "b": "view1",
+    "w": 115.2,
+    "h": 30
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "fixed:gplay",
+    "b": "view2",
+    "w": 22.6,
+    "h": 30
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "fixed:dev",
+    "b": "view2",
+    "w": 103.4,
+    "h": 25.5
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "hero",
+    "b": "c-back",
+    "w": 64.4,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "hero",
+    "b": "c-wm",
+    "w": 122.6,
+    "h": 15
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "view1",
+    "b": "c-next",
+    "w": 61.1,
+    "h": 21.6
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "view2",
+    "b": "c-next",
+    "w": 95.4,
+    "h": 21.6
+   },
+   {
+    "ctx": "spaces view0 bottom",
+    "a": "hero",
+    "b": "c-back",
+    "w": 64.4,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view0 bottom",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view0 bottom",
+    "a": "hero",
+    "b": "c-wm",
+    "w": 122.6,
+    "h": 15
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "fixed:gplay",
+    "b": "view0",
+    "w": 115.5,
+    "h": 30
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "fixed:gplay",
+    "b": "view1",
+    "w": 115.2,
+    "h": 30
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "fixed:gplay",
+    "b": "view2",
+    "w": 22.6,
+    "h": 30
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "fixed:dev",
+    "b": "view2",
+    "w": 103.4,
+    "h": 25.5
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "hero",
+    "b": "c-back",
+    "w": 64.4,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "hero",
+    "b": "c-wm",
+    "w": 122.6,
+    "h": 15
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "view1",
+    "b": "c-next",
+    "w": 61.1,
+    "h": 21.6
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "view2",
+    "b": "c-next",
+    "w": 95.4,
+    "h": 21.6
+   },
+   {
+    "ctx": "spaces view11 bottom",
+    "a": "hero",
+    "b": "c-back",
+    "w": 64.4,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view11 bottom",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view11 bottom",
+    "a": "hero",
+    "b": "c-wm",
+    "w": 122.6,
+    "h": 15
+   }
+  ],
+  "errors": []
+ },
+ "phone375": {
+  "fail": 237,
+  "by_ctx": [
+   "film",
+   "objects",
+   "photo",
+   "spaces",
+   "trail@ 1",
+   "trail@ 2",
+   "trail@ 3",
+   "trail@ 4",
+   "trail@ 5"
+  ],
+  "items": [
+   {
+    "ctx": "trail at stop 1 (screen)",
+    "a": "img:spaces",
+    "b": "fixed:gplay",
+    "w": 89.2,
+    "h": 30
+   },
+   {
+    "ctx": "trail at stop 1 (screen)",
+    "a": "img:spaces",
+    "b": "fixed:dev",
+    "w": 109.5,
+    "h": 25.5
+   },
+   {
+    "ctx": "trail at stop 1 (screen)",
+    "a": "img:spaces",
+    "b": "fixed:gplay",
+    "w": 168.8,
+    "h": 3.8
+   },
+   {
+    "ctx": "trail at stop 2 (screen)",
+    "a": "img:spaces",
+    "b": "fixed:c-sub",
+    "w": 145,
+    "h": 9.5
+   },
+   {
+    "ctx": "trail at stop 2 (screen)",
+    "a": "img:spaces",
+    "b": "fixed:c-map",
+    "w": 28.3,
+    "h": 22.5
+   },
+   {
+    "ctx": "trail at stop 2 (screen)",
+    "a": "img:spaces",
+    "b": "fixed:c-wm",
+    "w": 112.6,
+    "h": 15
+   },
+   {
+    "ctx": "trail at stop 2 (screen)",
+    "a": "img:spaces",
+    "b": "fixed:c-sub",
+    "w": 168.8,
+    "h": 9.5
+   },
+   {
+    "ctx": "trail at stop 2 (screen)",
+    "a": "img:film",
+    "b": "fixed:c-prof",
+    "w": 218.8,
+    "h": 42.2
+   },
+   {
+    "ctx": "trail at stop 3 (screen)",
+    "a": "img:objects",
+    "b": "fixed:c-prof",
+    "w": 218.8,
+    "h": 44
+   },
+   {
+    "ctx": "trail at stop 3 (screen)",
+    "a": "img:objects",
+    "b": "fixed:gplay",
+    "w": 273.0,
+    "h": 30
+   },
+   {
+    "ctx": "trail at stop 3 (screen)",
+    "a": "img:objects",
+    "b": "fixed:dev",
+    "w": 93.3,
+    "h": 25.5
+   },
+   {
+    "ctx": "trail at stop 4 (screen)",
+    "a": "img:photo",
+    "b": "fixed:c-prof",
+    "w": 218.8,
+    "h": 44
+   },
+   {
+    "ctx": "trail at stop 4 (screen)",
+    "a": "img:photo",
+    "b": "fixed:gplay",
+    "w": 273.0,
+    "h": 30
+   },
+   {
+    "ctx": "trail at stop 4 (screen)",
+    "a": "img:photo",
+    "b": "fixed:dev",
+    "w": 93.3,
+    "h": 25.5
+   },
+   {
+    "ctx": "trail at stop 5 (screen)",
+    "a": "img:photo",
+    "b": "fixed:c-sub",
+    "w": 108,
+    "h": 9.5
+   },
+   {
+    "ctx": "trail at stop 5 (screen)",
+    "a": "img:photo",
+    "b": "fixed:c-wm",
+    "w": 108,
+    "h": 15
+   },
+   {
+    "ctx": "trail at stop 5 (screen)",
+    "a": "img:photo",
+    "b": "fixed:c-sub",
+    "w": 108,
+    "h": 9.5
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "fixed:gplay",
+    "b": "view0",
+    "w": 115.5,
+    "h": 29.3
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "fixed:gplay",
+    "b": "view1",
+    "w": 115.2,
+    "h": 29.3
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "fixed:gplay",
+    "b": "view2",
+    "w": 22.6,
+    "h": 29.3
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "fixed:dev",
+    "b": "view1",
+    "w": 9.2,
+    "h": 25.5
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "fixed:dev",
+    "b": "view2",
+    "w": 88.4,
+    "h": 25.5
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "hero",
+    "b": "c-back",
+    "w": 64.4,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "hero",
+    "b": "c-wm",
+    "w": 122.6,
+    "h": 15
+   },
+   {
+    "ctx": "spaces view0 bottom",
+    "a": "hero",
+    "b": "c-back",
+    "w": 64.4,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view0 bottom",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view0 bottom",
+    "a": "hero",
+    "b": "c-wm",
+    "w": 122.6,
+    "h": 15
+   },
+   {
+    "ctx": "spaces view11 top",
+    "a": "hero",
+    "b": "hero",
+    "w": 347,
+    "h": 386.9
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "fixed:gplay",
+    "b": "view0",
+    "w": 115.5,
+    "h": 29.3
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "fixed:gplay",
+    "b": "view1",
+    "w": 115.2,
+    "h": 29.3
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "fixed:gplay",
+    "b": "view2",
+    "w": 22.6,
+    "h": 29.3
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "fixed:dev",
+    "b": "view1",
+    "w": 9.2,
+    "h": 25.5
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "fixed:dev",
+    "b": "view2",
+    "w": 88.4,
+    "h": 25.5
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "hero",
+    "b": "hero",
+    "w": 347,
+    "h": 308.9
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "hero",
+    "b": "c-back",
+    "w": 64.4,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "hero",
+    "b": "c-wm",
+    "w": 122.6,
+    "h": 15
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "hero",
+    "b": "c-back",
+    "w": 64.4,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   }
+  ],
+  "errors": []
+ },
+ "land844": {
+  "fail": 227,
+  "by_ctx": [
+   "film",
+   "objects",
+   "photo",
+   "spaces",
+   "trail@ 1",
+   "trail@ 2",
+   "trail@ 3",
+   "trail@ 4",
+   "trailhead"
+  ],
+  "items": [
+   {
+    "ctx": "trailhead",
+    "a": "film:.c-lead",
+    "b": "film:.c-sign",
+    "w": 70.5,
+    "h": 38.5
+   },
+   {
+    "ctx": "trailhead",
+    "a": "photo:.c-lead",
+    "b": "photo:.c-sign",
+    "w": 88.9,
+    "h": 38.5
+   },
+   {
+    "ctx": "trailhead",
+    "a": "spaces:.c-sec",
+    "b": "spaces:.c-sec",
+    "w": 48.8,
+    "h": 20.8
+   },
+   {
+    "ctx": "trailhead",
+    "a": "objects:.c-sec",
+    "b": "objects:.c-sec",
+    "w": 31.2,
+    "h": 53.6
+   },
+   {
+    "ctx": "trailhead",
+    "a": "photo:.c-sec",
+    "b": "photo:.c-sec",
+    "w": 31.2,
+    "h": 22.4
+   },
+   {
+    "ctx": "trail at stop 1 (screen)",
+    "a": "img:spaces",
+    "b": "fixed:c-prof",
+    "w": 262.7,
+    "h": 44
+   },
+   {
+    "ctx": "trail at stop 1 (screen)",
+    "a": "img:spaces",
+    "b": "fixed:gplay",
+    "w": 76.7,
+    "h": 30
+   },
+   {
+    "ctx": "trail at stop 1 (screen)",
+    "a": "img:spaces",
+    "b": "img:spaces",
+    "w": 48.8,
+    "h": 20.8
+   },
+   {
+    "ctx": "trail at stop 2 (screen)",
+    "a": "img:film",
+    "b": "fixed:c-sub",
+    "w": 108.4,
+    "h": 9.5
+   },
+   {
+    "ctx": "trail at stop 2 (screen)",
+    "a": "img:film",
+    "b": "fixed:dev",
+    "w": 95.5,
+    "h": 6.0
+   },
+   {
+    "ctx": "trail at stop 3 (screen)",
+    "a": "img:film",
+    "b": "fixed:gplay",
+    "w": 30.0,
+    "h": 12.5
+   },
+   {
+    "ctx": "trail at stop 3 (screen)",
+    "a": "img:objects",
+    "b": "fixed:c-prof",
+    "w": 195.0,
+    "h": 44
+   },
+   {
+    "ctx": "trail at stop 3 (screen)",
+    "a": "img:objects",
+    "b": "img:objects",
+    "w": 31.2,
+    "h": 44.3
+   },
+   {
+    "ctx": "trail at stop 4 (screen)",
+    "a": "img:photo",
+    "b": "fixed:c-sub",
+    "w": 59.6,
+    "h": 9.5
+   },
+   {
+    "ctx": "trail at stop 4 (screen)",
+    "a": "img:photo",
+    "b": "img:photo",
+    "w": 31.2,
+    "h": 22.4
+   },
+   {
+    "ctx": "trail at stop 4 (screen)",
+    "a": "img:photo",
+    "b": "fixed:dev",
+    "w": 0.7,
+    "h": 25.5
+   },
+   {
+    "ctx": "spaces view0 top",
+    "a": "fixed:gplay",
+    "b": "hero",
+    "w": 313.9,
+    "h": 6.9
+   },
+   {
+    "ctx": "spaces view0 top",
+    "a": "hero",
+    "b": "c-back",
+    "w": 64.4,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view0 top",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view0 top",
+    "a": "hero",
+    "b": "c-wm",
+    "w": 122.6,
+    "h": 11.7
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "fixed:gplay",
+    "b": "hero",
+    "w": 313.9,
+    "h": 6.9
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "fixed:dev",
+    "b": "view7",
+    "w": 66.2,
+    "h": 25.5
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "hero",
+    "b": "c-back",
+    "w": 64.4,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "hero",
+    "b": "c-wm",
+    "w": 122.6,
+    "h": 11.7
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "view6",
+    "b": "c-next",
+    "w": 102.4,
+    "h": 27
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "view7",
+    "b": "c-next",
+    "w": 33.7,
+    "h": 27
+   },
+   {
+    "ctx": "spaces view0 bottom",
+    "a": "fixed:gplay",
+    "b": "hero",
+    "w": 313.9,
+    "h": 6.9
+   },
+   {
+    "ctx": "spaces view0 bottom",
+    "a": "hero",
+    "b": "c-back",
+    "w": 64.4,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view0 bottom",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view0 bottom",
+    "a": "hero",
+    "b": "c-wm",
+    "w": 122.6,
+    "h": 11.7
+   },
+   {
+    "ctx": "spaces view11 top",
+    "a": "fixed:gplay",
+    "b": "hero",
+    "w": 313.9,
+    "h": 6.9
+   },
+   {
+    "ctx": "spaces view11 top",
+    "a": "hero",
+    "b": "c-back",
+    "w": 64.4,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view11 top",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view11 top",
+    "a": "hero",
+    "b": "c-wm",
+    "w": 122.6,
+    "h": 11.7
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "fixed:gplay",
+    "b": "hero",
+    "w": 313.9,
+    "h": 6.9
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "fixed:dev",
+    "b": "view7",
+    "w": 66.2,
+    "h": 25.5
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "hero",
+    "b": "c-back",
+    "w": 64.4,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "hero",
+    "b": "c-wm",
+    "w": 122.6,
+    "h": 11.7
+   }
+  ],
+  "errors": []
+ },
+ "ipad820": {
+  "fail": 112,
+  "by_ctx": [
+   "film",
+   "objects",
+   "photo",
+   "spaces",
+   "trail@ 1",
+   "trail@ 2",
+   "trail@ 3",
+   "trail@ 4",
+   "trail@ 5"
+  ],
+  "items": [
+   {
+    "ctx": "trail at stop 1 (screen)",
+    "a": "img:spaces",
+    "b": "fixed:c-prof",
+    "w": 230.8,
+    "h": 44
+   },
+   {
+    "ctx": "trail at stop 1 (screen)",
+    "a": "img:spaces",
+    "b": "fixed:dev",
+    "w": 109.5,
+    "h": 25.5
+   },
+   {
+    "ctx": "trail at stop 1 (screen)",
+    "a": "img:spaces",
+    "b": "fixed:c-prof",
+    "w": 369.0,
+    "h": 22.6
+   },
+   {
+    "ctx": "trail at stop 1 (screen)",
+    "a": "img:spaces",
+    "b": "fixed:gplay",
+    "w": 273.6,
+    "h": 30
+   },
+   {
+    "ctx": "trail at stop 2 (screen)",
+    "a": "img:spaces",
+    "b": "fixed:c-sub",
+    "w": 340.8,
+    "h": 9.5
+   },
+   {
+    "ctx": "trail at stop 2 (screen)",
+    "a": "img:spaces",
+    "b": "fixed:c-map",
+    "w": 28.3,
+    "h": 22.5
+   },
+   {
+    "ctx": "trail at stop 2 (screen)",
+    "a": "img:spaces",
+    "b": "fixed:c-wm",
+    "w": 77.0,
+    "h": 15
+   },
+   {
+    "ctx": "trail at stop 2 (screen)",
+    "a": "img:spaces",
+    "b": "fixed:c-sub",
+    "w": 369.0,
+    "h": 9.5
+   },
+   {
+    "ctx": "trail at stop 2 (screen)",
+    "a": "img:film",
+    "b": "fixed:c-prof",
+    "w": 230.8,
+    "h": 26.3
+   },
+   {
+    "ctx": "trail at stop 2 (screen)",
+    "a": "img:film",
+    "b": "fixed:dev",
+    "w": 109.5,
+    "h": 25.5
+   },
+   {
+    "ctx": "trail at stop 3 (screen)",
+    "a": "img:objects",
+    "b": "fixed:c-prof",
+    "w": 575,
+    "h": 44
+   },
+   {
+    "ctx": "trail at stop 3 (screen)",
+    "a": "img:objects",
+    "b": "fixed:gplay",
+    "w": 224.2,
+    "h": 30
+   },
+   {
+    "ctx": "trail at stop 3 (screen)",
+    "a": "img:objects",
+    "b": "fixed:dev",
+    "w": 4.5,
+    "h": 25.5
+   },
+   {
+    "ctx": "trail at stop 4 (screen)",
+    "a": "img:objects",
+    "b": "fixed:c-sub",
+    "w": 236.2,
+    "h": 9.5
+   },
+   {
+    "ctx": "trail at stop 4 (screen)",
+    "a": "img:objects",
+    "b": "fixed:c-wm",
+    "w": 77.0,
+    "h": 7.6
+   },
+   {
+    "ctx": "trail at stop 4 (screen)",
+    "a": "img:objects",
+    "b": "fixed:c-sub",
+    "w": 236.2,
+    "h": 9.5
+   },
+   {
+    "ctx": "trail at stop 4 (screen)",
+    "a": "img:photo",
+    "b": "fixed:c-prof",
+    "w": 632.6,
+    "h": 44
+   },
+   {
+    "ctx": "trail at stop 4 (screen)",
+    "a": "img:photo",
+    "b": "fixed:gplay",
+    "w": 281.8,
+    "h": 30
+   },
+   {
+    "ctx": "trail at stop 4 (screen)",
+    "a": "img:photo",
+    "b": "fixed:dev",
+    "w": 62.1,
+    "h": 25.5
+   },
+   {
+    "ctx": "trail at stop 5 (screen)",
+    "a": "img:photo",
+    "b": "fixed:c-sub",
+    "w": 236.2,
+    "h": 9.5
+   },
+   {
+    "ctx": "trail at stop 5 (screen)",
+    "a": "img:photo",
+    "b": "fixed:c-wm",
+    "w": 77.0,
+    "h": 15
+   },
+   {
+    "ctx": "trail at stop 5 (screen)",
+    "a": "img:photo",
+    "b": "fixed:c-sub",
+    "w": 236.2,
+    "h": 9.5
+   },
+   {
+    "ctx": "spaces view0 top",
+    "a": "fixed:gplay",
+    "b": "view0",
+    "w": 115.5,
+    "h": 13.6
+   },
+   {
+    "ctx": "spaces view0 top",
+    "a": "fixed:gplay",
+    "b": "view1",
+    "w": 115.2,
+    "h": 13.6
+   },
+   {
+    "ctx": "spaces view0 top",
+    "a": "fixed:gplay",
+    "b": "view2",
+    "w": 62.6,
+    "h": 13.6
+   },
+   {
+    "ctx": "spaces view0 top",
+    "a": "fixed:dev",
+    "b": "view5",
+    "w": 73.2,
+    "h": 7.1
+   },
+   {
+    "ctx": "spaces view0 top",
+    "a": "fixed:dev",
+    "b": "view6",
+    "w": 24.3,
+    "h": 7.1
+   },
+   {
+    "ctx": "spaces view0 top",
+    "a": "view4",
+    "b": "c-next",
+    "w": 12.6,
+    "h": 31
+   },
+   {
+    "ctx": "spaces view0 top",
+    "a": "view5",
+    "b": "c-next",
+    "w": 115.5,
+    "h": 31
+   },
+   {
+    "ctx": "spaces view0 top",
+    "a": "view6",
+    "b": "c-next",
+    "w": 16.3,
+    "h": 31
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "hero",
+    "b": "c-back",
+    "w": 64.4,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view0 bottom",
+    "a": "hero",
+    "b": "c-back",
+    "w": 64.4,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view0 bottom",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view0 bottom",
+    "a": "hero",
+    "b": "c-wm",
+    "w": 122.6,
+    "h": 15
+   },
+   {
+    "ctx": "spaces view11 top",
+    "a": "fixed:gplay",
+    "b": "view0",
+    "w": 115.5,
+    "h": 13.6
+   },
+   {
+    "ctx": "spaces view11 top",
+    "a": "fixed:gplay",
+    "b": "view1",
+    "w": 115.2,
+    "h": 13.6
+   },
+   {
+    "ctx": "spaces view11 top",
+    "a": "fixed:gplay",
+    "b": "view2",
+    "w": 62.6,
+    "h": 13.6
+   },
+   {
+    "ctx": "spaces view11 top",
+    "a": "fixed:dev",
+    "b": "view5",
+    "w": 73.2,
+    "h": 7.1
+   },
+   {
+    "ctx": "spaces view11 top",
+    "a": "fixed:dev",
+    "b": "view6",
+    "w": 24.3,
+    "h": 7.1
+   }
+  ],
+  "errors": []
+ },
+ "desk1440": {
+  "fail": 76,
+  "by_ctx": [
+   "film",
+   "objects",
+   "photo",
+   "spaces",
+   "trail@ 1",
+   "trail@ 2",
+   "trail@ 3",
+   "trail@ 4",
+   "trailhead"
+  ],
+  "items": [
+   {
+    "ctx": "trailhead",
+    "a": "film:.c-lead",
+    "b": "film:.c-sign",
+    "w": 70.5,
+    "h": 38.5
+   },
+   {
+    "ctx": "trailhead",
+    "a": "photo:.c-lead",
+    "b": "photo:.c-sign",
+    "w": 88.9,
+    "h": 38.5
+   },
+   {
+    "ctx": "trailhead",
+    "a": "spaces:.c-sec",
+    "b": "spaces:.c-sec",
+    "w": 112.5,
+    "h": 100.3
+   },
+   {
+    "ctx": "trailhead",
+    "a": "objects:.c-sec",
+    "b": "objects:.c-sec",
+    "w": 72.0,
+    "h": 176
+   },
+   {
+    "ctx": "trailhead",
+    "a": "photo:.c-sec",
+    "b": "photo:.c-sec",
+    "w": 72.0,
+    "h": 104
+   },
+   {
+    "ctx": "trail at stop 1 (screen)",
+    "a": "img:spaces",
+    "b": "img:spaces",
+    "w": 112.5,
+    "h": 100.3
+   },
+   {
+    "ctx": "trail at stop 2 (screen)",
+    "a": "img:spaces",
+    "b": "img:spaces",
+    "w": 63.8,
+    "h": 100.3
+   },
+   {
+    "ctx": "trail at stop 3 (screen)",
+    "a": "img:objects",
+    "b": "fixed:c-prof",
+    "w": 437.1,
+    "h": 13
+   },
+   {
+    "ctx": "trail at stop 3 (screen)",
+    "a": "img:objects",
+    "b": "img:objects",
+    "w": 72.0,
+    "h": 176
+   },
+   {
+    "ctx": "trail at stop 4 (screen)",
+    "a": "img:photo",
+    "b": "img:photo",
+    "w": 72.0,
+    "h": 104
+   },
+   {
+    "ctx": "spaces view0 top",
+    "a": "hero",
+    "b": "c-back",
+    "w": 49.2,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view0 top",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "hero",
+    "b": "c-back",
+    "w": 49.2,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view0 bottom",
+    "a": "hero",
+    "b": "c-back",
+    "w": 49.2,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view0 bottom",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view11 top",
+    "a": "hero",
+    "b": "c-back",
+    "w": 49.2,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view11 top",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "hero",
+    "b": "c-back",
+    "w": 49.2,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view11 bottom",
+    "a": "hero",
+    "b": "c-back",
+    "w": 49.2,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view11 bottom",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "film view0 top",
+    "a": "hero",
+    "b": "c-back",
+    "w": 49.2,
+    "h": 44
+   },
+   {
+    "ctx": "film view0 top",
+    "a": "hero",
+    "b": "c-where",
+    "w": 95.8,
+    "h": 13
+   },
+   {
+    "ctx": "film view0 mid",
+    "a": "hero",
+    "b": "c-back",
+    "w": 49.2,
+    "h": 44
+   },
+   {
+    "ctx": "film view0 mid",
+    "a": "hero",
+    "b": "c-where",
+    "w": 95.8,
+    "h": 13
+   },
+   {
+    "ctx": "film view0 bottom",
+    "a": "hero",
+    "b": "c-back",
+    "w": 49.2,
+    "h": 44
+   },
+   {
+    "ctx": "film view0 bottom",
+    "a": "hero",
+    "b": "c-where",
+    "w": 95.8,
+    "h": 13
+   },
+   {
+    "ctx": "film view6 top",
+    "a": "hero",
+    "b": "c-back",
+    "w": 49.2,
+    "h": 44
+   },
+   {
+    "ctx": "film view6 top",
+    "a": "hero",
+    "b": "c-where",
+    "w": 95.8,
+    "h": 13
+   },
+   {
+    "ctx": "film view6 mid",
+    "a": "hero",
+    "b": "c-back",
+    "w": 49.2,
+    "h": 44
+   },
+   {
+    "ctx": "film view6 mid",
+    "a": "hero",
+    "b": "c-where",
+    "w": 95.8,
+    "h": 13
+   },
+   {
+    "ctx": "film view6 bottom",
+    "a": "hero",
+    "b": "c-back",
+    "w": 49.2,
+    "h": 44
+   },
+   {
+    "ctx": "film view6 bottom",
+    "a": "hero",
+    "b": "c-where",
+    "w": 95.8,
+    "h": 13
+   },
+   {
+    "ctx": "objects view0 top",
+    "a": "hero",
+    "b": "c-back",
+    "w": 49.2,
+    "h": 44
+   },
+   {
+    "ctx": "objects view0 top",
+    "a": "hero",
+    "b": "c-where",
+    "w": 116.3,
+    "h": 13
+   },
+   {
+    "ctx": "objects view0 mid",
+    "a": "hero",
+    "b": "c-back",
+    "w": 49.2,
+    "h": 44
+   },
+   {
+    "ctx": "objects view0 mid",
+    "a": "hero",
+    "b": "c-where",
+    "w": 116.3,
+    "h": 13
+   },
+   {
+    "ctx": "objects view0 bottom",
+    "a": "hero",
+    "b": "c-back",
+    "w": 49.2,
+    "h": 44
+   },
+   {
+    "ctx": "objects view0 bottom",
+    "a": "hero",
+    "b": "c-where",
+    "w": 116.3,
+    "h": 13
+   }
+  ],
+  "errors": []
+ },
+ "desk1280x720": {
+  "fail": 111,
+  "by_ctx": [
+   "film",
+   "objects",
+   "photo",
+   "spaces",
+   "trail@ 1",
+   "trail@ 2",
+   "trail@ 3",
+   "trail@ 4",
+   "trailhead"
+  ],
+  "items": [
+   {
+    "ctx": "trailhead",
+    "a": "film:.c-lead",
+    "b": "film:.c-sign",
+    "w": 70.5,
+    "h": 38.5
+   },
+   {
+    "ctx": "trailhead",
+    "a": "photo:.c-lead",
+    "b": "photo:.c-sign",
+    "w": 88.9,
+    "h": 38.5
+   },
+   {
+    "ctx": "trailhead",
+    "a": "spaces:.c-sec",
+    "b": "spaces:.c-sec",
+    "w": 90.0,
+    "h": 72.2
+   },
+   {
+    "ctx": "trailhead",
+    "a": "objects:.c-sec",
+    "b": "objects:.c-sec",
+    "w": 57.6,
+    "h": 132.8
+   },
+   {
+    "ctx": "trailhead",
+    "a": "photo:.c-sec",
+    "b": "photo:.c-sec",
+    "w": 57.6,
+    "h": 75.2
+   },
+   {
+    "ctx": "trail at stop 1 (screen)",
+    "a": "img:spaces",
+    "b": "img:spaces",
+    "w": 90.0,
+    "h": 72.2
+   },
+   {
+    "ctx": "trail at stop 2 (screen)",
+    "a": "img:spaces",
+    "b": "img:spaces",
+    "w": 7.8,
+    "h": 72.2
+   },
+   {
+    "ctx": "trail at stop 2 (screen)",
+    "a": "img:spaces",
+    "b": "fixed:c-wm",
+    "w": 65.8,
+    "h": 13.6
+   },
+   {
+    "ctx": "trail at stop 3 (screen)",
+    "a": "img:objects",
+    "b": "fixed:c-prof",
+    "w": 360.0,
+    "h": 36.4
+   },
+   {
+    "ctx": "trail at stop 3 (screen)",
+    "a": "img:objects",
+    "b": "img:objects",
+    "w": 57.6,
+    "h": 132.8
+   },
+   {
+    "ctx": "trail at stop 4 (screen)",
+    "a": "img:photo",
+    "b": "img:photo",
+    "w": 57.6,
+    "h": 75.2
+   },
+   {
+    "ctx": "spaces view0 top",
+    "a": "fixed:dev",
+    "b": "view8",
+    "w": 41.3,
+    "h": 12.4
+   },
+   {
+    "ctx": "spaces view0 top",
+    "a": "hero",
+    "b": "c-back",
+    "w": 54.0,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view0 top",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view0 top",
+    "a": "view7",
+    "b": "c-next",
+    "w": 81.6,
+    "h": 25.9
+   },
+   {
+    "ctx": "spaces view0 top",
+    "a": "view8",
+    "b": "c-next",
+    "w": 58.8,
+    "h": 25.9
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "hero",
+    "b": "c-back",
+    "w": 54.0,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "view13",
+    "b": "c-next",
+    "w": 42.6,
+    "h": 27
+   },
+   {
+    "ctx": "spaces view0 bottom",
+    "a": "hero",
+    "b": "c-back",
+    "w": 54.0,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view0 bottom",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view11 top",
+    "a": "fixed:dev",
+    "b": "view8",
+    "w": 41.3,
+    "h": 12.4
+   },
+   {
+    "ctx": "spaces view11 top",
+    "a": "hero",
+    "b": "c-back",
+    "w": 54.0,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view11 top",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view11 top",
+    "a": "view7",
+    "b": "c-next",
+    "w": 81.6,
+    "h": 25.9
+   },
+   {
+    "ctx": "spaces view11 top",
+    "a": "view8",
+    "b": "c-next",
+    "w": 58.8,
+    "h": 25.9
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "hero",
+    "b": "c-back",
+    "w": 54.0,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "view13",
+    "b": "c-next",
+    "w": 42.6,
+    "h": 27
+   },
+   {
+    "ctx": "spaces view11 bottom",
+    "a": "hero",
+    "b": "c-back",
+    "w": 54.0,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view11 bottom",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "film view0 top",
+    "a": "hero",
+    "b": "c-back",
+    "w": 54.0,
+    "h": 44
+   },
+   {
+    "ctx": "film view0 top",
+    "a": "hero",
+    "b": "c-where",
+    "w": 95.8,
+    "h": 13
+   },
+   {
+    "ctx": "film view0 top",
+    "a": "view6",
+    "b": "c-next",
+    "w": 7.7,
+    "h": 27
+   },
+   {
+    "ctx": "film view0 top",
+    "a": "view7",
+    "b": "c-next",
+    "w": 113.8,
+    "h": 27
+   },
+   {
+    "ctx": "film view0 mid",
+    "a": "hero",
+    "b": "c-back",
+    "w": 54.0,
+    "h": 44
+   },
+   {
+    "ctx": "film view0 mid",
+    "a": "hero",
+    "b": "c-where",
+    "w": 95.8,
+    "h": 13
+   },
+   {
+    "ctx": "film view0 mid",
+    "a": "view10",
+    "b": "c-next",
+    "w": 7.7,
+    "h": 27
+   },
+   {
+    "ctx": "film view0 bottom",
+    "a": "hero",
+    "b": "c-back",
+    "w": 54.0,
+    "h": 44
+   },
+   {
+    "ctx": "film view0 bottom",
+    "a": "hero",
+    "b": "c-where",
+    "w": 95.8,
+    "h": 13
+   }
+  ],
+  "errors": []
+ },
+ "wide1920": {
+  "fail": 74,
+  "by_ctx": [
+   "film",
+   "objects",
+   "photo",
+   "spaces",
+   "trail@ 1",
+   "trail@ 3",
+   "trail@ 4",
+   "trailhead"
+  ],
+  "items": [
+   {
+    "ctx": "trailhead",
+    "a": "film:.c-lead",
+    "b": "film:.c-sign",
+    "w": 70.5,
+    "h": 38.5
+   },
+   {
+    "ctx": "trailhead",
+    "a": "photo:.c-lead",
+    "b": "photo:.c-sign",
+    "w": 88.9,
+    "h": 38.5
+   },
+   {
+    "ctx": "trailhead",
+    "a": "spaces:.c-sec",
+    "b": "spaces:.c-sec",
+    "w": 135.0,
+    "h": 128.4
+   },
+   {
+    "ctx": "trailhead",
+    "a": "objects:.c-sec",
+    "b": "objects:.c-sec",
+    "w": 86.4,
+    "h": 216.0
+   },
+   {
+    "ctx": "trailhead",
+    "a": "photo:.c-sec",
+    "b": "photo:.c-sec",
+    "w": 86.4,
+    "h": 132.8
+   },
+   {
+    "ctx": "trail at stop 1 (screen)",
+    "a": "img:spaces",
+    "b": "img:spaces",
+    "w": 135.0,
+    "h": 128.4
+   },
+   {
+    "ctx": "trail at stop 3 (screen)",
+    "a": "img:objects",
+    "b": "img:objects",
+    "w": 86.4,
+    "h": 216.0
+   },
+   {
+    "ctx": "trail at stop 4 (screen)",
+    "a": "img:photo",
+    "b": "img:photo",
+    "w": 86.4,
+    "h": 132.8
+   },
+   {
+    "ctx": "spaces view0 top",
+    "a": "hero",
+    "b": "c-back",
+    "w": 34.8,
+    "h": 32.4
+   },
+   {
+    "ctx": "spaces view0 top",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "hero",
+    "b": "c-back",
+    "w": 34.8,
+    "h": 32.4
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view0 bottom",
+    "a": "hero",
+    "b": "c-back",
+    "w": 34.8,
+    "h": 32.4
+   },
+   {
+    "ctx": "spaces view0 bottom",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view11 top",
+    "a": "hero",
+    "b": "c-back",
+    "w": 34.8,
+    "h": 32.4
+   },
+   {
+    "ctx": "spaces view11 top",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "hero",
+    "b": "c-back",
+    "w": 34.8,
+    "h": 32.4
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view11 bottom",
+    "a": "hero",
+    "b": "c-back",
+    "w": 34.8,
+    "h": 32.4
+   },
+   {
+    "ctx": "spaces view11 bottom",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "film view0 top",
+    "a": "hero",
+    "b": "c-back",
+    "w": 34.8,
+    "h": 32.4
+   },
+   {
+    "ctx": "film view0 top",
+    "a": "hero",
+    "b": "c-where",
+    "w": 95.8,
+    "h": 13
+   },
+   {
+    "ctx": "film view0 mid",
+    "a": "hero",
+    "b": "c-back",
+    "w": 34.8,
+    "h": 32.4
+   },
+   {
+    "ctx": "film view0 mid",
+    "a": "hero",
+    "b": "c-where",
+    "w": 95.8,
+    "h": 13
+   },
+   {
+    "ctx": "film view0 bottom",
+    "a": "hero",
+    "b": "c-back",
+    "w": 34.8,
+    "h": 32.4
+   },
+   {
+    "ctx": "film view0 bottom",
+    "a": "hero",
+    "b": "c-where",
+    "w": 95.8,
+    "h": 13
+   },
+   {
+    "ctx": "film view6 top",
+    "a": "hero",
+    "b": "c-back",
+    "w": 34.8,
+    "h": 32.4
+   },
+   {
+    "ctx": "film view6 top",
+    "a": "hero",
+    "b": "c-where",
+    "w": 95.8,
+    "h": 13
+   },
+   {
+    "ctx": "film view6 mid",
+    "a": "hero",
+    "b": "c-back",
+    "w": 34.8,
+    "h": 32.4
+   },
+   {
+    "ctx": "film view6 mid",
+    "a": "hero",
+    "b": "c-where",
+    "w": 95.8,
+    "h": 13
+   },
+   {
+    "ctx": "film view6 bottom",
+    "a": "hero",
+    "b": "c-back",
+    "w": 34.8,
+    "h": 32.4
+   },
+   {
+    "ctx": "film view6 bottom",
+    "a": "hero",
+    "b": "c-where",
+    "w": 95.8,
+    "h": 13
+   },
+   {
+    "ctx": "objects view0 top",
+    "a": "hero",
+    "b": "c-back",
+    "w": 34.8,
+    "h": 32.4
+   },
+   {
+    "ctx": "objects view0 top",
+    "a": "hero",
+    "b": "c-where",
+    "w": 116.3,
+    "h": 13
+   },
+   {
+    "ctx": "objects view0 mid",
+    "a": "hero",
+    "b": "c-back",
+    "w": 34.8,
+    "h": 32.4
+   },
+   {
+    "ctx": "objects view0 mid",
+    "a": "hero",
+    "b": "c-where",
+    "w": 116.3,
+    "h": 13
+   },
+   {
+    "ctx": "objects view0 bottom",
+    "a": "hero",
+    "b": "c-back",
+    "w": 34.8,
+    "h": 32.4
+   },
+   {
+    "ctx": "objects view0 bottom",
+    "a": "hero",
+    "b": "c-where",
+    "w": 116.3,
+    "h": 13
+   },
+   {
+    "ctx": "objects view5 top",
+    "a": "hero",
+    "b": "c-back",
+    "w": 34.8,
+    "h": 32.4
+   },
+   {
+    "ctx": "objects view5 top",
+    "a": "hero",
+    "b": "c-where",
+    "w": 116.3,
+    "h": 13
+   }
+  ],
+  "errors": []
+ },
+ "car1280x480": {
+  "fail": 271,
+  "by_ctx": [
+   "film",
+   "objects",
+   "photo",
+   "spaces",
+   "trail@ 1",
+   "trail@ 3",
+   "trail@ 4",
+   "trailhead"
+  ],
+  "items": [
+   {
+    "ctx": "trailhead",
+    "a": "film:.c-lead",
+    "b": "film:.c-sign",
+    "w": 70.5,
+    "h": 38.5
+   },
+   {
+    "ctx": "trailhead",
+    "a": "photo:.c-lead",
+    "b": "photo:.c-sign",
+    "w": 88.9,
+    "h": 38.5
+   },
+   {
+    "ctx": "trailhead",
+    "a": "spaces:.c-sec",
+    "b": "spaces:.c-sec",
+    "w": 60.0,
+    "h": 34.8
+   },
+   {
+    "ctx": "trailhead",
+    "a": "objects:.c-sec",
+    "b": "objects:.c-sec",
+    "w": 38.4,
+    "h": 75.2
+   },
+   {
+    "ctx": "trailhead",
+    "a": "photo:.c-sec",
+    "b": "photo:.c-sec",
+    "w": 38.4,
+    "h": 36.8
+   },
+   {
+    "ctx": "trail at stop 1 (screen)",
+    "a": "img:spaces",
+    "b": "fixed:c-prof",
+    "w": 323.3,
+    "h": 29.2
+   },
+   {
+    "ctx": "trail at stop 1 (screen)",
+    "a": "img:spaces",
+    "b": "img:spaces",
+    "w": 60.0,
+    "h": 34.8
+   },
+   {
+    "ctx": "trail at stop 3 (screen)",
+    "a": "img:objects",
+    "b": "fixed:c-prof",
+    "w": 240.0,
+    "h": 44
+   },
+   {
+    "ctx": "trail at stop 3 (screen)",
+    "a": "img:objects",
+    "b": "img:objects",
+    "w": 38.4,
+    "h": 75.2
+   },
+   {
+    "ctx": "trail at stop 4 (screen)",
+    "a": "img:photo",
+    "b": "img:photo",
+    "w": 38.4,
+    "h": 36.8
+   },
+   {
+    "ctx": "trail at stop 4 (screen)",
+    "a": "img:photo",
+    "b": "fixed:c-prof",
+    "w": 9.0,
+    "h": 19.2
+   },
+   {
+    "ctx": "spaces view0 top",
+    "a": "fixed:dev",
+    "b": "view2",
+    "w": 41.3,
+    "h": 25.5
+   },
+   {
+    "ctx": "spaces view0 top",
+    "a": "hero",
+    "b": "c-back",
+    "w": 54.0,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view0 top",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view0 top",
+    "a": "hero",
+    "b": "c-wm",
+    "w": 116.2,
+    "h": 5.4
+   },
+   {
+    "ctx": "spaces view0 top",
+    "a": "view1",
+    "b": "c-next",
+    "w": 81.8,
+    "h": 19.5
+   },
+   {
+    "ctx": "spaces view0 top",
+    "a": "view2",
+    "b": "c-next",
+    "w": 58.6,
+    "h": 19.5
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "fixed:dev",
+    "b": "view11",
+    "w": 21.6,
+    "h": 25.5
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "hero",
+    "b": "c-back",
+    "w": 54.0,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "hero",
+    "b": "c-wm",
+    "w": 116.2,
+    "h": 5.4
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "view10",
+    "b": "c-next",
+    "w": 81.6,
+    "h": 23.5
+   },
+   {
+    "ctx": "spaces view0 mid",
+    "a": "view11",
+    "b": "c-next",
+    "w": 58.8,
+    "h": 23.5
+   },
+   {
+    "ctx": "spaces view0 bottom",
+    "a": "hero",
+    "b": "c-back",
+    "w": 54.0,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view0 bottom",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view0 bottom",
+    "a": "hero",
+    "b": "c-wm",
+    "w": 116.2,
+    "h": 5.4
+   },
+   {
+    "ctx": "spaces view11 top",
+    "a": "fixed:dev",
+    "b": "view2",
+    "w": 41.3,
+    "h": 25.5
+   },
+   {
+    "ctx": "spaces view11 top",
+    "a": "hero",
+    "b": "c-back",
+    "w": 54.0,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view11 top",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view11 top",
+    "a": "hero",
+    "b": "c-wm",
+    "w": 116.2,
+    "h": 5.4
+   },
+   {
+    "ctx": "spaces view11 top",
+    "a": "view1",
+    "b": "c-next",
+    "w": 81.8,
+    "h": 19.5
+   },
+   {
+    "ctx": "spaces view11 top",
+    "a": "view2",
+    "b": "c-next",
+    "w": 58.6,
+    "h": 19.5
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "fixed:dev",
+    "b": "view11",
+    "w": 21.6,
+    "h": 25.5
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "hero",
+    "b": "c-back",
+    "w": 54.0,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "hero",
+    "b": "c-wm",
+    "w": 116.2,
+    "h": 5.4
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "view10",
+    "b": "c-next",
+    "w": 81.6,
+    "h": 23.5
+   },
+   {
+    "ctx": "spaces view11 mid",
+    "a": "view11",
+    "b": "c-next",
+    "w": 58.8,
+    "h": 23.5
+   },
+   {
+    "ctx": "spaces view11 bottom",
+    "a": "hero",
+    "b": "c-back",
+    "w": 54.0,
+    "h": 44
+   },
+   {
+    "ctx": "spaces view11 bottom",
+    "a": "hero",
+    "b": "c-where",
+    "w": 109.5,
+    "h": 13
+   }
+  ],
+  "errors": []
+ }
+}

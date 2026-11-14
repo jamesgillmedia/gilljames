@@ -1,0 +1,89 @@
+/* Spirit Eye rebuild (se3) on top of v2 (gill-sky 22d3958). Reading pages and end gallery styles from parts/ (reading.css, gallery.css), scoped here. */
+@font-face{font-family:Poppins;font-weight:300;font-display:swap;src:url(../fonts/poppins-300.woff2) format("woff2")}
+@font-face{font-family:"Julius Sans One";font-display:swap;src:url(../fonts/julius-sans-one.woff2) format("woff2")}
+@font-face{font-family:"Noto Sans SE";font-weight:400;font-display:swap;src:url(../fonts/noto-sans-subset.woff2) format("woff2")}
+:root{--ink:#e4ebf5;--dim:rgba(200,214,232,.72);--mint:#55daa1;--mint2:#bff5df;--line:rgba(207,216,230,.28);--bg:#04060c;--ease:cubic-bezier(.22,1,.36,1);--move:.48s var(--ease)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:#cfd8e6;overflow:hidden;font-family:Poppins,"Noto Sans SE",system-ui,sans-serif;font-weight:300;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+#c{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
+button{appearance:none;font:300 14px/1 Poppins,system-ui,sans-serif;letter-spacing:.1em;color:var(--mint2);background:rgba(4,6,12,.55);border:1px solid rgba(191,245,223,.45);border-radius:16px;padding:10px 16px;min-height:44px;cursor:pointer}
+button:focus-visible{outline:2px solid var(--mint);outline-offset:2px}
+#home{position:fixed;left:12px;top:max(10px,env(safe-area-inset-top));z-index:5;font:300 12px/1 "Julius Sans One",sans-serif;letter-spacing:.2em;min-height:36px;padding:8px 12px;color:var(--ink);border-color:rgba(207,216,230,.3)}
+/* dial: one tick per stop, the sun mark moves with s */
+#sedial{position:fixed;right:12px;top:max(8px,env(safe-area-inset-top));width:52px;height:52px;border-radius:50%;z-index:5;border:1px solid rgba(207,216,230,.28);background:rgba(4,6,12,.5)}
+#sedial b{position:absolute;left:50%;top:50%;width:12px;height:24px;margin:-24px 0 0 -6px;transform-origin:6px 24px;transform:rotate(var(--a));cursor:pointer}
+#sedial b::after{content:"";position:absolute;left:5.5px;top:3px;width:1px;height:6px;background:rgba(230,238,242,.55)}
+#sedial b.show::after{height:8px;top:2px;background:rgba(255,224,170,.85)}
+#sedial b.on::after{background:#fff;width:2px;left:5px}
+#sedial .sun{position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:#ffd58a;box-shadow:0 0 8px 3px rgba(255,213,138,.6);pointer-events:none}
+/* bottom nav */
+#senav{position:fixed;left:0;right:0;bottom:0;z-index:6;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 12px max(10px,calc(env(safe-area-inset-bottom) + 6px));pointer-events:none}
+#senav>*{pointer-events:auto}
+#senav button{min-width:5.5em}
+#sepg{font-size:11px;letter-spacing:.16em;color:var(--dim);text-transform:lowercase;font-variant-numeric:tabular-nums;text-align:center;text-shadow:0 1px 6px #000}
+/* 3D callouts: the PDF's own labels pinned to the part they name */
+#selines{position:fixed;inset:0;width:100%;height:100%;z-index:3;pointer-events:none;overflow:visible}
+#selines line{stroke:rgba(255,236,200,.75);stroke-width:1}
+#selines circle{fill:#fff3d6}
+#secall{position:fixed;inset:0;z-index:4;pointer-events:none}
+#secall .co{position:absolute;left:0;top:0;max-width:min(260px,62vw);padding:8px 11px 9px;border:1px solid rgba(255,236,200,.4);border-radius:10px;background:rgba(4,6,12,.78);opacity:0;transition:opacity .45s var(--ease);will-change:transform}
+#secall.on .co{opacity:1}
+#secall .co b{display:block;font:400 14px/1.35 Poppins,"Noto Sans SE",sans-serif;letter-spacing:.03em;color:#fff}
+#secall .co span{display:block;margin-top:3px;font-size:13px;line-height:1.4;color:#d7e0ea}
+#secall .tag{position:absolute;left:0;top:0;padding:4px 8px 5px;border-radius:6px;background:rgba(222,226,230,.92);color:#151a20;font:400 12.5px/1.3 Poppins,sans-serif;text-align:center;opacity:0;transition:opacity .45s var(--ease);white-space:normal}
+#secall.on .tag{opacity:1}
+/* TELL: calm reading page over the dimmed eye */
+#setell{position:fixed;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:max(72px,calc(env(safe-area-inset-top) + 64px)) 22px max(78px,calc(env(safe-area-inset-bottom) + 70px));background:rgba(4,6,12,.84);opacity:0;pointer-events:none;transition:opacity .3s var(--ease);color:var(--ink)}
+#setell.open{opacity:1;pointer-events:auto}
+#setell[data-k="0"]{background:radial-gradient(120% 80% at 50% 50%,rgba(4,6,12,.62),rgba(4,6,12,.9))}
+#setell .in{max-width:38em;width:100%;margin:auto 0;opacity:0;transform:translateY(10px);transition:opacity var(--move),transform var(--move)}
+#setell.open .in{opacity:1;transform:none}
+#setell h1,#setell h2{margin:0 0 .45em;font:300 1.7rem/1.25 "Julius Sans One",sans-serif;letter-spacing:.14em;color:#fff}
+#setell h2{font-size:1.25rem;letter-spacing:.12em;margin-bottom:.55em}
+#setell p{margin:0 0 .75em;font-size:1.05rem;line-height:1.65;letter-spacing:.01em}
+#setell .by{color:var(--dim);letter-spacing:.1em;font-size:.95rem;margin-bottom:1.1em}
+#setell .credit{font-size:.95rem;color:#ccd6e3}
+#setell .sub{font-family:"Julius Sans One","Noto Sans SE",sans-serif;letter-spacing:.08em;color:var(--mint2);margin-bottom:.25em;font-size:1.15rem;line-height:1.35}
+#setell .sub+.sub{font-family:Poppins,"Noto Sans SE",system-ui,sans-serif;letter-spacing:.01em;color:#fff;font-size:1.1rem;margin-bottom:.7em}
+#setell .note{font-style:italic;color:#c3cdda;font-size:1rem}
+#setell .hint{margin-top:1.2em;font-size:.92rem;letter-spacing:.04em;color:var(--mint2)}
+#setell ul.cv{list-style:none;padding:0;margin:.35em 0 0}#setell ul.cv li{margin:0 0 .4em;font-size:1.05rem;line-height:1.6}
+#setell .pg{margin-top:1.4em;font-size:11px;letter-spacing:.16em;color:var(--dim)}
+@media (max-height:480px) and (orientation:landscape){#setell{padding:56px 22px 62px}#setell h1{font-size:1.35rem}#setell h2{font-size:1.1rem}#setell p,#setell ul.cv li{font-size:1rem;line-height:1.55}}
+@media (min-width:1100px){#setell h1{font-size:2rem}}
+/* GALLERY (end): grid, tap opens large, Back returns to the grid */
+#segal{position:fixed;inset:0;z-index:2;display:flex;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;background:rgba(4,6,12,.9);padding:max(64px,calc(env(safe-area-inset-top) + 56px)) 0 max(70px,calc(env(safe-area-inset-bottom) + 64px));opacity:0;pointer-events:none;transition:opacity .3s var(--ease)}
+#segal.open{opacity:1;pointer-events:auto}
+#segal .chrome{display:flex;align-items:center;justify-content:space-between;padding:4px 16px 8px}
+#segal .chrome .mark{font:300 14px/1 "Julius Sans One",sans-serif;letter-spacing:.2em;color:#fff}
+#segal .chrome .count{font-size:12px;letter-spacing:.1em;color:var(--dim)}
+#segal .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:8px 14px 20px;align-content:start}
+#segal .cell{display:block;width:100%;margin:0;padding:0;border:0;background:#0b1015;border-radius:4px;overflow:hidden;cursor:pointer;box-shadow:0 6px 24px rgba(0,0,0,.4);text-align:left;color:inherit;font:inherit;min-height:0;transition:transform var(--move)}
+#segal .cell img{display:block;width:100%;height:auto;aspect-ratio:792/612;object-fit:contain;background:#f4f4f4;-webkit-user-drag:none}
+#segal .cell .n{display:block;padding:6px 8px 8px;font-size:11px;letter-spacing:.14em;color:var(--dim)}
+#segal .viewer{position:fixed;inset:0;z-index:10;display:flex;flex-direction:column;background:rgba(4,6,12,.96);opacity:0;pointer-events:none;transform:scale(.985);transition:opacity var(--move),transform var(--move)}
+#segal .viewer.on{opacity:1;pointer-events:auto;transform:none}
+#segal .viewer .bar{display:flex;align-items:center;justify-content:space-between;padding:max(10px,env(safe-area-inset-top)) 14px 8px}
+#segal .viewer .lab{font:300 13px/1 "Julius Sans One",sans-serif;letter-spacing:.16em;color:var(--dim)}
+#segal .frame{flex:1 1 auto;min-height:0;display:flex;align-items:center;justify-content:center;padding:4px 16px calc(16px + env(safe-area-inset-bottom))}
+#segal .frame img{max-width:100%;max-height:100%;object-fit:contain;background:#f4f4f4;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+@media (max-height:480px) and (orientation:landscape){#segal .grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}}
+@media (min-width:1100px){#segal .grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;padding:12px 28px 32px;max-width:1440px;width:100%;margin:0 auto}}
+html.galbig #senav,html.galbig #sedial,html.galbig #home{display:none}
+/* no WebGL */
+#fb{display:none}
+.nogl #c,.nogl #sedial,.nogl #senav,.nogl #secall,.nogl #selines{display:none}
+.nogl body{overflow:auto}.nogl #fb{display:block;max-width:640px;margin:0 auto;padding:64px 20px 40px}
+.nogl #fb img{width:100%;height:auto;display:block;margin:0 0 14px}.nogl #fb section{margin:0 0 46px}
+.nogl #fb h1,.nogl #fb h2{font:300 18px/1.3 "Julius Sans One",sans-serif;letter-spacing:.18em;color:var(--ink)}.nogl #fb p,.nogl #fb li{font-size:15px;line-height:1.6}
+
+/* se-a: the reading page is a card pinned in the scene, not a veil over it */
+#setell.pinned{inset:auto;left:0;top:0;width:min(30em,calc(100vw - 28px));max-height:min(62vh,560px);display:block;padding:20px 22px 18px;border:1px solid rgba(255,236,200,.38);border-radius:14px;background:rgba(5,8,15,.9);box-shadow:0 18px 50px rgba(0,0,0,.55);font-size:calc(16.5px * var(--k,1));will-change:transform}
+#setell.pinned .in{margin:0;max-width:none}
+#setell.pinned h1{font-size:1.75em}#setell.pinned h2{font-size:1.2em}
+#setell.pinned p,#setell.pinned ul.cv li{font-size:1em;line-height:1.6}
+#setell.pinned .by{font-size:.95em}
+#setell.pinned .sub{font-size:1.08em}#setell.pinned .sub+.sub{font-size:1.02em}
+#selines .pin{stroke:rgba(255,236,200,.85);stroke-width:1.2;fill:#fff3d6;transition:opacity .3s}
+@media (max-width:639px){#setell.pinned{max-height:54vh}}
+@media (max-height:480px) and (orientation:landscape){#setell.pinned{width:min(26em,56vw);max-height:calc(100vh - 120px);font-size:16px}}

@@ -1,0 +1,191 @@
+[
+ {
+  "site": "lostcoffee",
+  "v": "B",
+  "dev": "desktop",
+  "errors": [],
+  "home": [
+   {
+    "h": "#/",
+    "d": 0
+   },
+   {
+    "h": "#/",
+    "d": 0
+   }
+  ],
+  "wave": [
+   [
+    {
+     "sel": "b-path",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "b-path",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "b-path",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "b-path",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "b-path",
+     "op": 1,
+     "lum": 0.895
+    }
+   ],
+   [
+    {
+     "sel": "b-path",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "b-path",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "b-path",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "b-path",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "b-path",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "b-rail",
+     "op": 1,
+     "lum": 0.895
+    }
+   ]
+  ],
+  "checks": [
+   {
+    "check": "at home, depth 0 (no duplicate entry)",
+    "got": {
+     "h": "#/",
+     "d": 0
+    },
+    "ok": true
+   },
+   {
+    "check": "at home, depth 0 (no duplicate entry)",
+    "got": {
+     "h": "#/",
+     "d": 0
+    },
+    "ok": true
+   }
+  ],
+  "snaps": [
+   "/workspace/share/fresh-sites-1113/build/qa/frames/lostcoffee-B-desktop-home.png",
+   "/workspace/share/fresh-sites-1113/build/qa/frames/lostcoffee-B-desktop-room.png",
+   "/workspace/share/fresh-sites-1113/build/qa/frames/lostcoffee-B-desktop-act.png"
+  ],
+  "dial_shown": true,
+  "clip": "/workspace/share/fresh-sites-1113/build/qa/clips/lostcoffee-B-desktop.mp4",
+  "frames_captured": 1174
+ },
+ {
+  "site": "lostcoffee",
+  "v": "B",
+  "dev": "phone",
+  "errors": [],
+  "home": [
+   {
+    "h": "#/",
+    "d": 0
+   },
+   {
+    "h": "#/",
+    "d": 0
+   }
+  ],
+  "wave": [
+   [
+    {
+     "sel": "b-path",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "b-path",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "b-path",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "b-path",
+     "op": 1,
+     "lum": 0.895
+    },
+    {
+     "sel": "b-path",
+     "op": 1,
+     "lum": 0.895
+    }
+   ],
+   [
+    {
+     "sel": "b-rail",
+     "op": 1,
+     "lum": 0.895
+    }
+   ]
+  ],
+  "checks": [
+   {
+    "check": "at home, depth 0 (no duplicate entry)",
+    "got": {
+     "h": "#/",
+     "d": 0
+    },
+    "ok": true
+   },
+   {
+    "check": "at home, depth 0 (no duplicate entry)",
+    "got": {
+     "h": "#/",
+     "d": 0
+    },
+    "ok": true
+   },
+   {
+    "check": "at home, depth 0 (no duplicate entry)",
+    "got": {
+     "h": "#/",
+     "d": 0
+    },
+    "ok": true
+   }
+  ],
+  "snaps": [
+   "/workspace/share/fresh-sites-1113/build/qa/frames/lostcoffee-B-phone-home.png",
+   "/workspace/share/fresh-sites-1113/build/qa/frames/lostcoffee-B-phone-room.png",
+   "/workspace/share/fresh-sites-1113/build/qa/frames/lostcoffee-B-phone-act.png"
+  ],
+  "dial_shown": true,
+  "clip": "/workspace/share/fresh-sites-1113/build/qa/clips/lostcoffee-B-phone.mp4",
+  "frames_captured": 1468
+ }
+]

@@ -1,0 +1,57 @@
+/* Objects · safelight, ported from the photo lab (gill-sky branch contact-sheet, photo-lab/css lab.css + horizon.css + lamp.css, tip c3c5dbb5 with the lamp from 6224d11b).
+   The photo lab's own files are untouched; this is a copy adapted to this room, and it only ever applies while a gallery take is showing (body.safe is set by js/gallery.js).
+   What it is: a soft red vignette on the stage and the page grounds, a small lamp in the bottom-right corner that the red seems to come from (core ignites, bloom spreads,
+   a slow breath), and the chrome's hairlines going darkroom red. What it is not: Red mode, a tint or a grade. It sits behind every photograph and cutout (the stage wall, the page ground,
+   behind the 3D canvas) and puts no filter, blend mode or opacity on any media. The lamp's own glow stays inside the page margin. */
+/* the lamp sits on the bottom-right of the page, above the To Go bar (z 100) so it is never covered */
+:root{--lamp-r:calc(15px + env(safe-area-inset-right,0px));--lamp-b:calc(15px + env(safe-area-inset-bottom,0px))}
+.g-lamp{position:fixed;z-index:101;right:var(--lamp-r);bottom:var(--lamp-b);width:7px;height:7px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle at 50% 42%,#fff2eb 0 14%,#ffb8a8 32%,#ff6d58 60%,#c82a1c 100%);
+  box-shadow:0 0 4px 1px rgba(255,125,105,.65),0 0 11px 2px rgba(227,139,124,.34),0 0 19px 4px rgba(160,24,16,.20);
+  opacity:0;scale:.6;transition:opacity .7s ease-in,scale .7s ease-in}
+.g-lamp-bloom{position:absolute;z-index:0;pointer-events:none;width:600px;height:600px;right:calc(var(--lamp-r) + 3.5px - 300px);bottom:calc(var(--lamp-b) + 3.5px - 34px - 300px);
+  border-radius:50%;background:radial-gradient(circle closest-side,rgba(170,28,18,.22),rgba(150,22,14,.12) 22%,rgba(110,16,10,.06) 48%,rgba(100,12,8,.02) 74%,rgba(100,12,8,0));
+  opacity:0;scale:.55;transition:opacity 1s ease-in,scale 1s ease-in}
+.g-lamp-bloom.g-fixed{position:fixed;z-index:-1;bottom:calc(var(--lamp-b) + 3.5px - 300px)}
+body.safe .g-lamp{opacity:1;scale:1;transition:opacity .45s ease-out,scale .45s ease-out;animation:gLampBreath 9s ease-in-out .6s infinite}
+body.safe .g-lamp-bloom{opacity:1;scale:1;transition:opacity 1.9s ease-out .4s,scale 2.3s cubic-bezier(.22,.7,.2,1) .4s;animation:gLampSwell 11s ease-in-out 2.4s infinite}
+body.g-held .g-lamp,body.g-held .g-lamp-bloom{animation-play-state:paused!important}
+@keyframes gLampBreath{0%,100%{filter:brightness(.92)}50%{filter:brightness(1.1)}}
+@keyframes gLampSwell{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
+
+/* the vignette: the same four soft washes as the photo lab's sky, on the stage wall (under every photograph), on the page ground behind the 3D canvas, and the board / detail grounds */
+body.safe .gal .g-wall{background:#0a0506}
+body.safe .gal::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 90% 70% at 50% -10%,rgba(150,22,14,.22),transparent 58%),radial-gradient(ellipse 80% 60% at 50% 110%,rgba(100,12,8,.30),transparent 62%),
+    radial-gradient(ellipse 50% 50% at 0% 45%,rgba(110,16,10,.10),transparent 50%),radial-gradient(ellipse 50% 50% at 100% 55%,rgba(110,16,10,.10),transparent 50%)}
+body.safe{background:radial-gradient(ellipse 90% 70% at 50% -10%,rgba(150,22,14,.22),transparent 58%),radial-gradient(ellipse 80% 60% at 50% 110%,rgba(100,12,8,.30),transparent 62%),
+  radial-gradient(ellipse 50% 50% at 0% 45%,rgba(110,16,10,.10),transparent 50%),radial-gradient(ellipse 50% 50% at 100% 55%,rgba(110,16,10,.10),transparent 50%),#0a0506}
+body.safe #board{background:rgba(10,5,6,.94)}
+body.safe #detail{background:rgba(10,5,6,.96)}
+body.safe #veil{background:#0a0506}
+body.safe #ohd{background:linear-gradient(180deg,rgba(10,5,6,.78),rgba(10,5,6,0))}
+/* the stage's own ground and the lightbox: room surfaces, lit red; the prints on them are untouched */
+body.safe #board #front{background:#0a0506}
+body.safe .g-surf::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:rgba(96,12,8,.7)}
+body.safe .g-case,body.safe .g-shelf,body.safe .g-fr,body.safe .g-skirt{border-color:rgba(255,92,78,.2)}
+
+/* the chrome: hairlines and glass grounds go darkroom red (the photo lab's --line / pill ground), type stays warm white */
+body.safe #hud>*,body.safe .side,body.safe #hint,body.safe .g-stop{background:rgba(18,6,6,.52);border-color:rgba(255,92,78,.20)}
+body.safe .ambx .ambx-tg,body.safe .g-lampbtn{background:rgba(18,6,6,.5);border-color:rgba(255,92,78,.22)}
+body.safe .ambx-p{background:rgba(14,5,6,.78);border-color:rgba(255,92,78,.2)}
+body.safe .ambx-sw{border-color:rgba(255,92,78,.2)}
+body.safe .ambx-sw.on{border-color:rgba(227,139,124,.7)}
+body.safe .g-rail .g-src{box-shadow:0 0 0 1px rgba(255,92,78,.2),0 8px 16px rgba(40,0,0,.45)}
+body.safe #ohd .ofollow{border-bottom-color:rgba(227,139,124,.4)}
+
+/* one-tap lamp button beside the light pill (also a switch in the plate) */
+.ambx.obj-light{white-space:nowrap}
+.ambx.obj-light .g-lampbtn{display:inline-flex;align-items:center;justify-content:center;vertical-align:top;width:32px;height:32px;margin:6px 0 6px 6px;padding:0;border:1px solid rgba(255,236,210,.14);border-radius:50%;
+  background:rgba(10,10,14,.42);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);cursor:pointer;-webkit-tap-highlight-color:transparent;pointer-events:auto;position:relative}
+.ambx.obj-light .g-lampbtn::before{content:"";position:absolute;inset:-7px -3px}
+.ambx.obj-light .g-lampbtn i{display:block;width:7px;height:7px;border-radius:50%;background:#6f6a62;transition:background .4s,box-shadow .4s}
+.ambx.obj-light .g-lampbtn.on{border-color:rgba(227,139,124,.55)}
+.ambx.obj-light .g-lampbtn.on i{background:radial-gradient(circle at 50% 42%,#fff2eb 0 14%,#ffb8a8 32%,#ff6d58 60%,#c82a1c 100%);box-shadow:0 0 4px 1px rgba(255,125,105,.65),0 0 11px 2px rgba(227,139,124,.34)}
+.ambx.obj-light .g-lampbtn:focus-visible{outline:1px solid rgba(232,228,220,.8);outline-offset:2px}
+/* in the gallery takes the "rings and board" pill sits to the right so the bottom-left pair (light, lamp) has room on a phone */
+#front[data-g] #fdown{left:auto;right:calc(12px + var(--g-sr,0px));transform:none;font-size:10px;padding:7px 11px}

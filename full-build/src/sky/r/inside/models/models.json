@@ -1,0 +1,4 @@
+{
+  "note": "GLB swap point for Inside rooms. Map a piece id from m4 data.json to a file in this folder, e.g. \"objects/joio-co-cup\": \"joio-co-cup.glb\". The room loads it with GLTFLoader, scales it to the stand-in size and replaces the stand-in. Leave empty until a mesh is approved.",
+  "models": {}
+}

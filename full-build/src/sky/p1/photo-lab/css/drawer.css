@@ -1,0 +1,15 @@
+/* Photo lab · the day's bottom drawer.
+   It is the last thing in the day's own scroll range: no gesture layer, no handlers on touch or wheel.
+   Native scroll drives it; --dp (0..1) is only the scroll position mapped onto the drawer, so it rises as the content ends.
+   The contact sheet, horizon and camera back do not have it. */
+.day .dsc{padding-bottom:0}
+.dtrack{--dh:clamp(210px,36svh,280px);--dp:0;position:relative;height:var(--dh);margin-top:6px}
+.drawer{position:sticky;bottom:0;height:var(--dh);box-sizing:border-box;display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:min-content;align-content:start;gap:2px 18px;
+  padding:26px calc(22px + var(--sr)) calc(16px + var(--sb)) calc(22px + var(--sl));
+  background:linear-gradient(180deg,rgba(4,7,11,0),var(--bg) 30%);
+  transform:translateY(calc((1 - var(--dp)) * 100%));opacity:calc(.25 + var(--dp) * .75);will-change:transform}
+.drawer .grab{grid-column:1/-1;justify-self:center;width:34px;height:2px;border-radius:1px;background:var(--dim);opacity:calc(.25 + var(--dp) * .4);margin-bottom:8px}
+.drawer button{min-height:46px;text-align:left;font:400 11px "Julius Sans One",Poppins,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);border-bottom:1px solid var(--line);padding:0 2px;-webkit-tap-highlight-color:transparent}
+.drawer button:hover,.drawer button[aria-pressed=true]{color:var(--mint)}
+.drawer[aria-hidden=true] button{pointer-events:none}
+@media (min-width:900px){.dtrack{max-width:1200px;margin:6px auto 0}.drawer{grid-template-columns:repeat(3,1fr)}}

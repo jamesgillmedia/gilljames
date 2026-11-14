@@ -1,0 +1,16 @@
+/* Photo lab · the safelight lamp: a small emissive lamp in the bottom-right corner that the red room light appears to come from.
+   Safelight only. Off: dark and absent. Turning safelight on: the core ignites first, then the bloom and wash spread; off: it dims out.
+   The bloom lives under the photographs (inside the sky, the sheet and the constellation, like the vignette), and the core's glow stays
+   inside the page margin, so no photograph is lit or graded by it. */
+:root{--lamp-r:calc(15px + var(--sr));--lamp-b:calc(15px + var(--sb))}
+.lamp{position:fixed;z-index:29;right:var(--lamp-r);bottom:var(--lamp-b);width:7px;height:7px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle at 50% 42%,#fff2eb 0 14%,#ffb8a8 32%,#ff6d58 60%,#c82a1c 100%);
+  box-shadow:0 0 4px 1px rgba(255,125,105,.65),0 0 11px 2px rgba(227,139,124,.34),0 0 19px 4px rgba(160,24,16,.20);
+  opacity:0;scale:.6;transition:opacity .7s ease-in,scale .7s ease-in}
+.lamp-bloom{position:absolute;z-index:0;pointer-events:none;width:600px;height:600px;right:calc(var(--lamp-r) + 3.5px - 300px);bottom:calc(var(--lamp-b) + 3.5px - 300px);
+  border-radius:50%;background:radial-gradient(circle closest-side,rgba(170,28,18,.22),rgba(150,22,14,.12) 22%,rgba(110,16,10,.06) 48%,rgba(100,12,8,.02) 74%,rgba(100,12,8,0));
+  opacity:0;scale:.55;transition:opacity 1s ease-in,scale 1s ease-in}
+body.safe .lamp{opacity:1;scale:1;transition:opacity .45s ease-out,scale .45s ease-out;animation:lampBreath 9s ease-in-out .6s infinite}
+body.safe .lamp-bloom{opacity:1;scale:1;transition:opacity 1.9s ease-out .4s,scale 2.3s cubic-bezier(.22,.7,.2,1) .4s;animation:lampSwell 11s ease-in-out 2.4s infinite}
+@keyframes lampBreath{0%,100%{filter:brightness(.92)}50%{filter:brightness(1.1)}}
+@keyframes lampSwell{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}

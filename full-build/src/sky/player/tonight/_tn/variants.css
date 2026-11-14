@@ -1,0 +1,7 @@
+/* tonight · dev-only A/B/C switch: warm-white active (#e8e4dc), tiny label */
+.tnv{display:inline-flex;align-items:center;gap:6px;pointer-events:auto;font:300 10px/1 Poppins,system-ui,sans-serif;letter-spacing:.08em;color:#8f887e}
+.tnv-seg{display:inline-flex;border:1px solid rgba(232,228,220,.22);border-radius:999px;overflow:hidden;background:rgba(8,9,12,.55)}
+.tnv-seg button{font:inherit;color:#a49d92;background:none;border:0;padding:5px 8px;min-width:24px;cursor:pointer;letter-spacing:.06em}
+.tnv-seg button+button{border-left:1px solid rgba(232,228,220,.14)}
+.tnv-seg button.on{color:#0a0b0d;background:#e8e4dc}
+.tnv-l{text-transform:lowercase;white-space:nowrap;color:#8f887e;font-size:10px}

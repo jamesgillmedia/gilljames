@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>objects · the shelf</title>
+<link rel="stylesheet" href="../chrome.css">
+<style>
+  html,body{margin:0;height:100%;background:#07080c;color:#d5ddd8;font:300 14px/1.4 Poppins,system-ui,sans-serif}
+  .room{min-height:100%;display:flex;flex-direction:column;justify-content:flex-end;
+    background:linear-gradient(#05060a, hsl(220, 8%, calc(6% + var(--roomlight, 40) * 0.16%)) 70%);}
+  .ends{display:flex;justify-content:space-between;padding:0 6vw 8px;font:400 11px "Julius Sans One",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8d9a96}
+  .stage{position:relative;margin:0 4vw 8vh;min-height:42vh}
+  .shelf{position:absolute;left:0;right:0;bottom:18%;height:1px;background:rgba(220,230,224,.35)}
+  .rail{position:relative;z-index:1;display:flex;justify-content:space-evenly;align-items:flex-end;gap:12px;padding:0 2vw 0;min-height:34vh}
+  .piece{background:none;border:0;padding:0;cursor:pointer;color:inherit;text-align:center;flex:0 1 120px}
+  .piece img{display:block;height:min(34vh,280px);width:auto;max-width:100%;margin:0 auto;background:transparent}
+  .piece .refl{display:block;height:48px;margin-top:2px;overflow:hidden;pointer-events:none}
+  .piece .refl img{height:48px;transform:scaleY(-1);opacity:.38}
+  .cap{display:block;margin-top:6px;font-size:11px;letter-spacing:.04em;color:#b7c2bc}
+  .light{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 14px);transform:translateX(-50%);display:flex;align-items:center;gap:8px;z-index:3}
+  .light input{width:min(46vw,220px)}
+  .go{position:fixed;right:12px;bottom:calc(env(safe-area-inset-bottom) + 14px);z-index:3;color:#d5ddd8;font:300 13px Poppins,sans-serif}
+  @media (prefers-reduced-motion: reduce) { .piece img { transition: none; } }
+</style>
+</head>
+<body>
+<div class="room" id="room">
+  <p class="ends"><span>darker</span><span id="now">light</span><span>lighter</span></p>
+  <div class="stage">
+    <div class="shelf" aria-hidden="true"></div>
+    <div class="rail" id="rail" role="list"></div>
+  </div>
+</div>
+<label class="light">light <input id="light" type="range" min="0" max="100" value="42" aria-label="room light, darker to lighter"></label>
+<a class="go" id="go" href="../src/sky/objects-3d/index.html">orbit ›</a>
+<script src="../src/sky/g1/tonight/objects/media/cut/cuts.js"></script>
+<script src="../chrome.js" data-hub="../index.html" data-rooms="../rooms.json"></script>
+<script>
+(function(){
+  var rail = document.getElementById("rail");
+  var cuts = window.OBJ_CUTS || [];
+  if(!cuts.length){
+    rail.innerHTML = "<p>Cut-out cups and paddles are not in this copy. The shelf is waiting for them.</p>";
+    return;
+  }
+  cuts.forEach(function(o){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "piece"; b.setAttribute("role","listitem");
+    b.setAttribute("aria-label", o.label);
+    var src = "../src/sky/g1/tonight/objects/media/cut/" + o.k + ".webp";
+    b.innerHTML = '<img alt="" src="'+src+'"><span class="refl" aria-hidden="true"><img alt="" src="'+src+'"></span><span class="cap"></span>';
+    b.querySelector(".cap").textContent = o.label;
+    rail.appendChild(b);
+  });
+  var light = document.getElementById("light"), now = document.getElementById("now"), room = document.getElementById("room");
+  function paint(){
+    var v = +light.value;
+    room.style.setProperty("--roomlight", String(v));
+    now.textContent = v < 34 ? "darker" : v > 66 ? "lighter" : "light";
+  }
+  light.addEventListener("input", paint); paint();
+})();
+</script>
+</body>
+</html>

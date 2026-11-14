@@ -1,0 +1,191 @@
+/* Horizon film room · reel v2: full-screen picture, an analog "touch bar" rail along the bottom
+   (a strip of tiny frames on a rail under a piece of glass, centre line), a camera transport dial and a
+   viewing-mode key bank. Hardware language matches lens room v4.1 (key light upper left, engraved labels,
+   recessed wells, amber tally). Everything except the rail fades when idle. */
+.hr{position:fixed;inset:0;z-index:40;background:#000;color:#eef3f5;opacity:0;visibility:hidden;pointer-events:none;
+  --tw:30px;--th:20px;--rail:calc(70px + var(--sb));--ink:#e6e1d6;--ink-dim:#a9a499;--engr:#8a857c;--tally-a:#ffb44a;--tally-r:#ff3324;--dial:108px;
+  transition:opacity .35s cubic-bezier(.22,.61,.36,1),visibility 0s linear .35s;
+  touch-action:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;overscroll-behavior:contain;font-family:Poppins,system-ui,sans-serif}
+.hr.on{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .35s cubic-bezier(.22,.61,.36,1)}
+.hr[hidden]{display:none}
+@media (min-width:900px){.hr{--tw:36px;--th:24px;--rail:calc(80px + var(--sb));--dial:128px}}
+@media (orientation:landscape) and (max-height:500px){.hr{--tw:28px;--th:18px;--rail:calc(62px + var(--sb));--dial:96px}}
+
+/* ---------- the picture ---------- */
+.hr-st{position:absolute;inset:0;overflow:hidden;outline:0;cursor:pointer;contain:strict;background:#000}
+.hr.scrub .hr-st{cursor:grabbing}
+.hr-frame{position:absolute;inset:0;overflow:hidden}
+.hr-frame img,.hr-frame video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;background:transparent}
+.hr-frame video{opacity:0}
+.hr-frame video.on{opacity:1}
+/* 1 full screen: edge to edge. Portrait clips on a wide screen stand at full height (Amy's rule). */
+@media (min-aspect-ratio:1/1){.hr[data-mode=full].tall .hr-frame img,.hr[data-mode=full].tall .hr-frame video{object-fit:contain}}
+/* 2 true format: the clip's own aspect, letterboxed / pillarboxed above the rail, no crop */
+.hr[data-mode=true] .hr-frame{bottom:var(--rail)}
+.hr[data-mode=true] .hr-frame img,.hr[data-mode=true] .hr-frame video{object-fit:contain}
+/* 3 cropped: one consistent 2.39:1 frame, centred above the rail */
+.hr[data-mode=crop] .hr-frame{inset:auto;left:50%;top:calc((100% - var(--rail)) / 2);
+  width:min(100%, calc((100% - var(--rail)) * 2.39));aspect-ratio:2.39/1;transform:translate(-50%,-50%)}
+.hr[data-mode=crop] .hr-frame img,.hr[data-mode=crop] .hr-frame video{object-fit:cover}
+
+/* ---------- fading layer ---------- */
+.hr-fade{transition:opacity .6s cubic-bezier(.22,.61,.36,1)}
+.hr.idle .hr-fade{opacity:0}
+.hr.idle .hr-fade:focus-within{opacity:1}
+.hr-top{position:absolute;left:0;right:0;top:0;height:calc(60px + var(--st));padding:var(--st) var(--sr) 0 var(--sl);display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(0,0,0,.42),rgba(0,0,0,0))}
+.hr-x{pointer-events:auto;width:48px;height:48px;border:0;background:transparent;color:#eef3f5;font:300 28px/1 Poppins,sans-serif;cursor:pointer;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.hr-q{pointer-events:auto;height:48px;padding:0 16px;border:0;background:transparent;font:400 10px/1 "Julius Sans One",Poppins,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--dim,#c9d3d6);cursor:pointer;text-shadow:0 1px 6px rgba(0,0,0,.7)}
+.hr-x:focus-visible,.hr-q:focus-visible{outline:2px solid var(--tally-a);outline-offset:-6px;border-radius:6px}
+.hr-hint{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(var(--rail) + var(--dial) + 26px);margin:0;max-width:86%;text-align:center;
+  font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(238,243,245,.72);text-shadow:0 1px 6px rgba(0,0,0,.8);pointer-events:none}
+.hr-hint .t-desk{display:none}
+@media (hover:hover) and (pointer:fine){.hr-hint .t-desk{display:inline}.hr-hint .t-touch{display:none}}
+.hr.seen .hr-hint{display:none}
+
+/* ---------- the rail: always visible ---------- */
+.hr-rail{position:absolute;left:0;right:0;bottom:0;height:var(--rail);padding:0 var(--sr) var(--sb) var(--sl);z-index:6;
+  background:
+    repeating-linear-gradient(90deg,rgba(255,255,255,.014) 0 1px,transparent 1px 3px),
+    linear-gradient(180deg,#26272b 0%,#18191c 22%,#111214 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.10),0 -1px 0 #050506,0 -10px 30px rgba(0,0,0,.45)}
+.hr-lip{display:flex;align-items:center;gap:10px;height:20px;padding:0 14px;font:400 8.5px/1 Poppins,system-ui,sans-serif;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--engr);text-shadow:0 1px 0 rgba(255,255,255,.06),0 -1px 0 rgba(0,0,0,.8)}
+.hr-lip .t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#bdb7ab;letter-spacing:.16em}
+.hr-lip .s{color:var(--tally-a);opacity:.85}
+.hr[data-tx=pause] .hr-lip .s,.hr[data-tx=stop] .hr-lip .s{color:var(--ink-dim)}
+.hr-lip .n{font-variant-numeric:tabular-nums}
+@media (min-width:900px){.hr-lip{height:24px;font-size:9px;padding:0 22px}}
+/* the slot: milled into the rail; frames sit in it, glass on top */
+.hr-slot{position:relative;margin:0 10px;height:calc(var(--th) + 16px);border-radius:7px;overflow:hidden;cursor:grab;touch-action:none;
+  background:#060607;box-shadow:inset 0 2px 4px rgba(0,0,0,.95),inset 0 0 0 1px #000,0 1px 0 rgba(255,255,255,.07)}
+.hr.scrub .hr-slot{cursor:grabbing}
+.hr-tr{position:absolute;left:0;top:8px;height:var(--th);display:flex;will-change:transform}
+.hr-tr b{flex:0 0 var(--tw);height:var(--th);margin-right:0;box-shadow:inset -1px 0 0 rgba(0,0,0,.85);
+  background-image:url(../reel/strip.webp);background-size:calc(var(--tw) * 16) auto;
+  background-position:calc(var(--ax) * var(--tw) * -1) calc(var(--ay) * var(--th) * -1);
+  filter:saturate(.8) brightness(.78)}
+.hr-tr b.f0{box-shadow:inset -1px 0 0 rgba(0,0,0,.85),inset 2px 0 0 rgba(0,0,0,.95)}
+.hr-tr b.on{filter:none}
+/* sprocket edges of the strip */
+.hr-slot::before,.hr-slot::after{content:'';position:absolute;left:0;right:0;height:5px;z-index:1;pointer-events:none;
+  background:repeating-linear-gradient(90deg,transparent 0 5px,rgba(255,255,255,.07) 5px 8px)}
+.hr-slot::before{top:1px}.hr-slot::after{bottom:1px}
+/* the glass: a sheet above the strip — edge highlight, a soft angled reflection, no fingerprints */
+.hr-glass{position:absolute;inset:0;z-index:2;pointer-events:none;border-radius:7px;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.16) 0,rgba(255,255,255,.05) 1.5px,rgba(255,255,255,0) 40%),
+    linear-gradient(104deg,rgba(255,255,255,0) 18%,rgba(255,255,255,.07) 26%,rgba(255,255,255,0) 34%,rgba(255,255,255,0) 64%,rgba(255,255,255,.04) 70%,rgba(255,255,255,0) 76%),
+    linear-gradient(0deg,rgba(0,0,0,.35),rgba(0,0,0,0) 30%);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.07),inset 0 1px 0 rgba(255,255,255,.18),inset 0 -1px 0 rgba(0,0,0,.6)}
+.hr-line{position:absolute;left:50%;top:2px;bottom:2px;width:2px;margin-left:-1px;z-index:3;pointer-events:none;border-radius:1px;
+  background:var(--tally-a);box-shadow:0 0 6px rgba(255,170,60,.55)}
+.hr[data-tx=pause] .hr-line,.hr[data-tx=stop] .hr-line{background:#d9d3c6;box-shadow:none}
+
+/* ---------- hardware: deck (mode bank left, transport dial right), above the rail ---------- */
+.hr-deck{position:absolute;left:calc(10px + var(--sl));right:calc(19px + var(--sr));bottom:calc(var(--rail) + 18px);z-index:5;
+  display:flex;align-items:flex-end;justify-content:space-between;gap:12px;pointer-events:none}
+.hr-deck>*{pointer-events:auto}
+.hr .hw{all:unset;box-sizing:border-box;position:relative;display:inline-flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;cursor:pointer;
+  min-width:44px;min-height:44px;color:var(--ink);font:400 8px/1 Poppins,system-ui,sans-serif;letter-spacing:.2em;text-transform:uppercase;
+  -webkit-tap-highlight-color:transparent;transition:transform .06s linear,box-shadow .06s linear,background .12s linear}
+.hr .hw:focus-visible{outline:2px solid var(--tally-a);outline-offset:3px;border-radius:7px}
+.hr .hw .tally{display:block;width:12px;height:3px;border-radius:1px;background:#0d0d0e;box-shadow:inset 0 1px 1px rgba(0,0,0,.9),0 1px 0 rgba(255,255,255,.06)}
+.hr .hw[aria-pressed=true] .tally{background:var(--tally-a);box-shadow:0 0 6px 1px rgba(255,170,60,.55),inset 0 0 1px rgba(255,240,210,.9)}
+.engr{font:400 7.5px/1 Poppins,system-ui,sans-serif;letter-spacing:.26em;text-transform:uppercase;color:var(--engr);text-shadow:0 1px 0 rgba(255,255,255,.07),0 -1px 0 rgba(0,0,0,.7)}
+/* mode bank: a small plate with five engraved rubber keys */
+.hr-bank{display:flex;flex-direction:column;gap:6px;padding:9px 10px 10px;border-radius:9px;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.012) 0 1px,transparent 1px 3px),linear-gradient(180deg,#2a2b2f,#1d1e21 40%,#161719);
+  box-shadow:inset 1px 1px 0 rgba(255,255,255,.10),inset -1px -1px 0 rgba(0,0,0,.6),0 0 0 1px #070708,6px 12px 26px rgba(0,0,0,.6)}
+.hr-bank .engr{display:flex;align-items:center;gap:6px}
+.hr-bank .engr::after{content:'';flex:1;height:1px;background:rgba(0,0,0,.6);box-shadow:0 1px 0 rgba(255,255,255,.05)}
+.hr-bank .keys{display:grid;grid-template-columns:repeat(5,40px);gap:8px}
+.hr .hw-mode{width:40px;height:46px;border-radius:6px;padding-top:2px;
+  background:linear-gradient(180deg,#232326 0%,#1a1a1c 55%,#141415 100%);
+  box-shadow:inset 1px 1px 0 rgba(255,255,255,.09),inset -1px -1px 0 rgba(0,0,0,.55),0 0 0 1px #050506,0 0 0 3px #101012,0 0 0 4px rgba(255,255,255,.035),3px 4px 6px rgba(0,0,0,.6)}
+.hr .hw-mode .num{font-size:11px;letter-spacing:0;color:var(--ink);text-shadow:0 -1px 0 rgba(0,0,0,.6)}
+.hr .hw-mode .lbl{font-size:6.5px;letter-spacing:.16em;color:var(--ink-dim)}
+.hr .hw-mode[aria-pressed=true] .lbl{color:var(--ink)}
+.hr .hw-mode:active,.hr .hw-mode.pressed{transform:translate(.5px,1.5px);background:linear-gradient(180deg,#19191b,#141415);
+  box-shadow:inset 1px 2px 3px rgba(0,0,0,.7),0 0 0 1px #050506,0 0 0 3px #101012,0 0 0 4px rgba(255,255,255,.03),1px 1px 2px rgba(0,0,0,.6)}
+/* transport: knurled jog ring with detents, engraved stop / prev / next / ff on the face, play-pause centre key */
+.hr .transport{position:relative;width:var(--dial);height:var(--dial);flex:0 0 auto;touch-action:none;border-radius:50%}
+.hr .transport::before{content:'';position:absolute;inset:-9px;border-radius:50%;background:linear-gradient(180deg,#26272a,#151618);
+  box-shadow:inset 1px 1px 0 rgba(255,255,255,.08),0 0 0 1px #070708,6px 12px 26px rgba(0,0,0,.6)}
+.hr .jog{position:absolute;inset:0;border-radius:50%;--jog:0deg;cursor:grab}
+.hr .jog-knurl{position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle at 32% 24%,rgba(255,240,220,.16),transparent 55%),repeating-conic-gradient(from var(--jog),#3a3b3f 0 3deg,#151517 3deg 6deg);
+  box-shadow:0 0 0 1px #050506,4px 7px 14px rgba(0,0,0,.65),inset 0 0 0 1px rgba(255,255,255,.05)}
+.hr .jog-knurl::after{content:'';position:absolute;inset:9px;border-radius:50%;background:radial-gradient(circle at 34% 26%,#2b2c30,#1a1b1e 60%,#111214);
+  box-shadow:inset 1px 1px 0 rgba(255,255,255,.08),inset -2px -3px 6px rgba(0,0,0,.55),0 0 0 1px #070708}
+.hr .jog-notch{position:absolute;left:50%;top:1px;width:2px;height:7px;margin-left:-1px;border-radius:1px;background:#d9d3c6;
+  transform-origin:1px calc(var(--dial) / 2 - 1px);transform:rotate(var(--jog));transition:transform .1s linear}
+.hr .hw.tx{position:absolute;width:var(--txs,40px);height:var(--txs,40px);min-width:var(--txs,40px);min-height:var(--txs,40px);border-radius:50%;padding:0}
+.hr .hw.tx:active,.hr .hw.tx.pressed{background:radial-gradient(circle,rgba(0,0,0,.4),transparent 70%)}
+.hr .tx-stop{left:50%;top:var(--txi,9px);margin-left:calc(var(--txs,40px) / -2)}
+.hr .tx-ff{left:50%;bottom:var(--txi,9px);margin-left:calc(var(--txs,40px) / -2)}
+.hr .tx-prev{left:var(--txi,9px);top:50%;margin-top:calc(var(--txs,40px) / -2)}
+.hr .tx-next{right:var(--txi,9px);top:50%;margin-top:calc(var(--txs,40px) / -2)}
+.hr .tx .sym,.hr .hw-play .sym{position:relative;display:block;width:12px;height:10px;color:#cfc9bc;filter:drop-shadow(0 1px 0 rgba(255,255,255,.06)) drop-shadow(0 -1px 0 rgba(0,0,0,.7))}
+.hr .tx .sym::before,.hr .tx .sym::after,.hr .hw-play .sym::before,.hr .hw-play .sym::after{content:'';position:absolute;background:currentColor}
+.hr .tx-stop .sym::before{left:2px;top:1px;width:8px;height:8px;border-radius:1px}
+.hr .tx-ff .sym::before{left:0;top:0;width:6px;height:10px;clip-path:polygon(0 0,100% 50%,0 100%)}
+.hr .tx-ff .sym::after{left:6px;top:0;width:6px;height:10px;clip-path:polygon(0 0,100% 50%,0 100%)}
+.hr .tx-next .sym::before{left:1px;top:0;width:8px;height:10px;clip-path:polygon(0 0,100% 50%,0 100%)}
+.hr .tx-next .sym::after{left:9px;top:0;width:2px;height:10px}
+.hr .tx-prev .sym::before{left:3px;top:0;width:8px;height:10px;clip-path:polygon(100% 0,0 50%,100% 100%)}
+.hr .tx-prev .sym::after{left:1px;top:0;width:2px;height:10px}
+.hr .tx.on .sym,.hr .tx[aria-pressed=true] .sym{color:var(--tally-a);filter:drop-shadow(0 0 4px rgba(255,170,60,.6))}
+.hr .hw.hw-play{position:absolute;left:50%;top:50%;width:var(--pk,48px);height:var(--pk,48px);min-width:0;min-height:0;margin:calc(var(--pk,48px) / -2) 0 0 calc(var(--pk,48px) / -2);border-radius:50%;padding:0;
+  background:radial-gradient(circle at 36% 28%,#2e2e31,#1b1b1d 60%,#121213);
+  box-shadow:inset 1px 1px 0 rgba(255,255,255,.09),inset -1px -1px 0 rgba(0,0,0,.55),0 0 0 1px #050506,0 0 0 3px #101012,3px 4px 6px rgba(0,0,0,.6)}
+.hr .hw-play:active,.hr .hw-play.pressed{transform:translate(.5px,1.5px);box-shadow:inset 1px 2px 3px rgba(0,0,0,.7),0 0 0 1px #050506,0 0 0 3px #101012}
+.hr .hw-play .tally{position:absolute;inset:-6px;width:auto;height:auto;border-radius:50%;background:transparent!important;box-shadow:inset 0 0 0 1.5px rgba(0,0,0,.65)!important}
+.hr .hw-play[aria-pressed=true] .tally{box-shadow:inset 0 0 0 1.5px var(--tally-r),0 0 8px 1px rgba(255,50,36,.45)!important}
+/* centre key shows what it will do: ▶ when paused, ❚❚ while playing */
+.hr .hw-play .sym{width:12px;height:14px;margin-left:3px}
+.hr .hw-play .sym::before{left:0;top:0;width:12px;height:14px;clip-path:polygon(0 0,100% 50%,0 100%)}
+.hr .hw-play[aria-pressed=true] .sym{margin-left:0}
+.hr .hw-play[aria-pressed=true] .sym::before{left:1px;width:4px;clip-path:none;border-radius:.5px}
+.hr .hw-play[aria-pressed=true] .sym::after{left:7px;top:0;width:4px;height:14px;border-radius:.5px}
+@media (max-width:600px){.hr{--dial:104px;--txs:32px;--txi:6px;--pk:40px}.hr-bank .keys{grid-template-columns:repeat(5,36px);gap:7px}.hr .hw-mode{width:36px;min-width:36px}.hr-bank{padding:8px 9px 9px}}
+@media (max-width:370px){.hr{--dial:96px}.hr-bank .keys{grid-template-columns:repeat(5,34px);gap:6px}.hr .hw-mode{width:34px;min-width:34px}}
+@media (orientation:landscape) and (max-height:500px){.hr{--txs:30px;--txi:5px;--pk:38px}}
+@media (min-width:900px){.hr-bank .keys{grid-template-columns:repeat(5,44px);gap:9px}.hr .hw-mode{width:44px;height:50px}.hr .hw-mode .num{font-size:12px}.hr .hw-mode .lbl{font-size:7px}}
+@media (orientation:landscape) and (max-height:500px){.hr .hw-mode{height:40px}.hr-bank{padding:7px 9px 8px}.hr-deck{bottom:calc(var(--rail) + 10px)}}
+
+body.reel-open .lab-top,body.reel-open .lab-hint.gone{visibility:hidden;pointer-events:none}
+body.reel-open.fsheet-open .lab-top{visibility:hidden}
+body.reel-open .lab-hint{bottom:calc(var(--rail,70px) + 140px);z-index:60}
+.hr-sheet .hr-sx{position:absolute;z-index:3;left:max(4px,var(--sl));top:max(4px,var(--st));width:48px;height:48px;border:0;background:transparent;color:#eef3f5;font:300 28px/1 Poppins,sans-serif;cursor:pointer}
+.hr-sheet .sc{padding-top:calc(56px + var(--st))}
+
+/* that film's contact sheet — same proof language as the horizon sheet, one film only */
+.fsheet{position:fixed;inset:0;z-index:42;background:var(--bg);opacity:0;transition:opacity 1s var(--ease);pointer-events:none}
+.fsheet.open{opacity:1;pointer-events:auto}
+.fsheet[hidden]{display:none}
+.fsheet .sc{position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;padding:calc(var(--bar-h,62px) + 8px) calc(12px + var(--sr)) calc(28px + var(--sb)) calc(12px + var(--sl));scroll-padding-top:calc(66px + var(--st))}
+.fsheet .proof{max-width:1040px;margin:0 auto;background:linear-gradient(180deg,#101214,#0a0c0e);border:1px solid var(--line);box-shadow:0 24px 60px rgba(0,0,0,.55);padding:14px 12px 18px;border-radius:4px}
+.fsheet .phd{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:0 4px 12px;border-bottom:1px solid var(--line);margin-bottom:14px;font-size:10.5px;letter-spacing:.16em;color:var(--mute);text-transform:uppercase}
+.fsheet .phd .ju{color:var(--dim);letter-spacing:.2em;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fsheet .grid{display:grid;grid-template-columns:repeat(var(--cols,6),1fr);gap:10px 8px}
+.fsheet .cell{-webkit-appearance:none;appearance:none;display:flex;flex-direction:column;align-items:stretch;margin:0;padding:0;border:0;background:none;color:inherit;cursor:pointer;text-align:left;min-width:0}
+.fsheet .cell .win{position:relative;aspect-ratio:16/9;overflow:hidden;background:#050607;box-shadow:0 0 0 1px rgba(255,255,255,.06)}
+.fsheet .cell img{display:block;width:100%;height:100%;object-fit:cover}
+.fsheet .cell .no{margin:5px 0 0;font-size:9.5px;letter-spacing:.16em;color:var(--mute);text-transform:uppercase}
+.fsheet .cell.cur .win{box-shadow:0 0 0 2px var(--mint),0 0 16px rgba(85,218,161,.25)}
+.fsheet .cell.cur .no{color:var(--ink)}
+@media (min-width:900px){.fsheet .proof{padding:20px 22px 26px}.fsheet .grid{gap:14px 12px}}
+@media (max-width:520px){.fsheet .grid{grid-template-columns:repeat(3,1fr)}}
+
+/* stills-zoom index, embedded from the relative stills-zoom/ tree */
+.zidx{position:fixed;inset:0;z-index:80;background:#04070b;opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .4s var(--ease),visibility 0s linear .4s}
+.zidx.on{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .4s var(--ease)}
+.zidx iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#04070b;display:block}
+body.zoom-open .lab-top,body.zoom-open .lab-hint,body.zoom-open .dbg{visibility:hidden;pointer-events:none}
+body.reel-open #sheet{visibility:hidden}
+body.stills-on .cell .win{aspect-ratio:16/9}
+body.stills-on .ends #now{letter-spacing:.08em;max-width:58%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
+.hr-sheet .phd .rt{flex:0 0 auto;white-space:nowrap}
+@media (max-width:520px){.hr-sheet .phd .rt{display:none}}

@@ -1,0 +1,55 @@
+/* lifted verbatim from tonight/fable-m4/css/sky.css (local preview-film-snap) */
+/* preview-film-snap: the mark menu (list · contact · tune), hairline, under the mark. */
+#markmenu{position:fixed;z-index:60;left:calc(10px + env(safe-area-inset-left,0px));top:calc(54px + env(safe-area-inset-top,0px));width:min(360px,calc(100vw - 20px));max-height:calc(100vh - 80px);overflow:auto;
+  background:var(--mm-bg);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(var(--mm-line-rgb),.22);border-radius:14px;padding:10px 16px 12px;
+  font:300 11px Poppins,sans-serif;color:var(--mm-ink);letter-spacing:.04em}
+#markmenu[hidden]{display:none}
+#markmenu nav{display:flex;gap:18px;flex-wrap:wrap;padding:8px 0;border-bottom:1px solid rgba(var(--mm-line-rgb),.14)}
+#markmenu nav a,#markmenu nav button,#markmenu nav .mm-off{font:400 12px "Julius Sans One",Poppins,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--mm-ink);background:none;border:0;padding:6px 0;cursor:pointer;text-decoration:none;min-height:32px}
+#markmenu .mm-rooms a,#markmenu .mm-rooms button,#markmenu .mm-rooms .mm-off{font-size:10px;color:rgba(var(--mm-ink-rgb),.7)}
+#markmenu .mm-tune.on{color:var(--mm-accent)}
+#markmenu .mm-room{padding:6px 0 4px}
+#markmenu h3{margin:8px 0 2px;font:400 10px "Julius Sans One",Poppins,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:rgba(var(--mm-ink-rgb),.55)}
+#markmenu h3 span{color:var(--mm-accent);letter-spacing:.1em}
+#markmenu h3 em{font:300 9px Poppins,sans-serif;font-style:normal;letter-spacing:.02em;text-transform:none;color:rgba(var(--mm-ink-rgb),.4)}
+#markmenu label{display:grid;grid-template-columns:96px 1fr 30px;align-items:center;gap:8px;min-height:30px;text-transform:uppercase;font-size:10px;letter-spacing:.12em}
+#markmenu input[type=range]{width:100%;accent-color:var(--mm-accent);height:22px}
+#markmenu output{text-align:right;font-size:10px;color:rgba(var(--mm-ink-rgb),.8)}
+#markmenu .mm-foot{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:8px 0 0;font-size:9px;color:rgba(var(--mm-ink-rgb),.4)}
+#markmenu .mm-reset{font:400 11px "Julius Sans One",Poppins,sans-serif;letter-spacing:.16em;text-transform:uppercase;background:none;border:0;color:var(--mm-ink);padding:6px 0;cursor:pointer}
+#markmenu .mm-dec{padding:4px 0 8px;border-bottom:1px solid rgba(var(--mm-line-rgb),.14)}
+#markmenu .mm-seg{margin:6px 0 4px}
+#markmenu .mm-seg b{display:block;font:400 10px "Julius Sans One",Poppins,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--mm-ink);margin-bottom:3px}
+#markmenu .mm-seg span{display:flex;flex-wrap:wrap;gap:4px 6px}
+#markmenu .mm-seg button{font:300 10px Poppins,sans-serif;letter-spacing:.03em;color:rgba(var(--mm-ink-rgb),.7);background:none;border:1px solid rgba(var(--mm-line-rgb),.22);border-radius:999px;padding:5px 10px;min-height:28px;cursor:pointer}
+#markmenu .mm-seg button[aria-checked=true]{color:var(--mm-on-ink);background:var(--mm-on-bg);border-color:transparent}
+
+#markmenu .mm-rooms .mm-off,#markmenu .mm-rooms [aria-disabled=true]{opacity:.4;cursor:default;pointer-events:none;text-decoration:none}
+#markmenu .mm-ctx{padding:6px 0 8px;border-bottom:1px solid rgba(var(--mm-line-rgb),.14)}
+#markmenu .mm-all{display:block;width:100%;text-align:left;font:400 10px "Julius Sans One",Poppins,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--mm-on-text);background:none;border:0;border-bottom:1px solid rgba(var(--mm-line-rgb),.14);padding:10px 0;min-height:36px;cursor:pointer}
+#markmenu .mm-all[aria-expanded=true]{color:var(--mm-accent)}
+#markmenu .mm-more{padding:4px 0 8px}
+#markmenu .mm-globals{padding:8px 0 4px;border-top:1px solid rgba(var(--mm-line-rgb),.14);margin-top:4px}
+#markmenu .mm-foot{flex-wrap:wrap}
+#markmenu .mm-resets{display:flex;gap:16px;align-items:center}
+
+#markmenu .mm-rooms [data-go].on{color:var(--mm-accent)}
+
+/* phone: the rooms row stays on one line (6 labels in 326px at 390). Even spacing, no wrapping; tracking eases off on narrower phones. */
+#markmenu .mm-rooms{flex-wrap:nowrap;justify-content:space-between;gap:6px}
+#markmenu .mm-rooms a,#markmenu .mm-rooms button,#markmenu .mm-rooms .mm-off{flex:0 0 auto;white-space:nowrap;padding-left:2px;padding-right:2px}
+@media (max-width:359px){#markmenu .mm-rooms a,#markmenu .mm-rooms button,#markmenu .mm-rooms .mm-off{font-size:9px;letter-spacing:.08em}}
+#markmenu nav a,#markmenu nav button,#markmenu nav .mm-off{display:inline-flex;align-items:center}
+
+/* rooms that are saved-only in this shell: sliders stay usable but read as inactive, and say so */
+#markmenu .mm-off-room label{opacity:.5}
+#markmenu .mm-off-room h3 em{display:block;margin-top:2px;color:rgba(var(--mm-ink-rgb),.62)}
+#markmenu .mm-theme b em{font:300 9px Poppins,sans-serif;font-style:normal;letter-spacing:.02em;text-transform:none;color:rgba(var(--mm-ink-rgb),.62);margin-left:6px}
+
+/* the waveform player is never covered: the menu stops above the Sound dock and scrolls inside itself */
+#markmenu{max-height:calc(100vh - 54px - 112px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}
+
+/* sliders on a phone: large hit areas; dragging a slider never scrolls the menu or the page and never starts a pinch */
+#markmenu input[type=range]{touch-action:none}
+@media (pointer:coarse){#markmenu input[type=range]{height:38px}#markmenu label{min-height:42px}}
+#markmenu .mm-hint{display:block;margin-top:3px;font:300 8.5px Poppins,sans-serif;font-style:normal;letter-spacing:.04em;text-transform:none;color:rgba(var(--mm-ink-rgb),.62)}

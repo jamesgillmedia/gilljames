@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>opener</title>
+<script>
+(function () {
+  function get(k, d) { try { var v = localStorage.getItem(k); return v == null ? d : v; } catch (e) { return d; } }
+  var density = get("gj-tog-density", "sparse");
+  var moon = get("gj-tog-moon", "1") === "1";
+  var water = get("gj-tog-water", "1") === "1";
+  var dest;
+  if (density === "sketch") dest = "../src/sky/r/u4-opus-m4/_sketch/opener/index.html" + (water ? "" : "?water=0");
+  else if (density === "spread") dest = "../src/sky/opener/tonight/marks/opt2-spread/index.html";
+  else if (density === "shallow") dest = "../src/sky/opener/tonight/marks/opt3-shallow/index.html";
+  else if (moon) dest = "../src/sky/opener/tonight/openers/moon/index.html";
+  else dest = "../src/sky/opener/tonight/marks/opt1-fewer/index.html";
+  location.replace(dest);
+})();
+</script>
+</head>
+<body>
+<p><a href="../index.html">back to the field</a></p>
+<link rel="stylesheet" href="../chrome.css"><script src="../chrome.js" data-hub="../index.html" data-rooms="../rooms.json"></script></body>
+</html>

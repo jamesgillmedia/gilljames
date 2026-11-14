@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>stills index</title>
+<style>
+  html,body{margin:0;height:100%;background:#07090d;color:#e6edf0;font:300 13px/1.35 Poppins,system-ui,sans-serif}
+  body{display:grid;grid-template-columns:minmax(148px,220px) 1fr;min-height:100%}
+  nav{overflow:auto;border-right:1px solid rgba(200,225,255,.12);padding:54px 8px 24px}
+  nav button{display:block;width:100%;text-align:left;background:transparent;color:#c9d3d6;border:0;border-radius:8px;min-height:36px;padding:6px 8px;cursor:pointer;font:inherit}
+  nav button.on{color:#55DAA1;background:rgba(85,218,161,.08)}
+  main{overflow:auto;padding:54px 12px 24px}
+  h1{margin:0 0 10px;font:400 15px "Julius Sans One",sans-serif;letter-spacing:.06em}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+  .grid img{display:block;width:100%;height:auto;background:#10141c}
+  #out{position:fixed;top:calc(env(safe-area-inset-top) + 8px);left:64px;z-index:2;min-height:44px;padding:0 14px;border-radius:22px;border:1px solid rgba(200,225,255,.22);background:rgba(6,10,18,.7);color:#e6edf0;font:inherit;cursor:pointer}
+  .miss{color:#9aa8ad}
+  @media(max-width:700px){body{grid-template-columns:1fr}nav{max-height:34vh;border-right:0;border-bottom:1px solid rgba(200,225,255,.12)}}
+</style>
+</head>
+<body>
+<button type="button" id="out">‹ out</button>
+<nav id="films" aria-label="films"></nav>
+<main>
+  <h1 id="ttl">stills</h1>
+  <div class="grid" id="grid"></div>
+  <p class="miss" id="miss" hidden>Some stills for this film are not in the repo copy. The frames that are here stay ungraded.</p>
+</main>
+<script src="../js/stills.js"></script>
+<script>
+(function(){
+  var stills = window.LAB_STILLS || [];
+  var by = {}, order = [];
+  stills.forEach(function(s){
+    if(!by[s.slug]){ by[s.slug] = {slug:s.slug, title:s.title, items:[]}; order.push(s.slug); }
+    by[s.slug].items.push(s);
+  });
+  function label(slug, title){
+    if(slug === "cinematography-demo-reel-2025") return "Cinematography Demo Reel 2025";
+    return title;
+  }
+  var nav = document.getElementById("films"), grid = document.getElementById("grid"), ttl = document.getElementById("ttl");
+  var cur = null, view = "films";
+  order.forEach(function(slug){
+    var b = document.createElement("button");
+    b.type = "button"; b.textContent = label(slug, by[slug].title); b.dataset.slug = slug;
+    b.addEventListener("click", function(){ show(slug); });
+    nav.appendChild(b);
+  });
+  if(!order.length){
+    nav.innerHTML = "<p class=\"miss\">Stills index data is not on this page. The reel can still play; the index list is empty until js/stills.js loads.</p>";
+  }
+  function show(slug){
+    cur = slug; view = "films";
+    var f = by[slug]; if(!f) return;
+    ttl.textContent = label(slug, f.title);
+    grid.innerHTML = "";
+    var broken = 0;
+    f.items.forEach(function(s){
+      var img = document.createElement("img");
+      img.alt = label(slug, f.title) + " " + s.n;
+      img.src = "../" + (s.th || s.mid || s.img);
+      img.addEventListener("error", function(){ broken++; document.getElementById("miss").hidden = false; img.replaceWith(slot(s)); });
+      grid.appendChild(img);
+    });
+    [].forEach.call(nav.children, function(b){ b.classList.toggle("on", b.dataset.slug === slug); });
+    var on = nav.querySelector(".on"); if(on) on.scrollIntoView({block:"nearest"});
+  }
+  function slot(s){
+    var d = document.createElement("div"); d.className = "miss";
+    d.textContent = "still " + s.n + " · not in this copy";
+    return d;
+  }
+  if(order.length) show(order[0]);
+  window.__zoom = {
+    get: function(){ return { motion:false, lod:0, box:{w:1,h:1}, view:view, slug:cur }; },
+    setView: function(v){ view = v || "films"; },
+    fitFilm: function(slug){ if(by[slug]) show(slug); },
+    home: function(){ if(order.length) show(order[0]); },
+    stopMotion: function(){}
+  };
+})();
+</script>
+<link rel="stylesheet" href="../../chrome.css"><script src="../../chrome.js" data-hub="../../index.html" data-rooms="../../rooms.json"></script></body>
+</html>

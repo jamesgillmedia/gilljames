@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#04070b">
+<title>mark-fusion · ᑕᐣᓯ</title>
+<style>
+@font-face{font-family:Poppins;font-weight:300;font-display:swap;src:url(../../tonight/tiled-moon/fonts/poppins-300.woff2) format("woff2")}
+@font-face{font-family:"Julius Sans One";font-display:swap;src:url(../../tonight/tiled-moon/fonts/julius-sans-one.woff2) format("woff2")}
+@font-face{font-family:Syl;font-weight:700;font-display:block;src:url(../../tonight/tiled-moon/fonts/noto-canadian-aboriginal-subset.woff2) format("woff2");unicode-range:U+1400-167F}
+:root{--bg:#04070b;--ink:#eef3f5;--dim:#9aa8b2;--st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font:300 13px/1.4 Poppins,Syl,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+#stage{
+  position:fixed;inset:0;
+  background:
+    radial-gradient(100% 70% at 50% 28%,#152238 0%,#070d18 52%,#04070b 100%);
+}
+#cv{position:absolute;inset:0;width:100%;height:100%;display:block}
+header{
+  position:absolute;z-index:2;left:0;right:0;top:0;
+  display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+  padding:calc(14px + var(--st)) 18px 10px;
+  pointer-events:none;
+}
+.brand{font-family:"Julius Sans One",sans-serif;letter-spacing:.2em;text-transform:lowercase;font-size:15px}
+.sig{font-family:Syl,Poppins,sans-serif;letter-spacing:.08em;font-size:16px}
+.meta{color:var(--dim);letter-spacing:.08em;font-size:11px}
+.panel{
+  position:absolute;z-index:2;left:0;right:0;bottom:0;
+  padding:12px 18px calc(18px + var(--sb));
+  display:flex;flex-direction:column;gap:10px;align-items:stretch;
+  background:linear-gradient(transparent,rgba(4,7,11,.85) 30%);
+}
+.modes{display:flex;gap:8px;justify-content:center}
+.modes button{
+  min-height:40px;padding:0 16px;border-radius:2px;
+  border:1px solid rgba(255,255,255,.18);background:rgba(4,7,11,.45);
+  color:var(--ink);letter-spacing:.08em;font:inherit;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.modes button.on{border-color:rgba(200,220,240,.55);background:rgba(30,48,72,.55)}
+label.slide{display:flex;align-items:center;gap:10px;color:var(--dim);font-size:11px;letter-spacing:.08em}
+label.slide input{flex:1;accent-color:#c8dcf0}
+#state{text-align:center;margin:0;font-size:11px;letter-spacing:.1em;color:rgba(238,243,245,.45)}
+@media(prefers-reduced-motion:reduce){
+  /* drawing jumps to the selected state; final mark matches motion path end */
+}
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="cv" aria-label="fusion star mark"></canvas>
+  <header>
+    <span class="brand">gill james</span>
+    <span class="sig" lang="cr">ᑕᐣᓯ</span>
+    <span class="meta">mark fusion</span>
+  </header>
+  <div class="panel">
+    <p id="state">full mark · hero</p>
+    <div class="modes" role="tablist" aria-label="mark state">
+      <button type="button" class="on" id="btnFull" role="tab" aria-selected="true">full</button>
+      <button type="button" id="btnPartial" role="tab" aria-selected="false">partial</button>
+    </div>
+    <label class="slide">journey
+      <input type="range" id="journey" min="0" max="100" value="0" step="1" aria-label="journey from full mark to partial">
+    </label>
+  </div>
+</div>
+<script>
+(function(){
+'use strict';
+/* STROKES copied from tonight/openers/mark-snowwater (and m4 mark) — fidelity to the live mark */
+var STROKES=[
+  [[-58.5,-96],[-156.5,-95],[-203.5,-61],[-213.5,1],[-203.5,63],[-156.5,97],[-58.5,97]],
+  [[-26.5,-97],[25.5,-94],[44.5,-51],[25.5,-8],[-26.5,-5]],
+  [[99.5,105],[99.5,20],[149.5,15],[191.5,-11],[211.5,-55],[214.5,-105]]
+];
+
+var cv=document.getElementById('cv'),g=cv.getContext('2d');
+var btnFull=document.getElementById('btnFull'),btnPartial=document.getElementById('btnPartial');
+var journey=document.getElementById('journey'),stateEl=document.getElementById('state');
+var W=0,H=0,dpr=1,P=0; /* 0=full hero, 1=partial mid-journey */
+var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+var Pshow=0;
+
+/* Build all mark nodes (corner/end vertices + densified stroke samples), same idea as markPoints */
+function markNodes(extra){
+  var pts=[],segs=[],tot=0;
+  STROKES.forEach(function(s){
+    s.forEach(function(q,j){
+      pts.push({p:q,key:true,stroke:STROKES.indexOf(s),end:j===0||j===s.length-1,corner:j>0&&j<s.length-1});
+      if(j){var a=s[j-1],l=Math.hypot(q[0]-a[0],q[1]-a[1]);segs.push({a:a,b:q,l:l,si:STROKES.indexOf(s)});tot+=l}
+    });
+  });
+  var left=extra,Pn=pts.slice();
+  segs.forEach(function(sg,i){
+    var n=i===segs.length-1?left:Math.round(extra*sg.l/tot);n=Math.min(n,left);left-=n;
+    for(var j=1;j<=n;j++){
+      var f=j/(n+1);
+      Pn.push({
+        p:[sg.a[0]+(sg.b[0]-sg.a[0])*f,sg.a[1]+(sg.b[1]-sg.a[1])*f],
+        key:false,stroke:sg.si,end:false,corner:false,seg:i,f:f
+      });
+    }
+  });
+  return {pts:Pn,segs:segs};
+}
+var NODES=markNodes(48);
+
+/* Deterministic key set for partial: every stroke end + every corner vertex stay full;
+   mid-stroke samples become faint hints. No randomness. */
+function isKey(node){return !!(node.key&&(node.end||node.corner))}
+
+function resize(){
+  dpr=Math.min(devicePixelRatio||1,2);
+  W=innerWidth;H=innerHeight;
+  cv.width=(W*dpr)|0;cv.height=(H*dpr)|0;
+  cv.style.width=W+'px';cv.style.height=H+'px';
+  g.setTransform(dpr,0,0,dpr,0,0);
+  draw();
+}
+
+function screen(p){
+  var sc=Math.min(W,H)*(H>=W?.52:.46)/250;
+  return [W*.5+p[0]*sc,H*.34+p[1]*sc];
+}
+
+function glowSprite(){
+  var c=document.createElement('canvas');c.width=c.height=128;
+  var x=c.getContext('2d'),gr=x.createRadialGradient(64,64,0,64,64,64);
+  gr.addColorStop(0,'rgba(205,225,255,.95)');
+  gr.addColorStop(.18,'rgba(205,225,255,.4)');
+  gr.addColorStop(.55,'rgba(205,225,255,.08)');
+  gr.addColorStop(1,'rgba(205,225,255,0)');
+  x.fillStyle=gr;x.fillRect(0,0,128,128);return c;
+}
+var GW=glowSprite();
+
+function draw(){
+  g.clearRect(0,0,W,H);
+  /* dust */
+  g.fillStyle='rgba(255,255,255,.22)';
+  for(var i=0;i<70;i++){
+    var sx=Math.abs(Math.sin(i*19.1)*43758.5453)%1;
+    var sy=Math.abs(Math.sin(i*47.3)*24634.634)%1;
+    g.globalAlpha=.15+sx*.35;
+    g.fillRect((sx*W)|0,(sy*H*.85)|0,1+(sy>0.7?1:0),1);
+  }
+  g.globalAlpha=1;
+
+  var u=Pshow; /* 0 full, 1 partial */
+  var mkA=1-u*.15;
+
+  /* hairline strokes — full opacity at hero; mid-journey fades mid-segments */
+  STROKES.forEach(function(s,si){
+    g.beginPath();
+    s.forEach(function(q,j){
+      var xy=screen(q);
+      if(j===0)g.moveTo(xy[0],xy[1]);else g.lineTo(xy[0],xy[1]);
+    });
+    var midFade=1-u*.72;
+    g.strokeStyle='rgba(200,220,240,'+(mkA*midFade).toFixed(3)+')';
+    g.lineWidth=1.15;g.lineJoin='round';g.lineCap='round';g.stroke();
+  });
+
+  /* stars / nodes */
+  NODES.pts.forEach(function(node){
+    var xy=screen(node.p);
+    var key=isKey(node);
+    var aFull=key?.95:.55;
+    var aPart=key?.92:.08; /* faint hints for non-key */
+    var a=aFull+(aPart-aFull)*u;
+    var rFull=key?7.5:4.2;
+    var rPart=key?7.2:2.4;
+    var r=rFull+(rPart-rFull)*u;
+    if(a<.03)return;
+    g.globalAlpha=a;
+    g.drawImage(GW,xy[0]-r,xy[1]-r,r*2,r*2);
+    g.globalAlpha=Math.min(1,a*1.1);
+    g.fillStyle='#e8f0fa';
+    g.beginPath();g.arc(xy[0],xy[1],key?1.6:1.05,0,7);g.fill();
+  });
+  g.globalAlpha=1;
+
+  /* label under mark */
+  g.textAlign='center';g.fillStyle='rgba(238,243,245,'+(0.55-u*.2).toFixed(3)+')';
+  g.font='300 11px Poppins,system-ui,sans-serif';
+  g.fillText(u<.15?'full star mark':(u>.85?'partial · corners & ends':'fusion'),W/2,H*.72);
+}
+
+function setMode(full){
+  btnFull.classList.toggle('on',full);btnPartial.classList.toggle('on',!full);
+  btnFull.setAttribute('aria-selected',full?'true':'false');
+  btnPartial.setAttribute('aria-selected',full?'false':'true');
+  P=full?0:1;
+  journey.value=String(Math.round(P*100));
+  stateEl.textContent=full?'full mark · hero':'partial · mid-journey';
+  if(reduce)Pshow=P;
+}
+
+btnFull.addEventListener('click',function(){setMode(true)});
+btnPartial.addEventListener('click',function(){setMode(false)});
+journey.addEventListener('input',function(){
+  P=(+journey.value)/100;
+  var full=P<.5;
+  btnFull.classList.toggle('on',P<.15);btnPartial.classList.toggle('on',P>.85);
+  stateEl.textContent=P<.15?'full mark · hero':(P>.85?'partial · mid-journey':'fusion · journey '+Math.round(P*100)+'%');
+  if(reduce)Pshow=P;
+});
+
+var last=performance.now();
+function tick(now){
+  var dt=Math.min(.05,(now-last)/1000);last=now;
+  if(reduce)Pshow=P;
+  else Pshow+=(P-Pshow)*Math.min(1,dt*8);
+  draw();
+  requestAnimationFrame(tick);
+}
+
+addEventListener('resize',resize);
+resize();
+requestAnimationFrame(tick);
+})();
+</script>
+<link rel="stylesheet" href="../../../../chrome.css"><script src="../../../../chrome.js" data-hub="../../../../index.html" data-rooms="../../../../rooms.json"></script></body>
+</html>

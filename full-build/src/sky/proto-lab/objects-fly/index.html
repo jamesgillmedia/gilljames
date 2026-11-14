@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#070b12">
+<title>Objects rings fly-through · proto lab</title>
+<link rel="stylesheet" href="../_shared/css/lab.css">
+<style>
+  .stage{background:radial-gradient(80% 60% at 50% 45%,#141822 0%,#070b12 70%);touch-action:none}
+  #sky,#fx{position:absolute;inset:0;width:100%;height:100%}
+  .cup{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);
+    width:min(42vw,280px);height:auto;pointer-events:none;z-index:1;
+    filter:drop-shadow(0 10px 28px rgba(0,0,0,.55));
+    -webkit-mask-image:radial-gradient(ellipse 78% 74% at 50% 48%,#000 58%,transparent 86%);
+    mask-image:radial-gradient(ellipse 78% 74% at 50% 48%,#000 58%,transparent 86%)}
+  .chrome{position:absolute;top:calc(56px + var(--safe-t));left:16px;z-index:3;display:flex;align-items:center;gap:12px;pointer-events:none}
+  .chrome span{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#d0d6de}
+  .cap{position:absolute;left:0;right:0;bottom:calc(72px + var(--safe-b));text-align:center;z-index:3;pointer-events:none}
+  .cap b{display:block;font:400 16px/1 "Julius Sans One",sans-serif;letter-spacing:.28em}
+  .cap .ring{color:#c8c4ba;font-size:13px;margin-top:6px}
+  .cap .asp{color:#aaa69c;font-size:12px;margin-top:4px;letter-spacing:.04em}
+  .cap .asp em{font-style:normal;color:#eee8dc}
+  .through{position:absolute;right:16px;bottom:calc(78px + var(--safe-b));z-index:4;
+    min-height:36px;padding:0 16px;border:1px solid rgba(196,150,96,.7);border-radius:18px;
+    letter-spacing:.08em;color:#dcc8a0}
+  @media(max-width:700px){
+    .cap{bottom:calc(108px + var(--safe-b))}
+    .through{left:50%;right:auto;transform:translateX(-50%);bottom:calc(68px + var(--safe-b))}
+  }
+</style>
+</head>
+<body class="lab">
+<header class="labbar">
+  <a class="back" href="../">‹ lab</a>
+  <div class="who">Objects fly-through</div>
+  <nav class="variants" aria-label="proposals">
+    <button type="button" data-v="A" aria-pressed="true">A</button>
+    <button type="button" data-v="B">B</button>
+    <button type="button" data-v="C">C</button>
+  </nav>
+</header>
+<div class="stage" id="stage">
+  <canvas id="sky"></canvas>
+  <canvas id="fx"></canvas>
+  <img class="cup" id="cup" src="../_shared/media/joio-cup.webp" alt="JOIO CUP">
+  <div class="chrome"><img class="mark" src="../_shared/media/cv-mark.png" alt=""><span>Objects</span></div>
+  <div class="cap">
+    <b>JOIO CUP</b>
+    <div class="ring" id="rlabel">ring 1 of 5</div>
+    <div class="asp" id="alabel">whole piece · surface · making · use</div>
+  </div>
+  <button type="button" class="through" id="through">through ›</button>
+</div>
+<p class="vnote" id="vnote"></p>
+<script src="../_shared/js/lab.js"></script>
+<script src="app.js"></script>
+<link rel="stylesheet" href="../../../../chrome.css"><script src="../../../../chrome.js" data-hub="../../../../index.html" data-rooms="../../../../rooms.json"></script></body>
+</html>

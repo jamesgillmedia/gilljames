@@ -1,0 +1,123 @@
+/* site-v3-pro3 · one sky, one camera. Everything sits on the canvas world (js/world.js); the pages open out of their stars. */
+:root{--tabs:0px;--zoom:0px;--dock:0px;--barh:calc(52px + var(--st))}
+html,body{height:100%;overflow:hidden;overscroll-behavior:none}
+body.w-p{padding:0;margin:0;background:#03050a;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+#data{display:none!important}
+/* the sky */
+#world{position:fixed;inset:0;overflow:hidden;touch-action:none;contain:strict;
+  background:radial-gradient(120% 80% at 50% 45%,#121c31 0%,#0a1120 50%,#03050a 100%)}
+#world canvas.wc{position:absolute;left:0;top:0;display:block}
+.wsf{position:absolute;left:0;top:0;width:calc(100vw + 1024px);height:calc(100vh + 1024px);background-size:512px 512px;background-repeat:repeat;transform-origin:0 0;pointer-events:none;will-change:transform}
+.whits{position:absolute;inset:0;pointer-events:none}
+.wh{position:absolute;left:0;top:0;width:44px;height:44px;border-radius:50%;pointer-events:none;opacity:0}
+.wh:focus-visible{opacity:1;outline:2px solid var(--mint);outline-offset:-6px}
+/* the selection pill: what you have chosen, and what tapping again does */
+.wpick{position:absolute;left:0;top:0;z-index:5;display:flex;flex-direction:column;align-items:flex-start;gap:1px;max-width:min(260px,78vw);padding:7px 12px 8px;border-radius:12px;
+  background:rgba(4,8,14,.82);border:1px solid rgba(85,218,161,.55);box-shadow:0 6px 24px rgba(0,0,0,.45);text-align:left;opacity:0;pointer-events:none;transition:opacity .18s;
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.wpick.on{opacity:1;pointer-events:auto}
+.wpick b{font-weight:300;font-size:13px;line-height:1.25;color:#fff;overflow-wrap:anywhere}
+.wpick small{font-size:10.5px;color:var(--dim);line-height:1.3}
+.wpick i{font-style:normal;font-size:11px;letter-spacing:.06em;color:var(--mint);margin-top:2px}
+html.mk-on .wpick,html.mk-on .wn,html.mk-on .wr,html.mk-on .wmm{opacity:0;pointer-events:none}
+/* the bar: one way back, and where you are (every name tappable) */
+.wn{position:fixed;left:0;right:0;top:0;z-index:120;display:flex;align-items:flex-start;gap:4px;min-height:var(--barh);
+  padding:calc(var(--st) + 8px) max(10px,var(--sr)) 8px max(8px,var(--sl));background:linear-gradient(rgba(3,5,10,.86),rgba(3,5,10,.55) 70%,rgba(3,5,10,0));transition:opacity .3s;pointer-events:none}
+.wn>*{pointer-events:auto}
+.wn-b{flex:none;width:40px;height:40px;margin-top:-2px;border-radius:50%;font-size:26px;line-height:36px;text-align:center;color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16)}
+.wn-b[hidden]{display:none}
+.wn-b:active{background:rgba(85,218,161,.25)}
+.wn-c{flex:1;min-width:0;display:flex;flex-wrap:wrap;align-items:center;column-gap:2px;row-gap:0;font-size:13px;line-height:1.25;padding-top:3px}
+.wn-c button,.wn-c b{font-weight:300;padding:6px 5px;min-height:34px;border-radius:8px;white-space:normal;overflow-wrap:anywhere;text-align:left}
+.wn-c button{color:var(--dim);text-decoration:underline;text-decoration-color:rgba(255,255,255,.28);text-underline-offset:3px}
+.wn-c button:hover,.wn-c button:active{color:#fff}
+.wn-c b{color:#fff}
+.wn-c i{font-style:normal;color:rgba(255,255,255,.4);padding:0 1px}
+.wn-c .sig{font-family:"Syl",Poppins,sans-serif;font-weight:700;font-size:16px;letter-spacing:.02em;text-shadow:1px 1px 0 var(--cy),-1px -1px 0 var(--rd);text-decoration:none}
+.wn-nm{font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--dim);padding:0 0 0 4px;font-family:"Julius Sans One",Poppins,sans-serif}
+.wn.far .wn-nm{display:inline}
+.wn-l{flex:none;font-size:12px;letter-spacing:.08em;color:var(--dim);padding:8px 6px;min-height:34px}
+.wn-l:hover{color:#fff}
+html.w-layer .wn-l{display:none}
+/* depth rail: always there, always the same four steps */
+.wr{position:fixed;left:max(10px,var(--sl));bottom:calc(10px + var(--sb));z-index:120;pointer-events:none;transition:opacity .3s}
+.wr ol{list-style:none;margin:0;padding:5px 9px;display:flex;gap:7px;align-items:center;border-radius:999px;background:rgba(3,5,10,.66);border:1px solid rgba(255,255,255,.1)}
+.wr li{display:flex;align-items:center;gap:5px;font-size:10px;letter-spacing:.06em;color:rgba(255,255,255,.4)}
+.wr li::before{content:"";width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.3)}
+.wr li span{display:none;max-width:22vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wr li.up::before{background:rgba(255,255,255,.75)}
+.wr li.here{color:var(--mint)}.wr li.here::before{width:7px;height:7px;background:var(--mint);box-shadow:0 0 8px var(--mint)}
+.wr li.here span{display:inline}
+@media (min-width:700px){.wr li span{display:inline}.wr li.up{color:rgba(255,255,255,.7)}}
+canvas.wmm{position:fixed;right:max(10px,var(--sr));bottom:calc(10px + var(--sb));z-index:120;width:78px;height:58px;border-radius:8px;background:rgba(3,5,10,.66);border:1px solid rgba(255,255,255,.1);pointer-events:none}
+html.w-layer .wr,html.w-layer canvas.wmm{opacity:.0}
+html.w-layer.reel-on .wr,html.w-layer.reel-on canvas.wmm{opacity:0}
+/* work page (LAYER): opens out of its star; the world bar is its top bar */
+.imm{z-index:70;top:0;bottom:0}
+.imm-top{min-height:var(--barh);padding-top:var(--st);justify-content:flex-end}
+.imm-top [data-a=out],.imm-top .imm-t{display:none}
+html.w-layer .wn{padding-right:56px}
+html.w-layer.reel-on .wn{padding-right:max(10px,var(--sr))}
+/* bio + poem card */
+.cd{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:calc(var(--barh) + 12px) 18px calc(24px + var(--sb));background:rgba(3,5,10,.9);overflow:auto;-webkit-user-select:text;user-select:text}
+.cd[hidden]{display:none}
+.cd-in{max-width:520px;width:100%;outline:none}
+.cd-in h2{margin:0 0 6px;font-family:"Julius Sans One",Poppins,sans-serif;font-weight:400;font-size:18px;letter-spacing:.3em}
+.cd-in .roles{margin:0 0 16px;color:var(--dim);font-size:13px}
+.cd-in p{margin:0 0 10px;line-height:1.55}
+.cd-in .ph{color:var(--mint)}
+.cd-in .lk{display:inline-flex;align-items:center;min-height:40px;padding:0 12px;margin:4px 6px 0 0;border-radius:999px;border:1px solid var(--line)}
+.cd.poem .cd-in{text-align:center}
+.cd-in .poem span{display:block;line-height:1.7}
+.cd-in .poem .sig{font-family:"Syl",sans-serif;font-weight:700;font-size:26px;margin-top:14px;text-shadow:2px 2px 0 var(--cy),-2px -2px 0 var(--rd)}
+/* the player inside the sky */
+.sp{position:fixed;inset:0;z-index:80;background:radial-gradient(110% 70% at 50% 38%,rgba(32,20,30,.97),rgba(6,6,12,.98) 60%,#03050a);touch-action:manipulation}
+.sp[hidden]{display:none}
+.sp-cv{position:absolute;inset:0;width:100%;height:100%}
+.sp-ui{position:absolute;left:0;right:0;bottom:0;padding:0 max(16px,var(--sr)) calc(14px + var(--sb)) max(16px,var(--sl));display:flex;flex-direction:column;gap:12px;max-width:760px;margin:0 auto}
+.sp-songs{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+@media (min-width:700px){.sp-songs{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.sp-songs button{width:100%;min-height:44px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:5px 11px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);text-align:left}
+.sp-songs b{font-weight:300;font-size:13px;line-height:1.2}
+.sp-songs small{font-size:10px;color:var(--dim)}
+.sp-songs button[aria-pressed=true]{border-color:var(--mint);background:rgba(85,218,161,.12)}
+.sp-songs button[aria-pressed=true] b{color:var(--mint)}
+.sp-pill{display:flex;align-items:center;gap:12px}
+.sp-pp{flex:none;width:54px;height:54px;border-radius:50%;background:var(--mint);color:#03130c;font-size:19px;line-height:54px;text-align:center}
+.sp.want .sp-pp{box-shadow:0 0 0 6px rgba(85,218,161,.3)}
+.sp-ti{flex:1;min-width:0;margin:0;display:flex;flex-direction:column}
+.sp-ti b{font-weight:300;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sp-ti small{font-size:11px;color:var(--dim)}
+.sp-tc{margin:0;font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums}
+.sp-rail{position:relative;height:52px;cursor:pointer;touch-action:none}
+.sp-rail canvas{position:absolute;inset:0;width:100%;height:100%}
+.sp-rail:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:6px}
+.sp-sync{margin:0;font-size:11px;color:var(--dim);text-align:center;letter-spacing:.03em}
+.sp-sync a{color:var(--ink);text-decoration:underline;text-decoration-color:rgba(255,255,255,.3);text-underline-offset:3px}
+@media (max-height:520px){.sp-ui{gap:7px}.sp-songs{grid-template-columns:repeat(3,minmax(0,1fr))}.sp-songs button{min-height:38px}.sp-rail{height:38px}}
+/* the reel: the deepest zoom of its star, with a thin ring of sky around it */
+.rl{z-index:90}
+.rl{inset:calc(var(--barh) + 2px) max(6px,var(--sr)) calc(6px + var(--sb)) max(6px,var(--sl));border-radius:14px;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.16),0 0 40px rgba(120,190,255,.12)}
+@media (min-width:700px){.rl{inset:calc(var(--barh) + 4px) 10px 10px 10px}}
+.rl .rl-x,.rl .rl-k{display:none!important}
+noscript p{position:fixed;inset:auto 0 40% 0;text-align:center;z-index:200}
+.rl:not(.on){pointer-events:none}.rl:not(.on) *{pointer-events:none!important}
+
+/* on the board the pill shrinks to a chip inside the selected tile, so it never covers the next row's captions */
+.wpick.bd{padding:3px 9px 4px;border-radius:10px;gap:0}.wpick.bd i{margin-top:0;font-size:11px}
+
+/* no page zoom anywhere: scrolling still works, pinch belongs to the camera */
+html,body{touch-action:pan-x pan-y;-webkit-text-size-adjust:100%}#world,#world *{touch-action:none}
+
+/* w7 · a deliberate CLOSE-only commit band; never intercept the board pan. */
+.w-release{position:absolute;left:50%;bottom:90px;transform:translateX(-50%);padding:8px 14px;border:1px solid var(--mint);border-radius:999px;background:rgba(3,8,14,.9);color:var(--mint);font:300 12px Poppins,sans-serif;white-space:nowrap;pointer-events:none;z-index:8}
+.w-release[hidden]{display:none}
+/* One shot transport (the existing play button moved into Scope) + one work nav. */
+.imm.film-clean .pf-nav,.imm.film-clean .pf-h small,.imm.film-clean .sc-lab .pl{display:none!important}
+.imm.film-clean .scope{display:block}
+.imm.film-clean .scope[hidden]{display:none}
+.imm.film-clean .scope .sc-row{display:flex;flex-wrap:wrap;gap:6px}
+.imm.film-clean .scope .sc-lab{order:-1;flex:1 0 100%;box-sizing:border-box}
+.imm.film-clean .scope [data-s=prev],.imm.film-clean .scope [data-s=next],.imm.film-clean .scope [data-s=snd],.imm.film-clean .scope [data-a=play]{order:0}
+.imm.film-clean .scope [data-a=play]{flex:1;min-height:44px}
+.imm.film-clean .imm-b [data-a=prev],.imm.film-clean .imm-b [data-a=next]{flex:1}

@@ -1,0 +1,44 @@
+/* Beyond dial (archive index port of preview-beyond, the big dial only). Companion to js/beyonddial.js.
+   The archive version is NOT boxless: an opaque solid dark body, a feathered blurred mist around its edge (pointer-events none), a subtle glow.
+   No fade while open. All colour that shows state (ring ramp, active arc, thumbs, label, hub dot) is set by the script and lives on the dial only.
+   Every move is a sampled spring in beyonddial.js; there is no CSS transition. */
+#bdial{position:relative;z-index:2;width:44px;height:44px;pointer-events:none;-webkit-tap-highlight-color:transparent}
+#bdial.bd-solo{position:fixed;z-index:60;right:calc(var(--sr) - 9px + 44px);bottom:calc(var(--sb) - 6px)}
+.bd-hub{position:absolute;left:0;top:0;width:44px;height:44px;display:grid;place-items:center;padding:0;margin:0;border:0;background:none;cursor:pointer;opacity:.72;touch-action:none;pointer-events:auto;
+  transform:perspective(240px) translate3d(0,0,6px) rotateY(-8deg)}
+.bd-hub:hover,#bdial[data-lvl="1"] .bd-hub{opacity:1}
+.bd-hub:focus-visible{outline:1px solid rgba(238,243,245,.6);outline-offset:-6px;border-radius:50%}
+.bd-hub svg{display:block;overflow:visible}
+.bd-hr{fill:none;stroke:rgba(232,228,220,.4);stroke-width:1}
+.bd-ht{fill:none;stroke-width:1}
+.bd-hd{filter:drop-shadow(0 0 2px rgba(255,255,255,.18))}
+html.rm .bd-hr{stroke:rgba(214,70,84,.5)}
+.bd-cluster{position:absolute;left:0;top:0;width:44px;height:44px;visibility:hidden;pointer-events:none}
+.bd-cluster.bd-vis{visibility:visible}
+.bd-dial{position:absolute;transform-origin:50% 50%;pointer-events:none}
+.bd-mist,.bd-body{position:absolute;border-radius:50%;pointer-events:none}
+.bd-mist{background:radial-gradient(closest-side,rgba(5,7,10,.72) 52%,rgba(5,7,10,0) 100%);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  -webkit-mask-image:radial-gradient(closest-side,#000 48%,transparent 100%);mask-image:radial-gradient(closest-side,#000 48%,transparent 100%)}
+.bd-body{background:#07090c;box-shadow:inset 0 0 0 1px rgba(232,228,220,.1),0 0 14px rgba(232,228,220,.05)}
+html.rm .bd-mist{background:radial-gradient(closest-side,rgba(46,6,12,.74) 52%,rgba(46,6,12,0) 100%)}
+html.rm .bd-body{background:#0b0305;box-shadow:inset 0 0 0 1px rgba(190,44,60,.3),0 0 14px rgba(190,44,60,.13)}
+.bd-svg{position:relative;display:block;overflow:visible;outline:none;touch-action:none;pointer-events:none;-webkit-user-select:none;user-select:none}
+.bd-svg:focus-visible .bd-trk{stroke:rgba(238,243,245,.85)}
+.bd-hit{fill:transparent;pointer-events:all;cursor:grab}
+.bd-halo{display:none}
+.bd-seg{fill:none;stroke-width:1.2;stroke-linecap:butt}
+.bd-act{fill:none;stroke-width:2;stroke-linecap:round}
+.bd-trk{fill:none;stroke:rgba(232,228,220,.4);stroke-width:1.2;stroke-linecap:round}
+html.rm .bd-trk{stroke:rgba(190,48,64,.4)}
+.bd-tick{fill:none;stroke-width:1.4;stroke-linecap:round}
+.bd-min{fill:none;stroke:rgba(232,228,220,.34);stroke-width:1}
+.bd-maj{stroke:rgba(232,228,220,.58)}
+html.rm .bd-min{stroke:rgba(190,48,64,.34)}html.rm .bd-maj{stroke:rgba(214,70,84,.55)}
+.bd-fill{fill:none;stroke-width:2;stroke-linecap:round}
+.bd-th{stroke:rgba(4,7,11,.9);stroke-width:1.6;paint-order:stroke}
+.bd-lab{font:400 6.3px "Julius Sans One",Poppins,sans-serif;letter-spacing:.07em;text-transform:lowercase}
+.bd-c1{font:400 9px "Julius Sans One",Poppins,sans-serif;letter-spacing:.16em;text-transform:lowercase}
+.bd-c2{font:300 11px Poppins,sans-serif;letter-spacing:.04em}
+.ring-in.dead{opacity:.34}
+/* held: the dial steps back and squeezes up toward its top edge (scaleY .68, scaleX .94), ring and labels .5, solid body .8, all sprung in beyonddial.js; it stays visible and expands back when active */

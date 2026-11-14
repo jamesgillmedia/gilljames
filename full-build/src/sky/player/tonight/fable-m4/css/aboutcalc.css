@@ -1,0 +1,90 @@
+/* tonight/fable-m4 · About · the bio calculator, 3D (js/aboutcalc.js). A = the m4 2D rules in sky.css, untouched.
+   B / C = one object of CSS-3D planes (preserve-3d), no library. Text is the warm white cap #e8e4dc. No reduced-motion branch. */
+#layers .ac3{display:none}
+#layers[data-v=B] #calcstage,#layers[data-v=B] #laytext,#layers[data-v=C] #calcstage,#layers[data-v=C] #laytext{display:none}
+#layers[data-v=B] .ac3,#layers[data-v=C] .ac3{display:block;position:absolute;inset:0;z-index:2;perspective:1300px;perspective-origin:50% 44%}
+#layers.exit .ac3{opacity:0;transition:opacity .75s ease}
+/* the room: a dark floor of light under the object, never a box; the desktop stays dark */
+#layers[data-v=B],#layers[data-v=C]{background-color:#04070b;background-image:radial-gradient(ellipse 60% 48% at 50% var(--top,50%),#0b1016 0%,#05080c 58%,#04070b 100%)}
+#layers .ac3-shadow{position:absolute;left:50%;top:var(--top,50%);width:var(--w);height:calc(var(--h) * .9);margin-left:calc(var(--w) / -2);margin-top:calc(var(--h) * -.42);
+ transform:translate(calc(var(--sx,0px) + var(--tx,0px)),calc(var(--sy,0px) + var(--ty,0px) + 22px));border-radius:24px;background:rgba(0,0,0,.72);filter:blur(28px);opacity:.55;pointer-events:none}
+#layers[data-v=C] .ac3-shadow{opacity:.9;filter:blur(36px)}
+#layers .ac3-obj{position:absolute;left:50%;top:var(--top,50%);width:var(--w);height:var(--h);margin-left:calc(var(--w) / -2);margin-top:calc(var(--h) / -2);
+ transform-style:preserve-3d;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));touch-action:none;cursor:grab;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+#layers .ac3-obj.drag{cursor:grabbing}
+#layers .ac3-obj>*{position:absolute;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+#layers .ac3-face{inset:0;transform:translateZ(calc(var(--d) / 2));border-radius:var(--r);overflow:hidden;background:#04070b}
+#layers .ac3-face canvas{position:absolute;inset:0;width:100%;height:100%;display:block;background:#04070b;opacity:0}
+#layers.ac-live .ac3-face canvas{opacity:1;transition:opacity .4s ease}
+/* a sheen that follows the tilt: the face is glass-and-plastic, not a flat print. Strong in C, faint in B. Never over the digits (the well sits above it) */
+#layers .ac3-sheen{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;opacity:0;
+ background:radial-gradient(ellipse 70% 46% at var(--shx,50%) var(--shy,30%),rgba(232,228,220,.55),rgba(232,228,220,0) 70%)}
+#layers.ac-live .ac3-sheen{opacity:calc(.10 * var(--spec,1))}
+#layers.ac-live[data-v=C] .ac3-sheen{opacity:calc(.22 * var(--spec,1))}
+#layers .ac3-bevel{inset:0;transform:translateZ(calc(var(--d) / 2 + .5px));border-radius:var(--r);pointer-events:none;
+ box-shadow:inset 0 0 0 1px rgba(232,228,220,.14),inset 0 0 0 3px rgba(0,0,0,.30),inset 0 0 14px rgba(0,0,0,.45);
+ background:linear-gradient(var(--la),rgba(232,228,220,calc(.16 * var(--spec,1))) 0%,rgba(232,228,220,0) 34%,rgba(0,0,0,0) 64%,rgba(0,0,0,.32) 100%)}
+#layers .ac3-back{inset:0;transform:rotateY(180deg) translateZ(calc(var(--d) / 2));border-radius:var(--r);background:#3d4140}
+#layers .ac3-side{left:50%;top:50%;overflow:hidden;background:#04070b}
+#layers .ac3-side canvas{opacity:0}
+#layers.ac-live .ac3-side canvas{opacity:1;transition:opacity .4s ease}
+#layers .ac3-side canvas{width:100%;height:100%;display:block}
+#layers .ac3-side i{position:absolute;inset:0;background:#000;opacity:.4}
+#layers .ac3-side.l,#layers .ac3-side.r{width:var(--d);height:calc(var(--h) - 2 * var(--r));margin:calc((var(--h) - 2 * var(--r)) / -2) 0 0 calc(var(--d) / -2)}
+#layers .ac3-side.t,#layers .ac3-side.b{height:var(--d);width:calc(var(--w) - 2 * var(--r));margin:calc(var(--d) / -2) 0 0 calc((var(--w) - 2 * var(--r)) / -2)}
+#layers .ac3-side.l{transform:rotateY(-90deg) translateZ(calc(var(--w) / 2 - var(--r) * .29))}
+#layers .ac3-side.r{transform:rotateY(90deg) translateZ(calc(var(--w) / 2 - var(--r) * .29))}
+#layers .ac3-side.t{transform:rotateX(90deg) translateZ(calc(var(--h) / 2 - var(--r) * .29))}
+#layers .ac3-side.b{transform:rotateX(-90deg) translateZ(calc(var(--h) / 2 - var(--r) * .29))}
+/* the recessed display well, cut where the photo's own display is; its floor is the same glitched pixels set back, under glass */
+#layers .ac3-well{left:var(--dx);top:var(--dy);width:var(--dw);height:var(--dh);transform-style:preserve-3d;transform:translateZ(calc(var(--d) / 2));pointer-events:none}
+#layers .ac3-well>*{position:absolute;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+#layers .ac3-floor{inset:0;transform:translateZ(calc(var(--rd) * -1));background:#04070b;overflow:hidden;border-radius:3px}
+#layers .ac3-floor canvas{position:absolute;inset:0;width:100%;height:100%;opacity:0;background:#04070b;transition:opacity .4s ease}
+#layers.ac-live .ac3-floor canvas{opacity:.9}
+#layers .ac3-scrim{position:absolute;inset:0;background:rgba(4,7,11,.0);transition:background .48s ease}
+#layers .ac3-wall.t{left:0;top:0;width:100%;height:var(--rd);transform-origin:50% 0;transform:rotateX(90deg);background:linear-gradient(#000,#0b1210)}
+#layers .ac3-wall.b{left:0;bottom:0;width:100%;height:var(--rd);transform-origin:50% 100%;transform:rotateX(-90deg);background:#26302c}
+#layers .ac3-wall.l{left:0;top:0;height:100%;width:var(--rd);transform-origin:0 50%;transform:rotateY(-90deg);background:#0d1513}
+#layers .ac3-wall.r{right:0;top:0;height:100%;width:var(--rd);transform-origin:100% 50%;transform:rotateY(90deg);background:#1c2522}
+#layers .ac3-glass{inset:0;transform:translateZ(-.5px);border-radius:3px;box-shadow:inset 0 0 0 1px rgba(232,228,220,.10),inset 0 6px 14px rgba(0,0,0,.55);
+ background:linear-gradient(160deg,rgba(232,228,220,.07),rgba(232,228,220,0) 40%)}
+/* layer 1: the display reads the words. The photo's green digits step back (dimmed under a scrim) so the words never sit on top of them */
+#layers .ac3-words{inset:0;transform:translateZ(calc(var(--rd) * -1 + 1.5px));display:flex;flex-direction:column;justify-content:center;padding:0 7%;
+ color:#e8e4dc;font-weight:300;letter-spacing:.02em;overflow:hidden;opacity:0!important}
+#layers .ac3-words2{position:absolute;z-index:5;display:flex;flex-direction:column;justify-content:center;padding:0 8%;box-sizing:border-box;color:#e8e4dc;background:#04070b;pointer-events:none;font-weight:300;letter-spacing:.02em;overflow:hidden}
+#layers .ac3-words2 span{display:block;line-height:1.2;font-size:clamp(13px,3.6vw,20px)}
+#layers .ac3-words2[hidden]{display:none}
+#layers.exit.toboard{background:transparent;box-shadow:none}
+#layers.exit.toboard #moons{opacity:0!important}
+#layers.exit:not(.toboard) #moons{object-fit:contain;width:68%;height:68%;left:16%;top:16%;inset:auto;background:#04070b}
+#layers .ac3-words span{display:block;font-size:var(--wf,15px);line-height:1.16;white-space:nowrap}
+#layers.ac-l1 .ac3-words{opacity:1}
+#layers.ac-live.ac-l1 .ac3-floor canvas{opacity:.22}
+#layers.ac-l1 .ac3-scrim{background:rgba(4,7,11,.55)}
+#layers .ac3-words.flick{opacity:.62}
+/* the four keys: the poem and the bio as real text, each plane a little proud of the face. Closed: a readable tag + the first lines. Open: lifted, filling the face */
+#layers .ac3-box.ac-pend{opacity:1!important}
+#layers .ac3-box.ac-pend .ac3-txt,#layers .ac3-box.ac-pend .ac3-tag{opacity:0;transition:none}
+#layers .ac3-box{left:var(--bx);top:var(--by);width:var(--bw);height:var(--bh);transform:translateZ(calc(var(--d) / 2 + var(--bz,2px)));
+ background:#05070c;border-radius:7px;
+ box-shadow:0 0 0 1px rgba(232,228,220,.12),inset 0 1px 0 rgba(232,228,220,.10),0 calc(var(--bz,2px) * .6) calc(var(--bz,2px) * 1.6) rgba(0,0,0,.55);
+ color:#e8e4dc;overflow:hidden;padding:8px 9px;box-sizing:border-box;font-size:calc(var(--fs,11px) * .78);line-height:1.38;
+ transition:left .52s cubic-bezier(.22,.7,.2,1),top .52s cubic-bezier(.22,.7,.2,1),width .52s cubic-bezier(.22,.7,.2,1),height .52s cubic-bezier(.22,.7,.2,1),transform .52s cubic-bezier(.22,.7,.2,1),opacity .4s ease,padding .4s ease}
+#layers .ac3-tag{display:block;font:400 calc(var(--fs,11px) * .78)/1.2 "Julius Sans One",Poppins,sans-serif;font-style:normal;letter-spacing:.18em;text-transform:uppercase;color:#e8e4dc;margin:0 0 6px;white-space:nowrap}
+#layers .ac3-tag i{font-style:normal;opacity:.55;margin-right:4px}
+#layers .ac3-txt{color:rgba(232,228,220,.62);-webkit-mask-image:linear-gradient(#000 40%,transparent 96%);mask-image:linear-gradient(#000 40%,transparent 96%)}
+#layers .ac3-txt span{display:block}
+#layers .ac3-box.on{left:5%;top:5%;width:90%;height:90%;transform:translateZ(calc(var(--d) / 2 + var(--bz,2px) + 26px));padding:16px 16px 26px;font-size:var(--fs,13px);line-height:1.55;
+ overflow:auto;touch-action:pan-y;overscroll-behavior:contain;z-index:3;background:linear-gradient(180deg,rgba(8,12,17,.95),rgba(4,7,11,.96));opacity:1}
+#layers .ac3-box.on .ac3-txt{color:#e8e4dc;-webkit-mask-image:none;mask-image:none}
+#layers .ac3-box.on .ac3-tag{margin-bottom:12px;opacity:.7}
+#layers .ac3-box.on.lv2{line-height:1.42}
+#layers .ac3-box.dim{opacity:.16}
+#layers .ac3-box.flick{opacity:.62}
+#layers .ac3-box.sel,#layers .ac3-box.sel *{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+@media(min-width:900px){#layers .ac3-box.on{padding:24px 26px 30px}}
+/* the tiny dev label for the A/B/C switch (hidden when gj.dev is 0, e.g. at launch) */
+#layers .ac3-vlab{position:absolute;z-index:4;right:12px;bottom:calc(14px + var(--sb,0px));margin:0;font:400 8px "Julius Sans One",Poppins,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:rgba(232,228,220,.42);pointer-events:none}
+#layers .ac3-vlab[hidden]{display:none}
+/* Red: the calculator photo and its green digits stay ungraded (they are pixels, never mapped); only the text ink turns red */

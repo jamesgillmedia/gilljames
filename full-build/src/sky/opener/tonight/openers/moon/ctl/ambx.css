@@ -1,0 +1,104 @@
+/* ambience panel · the Sound section's vol/flash pattern (u4-opus-m4/player .cl rows), reused for room light, glow, haze, stars, sound.
+   Thin 1px track, mint fill to the thumb, 12px pale thumb, 44px touch height, uppercase quiet labels. Never touches the photographs. */
+.ambx{position:fixed;z-index:60;top:var(--ambx-top,auto);right:var(--ambx-right,calc(12px + env(safe-area-inset-right,0px)));bottom:var(--ambx-bottom,calc(12px + env(safe-area-inset-bottom,0px)));left:var(--ambx-left,auto);
+  font-family:var(--ambx-font,Poppins,system-ui,sans-serif);-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;touch-action:manipulation;pointer-events:none}
+.ambx>*{pointer-events:auto}
+.ambx-tg{position:relative;display:inline-flex;align-items:center;gap:7px;height:32px;margin:6px 0;padding:0 13px 0 11px;border:1px solid rgba(220,232,240,.22);border-radius:16px;
+  background:rgba(4,7,11,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#f2f8fa;font:500 10.5px/1 var(--ambx-font,Poppins,system-ui,sans-serif);letter-spacing:.14em;text-transform:uppercase;
+  text-shadow:0 0 8px #03050a,0 1px 2px #03050a;cursor:pointer}
+.ambx-tg::before{content:"";position:absolute;inset:-7px -4px}
+.ambx-tg i{width:7px;height:7px;border-radius:50%;background:#e8f1f4;box-shadow:0 0 6px rgba(190,225,255,.6);opacity:calc(.35 + .65*var(--ambx-lit,1))}
+.ambx-tg[aria-expanded=true]{border-color:rgba(85,218,161,.6)}
+.ambx-tg[aria-expanded=true] i{background:#55DAA1;box-shadow:0 0 8px rgba(85,218,161,.7)}
+.ambx-tg:focus-visible{outline:1px solid rgba(85,218,161,.8);outline-offset:2px}
+.ambx-p{position:absolute;line-height:1;right:var(--ambx-pr,0);left:var(--ambx-pl,auto);bottom:var(--ambx-pb,calc(100% + 2px));top:var(--ambx-pt,auto);width:min(318px,calc(100vw - 24px - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px)));
+  max-height:var(--ambx-maxh,calc(100vh - 120px));overflow:auto;overscroll-behavior:contain;box-sizing:border-box;padding:4px 14px 6px;border:1px solid rgba(220,232,240,.16);border-radius:14px;
+  background:rgba(4,7,11,.74);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 18px 40px rgba(0,0,0,.45)}
+.ambx-p[hidden]{display:none}
+.ambx .cl{display:flex;align-items:center;gap:8px;height:44px;margin:0;font-size:12.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#f2f8fa;text-shadow:0 0 8px #03050a,0 1px 2px #03050a}
+.ambx .cl[hidden]{display:none}
+.ambx .cl span{flex:none;width:var(--ambx-lw,74px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.ambx{--ambx-fill:rgba(85,218,161,.75);--ambx-rest:rgba(220,232,240,.28)}
+.ambx .cl input{-webkit-appearance:none;appearance:none;flex:1;min-width:0;height:44px;margin:0;cursor:pointer;touch-action:pan-y;--p:100%;--d:50%;background:linear-gradient(90deg,var(--ambx-fill) var(--p),var(--ambx-rest) var(--p)) 0 50%/100% 1px no-repeat}
+
+
+
+.ambx .cl input::-webkit-slider-runnable-track{height:1px;background:transparent}
+.ambx .cl input::-moz-range-track{height:1px;background:transparent}
+.ambx .cl input::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;margin-top:-5.5px;border-radius:50%;border:0;background:#e8f1f4;box-shadow:0 0 6px rgba(190,225,255,.5)}
+.ambx .cl input::-moz-range-thumb{width:12px;height:12px;border-radius:50%;border:0;background:#e8f1f4;box-shadow:0 0 6px rgba(190,225,255,.5)}
+.ambx .cl input:focus-visible{outline:1px solid rgba(85,218,161,.8);outline-offset:-10px;border-radius:6px}
+/* a faint tick where the room's own default sits */
+.ambx .cl .rw{position:relative;flex:1;min-width:0;display:flex}
+.ambx .cl .rw::after{content:"";position:absolute;left:calc(6px + (100% - 12px) * var(--d));top:50%;width:1px;height:7px;margin:-3.5px 0 0 -.5px;background:rgba(220,232,240,.38);pointer-events:none}
+.ambx-f{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:36px;margin-top:2px;border-top:1px solid rgba(220,232,240,.1);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(201,211,214,.62)}
+.ambx-f b{font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ambx-rs{min-height:36px;padding:0 2px 0 10px;border:0;background:none;color:#f2f8fa;font:500 10px/1 var(--ambx-font,Poppins,system-ui,sans-serif);letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+.ambx-rs:focus-visible{outline:1px solid rgba(85,218,161,.8)}
+/* section names and hardware switches (a lit LED when on), shared by every room; skins below set the material */
+.ambx-sec{margin:8px 0 0;height:12px;line-height:12px;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,211,214,.55)}
+.ambx-sec[hidden]{display:none}
+.ambx-sws{display:flex;flex-wrap:wrap;gap:6px;padding:6px 0 4px}
+.ambx-sws[hidden]{display:none}
+.ambx-sw{position:relative;display:inline-flex;align-items:center;gap:7px;min-height:40px;padding:0 12px 0 10px;border:1px solid rgba(220,232,240,.18);border-radius:10px;
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,0) 60%),rgba(10,13,18,.9);box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 2px 4px rgba(0,0,0,.45);
+  color:#dfe8ee;font:500 10.5px/1 var(--ambx-font,Poppins,system-ui,sans-serif);letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+.ambx-sw .led{flex:none;width:6px;height:6px;border-radius:50%;background:#2a3036;box-shadow:inset 0 1px 1px rgba(0,0,0,.6)}
+.ambx-sw.on{color:#fff;border-color:rgba(85,218,161,.55);box-shadow:inset 0 2px 3px rgba(0,0,0,.55),0 1px 0 rgba(255,255,255,.05)}
+.ambx-sw.on .led{background:#55DAA1;box-shadow:0 0 6px 1px rgba(85,218,161,.75)}
+.ambx-sw:disabled{opacity:.4;cursor:default}
+.ambx-sw[hidden]{display:none}
+.ambx-sw:focus-visible{outline:1px solid rgba(85,218,161,.8);outline-offset:2px}
+.ambx-sw:active{transform:translateY(1px)}
+
+/* ---------- skins: the same controls in each room's material ---------- */
+/* darkroom: bakelite knob thumbs, red pilot lamps, a dark enamel plate */
+.ambx.sk-dark .ambx-p{background:linear-gradient(180deg,rgba(28,12,11,.9),rgba(14,6,6,.92));border-color:rgba(255,92,78,.2)}
+.ambx.sk-dark .ambx-tg{border-color:rgba(255,120,100,.28)}
+.ambx.sk-dark .ambx-tg[aria-expanded=true]{border-color:rgba(227,139,124,.7)}
+.ambx.sk-dark .ambx-tg[aria-expanded=true] i{background:#ff4d36;box-shadow:0 0 8px rgba(255,60,40,.8)}
+
+
+.ambx.sk-dark .cl input::-webkit-slider-thumb{width:18px;height:18px;margin-top:-8.5px;background:radial-gradient(circle at 40% 35%,#4a3a36,#120a09 70%);box-shadow:0 0 0 1px rgba(255,140,120,.35),0 2px 4px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.12)}
+.ambx.sk-dark .cl input::-moz-range-thumb{width:18px;height:18px;background:radial-gradient(circle at 40% 35%,#4a3a36,#120a09 70%);box-shadow:0 0 0 1px rgba(255,140,120,.35)}
+.ambx.sk-dark .ambx-sw{background:linear-gradient(180deg,rgba(255,200,190,.06),transparent 60%),#160909;border-color:rgba(255,92,78,.22);color:#f3e0dc}
+.ambx.sk-dark .ambx-sw.on{border-color:rgba(227,139,124,.7)}
+.ambx.sk-dark .ambx-sw.on .led{background:#ff4d36;box-shadow:0 0 7px 1px rgba(255,60,40,.8)}
+.ambx.sk-dark .ambx-sec{color:rgba(217,184,178,.6)}
+/* RED camera body: anodised black, milled alloy thumbs, red record LEDs */
+.ambx.sk-red{--ambx-font:"Julius Sans One",Poppins,system-ui,sans-serif}
+.ambx.sk-red .ambx-p{background:linear-gradient(180deg,#17181a,#0b0c0d);border-color:rgba(255,255,255,.1);border-radius:8px;box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 18px 40px rgba(0,0,0,.6)}
+.ambx.sk-red .ambx-tg{border-radius:6px;background:linear-gradient(180deg,#1d1e20,#0d0e0f);border-color:rgba(255,255,255,.14)}
+.ambx.sk-red .ambx-tg[aria-expanded=true] i,.ambx.sk-red .ambx-sw.on .led{background:#ff3b2a;box-shadow:0 0 7px 1px rgba(255,50,30,.8)}
+.ambx.sk-red .ambx-tg[aria-expanded=true]{border-color:rgba(255,80,60,.55)}
+
+
+.ambx.sk-red .cl input::-webkit-slider-thumb{width:16px;height:16px;margin-top:-7.5px;border-radius:4px;background:repeating-linear-gradient(90deg,#c9ccd0 0 1px,#8d9196 1px 2px);box-shadow:0 1px 3px rgba(0,0,0,.8),0 0 0 1px #000}
+.ambx.sk-red .cl input::-moz-range-thumb{width:16px;height:16px;border-radius:4px;background:#a7abb0}
+.ambx.sk-red .ambx-sw{border-radius:5px;background:linear-gradient(180deg,#202124,#0e0f10);border-color:rgba(255,255,255,.1)}
+.ambx.sk-red .ambx-sw.on{border-color:rgba(255,80,60,.5)}
+/* forest garden: oiled cedar plate, brass dial thumbs */
+.ambx.sk-wood .ambx-p{background:linear-gradient(180deg,rgba(52,34,22,.88),rgba(26,17,11,.92)),repeating-linear-gradient(92deg,rgba(255,220,170,.03) 0 2px,transparent 2px 9px);border-color:rgba(214,170,98,.28)}
+.ambx.sk-wood .ambx-tg{border-color:rgba(214,170,98,.4);background:rgba(30,20,12,.6)}
+.ambx.sk-wood .ambx-tg[aria-expanded=true] i,.ambx.sk-wood .ambx-sw.on .led{background:#e8c27a;box-shadow:0 0 7px 1px rgba(232,194,122,.8)}
+.ambx.sk-wood .ambx-tg[aria-expanded=true]{border-color:rgba(232,194,122,.7)}
+
+
+.ambx.sk-wood .cl input::-webkit-slider-thumb{width:20px;height:20px;margin-top:-9.5px;background:radial-gradient(circle at 38% 32%,#fbe6b0,#b98a3e 55%,#6d4c1c);box-shadow:0 2px 4px rgba(0,0,0,.6),inset 0 0 0 3px rgba(80,50,15,.25)}
+.ambx.sk-wood .cl input::-moz-range-thumb{width:20px;height:20px;background:radial-gradient(circle at 38% 32%,#fbe6b0,#b98a3e 55%,#6d4c1c)}
+.ambx.sk-wood .ambx-sec{color:rgba(232,210,170,.6)}
+/* objects: a glass ring for each thumb, the hoops' warm light */
+.ambx.sk-glass .ambx-p{background:rgba(8,10,14,.62);border-color:rgba(255,230,198,.18);-webkit-backdrop-filter:blur(16px) saturate(1.2);backdrop-filter:blur(16px) saturate(1.2)}
+
+
+.ambx.sk-glass .cl input::-webkit-slider-thumb{width:18px;height:18px;margin-top:-8.5px;background:radial-gradient(circle,rgba(255,240,220,.05) 0 44%,rgba(255,230,198,.95) 50% 58%,rgba(255,201,138,.25) 64%,transparent 70%);box-shadow:0 0 10px rgba(255,201,138,.55)}
+.ambx.sk-glass .cl input::-moz-range-thumb{width:18px;height:18px;background:transparent;border:2px solid rgba(255,230,198,.95);box-shadow:0 0 10px rgba(255,201,138,.55)}
+.ambx.sk-glass .ambx-tg[aria-expanded=true] i{background:#ffc98a;box-shadow:0 0 8px rgba(255,201,138,.8)}
+.ambx.sk-glass .ambx-tg[aria-expanded=true]{border-color:rgba(255,201,138,.6)}
+
+.ambx.sk-dark{--ambx-fill:rgba(227,139,124,.8);--ambx-rest:rgba(240,210,200,.22)}
+.ambx.sk-red{--ambx-fill:rgba(255,80,60,.8);--ambx-rest:rgba(220,225,230,.22)}
+.ambx.sk-wood{--ambx-fill:rgba(232,194,122,.85);--ambx-rest:rgba(240,225,200,.22)}
+.ambx.sk-glass{--ambx-fill:rgba(255,201,138,.85);--ambx-rest:rgba(220,232,240,.22)}
+.ambx .cl span:first-child{width:var(--ambx-lw,84px)}
+.ambx.op-ctl{--ambx-bottom:calc(46px + env(safe-area-inset-bottom,0px));--ambx-lw:96px}

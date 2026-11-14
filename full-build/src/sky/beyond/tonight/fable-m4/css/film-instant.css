@@ -1,0 +1,6 @@
+/* Film panel: every mode change is instant (moving / still, fill / fit, and the featured page's strip and frame).
+   No slide-out, no fade, no ease: the new mode appears in place on the next frame. Scoped to the film panel only; the camera,
+   the sky and every other room keep their own motion. The panel's one-off entrance (the clip-path grow from its tile) is a
+   script animation that has finished before any mode can be chosen, so it is not touched here. */
+.rl,.rl *,.rl *::before,.rl *::after{transition:none!important;animation:none!important}
+.fp-bar i,.fp-frame,.fp-frame *,.fp-strip,.fp-strip *{transition:none!important;animation:none!important}

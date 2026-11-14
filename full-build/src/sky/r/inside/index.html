@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no">
+<title>Gill James · ᑕᐣᓯ · inside</title>
+<meta name="description" content="Gill James. Film, photographs, objects and sound: one sky you can fly through, and a room inside every piece.">
+<meta name="theme-color" content="#04070b">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ᑕᐣᓯ">
+<meta name="robots" content="noindex">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="../u4-opus-m4/icons/apple-touch-icon.png">
+<link rel="icon" href="../u4-opus-m4/icons/icon-192.png">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="css/inside.css">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+</head>
+<body>
+<div id="stage" role="application" aria-label="Gill James. Drag to drift, pinch to fly in, pinch out to step back one level.">
+<canvas id="gl" aria-hidden="true"></canvas>
+<div id="labels" aria-hidden="true"></div>
+<header id="bar" class="on">
+<button type="button" id="back" hidden aria-label="out one level">‹</button>
+<p id="crumb"><a class="sig" href="#" lang="cr" id="sig">ᑕᐣᓯ</a> · <span id="where">the sky</span></p>
+<nav class="chips" aria-label="shortcuts"><button type="button" data-ch="film" aria-label="film">▶</button><button type="button" data-go="about/poem" aria-label="moon">○</button><button type="button" data-go="objects/joio" aria-label="joio">◻</button><button type="button" data-ch="sound" aria-label="music">∿</button><button type="button" data-ch="about" aria-label="bio">ᑕ</button></nav>
+<a id="reel" href="../u4-opus-m4/?sky=1#film/demo-reel">▶ Reel</a>
+<nav class="nav" aria-label="pages"><button type="button" id="hire" aria-expanded="false">Hire</button><a href="../u4-opus-m4/list/">List</a><a href="../u4-opus-m4/contact/">Contact</a></nav>
+</header>
+<nav id="wcrumb" aria-label="where you are" hidden></nav>
+<p id="shint">drag to drift · pinch to fly in · twist to turn</p>
+<div id="piece" hidden>
+  <p class="t" id="ptitle"></p>
+  <p class="r" id="prole"></p>
+  <p class="c" id="pcred"></p>
+  <p class="acts"><button type="button" id="penter">go inside</button><a id="popen" href="#">open the piece ↗</a></p>
+</div>
+<p id="rhint" hidden>drag to look around · tap a still to bring it close · pinch out to leave</p>
+<p id="foot">© 2025 joioco · <a href="mailto:imjamesgill@gmail.com">imjamesgill@gmail.com</a></p>
+<button type="button" id="mmap" aria-label="map of the sky"><canvas id="mmapc" width="152" height="200"></canvas></button>
+<div id="hirecard" class="hire-card" hidden role="dialog" aria-label="Hire">
+<button type="button" class="x" id="hirex" aria-label="close">×</button>
+<p class="h">Hire</p>
+<p>Film, objects, space and sound.</p>
+<p><a href="mailto:imjamesgill@gmail.com">imjamesgill@gmail.com</a></p>
+</div>
+<div id="veil"></div>
+</div>
+<noscript><p style="position:absolute;z-index:30;top:0;left:0;padding:24px"><a href="../u4-opus-m4/list/" style="color:#eef3f5">Everything as a list</a></p></noscript>
+<script src="../u4-opus-m4/js/nov9.js"></script>
+<script src="../u4-opus-m4/js/frames.js"></script>
+<script src="../u4-opus-m4/js/reelshots.js"></script>
+<script src="../u4-opus-m4/js/joio.js"></script>
+<script type="module" src="js/app.js"></script>
+<link rel="stylesheet" href="../../../../chrome.css"><script src="../../../../chrome.js" data-hub="../../../../index.html" data-rooms="../../../../rooms.json"></script></body>
+</html>

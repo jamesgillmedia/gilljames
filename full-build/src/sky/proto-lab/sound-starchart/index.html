@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#070b12">
+<title>Sound star-chart · proto lab</title>
+<link rel="stylesheet" href="../_shared/css/lab.css">
+<style>
+  .stage{background:radial-gradient(120% 80% at 50% 40%,#152036 0%,#0a1120 50%,#070b12 100%)}
+  #sky,#chart{position:absolute;inset:0;width:100%;height:100%}
+  #chart{z-index:1;touch-action:none}
+  .chrome{position:absolute;top:calc(56px + var(--safe-t));left:16px;right:16px;z-index:2;
+    display:flex;align-items:center;gap:12px;pointer-events:none}
+  .chrome .now{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#d0d6de}
+  .chrome .now b{font:400 12px/1 "Julius Sans One",sans-serif;letter-spacing:.16em;margin-right:8px}
+  .heading{position:absolute;left:0;right:0;top:66%;text-align:center;z-index:1;pointer-events:none}
+  .heading b{display:block;font:400 14px/1 "Julius Sans One",sans-serif;letter-spacing:.32em}
+  .heading small{color:var(--dim);letter-spacing:.08em}
+  body[data-v="C"] .heading{opacity:.35}
+  /* player bar — always present */
+  .player{position:absolute;left:0;right:0;bottom:calc(70px + var(--safe-b));z-index:3;
+    padding:8px 16px 0;display:flex;flex-direction:column;gap:4px}
+  .sc-row{display:flex;align-items:center;gap:8px}
+  .play{width:52px;height:52px;border:1px solid rgba(230,230,236,.35);border-radius:50%;
+    display:grid;place-items:center;flex:none}
+  .play .tri{width:0;height:0;border-style:solid;border-width:8px 0 8px 14px;
+    border-color:transparent transparent transparent #e8eef4;margin-left:3px}
+  .play .bars{display:none;gap:5px;align-items:center;height:16px}
+  .play .bars i{display:block;width:4px;height:16px;background:#e8eef4;border-radius:1px}
+  body.is-on .play .tri{display:none}
+  body.is-on .play .bars{display:flex}
+  .sc-lab{flex:1;min-width:0}
+  .sc-lab .l1{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .sc-lab .l1 b{font:400 13px/1 "Julius Sans One",sans-serif;letter-spacing:.14em;color:var(--ink);margin-right:6px}
+  .sc-lab .l2{font-variant-numeric:tabular-nums;letter-spacing:.1em;font-size:12px;color:#d8dee6}
+  .inv{width:36px;height:36px;border:1px solid rgba(200,200,210,.25);border-radius:50%;
+    display:grid;place-items:center;flex:none}
+  .inv i{width:10px;height:10px;border-radius:50%;background:#c8c4bc}
+  .rail{position:relative;height:28px;margin:0 8px;touch-action:none;cursor:ew-resize}
+  .rail canvas{position:absolute;inset:0;width:100%;height:100%}
+</style>
+</head>
+<body class="lab">
+<header class="labbar">
+  <a class="back" href="../">‹ lab</a>
+  <div class="who">Sound star-chart</div>
+  <nav class="variants" aria-label="proposals">
+    <button type="button" data-v="A" aria-pressed="true">A</button>
+    <button type="button" data-v="B">B</button>
+    <button type="button" data-v="C">C</button>
+  </nav>
+</header>
+<div class="stage" id="stage">
+  <canvas id="sky"></canvas>
+  <canvas id="chart"></canvas>
+  <div class="chrome">
+    <img class="mark" src="../_shared/media/cv-mark.png" alt="">
+    <div class="now" id="now"><b>Lost in Time</b> Lost Coffee</div>
+  </div>
+  <div class="heading"><b>SOUND</b><small>6 songs</small></div>
+  <div class="player" aria-label="player">
+    <div class="sc-row">
+      <button type="button" class="inv" id="inv" aria-label="invert" aria-pressed="false"><i></i></button>
+      <button type="button" class="play" id="play" aria-label="play">
+        <span class="tri"></span><span class="bars" aria-hidden="true"><i></i><i></i></span>
+      </button>
+      <div class="sc-lab">
+        <div class="l1" id="lab1"><b>Lost in Time</b> Lost Coffee</div>
+        <div class="l2"><span id="time">0:00</span> · <span id="dur">1:30</span></div>
+      </div>
+    </div>
+    <div class="rail" id="rail" aria-label="seek"><canvas id="railcv"></canvas></div>
+  </div>
+</div>
+<p class="vnote" id="vnote"></p>
+<script src="../_shared/js/lab.js"></script>
+<script src="app.js"></script>
+<link rel="stylesheet" href="../../../../chrome.css"><script src="../../../../chrome.js" data-hub="../../../../index.html" data-rooms="../../../../rooms.json"></script></body>
+</html>

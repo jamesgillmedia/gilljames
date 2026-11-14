@@ -1,0 +1,4 @@
+html.has-ctl #bioctl{display:none!important}
+.ambx.bio-ctl{z-index:40;--ambx-right:auto;--ambx-left:max(10px,env(safe-area-inset-left,0px));--ambx-bottom:calc(48px + env(safe-area-inset-bottom,0px));--ambx-pr:auto;--ambx-pl:0;--ambx-lw:70px}
+.ambx.bio-ctl[hidden]{display:none}
+.ambx.bio-ctl .ambx-tg{text-transform:lowercase;letter-spacing:.08em;font:300 11px/1 Poppins,sans-serif}

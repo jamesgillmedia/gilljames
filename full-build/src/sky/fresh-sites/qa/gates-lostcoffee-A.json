@@ -1,0 +1,134 @@
+[
+ {
+  "site": "lostcoffee",
+  "v": "A",
+  "dev": "desktop",
+  "errors": [],
+  "home": [
+   {
+    "h": "#/",
+    "d": 0
+   },
+   {
+    "h": "#/",
+    "d": 0
+   }
+  ],
+  "wave": [
+   [
+    {
+     "sel": "a-groove",
+     "op": 1,
+     "lum": 0.895
+    }
+   ],
+   [
+    {
+     "sel": "a-groove",
+     "op": 1,
+     "lum": 0.895
+    }
+   ]
+  ],
+  "checks": [
+   {
+    "check": "44x44 .a-back",
+    "got": [
+     106,
+     44
+    ],
+    "ok": true
+   },
+   {
+    "check": "at home, depth 0 (no duplicate entry)",
+    "got": {
+     "h": "#/",
+     "d": 0
+    },
+    "ok": true
+   },
+   {
+    "check": "at home, depth 0 (no duplicate entry)",
+    "got": {
+     "h": "#/",
+     "d": 0
+    },
+    "ok": true
+   }
+  ],
+  "snaps": [
+   "/workspace/share/fresh-sites-1113/build/qa/frames/lostcoffee-A-desktop-home.png",
+   "/workspace/share/fresh-sites-1113/build/qa/frames/lostcoffee-A-desktop-room.png",
+   "/workspace/share/fresh-sites-1113/build/qa/frames/lostcoffee-A-desktop-act.png"
+  ],
+  "dial_shown": true,
+  "clip": null,
+  "frames_captured": 0
+ },
+ {
+  "site": "lostcoffee",
+  "v": "A",
+  "dev": "phone",
+  "errors": [],
+  "home": [
+   {
+    "h": "#/",
+    "d": 0
+   },
+   {
+    "h": "#/",
+    "d": 0
+   }
+  ],
+  "wave": [
+   [
+    {
+     "sel": "a-groove",
+     "op": 1,
+     "lum": 0.895
+    }
+   ],
+   [
+    {
+     "sel": "a-groove",
+     "op": 1,
+     "lum": 0.895
+    }
+   ]
+  ],
+  "checks": [
+   {
+    "check": "44x44 .a-back",
+    "got": [
+     106,
+     44
+    ],
+    "ok": true
+   },
+   {
+    "check": "at home, depth 0 (no duplicate entry)",
+    "got": {
+     "h": "#/",
+     "d": 0
+    },
+    "ok": true
+   },
+   {
+    "check": "at home, depth 0 (no duplicate entry)",
+    "got": {
+     "h": "#/",
+     "d": 0
+    },
+    "ok": true
+   }
+  ],
+  "snaps": [
+   "/workspace/share/fresh-sites-1113/build/qa/frames/lostcoffee-A-phone-home.png",
+   "/workspace/share/fresh-sites-1113/build/qa/frames/lostcoffee-A-phone-room.png",
+   "/workspace/share/fresh-sites-1113/build/qa/frames/lostcoffee-A-phone-act.png"
+  ],
+  "dial_shown": true,
+  "clip": null,
+  "frames_captured": 0
+ }
+]

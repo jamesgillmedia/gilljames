@@ -1,0 +1,31 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Objects · ᑕᐣᓯ</title>
+<meta name="theme-color" content="#050506">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/room.css">
+<script>(function(){try{var c=document.createElement('canvas');if(!(c.getContext('webgl2')||c.getContext('webgl'))||/[?&]nogl\b/.test(location.search))throw 0}catch(e){document.documentElement.className='nogl'}})();</script>
+</head><body>
+<header class="top"><button type="button" class="btn ic" id="back" aria-label="up one place">‹</button><a class="sig" href="../../" lang="cr" aria-label="home">ᑕᐣᓯ</a>
+ <span class="crumb ju"><b>objects · </b><span id="where">the case</span></span>
+ <button type="button" class="btn" id="proofBtn" aria-pressed="false" aria-label="proof sheet: every photograph">proof</button></header>
+<canvas id="c" aria-label="the specimen case: one real photograph at a time on a dark ground, the others further back in the dark"></canvas>
+<div class="label" id="label" aria-live="polite"><span class="t ju" id="lt"></span><span class="c" id="lc"></span><span class="n" id="ln"></span></div>
+<div class="layers" id="layers" aria-hidden="true"></div>
+<button type="button" class="side l" id="prev" aria-label="previous piece">‹</button>
+<button type="button" class="side r" id="next" aria-label="next piece">›</button>
+<section class="proof" id="proof" aria-label="proof sheet: every photograph of every piece, in the order of the case" hidden>
+ <div class="psc" id="psc"><div class="phd"><span class="ju">objects · proof</span><a class="btn sm" id="toBoard" href="../../#objects/board">objects board ›</a></div><div id="pgrid"></div></div>
+</section>
+<section class="detail" id="detail" aria-label="one photograph" hidden>
+ <div class="dsc" id="dsc"><figure class="hero" id="dhero"></figure><div class="dmeta" id="dmeta"></div>
+  <div class="more" id="dmore"></div><div class="onboard" id="donboard"></div>
+  <button type="button" class="end ju" id="dend">back to the case ‹</button></div>
+</section>
+<noscript><p class="ns">Objects needs JavaScript. <a href="../../#objects">The Objects chapter</a></p></noscript>
+<div class="veil" id="veil"></div>
+<script src="js/data.js"></script>
+<script type="module" src="js/room.js"></script>
+<link rel="stylesheet" href="../../../../../../chrome.css"><script src="../../../../../../chrome.js" data-hub="../../../../../../index.html" data-rooms="../../../../../../rooms.json"></script></body></html>
