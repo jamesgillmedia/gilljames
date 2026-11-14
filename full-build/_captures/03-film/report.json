@@ -1,0 +1,282 @@
+[
+ {
+  "device": "desktop",
+  "path": "src/site3d-8d21/site-3d/index.html",
+  "shot": "desktop-src_site3d-8d21_site-3d_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/b33/sketch-3d/index.html",
+  "shot": "desktop-src_b33_sketch-3d_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/b33/site-v3/film/index.html",
+  "shot": "desktop-src_b33_site-v3_film_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/sky/player/tonight/fable-m4/index.html",
+  "shot": "desktop-src_sky_player_tonight_fable-m4_index.html.png",
+  "errors": [
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)"
+  ],
+  "failed": [
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/one-with-the-devil/loop-720-poster.jpg",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/sleepwalker/loop-480-poster.jpg",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/weird-kid/loop-720-poster.jpg",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/repeat-feat-jessie-reyez/loop-480-poster.jpg",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/weird-kid/loop-720.av1.webm",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/one-with-the-devil/loop-720.av1.webm",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/sleepwalker/loop-480.av1.webm",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/repeat-feat-jessie-reyez/loop-480.av1.webm",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/weird-kid/loop-720.webm",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/one-with-the-devil/loop-720.webm",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/sleepwalker/loop-480.webm",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/repeat-feat-jessie-reyez/loop-480.webm",
+   "http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/weird-kid/loop-720.webm",
+   "http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/repeat-feat-jessie-reyez/loop-480.webm",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/weird-kid/loop-720.mp4",
+   "http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/weird-kid/loop-720.mp4",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/one-with-the-devil/loop-720.mp4",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/repeat-feat-jessie-reyez/loop-480.mp4",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/sleepwalker/loop-480.mp4"
+  ]
+ },
+ {
+  "device": "desktop",
+  "path": "src/c4e6/site-constellation/film/reel-2026/index.html",
+  "shot": "desktop-src_c4e6_site-constellation_film_reel-2026_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/sky/tour/demo-reel-card/index.html",
+  "shot": "desktop-src_sky_tour_demo-reel-card_index.html.png",
+  "errors": [
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)"
+  ],
+  "failed": [
+   "404 http://127.0.0.1:8877/full-build/src/sky/shared/offline-collage/collage.css",
+   "http://127.0.0.1:8877/full-build/src/sky/shared/offline-collage/collage.css",
+   "404 http://127.0.0.1:8877/full-build/src/sky/tour/tour.css",
+   "http://127.0.0.1:8877/full-build/src/sky/tour/tour.css",
+   "404 http://127.0.0.1:8877/full-build/src/sky/shared/analytics/config.js",
+   "http://127.0.0.1:8877/full-build/src/sky/shared/analytics/config.js",
+   "404 http://127.0.0.1:8877/full-build/src/sky/shared/analytics/analytics.js",
+   "http://127.0.0.1:8877/full-build/src/sky/shared/analytics/analytics.js",
+   "404 http://127.0.0.1:8877/full-build/src/sky/shared/offline-collage/collage.js",
+   "http://127.0.0.1:8877/full-build/src/sky/shared/offline-collage/collage.js",
+   "404 http://127.0.0.1:8877/full-build/src/sky/tour/stops.js",
+   "http://127.0.0.1:8877/full-build/src/sky/tour/stops.js",
+   "404 http://127.0.0.1:8877/full-build/src/sky/tour/tour.js",
+   "http://127.0.0.1:8877/full-build/src/sky/tour/tour.js"
+  ]
+ },
+ {
+  "device": "desktop",
+  "path": "src/b33/site-v2/film/index.html",
+  "shot": "desktop-src_b33_site-v2_film_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/sky/r/u4-opus-m4/film/back-to-the-start/index.html",
+  "shot": "desktop-src_sky_r_u4-opus-m4_film_back-to-the-start_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/sky/r/r9/film/back-to-the-start/index.html",
+  "shot": "desktop-src_sky_r_r9_film_back-to-the-start_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "cinema/index.html",
+  "shot": "desktop-cinema_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "reel/index.html",
+  "shot": "desktop-reel_index.html.png",
+  "errors": [],
+  "failed": [
+   "http://127.0.0.1:8877/full-build/reel/media/clips/p67.mp4",
+   "http://127.0.0.1:8877/full-build/reel/media/clips/p63.mp4",
+   "http://127.0.0.1:8877/full-build/reel/media/clips/p64.mp4"
+  ]
+ },
+ {
+  "device": "phone",
+  "path": "src/site3d-8d21/site-3d/index.html",
+  "shot": "phone-src_site3d-8d21_site-3d_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/b33/sketch-3d/index.html",
+  "shot": "phone-src_b33_sketch-3d_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/b33/site-v3/film/index.html",
+  "shot": "phone-src_b33_site-v3_film_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/sky/player/tonight/fable-m4/index.html",
+  "shot": "phone-src_sky_player_tonight_fable-m4_index.html.png",
+  "errors": [
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)"
+  ],
+  "failed": [
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/weird-kid/loop-720-poster.jpg",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/repeat-feat-jessie-reyez/loop-480-poster.jpg",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/one-with-the-devil/loop-720-poster.jpg",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/sleepwalker/loop-480-poster.jpg",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/one-with-the-devil/loop-720.av1.webm",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/weird-kid/loop-720.av1.webm",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/sleepwalker/loop-480.av1.webm",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/repeat-feat-jessie-reyez/loop-480.av1.webm",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/one-with-the-devil/loop-720.webm",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/weird-kid/loop-720.webm",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/repeat-feat-jessie-reyez/loop-480.webm",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/sleepwalker/loop-480.webm",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/one-with-the-devil/loop-720.mp4",
+   "http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/one-with-the-devil/loop-720.mp4",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/weird-kid/loop-720.mp4",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/repeat-feat-jessie-reyez/loop-480.mp4",
+   "404 http://127.0.0.1:8877/full-build/src/sky/player/tonight/media/film/sleepwalker/loop-480.mp4"
+  ]
+ },
+ {
+  "device": "phone",
+  "path": "src/c4e6/site-constellation/film/reel-2026/index.html",
+  "shot": "phone-src_c4e6_site-constellation_film_reel-2026_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/sky/tour/demo-reel-card/index.html",
+  "shot": "phone-src_sky_tour_demo-reel-card_index.html.png",
+  "errors": [
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)"
+  ],
+  "failed": [
+   "404 http://127.0.0.1:8877/full-build/src/sky/tour/tour.css",
+   "http://127.0.0.1:8877/full-build/src/sky/tour/tour.css",
+   "404 http://127.0.0.1:8877/full-build/src/sky/shared/offline-collage/collage.css",
+   "http://127.0.0.1:8877/full-build/src/sky/shared/offline-collage/collage.css",
+   "404 http://127.0.0.1:8877/full-build/src/sky/shared/analytics/config.js",
+   "http://127.0.0.1:8877/full-build/src/sky/shared/analytics/config.js",
+   "404 http://127.0.0.1:8877/full-build/src/sky/shared/analytics/analytics.js",
+   "http://127.0.0.1:8877/full-build/src/sky/shared/analytics/analytics.js",
+   "404 http://127.0.0.1:8877/full-build/src/sky/shared/offline-collage/collage.js",
+   "http://127.0.0.1:8877/full-build/src/sky/shared/offline-collage/collage.js",
+   "404 http://127.0.0.1:8877/full-build/src/sky/tour/stops.js",
+   "http://127.0.0.1:8877/full-build/src/sky/tour/stops.js",
+   "404 http://127.0.0.1:8877/full-build/src/sky/tour/tour.js",
+   "http://127.0.0.1:8877/full-build/src/sky/tour/tour.js"
+  ]
+ },
+ {
+  "device": "phone",
+  "path": "src/b33/site-v2/film/index.html",
+  "shot": "phone-src_b33_site-v2_film_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/sky/r/u4-opus-m4/film/back-to-the-start/index.html",
+  "shot": "phone-src_sky_r_u4-opus-m4_film_back-to-the-start_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/sky/r/r9/film/back-to-the-start/index.html",
+  "shot": "phone-src_sky_r_r9_film_back-to-the-start_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "cinema/index.html",
+  "shot": "phone-cinema_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "reel/index.html",
+  "shot": "phone-reel_index.html.png",
+  "errors": [],
+  "failed": [
+   "http://127.0.0.1:8877/full-build/reel/media/clips/p63.mp4",
+   "http://127.0.0.1:8877/full-build/reel/media/clips/p67.mp4",
+   "http://127.0.0.1:8877/full-build/reel/media/clips/p64.mp4"
+  ]
+ }
+]
