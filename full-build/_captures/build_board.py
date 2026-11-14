@@ -105,7 +105,18 @@ def clips_for(folder):
         groups.setdefault(rest, {})[device] = path.name
     clips = []
     for name in sorted(groups):
-        clips.append({"name": Path(name).stem.replace("-", " "), "desktop": groups[name].get("desktop", ""), "phone": groups[name].get("phone", "")})
+        def frames(filename):
+            if not filename:
+                return ""
+            sheet = base / (Path(filename).stem + "-frames.jpg")
+            return sheet.name if sheet.is_file() else ""
+        clips.append({
+            "name": Path(name).stem.replace("-", " "),
+            "desktop": groups[name].get("desktop", ""),
+            "phone": groups[name].get("phone", ""),
+            "desktop_frames": frames(groups[name].get("desktop", "")),
+            "phone_frames": frames(groups[name].get("phone", "")),
+        })
     return clips
 
 
@@ -119,11 +130,14 @@ def figure(folder, filename, path, caption):
     )
 
 
-def video(folder, filename, caption):
+def video(folder, filename, caption, frames=""):
     src = file_url(f"{folder}/{filename}")
+    still = ""
+    if frames:
+        still = f'<img src="{esc(file_url(folder + "/" + frames))}" alt="{esc(caption + " frames")}">'
     return (
         f'<figure class="clip"><video src="{esc(src)}" muted loop playsinline autoplay></video>'
-        f'<figcaption>{esc(caption)}</figcaption></figure>'
+        f'{still}<figcaption>{esc(caption)}</figcaption></figure>'
     )
 
 
@@ -161,6 +175,8 @@ def render():
   video { background: #000; }
   .clip { margin: 0; }
   .clips { margin: 8px 0 18px; }
+  .overview { margin: 16px 0 8px; }
+  .tools { display: grid; gap: 22px; }
   @media (max-width: 760px) {
     .pair, .clips { grid-template-columns: 1fr; }
   }
@@ -181,9 +197,20 @@ def render():
         report = json.loads(report_path.read_text())
         milestones.append({**row, "rooms": shots_for(row["folder"], report), "clips": clips_for(row["folder"])})
 
+    tool_sheets = sorted((HERE / "tools").glob("*.jpg")) if (HERE / "tools").is_dir() else []
+    if tool_sheets:
+        parts.append('<a href="#tools">tools</a>\n')
     for m in milestones:
         parts.append(f'<a href="#{esc(m["folder"])}">{esc(m["folder"])}</a>\n')
     parts.append("</nav>\n</header>\n<main>\n")
+
+    if tool_sheets:
+        parts.append('<section id="tools">\n<h2>Tools</h2>\n')
+        parts.append('<p class="note">Red mode, safelight, the NV3 dial and zoom, the light scale, reframe, the Horizon dial, view buttons, scrub rail, pinch index, and the toggles. Before and after, as shot.</p>\n')
+        parts.append('<div class="tools">\n')
+        for sheet in tool_sheets:
+            parts.append(f'<img src="tools/{esc(sheet.name)}" alt="{esc(sheet.stem.replace("-", " "))}">\n')
+        parts.append("</div>\n</section>\n")
 
     for m in milestones:
         parts.append(f'<section id="{esc(m["folder"])}">\n')
@@ -191,15 +218,18 @@ def render():
         parts.append(f'<h2>{esc(title)}</h2>\n')
         parts.append(f'<p class="meta"><code>{esc(m["commit"])}</code></p>\n')
         parts.append(f'<p class="note">{esc(m["note"])}</p>\n')
+        sheet = HERE / m["folder"] / "sheet.jpg"
+        if sheet.is_file():
+            parts.append(f'<img class="overview" src="{esc(m["folder"])}/sheet.jpg" alt="{esc(title)} contact sheet">\n')
         if m["clips"]:
             parts.append('<div class="clips">\n')
             for clip in m["clips"]:
                 if clip["desktop"]:
-                    parts.append(video(m["folder"], clip["desktop"], f'desktop · {clip["name"]}') + "\n")
+                    parts.append(video(m["folder"], clip["desktop"], f'desktop · {clip["name"]}', clip.get("desktop_frames", "")) + "\n")
                 else:
                     parts.append("<div></div>\n")
                 if clip["phone"]:
-                    parts.append(video(m["folder"], clip["phone"], f'phone · {clip["name"]}') + "\n")
+                    parts.append(video(m["folder"], clip["phone"], f'phone · {clip["name"]}', clip.get("phone_frames", "")) + "\n")
             parts.append("</div>\n")
         for room in m["rooms"]:
             name, ids = label_for(by, room["path"])
