@@ -35,9 +35,9 @@ html.fold-deep #fold-moon{opacity:0}
 #fold-mark{display:block;width:min(74vw,380px);height:auto;aspect-ratio:2.2/1;margin:6px 0 14px -6px;pointer-events:none}
 .intro .poem{background:none!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;padding:0!important;
  text-shadow:0 1px 2px #04070b,0 0 14px rgba(4,7,11,.9)}
-.intro .poem span:nth-child(-n+3){font-size:clamp(20px,5.4vw,30px);line-height:1.22;letter-spacing:.04em;color:#e8e4dc}
-.intro .poem span:nth-child(n+4){font-size:13px;line-height:1.6;color:rgba(232,228,220,.62)}
-.intro .poem span:nth-child(4){margin-top:12px}
+.intro .poem span.iam{font-size:clamp(20px,5.4vw,30px);line-height:1.22;letter-spacing:.04em;color:#e8e4dc}
+.intro .poem span:not(.iam){font-size:13px;line-height:1.6;color:rgba(232,228,220,.62)}
+.intro .poem span.iam + span:not(.iam){margin-top:12px}
 .intro .hint{opacity:.7}
 .fold-ripple{position:fixed;left:0;top:0;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;pointer-events:none;z-index:2;
  border:1px solid rgba(232,228,220,.55);transform:scale(1,.36);animation:fold-rip 1.5s cubic-bezier(.2,.6,.3,1) forwards}
@@ -150,13 +150,16 @@ html:not(.fold-rm) #objects.lv2 .stars>.it .vis{animation:fold-drift 10s ease-in
 
 /* ---------- side dial: the tune instrument on the right edge (no box; 3D depth + drop shadow only) ---------- */
 #fold-dial{position:fixed;right:0;top:50%;z-index:61;width:34px;height:120px;margin-top:-60px;padding:0;border:0;border-radius:0;background:none;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:none;transform-style:preserve-3d;transform:perspective(240px) translate3d(calc(var(--tx,0) * 3px),calc(var(--ty,0) * 2px),18px) rotateY(calc(-10deg + var(--tx,0) * 6deg));transition:transform .45s var(--fold-ease),opacity .22s linear}
-#fold-dial svg{position:absolute;right:2px;top:0;width:30px;height:120px;overflow:visible;filter:drop-shadow(0 2px 3px rgba(2,4,8,.98)) drop-shadow(-3px 6px 12px rgba(0,0,0,.92)) drop-shadow(0 0 16px rgba(4,7,11,.9))}
+#fold-dial svg{position:absolute;right:2px;top:0;width:30px;height:120px;overflow:visible;filter:drop-shadow(0 2px 3px rgba(2,4,8,.98)) drop-shadow(-3px 6px 12px rgba(0,0,0,.92)) drop-shadow(0 0 16px rgba(4,7,11,.9)) drop-shadow(0 0 8px rgba(232,228,220,.26))}
 #fold-dial .fd-arc{fill:none;stroke:rgba(var(--gd-ink,232,228,220),.76);stroke-width:1.25}
 #fold-dial .fd-tick{stroke:rgba(var(--gd-ink,232,228,220),.78);stroke-width:1.05}
 #fold-dial .fd-dot{fill:rgb(var(--gd-ink,240,236,228))}
 #fold-dial .fd-lab{font:400 7px "Julius Sans One",Poppins,sans-serif;letter-spacing:.2em;fill:rgba(var(--gd-ink,232,228,220),.94)}
 html.mm-open #fold-dial{transform:perspective(240px) translate3d(-4px,0,28px) rotateY(-24deg)}
 html.mm-open #fold-dial .fd-arc{stroke:rgba(var(--gd-ink,232,228,220),.9)}
+html.mm-open #fold-dial svg{filter:drop-shadow(0 2px 3px rgba(2,4,8,.98)) drop-shadow(-3px 6px 12px rgba(0,0,0,.92)) drop-shadow(0 0 16px rgba(4,7,11,.9)) drop-shadow(0 0 8px rgba(232,228,220,.38))}
+html[data-gj-c="red"] #fold-dial svg{filter:drop-shadow(0 2px 3px rgba(2,4,8,.98)) drop-shadow(-3px 6px 12px rgba(0,0,0,.92)) drop-shadow(0 0 16px rgba(4,7,11,.9)) drop-shadow(0 0 10px rgba(var(--gj-red-dial,216,78,72),.34))}
+html[data-gj-c="red"].mm-open #fold-dial svg{filter:drop-shadow(0 2px 3px rgba(2,4,8,.98)) drop-shadow(-3px 6px 12px rgba(0,0,0,.92)) drop-shadow(0 0 16px rgba(4,7,11,.9)) drop-shadow(0 0 10px rgba(var(--gj-red-dial,216,78,72),.42))}
 html.fold-cover #fold-dial,html.gd-on #fold-dial{opacity:0;pointer-events:none}
 @media (prefers-reduced-motion:reduce){#fold-dial,html.mm-open #fold-dial{transition:opacity .18s linear;transform:none}}
 

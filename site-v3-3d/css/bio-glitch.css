@@ -1,0 +1,28 @@
+/* Bio layers: calculator.mp4 under drawGlitch (ported from u4-opus-m4 / fable-m4 sky.js + sky.css). */
+#layers{position:fixed;inset:0;z-index:80;overflow:hidden;background:#04070b;font:300 14px/1.45 Poppins,Syl,system-ui,sans-serif;color:#f4f7ef;-webkit-font-smoothing:antialiased}
+#layers[hidden]{display:none}
+html.gj-bio-on,html.gj-bio-on body{overflow:hidden}
+html.gj-bio-on #fold-dial,html.gj-bio-on #ghostdial{visibility:hidden}
+#calcstage{position:absolute;inset:0;overflow:hidden;z-index:0}
+#calczoom{position:absolute;inset:0;transform-origin:52% 66%;transition:transform .48s ease}
+#calc{position:absolute;width:2px;height:2px;opacity:0;pointer-events:none}
+#glitch{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#layers.exit #calcstage,#layers.exit #laytext,#layers.exit #lrail{opacity:0;transition:opacity .75s ease}
+#grain{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.16;mix-blend-mode:overlay;z-index:2}
+#laytext{position:absolute;z-index:3;left:7%;right:12%;top:calc(52px + var(--st,env(safe-area-inset-top,0px)));bottom:14%;display:flex;flex-direction:column;justify-content:center;
+ color:#f4f7ef;font-weight:300;text-shadow:0 1px 2px rgba(0,0,0,.85);pointer-events:none;
+ background:linear-gradient(transparent 8%,rgba(4,7,11,.45) 28%,rgba(4,7,11,.62) 72%,transparent);padding:22px 10px}
+#laytext.lv4,#laytext.lv5,#laytext.lv6,#laytext.lv7{touch-action:pan-y;justify-content:flex-start;top:calc(68px + var(--st,env(safe-area-inset-top,0px)));bottom:calc(36px + var(--sb,env(safe-area-inset-bottom,0px)));overflow:auto;pointer-events:auto;padding-bottom:28px;
+ background:rgba(4,7,11,.52);border-radius:18px;box-shadow:0 0 26px 14px rgba(4,7,11,.42);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);padding-left:16px;padding-right:16px;bottom:auto;max-height:calc(100% - 104px - var(--st,env(safe-area-inset-top,0px)) - var(--sb,env(safe-area-inset-bottom,0px)))}
+#laytext.flick{opacity:.62}
+#laytext span{display:block;font-size:14.5px;line-height:1.55;letter-spacing:.01em}
+#laytext.lv1 span{font-size:30px;line-height:1.2;letter-spacing:.01em}
+#laytext.lv2 span{font-size:15px;line-height:1.35}
+@media(min-width:900px){#laytext.lv2{right:auto;width:fit-content;max-width:62%;height:fit-content;margin:auto 0;padding:28px 40px;background:rgba(4,7,11,.52);border-radius:18px;box-shadow:0 0 26px 14px rgba(4,7,11,.42);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);text-shadow:0 1px 3px rgba(0,0,0,.9)}#laytext.lv2 span{font-size:22px;line-height:1.4}}
+#layers .copy.sel,#layers .copy.sel *{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+#lrail{position:absolute;z-index:3;right:10px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none}
+#lrail i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.35);display:block}
+#lrail i.on{background:#e7f6c8;box-shadow:0 0 8px #e7f6c8}
+#lrail b{font-size:10px;letter-spacing:.14em;font-weight:400;color:rgba(236,244,230,.85)}
+#bio-back{position:absolute;z-index:4;left:max(10px,var(--sl,env(safe-area-inset-left,0px)));top:calc(10px + var(--st,env(safe-area-inset-top,0px)));appearance:none;border:0;background:transparent;color:#f4f7ef;font:300 14px/1 Poppins,sans-serif;letter-spacing:.12em;padding:12px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+#bio-back:focus-visible{outline:1px solid rgba(231,246,200,.7)}

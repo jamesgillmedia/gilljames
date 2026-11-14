@@ -179,7 +179,7 @@ document.addEventListener('scroll',function(e){if(e.target&&e.target.matches&&e.
   var keys=['7','8','9','÷','4','5','6','×','1','2','3','−','0','.','=','+'];
   w.innerHTML='<div class="fold-calc" aria-label="a calculator: tap a key"><div class="fc-obj"><div class="fc-vfd"><b>GILL JAMES</b><i></i></div><div class="fc-keys">'+
     keys.map(function(k){return '<button type="button" class="'+(/[÷×−+=]/.test(k)?'w':'')+'">'+k+'</button>'}).join('')+'</div><p class="fc-cap">ᑕᐣᓯ · vancouver</p></div></div>'+
-    '<p class="fold-poem" lang="en"><span>I am Gill</span><span>I am James</span><span>I am an artist</span></p>';
+    '<p class="fold-poem" lang="en"><span class="iam">I am Gill</span><span class="iam">I am James</span><span class="iam">I am an artist</span></p>';
   var lab=$('.label',host);host.insertBefore(w,lab?lab.nextSibling:host.firstChild);
   var vfd=$('.fc-vfd b',w),seq=['I AM GILL','I AM JAMES','I AM AN ARTIST','VANCOUVER','FILM . PHOTO','OBJECTS','SPACES','SOUND','ALL MY RELATIONS'],si=0,buf='';
   $$('.fc-keys button',w).forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();var k=b.textContent;
