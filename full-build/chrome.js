@@ -5,6 +5,12 @@
   if (window.__gjChrome) return;
   window.__gjChrome = 1;
   var s = document.currentScript;
+  if (s && s.src && document.head && !document.querySelector('link[rel="icon"]')) {
+    var icon = document.createElement("link");
+    icon.rel = "icon";
+    icon.href = new URL("src/b33/site-v3-pro2/img/favicon-32.png", s.src).href;
+    document.head.appendChild(icon);
+  }
   var HUB = (s && s.getAttribute("data-hub")) || "index.html";
   var ROOMS = (s && s.getAttribute("data-rooms")) || "rooms.json";
   var hubPage = document.body.classList.contains("gj-hub");

@@ -1,0 +1,128 @@
+[
+ {
+  "device": "desktop",
+  "path": "src/v33d/site-v3-3d/index.html?arrival=v1",
+  "shot": "desktop-src_v33d_site-v3-3d_index.html?arrival=v1.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "opener/index.html",
+  "shot": "desktop-opener_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/b33/site-v3/index.html",
+  "shot": "desktop-src_b33_site-v3_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/sky/opener/tonight/marks/opt1-fewer/index.html",
+  "shot": "desktop-src_sky_opener_tonight_marks_opt1-fewer_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/sky/opener/tonight/marks/opt2-spread/index.html",
+  "shot": "desktop-src_sky_opener_tonight_marks_opt2-spread_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/sky/opener/tonight/marks/opt3-shallow/index.html",
+  "shot": "desktop-src_sky_opener_tonight_marks_opt3-shallow_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/sky/r/u4-opus-m4/_sketch/opener/index.html",
+  "shot": "desktop-src_sky_r_u4-opus-m4__sketch_opener_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/sky/proto/mark-fusion/index.html",
+  "shot": "desktop-src_sky_proto_mark-fusion_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/sky/tonight/index.html",
+  "shot": "desktop-src_sky_tonight_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/v33d/site-v3-3d/index.html?arrival=v1",
+  "shot": "phone-src_v33d_site-v3-3d_index.html?arrival=v1.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "opener/index.html",
+  "shot": "phone-opener_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/b33/site-v3/index.html",
+  "shot": "phone-src_b33_site-v3_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/sky/opener/tonight/marks/opt1-fewer/index.html",
+  "shot": "phone-src_sky_opener_tonight_marks_opt1-fewer_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/sky/opener/tonight/marks/opt2-spread/index.html",
+  "shot": "phone-src_sky_opener_tonight_marks_opt2-spread_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/sky/opener/tonight/marks/opt3-shallow/index.html",
+  "shot": "phone-src_sky_opener_tonight_marks_opt3-shallow_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/sky/r/u4-opus-m4/_sketch/opener/index.html",
+  "shot": "phone-src_sky_r_u4-opus-m4__sketch_opener_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/sky/proto/mark-fusion/index.html",
+  "shot": "phone-src_sky_proto_mark-fusion_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/sky/tonight/index.html",
+  "shot": "phone-src_sky_tonight_index.html.png",
+  "errors": [],
+  "failed": []
+ }
+]
