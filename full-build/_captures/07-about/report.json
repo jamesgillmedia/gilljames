@@ -1,0 +1,44 @@
+[
+ {
+  "device": "desktop",
+  "path": "src/c4e6/site-constellation/about/index.html",
+  "shot": "desktop-src_c4e6_site-constellation_about_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/b33/site-v3/about/index.html",
+  "shot": "desktop-src_b33_site-v3_about_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/v33d/site-v3-3d-bio/index.html",
+  "shot": "desktop-src_v33d_site-v3-3d-bio_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/c4e6/site-constellation/about/index.html",
+  "shot": "phone-src_c4e6_site-constellation_about_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/b33/site-v3/about/index.html",
+  "shot": "phone-src_b33_site-v3_about_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/v33d/site-v3-3d-bio/index.html",
+  "shot": "phone-src_v33d_site-v3-3d-bio_index.html.png",
+  "errors": [],
+  "failed": []
+ }
+]
