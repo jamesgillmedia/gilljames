@@ -1,0 +1,118 @@
+[
+ {
+  "device": "desktop",
+  "path": "src/dbae/sound-sketch/index.html",
+  "shot": "desktop-src_dbae_sound-sketch_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/sky/fit/tonight/sound/index.html",
+  "shot": "desktop-src_sky_fit_tonight_sound_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/sky/fresh-sites/lostcoffee/index.html?v=A",
+  "shot": "desktop-src_sky_fresh-sites_lostcoffee_index.html?v=A.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/sky/fresh-sites/lostcoffee/index.html?v=B",
+  "shot": "desktop-src_sky_fresh-sites_lostcoffee_index.html?v=B.png",
+  "errors": [],
+  "failed": [
+   "http://127.0.0.1:8877/full-build/src/sky/fresh-sites/lostcoffee/media/audio/lost-in-time.mp3"
+  ]
+ },
+ {
+  "device": "desktop",
+  "path": "src/dbae/sound-v2/index.html",
+  "shot": "desktop-src_dbae_sound-v2_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/dbae/sound-v2b/index.html",
+  "shot": "desktop-src_dbae_sound-v2b_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/dbae/site-v3/sound/index.html",
+  "shot": "desktop-src_dbae_site-v3_sound_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/b33/site-v3-pro/sound/index.html",
+  "shot": "desktop-src_b33_site-v3-pro_sound_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/dbae/sound-sketch/index.html",
+  "shot": "phone-src_dbae_sound-sketch_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/sky/fit/tonight/sound/index.html",
+  "shot": "phone-src_sky_fit_tonight_sound_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/sky/fresh-sites/lostcoffee/index.html?v=A",
+  "shot": "phone-src_sky_fresh-sites_lostcoffee_index.html?v=A.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/sky/fresh-sites/lostcoffee/index.html?v=B",
+  "shot": "phone-src_sky_fresh-sites_lostcoffee_index.html?v=B.png",
+  "errors": [],
+  "failed": [
+   "http://127.0.0.1:8877/full-build/src/sky/fresh-sites/lostcoffee/media/audio/lost-in-time.mp3"
+  ]
+ },
+ {
+  "device": "phone",
+  "path": "src/dbae/sound-v2/index.html",
+  "shot": "phone-src_dbae_sound-v2_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/dbae/sound-v2b/index.html",
+  "shot": "phone-src_dbae_sound-v2b_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/dbae/site-v3/sound/index.html",
+  "shot": "phone-src_dbae_site-v3_sound_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/b33/site-v3-pro/sound/index.html",
+  "shot": "phone-src_b33_site-v3-pro_sound_index.html.png",
+  "errors": [],
+  "failed": []
+ }
+]
