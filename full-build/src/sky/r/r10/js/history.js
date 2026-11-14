@@ -1,6 +1,6 @@
 /* one · earlier builds (Gill, Nov 11 5:49 PM): every previous build, the previews page first, newest first within each group (by each folder's latest commit on GitHub, read Nov 11 2026).
    Folder names are the labels; nothing else is claimed about them. Links open in a new tab. */
-const GJ = 'https://jamesgillmedia.github.io/gilljames/', GS = 'https://jamesgillmedia.github.io/gill-sky/';
+const GJ = '../index.html', GS = 'https://jamesgillmedia.github.io/gill-sky/';
 const L = (base, list) => list.map(f => [f, base + f + '/']);
 export const HISTORY = [
   { g: 'hubs', items: L(GJ, ['previews', 'progress']) },

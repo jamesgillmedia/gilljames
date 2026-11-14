@@ -1,27 +1,27 @@
 @font-face {
   font-family: Poppins;
-  src: url("https://jamesgillmedia.github.io/gilljames/site-v3-pro2/fonts/poppins-200.woff2") format("woff2");
+  src: url("../../../../b33/site-v3-pro2/fonts/poppins-200.woff2") format("woff2");
   font-weight: 200;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: Poppins;
-  src: url("https://jamesgillmedia.github.io/gilljames/site-v3-pro2/fonts/poppins-300.woff2") format("woff2");
+  src: url("../../../../b33/site-v3-pro2/fonts/poppins-300.woff2") format("woff2");
   font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: Julius;
-  src: url("https://jamesgillmedia.github.io/gilljames/site-v3-pro2/fonts/julius-sans-one.woff2") format("woff2");
+  src: url("../../../../b33/site-v3-pro2/fonts/julius-sans-one.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Noto Syl";
-  src: url("https://jamesgillmedia.github.io/gilljames/site-v3-pro2/fonts/noto-canadian-aboriginal-subset.woff2") format("woff2");
+  src: url("../../../../b33/site-v3-pro2/fonts/noto-canadian-aboriginal-subset.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -118,7 +118,7 @@ textarea:focus-visible {
 .water .tex {
   position: absolute;
   inset: -10% 0 -8%;
-  background: url("https://jamesgillmedia.github.io/gilljames/site-v3-pro2/img/hero/water-1600.webp") center 30% / cover no-repeat;
+  background: url("../../../../b33/site-v3-pro2/img/hero/water-1600.webp") center 30% / cover no-repeat;
   filter: brightness(0.46) contrast(1.12) saturate(0.65);
   animation: drift 28s ease-in-out infinite alternate;
 }
@@ -765,7 +765,7 @@ body.is-scrolled .path { opacity: 0; }
   .fold { min-height: calc(100dvh - 72px); }
   .moon { left: auto; right: 10%; top: 96px; width: 70px; height: 70px; }
   .path { left: auto; right: calc(10% + 18px); width: 52px; }
-  .carve img { filter: brightness(1.22) contrast(1.04); }
+  .carve img { filter: none; }
   .mirror img { width: 92px; height: 52px; }
   .mark .syl { font-size: 44px; }
   .mark .sub { max-width: none; font-size: 12px; letter-spacing: 0.16em; }

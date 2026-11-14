@@ -18,7 +18,7 @@ var root,stage,img,track,ctr,lab,rsrc,view,cur0,fitB,lastFocus,pushed=false,
   p=0,cur=-1,playing=true,raf=0,lastT=0,tween=null,drag=null,wheelT=0,wheeling=false,pool=[],stillCache={};
 function pad(n){n=String(n);while(n.length<3)n='0'+n;return n}
 function mod(i){return((i%N)+N)%N}
-var MEDIA='https://jamesgillmedia.github.io/gilljames/site-v3-pro2/';function base(i){return MEDIA+'reel/'+S[i].f}
+var MEDIA='../../../../b33/site-v3-pro2/index.html';function base(i){return MEDIA+'reel/'+S[i].f}
 function fitMode(){var m='fill';try{m=localStorage.getItem(KEY)||'fill'}catch(e){}return m==='fit'?'fit':'fill'}
 function setFit(m){root.classList.toggle('fit',m==='fit');fitB.querySelectorAll('[data-m]').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.m===m))});try{localStorage.setItem(KEY,m)}catch(e){}}
 function build(){

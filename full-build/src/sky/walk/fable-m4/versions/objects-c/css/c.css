@@ -34,7 +34,7 @@ body.at-board .side,body.at-board #inb,body.at-board #cap{opacity:0;pointer-even
 .rgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
 .rg{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
 .rg .hoop{position:relative;width:min(100%,150px);height:auto;aspect-ratio:1/1;flex:0 0 auto;border-radius:50%;padding:7%;border:1.5px solid rgba(255,226,186,.75);box-shadow:0 0 18px rgba(255,206,140,.22),inset 0 0 14px rgba(255,206,140,.12)}
-.rg .hoop{overflow:hidden}.rg .hoop img{position:absolute;left:7%;top:7%;width:86%;height:86%;object-fit:cover;border-radius:50%;filter:brightness(.92)}
+.rg .hoop{overflow:hidden}.rg .hoop img{position:absolute;left:7%;top:7%;width:86%;height:86%;object-fit:cover;border-radius:50%;filter:none}
 .rg .rt{font-size:12px;color:#efe6d8;line-height:1.25}
 .rg .rn{font-size:11px;color:#8f887e}
 .cgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}

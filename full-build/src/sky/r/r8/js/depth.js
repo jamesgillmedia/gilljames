@@ -10,7 +10,7 @@
   if (!script) return;
   var site = new URL("../", script.src);
   var HASH = "#frames";
-  var WAVE = "https://jamesgillmedia.github.io/gilljames/sound-v2b/";
+  var WAVE = "../../../../dbae/sound-v2b/index.html";
   var NOTES = {
     "stay-gold": "AXE · Stay Gold and the director’s cut of AXE · Golden Moment, the gold flares and the ropes from the reel.",
     "golden-moment-directors-cut": "AXE · Stay Gold and the director’s cut of AXE · Golden Moment, the gold flares and the ropes from the reel.",

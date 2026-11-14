@@ -7,7 +7,7 @@
   if (!stage || !layer || !document.body.classList.contains("is-home")) return;
 
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var FRAMES = "https://jamesgillmedia.github.io/gilljames/site-v3-pro2/frames/";
+  var FRAMES = "../../../../b33/site-v3-pro2/frames/";
   var lv = 0;
   var star = null;
   var flying = null;
