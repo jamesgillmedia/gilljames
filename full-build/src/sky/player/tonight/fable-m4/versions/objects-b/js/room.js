@@ -7,7 +7,7 @@
  pinch out / ↑ rise one; swipe sideways / ← → glide to the next case. Tap the lit photograph for its page.
  The joio cup case also holds the mesh cup (photo-measured lathe from the photographs) on a plinth, turning slowly.
  Motion is the same with Reduce Motion on: nothing here reads prefers-reduced-motion. Nothing auto-advances. */
-import * as THREE from '../vendor/three.module.min.js';
+import * as THREE from '../../../objects-3d/vendor/three.module.min.js';
 import { loadCup } from './shared/cup.js';
 import { entry, boardUrl, cardUrl, cardsOf, homeUrl } from './shared/board.js';
 
@@ -157,7 +157,7 @@ function buildRoom() {
     const plTop = new THREE.Mesh(new THREE.PlaneGeometry(.62, .62), new THREE.MeshBasicMaterial({ map: pool, transparent: true, depthWrite: false, opacity: .5 }));
     plTop.rotation.x = -Math.PI / 2; plTop.position.y = .902; cupGroup.add(plTop);
     const spot = new THREE.SpotLight(0xffe6c4, 14, 6, .5, .7, 1.6); spot.position.set(-.6, 2.6, 1.2); spot.target = plinth; cupGroup.add(spot);
-    loadCup(THREE, new URL('../cup/joio-cup.glb', import.meta.url)).then(m => { const s = 8.6; m.scale.set(s, s, s); m.position.y = .903; m.userData.cup = true;
+    loadCup(THREE, new URL('../../objects-a/cup/joio-cup.glb', import.meta.url)).then(m => { const s = 8.6; m.scale.set(s, s, s); m.position.y = .903; m.userData.cup = true;
       cupMesh = m; cupGroup.add(m); dirty = true }).catch(e => console.warn('cup', e));
     cupGroup.userData.stop = st.g; }
   layoutPath();

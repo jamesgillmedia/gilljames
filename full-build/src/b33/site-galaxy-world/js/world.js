@@ -1,4 +1,4 @@
-import * as THREE from '../vendor/three.module.min.js';
+import * as THREE from '../../../sky/player/tonight/fable-m4/objects-3d/vendor/three.module.min.js';
 import {FILM} from './data.js';
 // ᑕᐣᓯ signature nodes (from site-v4-galaxy-nav/js/galaxy.js)
 const SIGN=[[-58.5,-96],[-156.5,-95],[-203.5,-61],[-213.5,1],[-203.5,63],[-156.5,97],[-58.5,97],[-26.5,-97],[25.5,-94],[44.5,-51],[25.5,-8],[-26.5,-5],[99.5,105],[99.5,20],[149.5,15],[191.5,-11],[211.5,-55],[214.5,-105]],

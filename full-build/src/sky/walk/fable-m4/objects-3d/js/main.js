@@ -24,7 +24,7 @@ function margins() {
 let view = null, THREE = null;
 if (!html.classList.contains('nogl')) {
   try {
-    THREE = await import('../vendor/three.module.min.js');
+    THREE = await import('../../../../player/tonight/fable-m4/objects-3d/vendor/three.module.min.js');
     const { createView } = await import('./view.js');
     view = createView(THREE, cv, SPECIMENS, stopsOf, PRESENTERS, MOVE, margins);
   } catch (e) { console.warn(e); html.classList.add('nogl'); view = null }

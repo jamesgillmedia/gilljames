@@ -2569,9 +2569,9 @@ function openCards(){
   return ids.map(function(id){
     var it=byId[id];if(!it)return null;var m=it.media||{};
     var c={id:id,title:it.title,role:it.role||'',meta:it.meta||'',still:m.big||m.thumb||'',clip:m.pv||m.clip||'',kind:it.chapter==='sound'?'sound':it.chapter==='film'?'film':'object',portrait:m.h>m.w};
-    if(id==='film/weird-kid'){c.clip='media/v3/media/pv/22-card.mp4';c.still='media/v3/media/pv/22-card.webp'}
-    if(id==='film/repeat-feat-jessie-reyez'){c.clip='media/v3/media/pv/16-card.mp4';c.still='media/v3/media/pv/16-card.webp'}
-    if(id==='sound/to-go'){c.clip='media/v3/media/pv/to-go.mp4';c.still='media/v3/media/pv/to-go.webp';c.audio='media/pro2/audio/to-go.mp3'}
+    if(id==='film/weird-kid'){c.clip='../../../player/tonight/fable-m4/media/v3/media/pv/22-card.mp4';c.still='../../../player/tonight/fable-m4/media/v3/media/pv/22-card.webp'}
+    if(id==='film/repeat-feat-jessie-reyez'){c.clip='../../../player/tonight/fable-m4/media/v3/media/pv/16-card.mp4';c.still='../../../player/tonight/fable-m4/media/v3/media/pv/16-card.webp'}
+    if(id==='sound/to-go'){c.clip='../../../player/tonight/fable-m4/media/v3/media/pv/to-go.mp4';c.still='media/v3/media/pv/to-go.webp';c.audio='media/pro2/audio/to-go.mp3'}
     return c;
   }).filter(Boolean);
 }

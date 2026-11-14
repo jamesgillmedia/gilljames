@@ -125,7 +125,7 @@ window.FILMS=[
       51,
       59
     ],
-    "video": "media/clips/legends.mp4"
+    "video": "../../../v33d/site-v3/media/films/04/film-720.mp4"
   },
   {
     "slug": "drift",
@@ -420,7 +420,7 @@ window.FILMS=[
       73,
       69
     ],
-    "video": "media/clips/s18.mp4"
+    "video": "../../../v33d/site-v3/media/films/19/film-720.mp4"
   },
   {
     "slug": "back-to-the-start",

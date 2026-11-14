@@ -7,7 +7,7 @@
  Spatial language borrowed from Spirit Eye save 2 : one camera on a Catmull-Rom path, drawings/photos as planes at
  different distances, cubic-bezier(.22,1,.36,1) glides, text only at rest, light hoops, static motes, fog. Nothing auto-advances.
  Motion is the same with Reduce Motion on: nothing here reads prefers-reduced-motion. Silent. */
-import * as THREE from '../vendor/three.module.min.js';
+import * as THREE from '../../../objects-3d/vendor/three.module.min.js';
 import { loadGLB } from './glb.js';
 
 const D = window.OBJ_C, RINGS = D.rings, BOARD = D.board;

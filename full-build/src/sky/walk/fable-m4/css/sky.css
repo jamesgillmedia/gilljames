@@ -17,7 +17,7 @@ a{text-decoration:none}
  touch-action:none}
 canvas#cv{position:absolute;inset:0;width:100%;height:100%;display:block}
 .water{position:absolute;inset:0;background:#061018 center/cover no-repeat;
- background-image:url(../media/v2/img/hero/water-1600.webp);
+ background-image:url(../../../player/tonight/fable-m4/media/v2/img/hero/water-1600.webp);
  opacity:0;transition:opacity calc(1s * var(--gj-delay, 1)) ease;pointer-events:none}
 .water.on{opacity:1}
 .water::after{content:"";position:absolute;inset:0;background:
@@ -244,7 +244,7 @@ html.mapdim #mmap:active,html.mapdim #mmap:focus-visible{opacity:1}
 .rl-fs{position:absolute;left:0;right:0;bottom:calc(42px + var(--sb));height:56px;overflow:hidden;z-index:3;cursor:grab}
 .rl.scrub .rl-fs{cursor:grabbing}
 .rl-tr{position:absolute;left:0;top:8px;height:40px;display:flex;will-change:transform}
-.rl-tr b{flex:0 0 40px;height:40px;background-image:url(../media/pro2/reel/strip.webp);background-size:var(--bs);opacity:.5;filter:saturate(.75)}
+.rl-tr b{flex:0 0 40px;height:40px;background-image:url(../../../player/tonight/fable-m4/media/pro2/reel/strip.webp);background-size:var(--bs);opacity:.5;filter:saturate(.75)}
 .rl-tr b.on{opacity:1;filter:none}
 .rl-mk{position:absolute;left:50%;top:2px;width:2px;height:52px;margin-left:-1px;background:#55DAA1;box-shadow:0 0 8px rgba(85,218,161,.6)}
 html.reelon #mmap{display:none !important}

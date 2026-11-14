@@ -156,14 +156,14 @@ window.GJ_PICKS = {
     },
     {
       "src": "../media/nov9/IMG_2787.mp4",
-      "poster": "posters/IMG_2787.jpg",
+      "poster": "../../r/r6/posters/IMG_2787.jpg",
       "video": true,
       "ar": 0.75,
       "caption": "Unfired cup interior, turning, 9s."
     },
     {
       "src": "../media/nov9/IMG_2793.mp4",
-      "poster": "posters/IMG_2793.jpg",
+      "poster": "../../r/r6/posters/IMG_2793.jpg",
       "video": true,
       "ar": 1.3333,
       "caption": "Hand holding a small unfired cup, 6s."

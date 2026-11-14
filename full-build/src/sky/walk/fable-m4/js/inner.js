@@ -302,9 +302,9 @@ function cedarShots(){
   var list=[];
   ['carve','boards','materials','wire','spoon'].forEach(function(n){list.push(shot(PRO2+'img/objects/'+n+'-960.webp',{title:n}))});
   ['IMG_7571.webp','IMG_7443.webp'].forEach(function(n){list.push(shot(NOV+n,{title:'relief'}))});
-  list.push(shot(ST+'heat-480.webp',{clip:'media/nov9/IMG_1202.mp4',title:'heat'}));
-  list.push(shot(ST+'unfired-480.webp',{clip:'media/nov9/IMG_2787.mp4',title:'unfired cup'}));
-  list.push(shot(ST+'cup-hand-480.webp',{clip:'media/nov9/IMG_2793.mp4',title:'cup'}));
+  list.push(shot(ST+'heat-480.webp',{clip:'../../player/tonight/fable-m4/media/nov9/IMG_1202.mp4',title:'heat'}));
+  list.push(shot(ST+'unfired-480.webp',{clip:'../../player/tonight/fable-m4/media/nov9/IMG_2787.mp4',title:'unfired cup'}));
+  list.push(shot(ST+'cup-hand-480.webp',{clip:'../../player/tonight/fable-m4/media/nov9/IMG_2793.mp4',title:'cup'}));
   return list;
 }
 function build(ctx){

@@ -11,7 +11,7 @@ export const world = { ok: false, onPick: null, clusters: [] };
 const SE = 'm4/3d/media/spirit-eye/';
 export async function mount(canvas, chapters) {
   try { const c = document.createElement('canvas'); if (!(c.getContext('webgl2') || c.getContext('webgl')) || /[?&]nogl\b/.test(location.search)) throw 0;
-    THREE = await import('../m4/3d/vendor/three.module.min.js') } catch (e) { document.documentElement.classList.add('nogl'); return world }
+    THREE = await import('../../../player/tonight/fable-m4/objects-3d/vendor/three.module.min.js') } catch (e) { document.documentElement.classList.add('nogl'); return world }
   let R; try { R = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' }) } catch (e) { document.documentElement.classList.add('nogl'); return world }
   R.setPixelRatio(Math.min(devicePixelRatio || 1, 2)); R.setClearColor(0x04060c, 1);
   const scene = new THREE.Scene(); scene.fog = new THREE.FogExp2(0x04060c, .006);

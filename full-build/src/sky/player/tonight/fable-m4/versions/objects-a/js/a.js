@@ -79,7 +79,7 @@ UI.page.querySelector('.x').addEventListener('click', closePage);
 /* ---------- no WebGL: the sheet is the room ---------- */
 let V = null;
 if (!html.classList.contains('nogl')) {
-  try { const THREE = await import('../vendor/three.module.min.js'); V = await makeView(THREE) } catch (e) { console.warn(e); html.classList.add('nogl'); V = null }
+  try { const THREE = await import('../../../objects-3d/vendor/three.module.min.js'); V = await makeView(THREE) } catch (e) { console.warn(e); html.classList.add('nogl'); V = null }
 }
 if (!V) { syncUI(); openSheet(); UI.sheet.querySelector('.out').insertAdjacentHTML('afterbegin', '') }
 

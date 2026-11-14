@@ -87,7 +87,7 @@ function sguard(){clearInterval(SG);SG=0;if(!WK||!M||!M.nat||!M.play)return;var 
     else{same=0;if(last>=0&&t>last+.3)n=0}last=t},400)}
 function okPlay(v){if(M&&M.vid===v&&O&&!v.paused&&v.readyState>=3)O.label('❚❚ playing')} /* play() resolved on a video that was already rolling */
 /* the first thing in the frame: a muted preview loop (or the still); the scrubbable media replaces it on the first touch */
-function preview(){var f=O.frame,it=M.it,pv=M.reel?'media/reel/pv.mp4':it.dataset.pv;
+function preview(){var f=O.frame,it=M.it,pv=M.reel?'../../sky/player/tonight/fable-m4/media/v3/media/reel/pv.mp4':it.dataset.pv;
   if(pv&&anim()&&!save){var v=vid({src:pv,muted:true,loop:true,poster:it.dataset.big});v.autoplay=true;f.appendChild(v);v.play().catch(function(){});
     if(!M.nat){M.vid=v;M.live=true;hook(v)}}
   else{var im=new Image();im.src=it.dataset.big;im.alt='';f.appendChild(im)}}

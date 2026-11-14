@@ -79,7 +79,7 @@ UI.page.querySelector('.x').addEventListener('click', closePage);
 /* ---------- no WebGL: the sheet is the room ---------- */
 let V = null;
 if (!html.classList.contains('nogl')) {
-  try { const THREE = await import('../vendor/three.module.min.js'); V = await makeView(THREE) } catch (e) { console.warn(e); html.classList.add('nogl'); V = null }
+  try { const THREE = await import('../../../../../player/tonight/fable-m4/objects-3d/vendor/three.module.min.js'); V = await makeView(THREE) } catch (e) { console.warn(e); html.classList.add('nogl'); V = null }
 }
 if (!V) { syncUI(); openSheet(); UI.sheet.querySelector('.out').insertAdjacentHTML('afterbegin', '') }
 
@@ -216,7 +216,7 @@ async function makeView(THREE) {
   /* the mesh cup, in the joio case */
   const JI = SP.findIndex(s => s.mesh);
   if (JI >= 0) {
-    try { cup = await loadCup(THREE, new URL('../cup/joio-cup.glb', import.meta.url)); const k = 1.35 / .08; cup.scale.setScalar(k); cup.position.set(0, .0, -.05); cup.rotation.y = .6; SP[JI].g.add(cup);
+    try { cup = await loadCup(THREE, new URL('../../../../../player/tonight/fable-m4/versions/objects-a/cup/joio-cup.glb', import.meta.url)); const k = 1.35 / .08; cup.scale.setScalar(k); cup.position.set(0, .0, -.05); cup.rotation.y = .6; SP[JI].g.add(cup);
       const key = new THREE.DirectionalLight(0xfff1dc, 1.6); key.position.set(-1.2, 2.2, 3); key.target = cup; SP[JI].g.add(key); const fill = new THREE.PointLight(0xc9d6ff, 1.4, 5, 2); fill.position.set(1.4, .9, 1.4); SP[JI].g.add(fill) }
     catch (e) { console.warn('cup', e) }
   }

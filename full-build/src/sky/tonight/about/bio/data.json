@@ -100,10 +100,10 @@
      "meta": "short · 2015",
      "kind": "film",
      "media": {
-      "thumb": "media/owtd/stills/09_landscape.jpg",
-      "big": "media/owtd/stills/09_landscape.jpg",
-      "clip": "media/owtd/one-with-the-devil-clip.mp4",
-      "pv": "media/owtd/one-with-the-devil-clip.mp4",
+      "thumb": "../../../player/tonight/fable-m4/media/owtd/stills/09_landscape.jpg",
+      "big": "../../../player/tonight/fable-m4/media/owtd/stills/09_landscape.jpg",
+      "clip": "../../../player/tonight/fable-m4/media/owtd/one-with-the-devil-clip.mp4",
+      "pv": "../../../player/tonight/fable-m4/media/owtd/one-with-the-devil-clip.mp4",
       "frames": [
        "media/owtd/stills/01_wood_chop.jpg",
        "media/owtd/stills/02_dallas_snow.jpg",
@@ -113,7 +113,7 @@
        "media/owtd/stills/06_colton_cabin.jpg",
        "media/owtd/stills/07_dallas_cu.jpg",
        "media/owtd/stills/08_rose.jpg",
-       "media/owtd/stills/09_landscape.jpg",
+       "../../../player/tonight/fable-m4/media/owtd/stills/09_landscape.jpg",
        "media/owtd/stills/10_rifle_doorway.jpg",
        "media/owtd/stills/11_night_cabin.jpg",
        "media/owtd/stills/12_candlelight.jpg"
@@ -504,7 +504,7 @@
       "thumb": "media/pro2/img/films/13-400.webp",
       "big": "media/pro2/img/films/13-720.webp",
       "clip": "media/v3/media/sc/13.mp4",
-      "pv": "media/v3/media/pv/13.mp4",
+      "pv": "../../../player/tonight/fable-m4/media/v3/media/pv/13.mp4",
       "frames": [
        "media/pro2/img/strip/45.webp"
       ],

@@ -44,7 +44,7 @@ function glow(rgb,sz){var c=mk(sz,sz),g=c.getContext('2d'),gr=g.createRadialGrad
 var GLOW=glow('205,225,255',128),GLOWC=glow('160,190,240',256);
 ORDER.forEach(function(k){if(C[k]){C[k].glow=glow(C[k].tint,128);C[k].lt=C[k].tint.split(',').map(function(v){return Math.round(v*.45+215*.55)}).join(',')}});
 var ATL=null,ATI={},ATH=282;(function(){var im=new Image();im.decoding='async';im.onload=function(){ATL=im;req();portalDraw()};
-  fetch('img/sky-atlas.json').then(function(r){return r.json()}).then(function(j){ATI=j.items;ATH=j.h;im.src='img/sky-atlas.webp'}).catch(function(){})})();
+  fetch('img/sky-atlas.json').then(function(r){return r.json()}).then(function(j){ATI=j.items;ATH=j.h;im.src='../../../tonight/tiled-moon/img/sky-atlas.webp'}).catch(function(){})})();
 FIELD.forEach(function(L,i){var d=document.createElement('i');d.className='sf';d.setAttribute('aria-hidden','true');d.style.backgroundImage='url('+L.c.toDataURL('image/png')+')';sheet.insertBefore(d,cv);SF.push(d)});
 function field(){FIELD.forEach(function(L,i){var sc=Math.max(.8,Math.min(1.6,Math.pow(cam.s/.3,L.d)*.9)),T=512*sc,ox=-cam.x*cam.s*L.d+W/2,oy=-cam.y*cam.s*L.d+H/2,tx=((ox%T)+T)%T-T,ty=((oy%T)+T)%T-T;
   SF[i].style.transform='translate3d('+tx.toFixed(1)+'px,'+ty.toFixed(1)+'px,0) scale('+sc.toFixed(4)+')'})}

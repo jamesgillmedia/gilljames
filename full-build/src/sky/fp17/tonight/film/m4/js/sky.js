@@ -3061,9 +3061,9 @@ function openCards(){
     var it=byId[id];if(!it)return null;var m=it.media||{};
     var c={id:id,title:it.title,role:it.role||'',meta:it.meta||'',still:m.big||m.thumb||'',clip:m.pv||m.clip||'',kind:it.chapter==='sound'?'sound':it.chapter==='film'?'film':'object',portrait:m.h>m.w};
     /* recut 1c: the Weird Kid and Repeat cards play full-resolution cuts of the same shots with the letterbox removed */
-    if(id==='film/weird-kid'){c.clip='media/v3/media/pv/22-card.mp4';c.still='media/v3/media/pv/22-card.webp'}
-    if(id==='film/repeat-feat-jessie-reyez'){c.clip='media/v3/media/pv/16-card.mp4';c.still='media/v3/media/pv/16-card.webp'}
-    if(id==='sound/to-go'){c.clip='media/v3/media/pv/to-go.mp4';c.still='media/v3/media/pv/to-go.webp';c.momo=['media/pro2/img/sound/momo-480.webm','media/pro2/img/sound/momo-480.mp4'];c.momoPoster='media/pro2/img/sound/momo-480.jpg';c.audio='media/pro2/audio/to-go.mp3'}
+    if(id==='film/weird-kid'){c.clip='../../../../player/tonight/fable-m4/media/v3/media/pv/22-card.mp4';c.still='../../../../player/tonight/fable-m4/media/v3/media/pv/22-card.webp'}
+    if(id==='film/repeat-feat-jessie-reyez'){c.clip='../../../../player/tonight/fable-m4/media/v3/media/pv/16-card.mp4';c.still='../../../../player/tonight/fable-m4/media/v3/media/pv/16-card.webp'}
+    if(id==='sound/to-go'){c.clip='../../../../player/tonight/fable-m4/media/v3/media/pv/to-go.mp4';c.still='media/v3/media/pv/to-go.webp';c.momo=['../../../../player/tonight/fable-m4/media/pro2/img/sound/momo-480.webm','../../../../player/tonight/fable-m4/media/pro2/img/sound/momo-480.mp4'];c.momoPoster='media/pro2/img/sound/momo-480.jpg';c.audio='../../../../player/tonight/fable-m4/media/pro2/audio/to-go.mp3'}
     return c;
   }).filter(Boolean);
 }

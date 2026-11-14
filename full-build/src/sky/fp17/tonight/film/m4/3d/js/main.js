@@ -25,7 +25,7 @@ async function fallback() {
 }
 let THREE = null;
 if (html.classList.contains('nogl')) fallback();
-else { try { THREE = await import('../vendor/three.module.min.js'); start() } catch (e) { console.warn(e); fallback() } }
+else { try { THREE = await import('../../../../../../player/tonight/fable-m4/objects-3d/vendor/three.module.min.js'); start() } catch (e) { console.warn(e); fallback() } }
 function start() {
   let R; try { R = new THREE.WebGLRenderer({ canvas: $('#c'), antialias: false, powerPreference: 'high-performance' }) } catch (e) { fallback(); return }
   R.setPixelRatio(Math.min(devicePixelRatio || 1, 2)); R.setClearColor(0x04060c, 1);

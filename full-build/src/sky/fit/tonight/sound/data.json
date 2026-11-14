@@ -5,7 +5,7 @@
 "bpm": 92.7,
 "title": "To Go",
 "artist": "Lost Coffee",
-"file": "media/pro2/audio/to-go.mp3",
+"file": "../../../player/tonight/fable-m4/media/pro2/audio/to-go.mp3",
 "dur": 80,
 "star": 7,
 "peaks": [
@@ -112,7 +112,7 @@
 "bpm": 84.7,
 "title": "No Problem",
 "artist": "Lost Coffee",
-"file": "media/pro2/audio/no-problem.mp3",
+"file": "../../../player/tonight/fable-m4/media/pro2/audio/no-problem.mp3",
 "dur": 80,
 "star": 2,
 "peaks": [
@@ -219,7 +219,7 @@
 "bpm": 81.0,
 "title": "Lost in Time",
 "artist": "Lost Coffee",
-"file": "media/pro2/audio/lost-in-time.mp3",
+"file": "../../../player/tonight/fable-m4/media/pro2/audio/lost-in-time.mp3",
 "dur": 90.005,
 "star": 10,
 "peaks": [
@@ -326,7 +326,7 @@
 "bpm": 116.2,
 "title": "=",
 "artist": "Lost Coffee",
-"file": "media/pro2/audio/equals.mp3",
+"file": "../../../player/tonight/fable-m4/media/pro2/audio/equals.mp3",
 "dur": 90.005,
 "star": 13,
 "peaks": [
@@ -433,7 +433,7 @@
 "bpm": 62.9,
 "title": "ii",
 "artist": "Lost Coffee",
-"file": "media/pro2/audio/ii.mp3",
+"file": "../../../player/tonight/fable-m4/media/pro2/audio/ii.mp3",
 "dur": 69.717,
 "star": 4,
 "peaks": [

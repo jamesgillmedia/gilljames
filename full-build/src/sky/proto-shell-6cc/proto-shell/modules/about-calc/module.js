@@ -400,9 +400,9 @@ M.level=function(){syncBio()};
 M.tap=function(){if(!isBio())return false;if(bioMoon)return true;bioDeeper();return true};
 M.init=function(sh){
   SH=sh;root=document.createElement('div');root.id='acalc';root.hidden=true;root.setAttribute('data-v',V);
-  root.innerHTML='<video id="calc" muted loop playsinline autoplay preload="auto" src="'+BASE+'media/calculator.mp4"></video>'+
+  root.innerHTML='<video id="calc" muted loop playsinline autoplay preload="auto" src="'+BASE+'../../../../player/tonight/fable-m4/media/about/calculator.mp4"></video>'+
     '<div id="calcstage"><div id="calczoom"><canvas id="glitch" aria-hidden="true"></canvas></div><canvas id="grain" aria-hidden="true"></canvas></div>'+
-    '<video id="moons" muted loop playsinline preload="auto" src="'+BASE+'media/moon-grid.mp4"></video>'+
+    '<video id="moons" muted loop playsinline preload="auto" src="'+BASE+'../../../../player/tonight/fable-m4/media/about/moon-grid.mp4"></video>'+
     '<div id="laytext" class="copy"></div><div id="lrail" aria-hidden="true"></div>';
   document.body.insertBefore(root,$('crumb'));
   build3();

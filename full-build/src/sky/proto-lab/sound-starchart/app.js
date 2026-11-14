@@ -2,12 +2,12 @@
    Songs as stars — three proposals. The waveform and the bar never go away. */
 (function () {
   var TRACKS = [
-    { k: "togo", title: "To Go", artist: "Lost Coffee", file: "../_shared/media/audio/to-go.mp3", dur: 80, star: 7 },
-    { k: "gone", title: "Gone Are the Days of Yesterday", artist: "Mothers Moniker", file: "../_shared/media/audio/gone-are-the-days.mp3", dur: 80, star: 5 },
-    { k: "noproblem", title: "No Problem", artist: "Lost Coffee", file: "../_shared/media/audio/no-problem.mp3", dur: 80, star: 2 },
-    { k: "lostintime", title: "Lost in Time", artist: "Lost Coffee", file: "../_shared/media/audio/lost-in-time.mp3", dur: 90, star: 10 },
-    { k: "equals", title: "=", artist: "Lost Coffee", file: "../_shared/media/audio/equals.mp3", dur: 90, star: 13 },
-    { k: "ii", title: "ii", artist: "Lost Coffee", file: "../_shared/media/audio/ii.mp3", dur: 70, star: 4 }
+    { k: "togo", title: "To Go", artist: "Lost Coffee", file: "../../player/tonight/fable-m4/media/pro2/audio/to-go.mp3", dur: 80, star: 7 },
+    { k: "gone", title: "Gone Are the Days of Yesterday", artist: "Mothers Moniker", file: "../../player/tonight/fable-m4/media/pro2/audio/gone-are-the-days.mp3", dur: 80, star: 5 },
+    { k: "noproblem", title: "No Problem", artist: "Lost Coffee", file: "../../player/tonight/fable-m4/media/pro2/audio/no-problem.mp3", dur: 80, star: 2 },
+    { k: "lostintime", title: "Lost in Time", artist: "Lost Coffee", file: "../../player/tonight/fable-m4/media/pro2/audio/lost-in-time.mp3", dur: 90, star: 10 },
+    { k: "equals", title: "=", artist: "Lost Coffee", file: "../../player/tonight/fable-m4/media/pro2/audio/equals.mp3", dur: 90, star: 13 },
+    { k: "ii", title: "ii", artist: "Lost Coffee", file: "../../player/tonight/fable-m4/media/pro2/audio/ii.mp3", dur: 70, star: 4 }
   ];
   /* Field positions for variant A/C — around the chart, not on it. */
   var FIELD = [

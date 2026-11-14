@@ -7,7 +7,7 @@
    The camera is the site's: critically damped springs (sstep, W_REL 9.5 / W_FLY 5.6 / W_GLIDE 4.6 / W_SOFT 3.2), FOV 60, fable-m4's 960 ms push,
    the moon opener's exponential lag.
    Reduce Motion: no idle drift, no inertia, no push, stiffer springs. Photographs are never tinted (red images are an explicit sub-toggle). */
-import * as THREE from '../vendor/three.module.min.js';
+import * as THREE from '../../player/tonight/fable-m4/objects-3d/vendor/three.module.min.js';
 import { loadGLB } from './glb.js';
 
 const D = window.OBJ_C, RINGS = D.rings;
