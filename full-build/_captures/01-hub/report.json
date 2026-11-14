@@ -1,0 +1,16 @@
+[
+ {
+  "device": "desktop",
+  "path": "index.html",
+  "shot": "desktop-index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "index.html",
+  "shot": "phone-index.html.png",
+  "errors": [],
+  "failed": []
+ }
+]
