@@ -258,6 +258,7 @@ var diveHooked=0;
 hookWrap();addEventListener('DOMContentLoaded',hookWrap);
 
 addEventListener('keydown',function(e){
+  if(on&&window.__foldScope&&__foldScope.isOpen()){if(e.key==='Escape'||e.key==='-'||e.key==='_'){e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();__foldScope.close()}return}
   if(on){
     if(e.key==='Escape'||e.key==='-'||e.key==='_'){e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();close();return}
     if(e.key==='ArrowLeft'){e.preventDefault();step(-1)}

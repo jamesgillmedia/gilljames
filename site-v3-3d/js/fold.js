@@ -120,7 +120,7 @@ addEventListener('scroll',function(){if(!FINE.matches)previews()},{passive:true}
   function show(on){if(!sc)build();open=on;sc.hidden=!on;
     if(on){cx=cy=.5;paint();try{history.pushState(Object.assign({},history.state||{},{gjSlides:1,gjScope:1}),'')}catch(e){}$('.sc-x',sc).focus({preventScroll:true})}
   }
-  function close(fromPop){if(!open)return;show(false);if(!fromPop&&history.state&&history.state.gjScope){try{history.back()}catch(e){}}}
+  var SELF=0;function close(fromPop){if(!open)return;show(false);if(!fromPop&&history.state&&history.state.gjScope){SELF=1;try{history.back()}catch(e){SELF=0}}}
   function build(){sc=document.createElement('div');sc.id='fold-scope';sc.hidden=true;sc.setAttribute('role','dialog');sc.setAttribute('aria-label','scope: the frame under a lens');
     sc.innerHTML='<button type="button" class="sc-x" aria-label="close the scope, back to the slides">✕</button><div class="sc-z"><button type="button" data-z="-1" aria-label="less magnification">−</button><button type="button" data-z="1" aria-label="more magnification">+</button></div><div class="sc-lens"><i class="sc-ret"></i></div><p class="sc-lab"></p>';
     document.body.appendChild(sc);lens=$('.sc-lens',sc);lab=$('.sc-lab',sc);
@@ -140,7 +140,8 @@ addEventListener('scroll',function(){if(!FINE.matches)previews()},{passive:true}
     var io=F.isOpen;F.isOpen=function(){return open||io.call(F)};F._fold=1}
   wrap();setTimeout(wrap,0);addEventListener('load',wrap);
   addEventListener('keydown',function(e){if(open&&e.key==='Escape'){e.preventDefault();e.stopImmediatePropagation();close()}},true);
-  addEventListener('popstate',function(){if(open&&!(history.state&&history.state.gjScope))show(false)},true);
+  /* the scope's own history entry popping: close the scope only, and keep dive.js / the slides watcher from re-routing the player */
+  addEventListener('popstate',function(e){if(open&&!(history.state&&history.state.gjScope)){show(false);e.stopImmediatePropagation()}else if(SELF){SELF=0;e.stopImmediatePropagation()}},true);
   addEventListener('resize',function(){if(open)paint()});
   window.__foldScope={open:function(){arm();show(true)},close:close,isOpen:function(){return open}};
 })();

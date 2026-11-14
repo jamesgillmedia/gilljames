@@ -10,7 +10,7 @@ var NS='http://www.w3.org/2000/svg',svg=null,g=null,A={},hideT=0,fadeT=0,avoidFn
 function el(n,a,p){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
 function build(){
   svg=el('svg',{id:'ghostdial','aria-hidden':'true'});g=el('g',{},svg);
-  A.arc=el('path',{class:'gd-arc'},g);A.e0=el('path',{class:'gd-end'},g);A.e1=el('path',{class:'gd-end'},g);A.def=el('path',{class:'gd-def'},g);A.cur=el('path',{class:'gd-cur'},g);
+  A.bg=el('path',{class:'gd-bg'},g);A.arc=el('path',{class:'gd-arc'},g);A.e0=el('path',{class:'gd-end'},g);A.e1=el('path',{class:'gd-end'},g);A.def=el('path',{class:'gd-def'},g);A.cur=el('path',{class:'gd-cur'},g);
   A.name=el('text',{class:'gd-name'},g);A.val=el('text',{class:'gd-val'},g);document.body.appendChild(svg)}
 function hits(r,list){return list.some(function(q){return r[0]<q[2]&&r[2]>q[0]&&r[1]<q[3]&&r[3]>q[1]})}
 function rects(){
@@ -35,6 +35,8 @@ function update(info){
   var span=info.max-info.min||1,u=function(v){return Math.max(0,Math.min(1,(v-info.min)/span))};
   /* value runs along the arc from its first end to its second, top to bottom */
   var ang=function(v){return a0+SPAN*u(v)},P=function(v,r){return pt(cx,cy,r,ang(v))};
+  var Rb=R+14,ex=c.r?W+2:-2,bp0=pt(cx,cy,Rb,a0),bp1=pt(cx,cy,Rb,a1);
+  A.bg.setAttribute('d','M'+ex+' '+bp0[1].toFixed(1)+' L'+f(bp0)+' A'+Rb+' '+Rb+' 0 0 1 '+f(bp1)+' L'+ex+' '+bp1[1].toFixed(1)+' Z');
   A.arc.setAttribute('d','M'+f(pt(cx,cy,R,a0))+' A'+R+' '+R+' 0 0 1 '+f(pt(cx,cy,R,a1)));
   A.e0.setAttribute('d','M'+f(pt(cx,cy,R-5,a0))+'L'+f(pt(cx,cy,R+5,a0)));A.e1.setAttribute('d','M'+f(pt(cx,cy,R-5,a1))+'L'+f(pt(cx,cy,R+5,a1)));
   var dv=info.def!=null?info.def:info.min;A.def.setAttribute('d','M'+f(P(dv,R-3))+'L'+f(P(dv,R+3)));

@@ -149,12 +149,13 @@ html:not(.fold-rm) #objects.lv2 .stars>.it .vis{animation:fold-drift 10s ease-in
 @media (prefers-reduced-motion:reduce){.fold-calc .fc-obj{transition:none}}
 
 /* ---------- side dial: the tune instrument on the right edge ---------- */
-#fold-dial{position:fixed;right:0;top:50%;z-index:61;width:30px;height:120px;margin-top:-60px;padding:0;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:none}
-#fold-dial svg{position:absolute;right:0;top:0;width:30px;height:120px;overflow:visible}
-#fold-dial .fd-arc{fill:none;stroke:rgba(var(--gd-ink,232,228,220),.42);stroke-width:1}
-#fold-dial .fd-tick{stroke:rgba(var(--gd-ink,232,228,220),.5);stroke-width:1}
+#fold-dial{position:fixed;right:0;top:50%;z-index:61;width:34px;height:120px;margin-top:-60px;padding:0;border:1px solid rgba(var(--gd-ink,232,228,220),.2);border-right:0;border-radius:16px 0 0 16px;background:rgba(4,7,11,.54);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:-4px 6px 22px rgba(0,0,0,.46),inset 0 1px 0 rgba(232,228,220,.08);cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:none}
+html[data-gj-c="red"] #fold-dial{background:rgba(12,3,4,.68);border-color:rgba(var(--gj-red-ink,140,30,28),.36)}
+#fold-dial svg{position:absolute;right:2px;top:0;width:30px;height:120px;overflow:visible}
+#fold-dial .fd-arc{fill:none;stroke:rgba(var(--gd-ink,232,228,220),.62);stroke-width:1.1}
+#fold-dial .fd-tick{stroke:rgba(var(--gd-ink,232,228,220),.65);stroke-width:1}
 #fold-dial .fd-dot{fill:#e8e4dc}
-#fold-dial .fd-lab{font:400 7px "Julius Sans One",Poppins,sans-serif;letter-spacing:.2em;fill:rgba(var(--gd-ink,232,228,220),.7)}
+#fold-dial .fd-lab{font:400 7px "Julius Sans One",Poppins,sans-serif;letter-spacing:.2em;fill:rgba(var(--gd-ink,232,228,220),.88)}
 #fold-dial{transition:transform .5s var(--fold-ease),opacity .3s linear}
 html.mm-open #fold-dial{transform:translateX(-2px) perspective(200px) rotateY(-24deg)}
 html.mm-open #fold-dial .fd-arc{stroke:rgba(var(--gd-ink,232,228,220),.8)}

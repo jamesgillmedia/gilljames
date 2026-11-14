@@ -12,6 +12,7 @@ function hashPlay(){return /\/play$/.test(location.hash||'')}
 function go(r,o){if(d()&&d().go)d().go(r,o||{})}
 
 function up(){
+  if(window.__foldScope&&__foldScope.isOpen()){__foldScope.close();return true}
   if(slidesOn()){__filmSlides.close();return true}
   if(drawerOn()){GJ_MARKMENU.show(false);return true}
   var s=st();

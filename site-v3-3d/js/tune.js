@@ -159,7 +159,10 @@ function resetAll(){
 }
 
 var HAD=tuneRaw(),POPPING=false;
-addEventListener('popstate',function(){if(open&&!(history.state&&history.state.gjDrawer))show(false,{pop:1});if(POPPING){POPPING=false}setTimeout(writeTuneUrl,0)});
+/* the drawer's own history entry popping (phone Back, or our own close): close the drawer only; nothing else re-routes */
+addEventListener('popstate',function(e){var mine=POPPING||(open&&!(history.state&&history.state.gjDrawer));
+  if(open&&!(history.state&&history.state.gjDrawer))show(false,{pop:1});POPPING=false;setTimeout(writeTuneUrl,0);
+  if(mine&&e.stopImmediatePropagation)e.stopImmediatePropagation()},true);
 applyIncoming(HAD);
 
 var menu=null,open=false,HOLD=false,PTR=null,foldT=0,SWALLOW=0,kbT=0,FROM=null,ACT=null;

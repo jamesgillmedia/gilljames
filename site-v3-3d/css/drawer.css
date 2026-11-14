@@ -57,8 +57,9 @@ body #markmenu input[type=range]::-moz-range-thumb{width:9px;height:9px;border-r
 
 /* ---- A · constellation: the controls hang as small stars on a thread that falls from the mark ---- */
 /* fold: no card, no opaque ground. The drawer floats; legibility comes from a soft text shadow and a faint wash from the side dial's edge */
-#markmenu.dv-A{background:none}
-#markmenu.dv-A,#markmenu.dv-A *,#markmenu.dv-B{text-shadow:0 0 2px #04070b,0 0 6px #04070b,0 0 14px rgba(4,7,11,.9)}
+#markmenu.dv-A{background:rgba(4,7,11,.56);border:1px solid rgba(232,228,220,.16);border-radius:14px;-webkit-backdrop-filter:blur(12px) saturate(1.06);backdrop-filter:blur(12px) saturate(1.06);box-shadow:0 18px 44px rgba(0,0,0,.52),inset 0 1px 0 rgba(232,228,220,.08);padding:16px 20px 20px 22px}
+html[data-gj-c="red"] #markmenu.dv-A{background:rgba(12,3,4,.68);border-color:rgba(var(--gj-red-ink,140,30,28),.34)!important;box-shadow:0 18px 44px rgba(0,0,0,.62)}
+#markmenu.dv-A,#markmenu.dv-A *,#markmenu.dv-B{text-shadow:0 1px 2px #04070b,0 0 8px rgba(4,7,11,.9)}
 #markmenu.dv-A .mm-3d{padding-left:16px}
 #markmenu.dv-A .mm-3d::before{content:"";position:absolute;left:3px;top:-14px;bottom:6px;width:1px;background:linear-gradient(rgba(232,228,220,.5),rgba(232,228,220,.08) 85%,rgba(232,228,220,0))}
 #markmenu.dv-A label,#markmenu.dv-A .mm-seg,#markmenu.dv-A h3{position:relative}
@@ -119,7 +120,9 @@ html.mm-open .gj-mark{transform:perspective(160px) rotateY(-34deg) rotateX(18deg
 #ghostdial{--gd-ink:232,228,220;position:fixed;inset:0;width:100%;height:100%;z-index:59;pointer-events:none;overflow:visible;opacity:0;transition:opacity .15s linear}
 #ghostdial.on{opacity:1}
 #ghostdial.out{opacity:0;transition:opacity .72s linear}
-#ghostdial .gd-arc{fill:none;stroke:rgba(var(--gd-ink),.34);stroke-width:1}
+#ghostdial .gd-bg{fill:rgba(4,7,11,.52);stroke:rgba(var(--gd-ink),.18);stroke-width:1}
+html[data-gj-c="red"] #ghostdial .gd-bg{fill:rgba(12,3,4,.66);stroke:rgba(var(--gj-red-ink,140,30,28),.32)}
+#ghostdial .gd-arc{fill:none;stroke:rgba(var(--gd-ink),.44);stroke-width:1}
 #ghostdial .gd-end{fill:none;stroke:rgba(var(--gd-ink),.22);stroke-width:1}
 #ghostdial .gd-def{fill:none;stroke:rgba(var(--gd-ink),.5);stroke-width:1.4;stroke-linecap:round}
 #ghostdial .gd-cur{fill:none;stroke:#e8c48a;stroke-width:1.6;stroke-linecap:round}
@@ -172,7 +175,7 @@ html[data-gj-c="red"] .night{box-shadow:inset 0 0 90px rgba(80,18,22,.4)}
 #markmenu .mm-3d{transform-origin:var(--ox,100%) var(--oy,50%);transform:translateZ(-60px) scale(.12) rotateY(-64deg)}
 #markmenu.mm-in .mm-3d{transform:rotateX(calc(var(--py,0) * -3deg)) rotateY(calc(var(--px,0) * 4deg))}
 /* while a slider is held: everything steps away except the active slider's hairline + thumb (an 18% anchor); no flicker, no re-unfold */
-#markmenu.mm-peek{opacity:1!important}
+#markmenu.mm-peek{opacity:1!important;background:transparent!important;border-color:transparent!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
 #markmenu.mm-peek .mm-3d>nav{opacity:0!important;transition:opacity .12s linear!important}
 #markmenu.mm-peek .mm-plate *{opacity:0!important;transition:opacity .12s linear!important}
 #markmenu.mm-peek .mm-plate :has(.mm-act),#markmenu.mm-peek .mm-plate .mm-act{opacity:1!important}
