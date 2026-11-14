@@ -1,0 +1,112 @@
+[
+ {
+  "device": "desktop",
+  "path": "src/sky/p1/photo-lab/index.html",
+  "shot": "desktop-src_sky_p1_photo-lab_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/sky/p2/photo-lab/index.html",
+  "shot": "desktop-src_sky_p2_photo-lab_index.html.png",
+  "errors": [],
+  "failed": [
+   "http://127.0.0.1:8877/full-build/src/sky/p2/photo-lab/media/clips/p67.mp4",
+   "http://127.0.0.1:8877/full-build/src/sky/p2/photo-lab/media/clips/p63.mp4",
+   "http://127.0.0.1:8877/full-build/src/sky/p2/photo-lab/media/clips/p64.mp4"
+  ]
+ },
+ {
+  "device": "desktop",
+  "path": "src/sky/tonight/photo-lab/index.html",
+  "shot": "desktop-src_sky_tonight_photo-lab_index.html.png",
+  "errors": [],
+  "failed": [
+   "http://127.0.0.1:8877/full-build/src/sky/tonight/photo-lab/media/clips/p67.mp4",
+   "http://127.0.0.1:8877/full-build/src/sky/tonight/photo-lab/media/clips/p63.mp4",
+   "http://127.0.0.1:8877/full-build/src/sky/tonight/photo-lab/media/clips/p64.mp4"
+  ]
+ },
+ {
+  "device": "desktop",
+  "path": "src/sky/lab-lens-preview/photo-lab/index.html",
+  "shot": "desktop-src_sky_lab-lens-preview_photo-lab_index.html.png",
+  "errors": [],
+  "failed": [
+   "http://127.0.0.1:8877/full-build/src/sky/lab-lens-preview/photo-lab/media/clips/p63.mp4",
+   "http://127.0.0.1:8877/full-build/src/sky/lab-lens-preview/photo-lab/media/clips/p67.mp4",
+   "http://127.0.0.1:8877/full-build/src/sky/lab-lens-preview/photo-lab/media/clips/p64.mp4"
+  ]
+ },
+ {
+  "device": "desktop",
+  "path": "src/sky/tonight/tiled-moon/photo/index.html",
+  "shot": "desktop-src_sky_tonight_tiled-moon_photo_index.html.png",
+  "errors": [],
+  "failed": [
+   "http://127.0.0.1:8877/full-build/src/sky/tonight/_tn/back.js"
+  ]
+ },
+ {
+  "device": "desktop",
+  "path": "src/sky/tonight/stills/index.html",
+  "shot": "desktop-src_sky_tonight_stills_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/sky/p1/photo-lab/index.html",
+  "shot": "phone-src_sky_p1_photo-lab_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/sky/p2/photo-lab/index.html",
+  "shot": "phone-src_sky_p2_photo-lab_index.html.png",
+  "errors": [],
+  "failed": [
+   "http://127.0.0.1:8877/full-build/src/sky/p2/photo-lab/media/clips/p63.mp4",
+   "http://127.0.0.1:8877/full-build/src/sky/p2/photo-lab/media/clips/p67.mp4",
+   "http://127.0.0.1:8877/full-build/src/sky/p2/photo-lab/media/clips/p64.mp4"
+  ]
+ },
+ {
+  "device": "phone",
+  "path": "src/sky/tonight/photo-lab/index.html",
+  "shot": "phone-src_sky_tonight_photo-lab_index.html.png",
+  "errors": [],
+  "failed": [
+   "http://127.0.0.1:8877/full-build/src/sky/tonight/photo-lab/media/clips/p67.mp4",
+   "http://127.0.0.1:8877/full-build/src/sky/tonight/photo-lab/media/clips/p63.mp4",
+   "http://127.0.0.1:8877/full-build/src/sky/tonight/photo-lab/media/clips/p64.mp4"
+  ]
+ },
+ {
+  "device": "phone",
+  "path": "src/sky/lab-lens-preview/photo-lab/index.html",
+  "shot": "phone-src_sky_lab-lens-preview_photo-lab_index.html.png",
+  "errors": [],
+  "failed": [
+   "http://127.0.0.1:8877/full-build/src/sky/lab-lens-preview/photo-lab/media/clips/p67.mp4",
+   "http://127.0.0.1:8877/full-build/src/sky/lab-lens-preview/photo-lab/media/clips/p64.mp4",
+   "http://127.0.0.1:8877/full-build/src/sky/lab-lens-preview/photo-lab/media/clips/p63.mp4"
+  ]
+ },
+ {
+  "device": "phone",
+  "path": "src/sky/tonight/tiled-moon/photo/index.html",
+  "shot": "phone-src_sky_tonight_tiled-moon_photo_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/sky/tonight/stills/index.html",
+  "shot": "phone-src_sky_tonight_stills_index.html.png",
+  "errors": [],
+  "failed": []
+ }
+]
