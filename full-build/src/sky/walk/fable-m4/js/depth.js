@@ -294,7 +294,10 @@ function openTile(api,it){
     openSound(api,trackOf(work),false,work);
     return;
   }
-  if(work.nov9&&work.chapter==='film'&&!it._shot){openStill(api,work,work.shots[0]);return}
+  if(work.nov9&&work.chapter==='film'&&!it._shot){
+    if(work.media&&/James_Ballet\.jpg/.test(work.media.big||'')){location.href='../../player/tonight/fable-m4/photo/the-leap/';return}
+    openStill(api,work,work.shots[0]);return
+  }
   var kids=null;
   if(work.kind==='reel'&&!it._shot&&api.openId){
     still=null;filmLv=0;filmWork=null;piece=null;snd=null;dropFly();setBleed(false);

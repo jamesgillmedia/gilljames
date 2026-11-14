@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Leap</title>
+<meta name="theme-color" content="#000000">
+<style>
+@font-face{font-family:Poppins;font-weight:300;font-display:swap;src:url(../../media/pro2/fonts/poppins-300.woff2) format("woff2")}
+html,body{margin:0;background:#000;color:rgba(201,211,214,.8)}
+.leap{margin:0;min-height:100vh;min-height:100dvh;background:#000}
+.leap img{display:block;width:100%;height:100vh;height:100dvh;object-fit:contain;object-position:center center;background:#000;animation:leapdrift 42s ease-in-out infinite alternate}
+.leap figcaption{position:fixed;left:max(16px,env(safe-area-inset-left));bottom:max(16px,env(safe-area-inset-bottom));margin:0;font:300 11px/1.4 Poppins,system-ui,sans-serif;color:rgba(201,211,214,.8)}
+@media (max-width:720px){
+  .leap{min-height:0}
+  .leap img{width:100%;height:auto}
+  .leap figcaption{position:static;display:block;padding:8px 16px calc(16px + env(safe-area-inset-bottom))}
+}
+@keyframes leapdrift{from{transform:translate3d(0,0,0)}to{transform:translate3d(8px,-14px,0)}}
+@media (prefers-reduced-motion:reduce){.leap img{animation:none}}
+</style>
+</head>
+<body>
+<figure class="leap">
+<img src="../../media/nov9/film/James_Ballet.jpg" alt="">
+<figcaption>The Leap</figcaption>
+</figure>
+</body>
+</html>
