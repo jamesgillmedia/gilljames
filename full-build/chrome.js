@@ -34,12 +34,45 @@
   function set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} apply(); window.dispatchEvent(new CustomEvent("gj-tog", { detail: { k: k, v: v } })); }
 
   function apply() {
-    document.documentElement.classList.toggle("rm", get("gj-red", "0") === "1");
-    document.documentElement.classList.toggle("gj-noreflect", get("gj-tog-reflect", "1") !== "1");
-    document.documentElement.classList.toggle("gj-nowater", get("gj-tog-water", "1") !== "1");
-    document.documentElement.classList.toggle("gj-nomoon", get("gj-tog-moon", "1") !== "1");
+    var redOn = get("gj-red", "0") === "1";
+    var root = document.documentElement;
+    root.classList.toggle("rm", redOn);
+    root.classList.toggle("gj-noreflect", get("gj-tog-reflect", "1") !== "1");
+    root.classList.toggle("gj-nowater", get("gj-tog-water", "1") !== "1");
+    root.classList.toggle("gj-nomoon", get("gj-tog-moon", "1") !== "1");
+    /* red mode uses the room's own red theme (data-gj-c / data-theme). It never filters a photograph or a video. */
+    if (redOn) {
+      if (!root.hasAttribute("data-gj-theme-prev")) {
+        root.setAttribute("data-gj-theme-prev", root.getAttribute("data-theme") || "");
+        root.setAttribute("data-gj-c-prev", root.getAttribute("data-gj-c") || "");
+      }
+      root.setAttribute("data-theme", "red");
+      root.setAttribute("data-gj-c", "red");
+    } else if (root.hasAttribute("data-gj-theme-prev")) {
+      var pt = root.getAttribute("data-gj-theme-prev"), pc = root.getAttribute("data-gj-c-prev");
+      if (pt) root.setAttribute("data-theme", pt); else root.removeAttribute("data-theme");
+      if (pc) root.setAttribute("data-gj-c", pc); else root.removeAttribute("data-gj-c");
+      root.removeAttribute("data-gj-theme-prev");
+      root.removeAttribute("data-gj-c-prev");
+    }
     var red = document.querySelector("#gj-red");
-    if (red) red.setAttribute("aria-pressed", get("gj-red", "0") === "1" ? "true" : "false");
+    if (red) red.setAttribute("aria-pressed", redOn ? "true" : "false");
+    syncFrames();
+  }
+  function syncFrames() {
+    var frames = document.querySelectorAll("iframe");
+    for (var i = 0; i < frames.length; i++) {
+      try {
+        var doc = frames[i].contentDocument;
+        if (!doc) continue;
+        var a = document.documentElement, b = doc.documentElement;
+        b.classList.toggle("rm", a.classList.contains("rm"));
+        b.classList.toggle("gj-nomoon", a.classList.contains("gj-nomoon"));
+        b.classList.toggle("gj-nowater", a.classList.contains("gj-nowater"));
+        if (a.classList.contains("rm")) { b.setAttribute("data-theme", "red"); b.setAttribute("data-gj-c", "red"); }
+        else if (b.getAttribute("data-theme") === "red") { b.removeAttribute("data-theme"); b.removeAttribute("data-gj-c"); }
+      } catch (e) {}
+    }
   }
 
   function goHub() { location.href = HUB; }
@@ -48,26 +81,38 @@
   back.id = "gj-back"; back.href = HUB;
   back.setAttribute("aria-label", "back to the field");
   back.innerHTML = "‹ <b lang=\"cr\">ᑕᐣᓯ</b>";
-  document.body.appendChild(back);
+  document.documentElement.appendChild(back);
+  /* a sideways swipe can swallow the click that follows it; a still pointerup on the mark still leaves */
+  (function () {
+    var tap = null;
+    back.addEventListener("pointerdown", function (e) { tap = { x: e.clientX, y: e.clientY, clicked: false }; });
+    back.addEventListener("click", function () { if (tap) tap.clicked = true; });
+    back.addEventListener("pointerup", function (e) {
+      if (!tap) return;
+      var d = tap; tap = null;
+      if (Math.hypot(e.clientX - d.x, e.clientY - d.y) > 12) return;
+      setTimeout(function () { if (!d.clicked) location.href = back.href; }, 80);
+    });
+  })();
 
   var dial = document.createElement("button");
   dial.id = "gj-dial"; dial.type = "button"; dial.textContent = "tune";
   dial.setAttribute("aria-expanded", "false");
   dial.setAttribute("aria-controls", "gj-drawer");
-  document.body.appendChild(dial);
+  document.documentElement.appendChild(dial);
 
   var red = document.createElement("button");
   red.id = "gj-red"; red.type = "button";
   red.setAttribute("aria-label", "red mode");
   red.innerHTML = "<i></i>";
   red.addEventListener("click", function () { set("gj-red", get("gj-red", "0") === "1" ? "0" : "1"); });
-  document.body.appendChild(red);
+  document.documentElement.appendChild(red);
 
   var drawer = document.createElement("aside");
   drawer.id = "gj-drawer";
   drawer.setAttribute("aria-label", "tuning");
   drawer.innerHTML = "<h2>toggles</h2><div id=\"gj-togs\"></div><h2>rooms</h2><nav id=\"gj-rooms\"></nav><p id=\"gj-onward\"></p>";
-  document.body.appendChild(drawer);
+  document.documentElement.appendChild(drawer);
 
   function openDrawer(on) {
     drawer.classList.toggle("on", on);
@@ -123,6 +168,34 @@
       }
     });
   }).catch(function () {});
+
+  /* shared pills sit under a room's own top bar, and hide when the room already has that control */
+  function place() {
+    var ownMark = document.querySelector("#omark, .lab-top .sig, .lab-top #back, header.top a.home, header .sig");
+    var ownTune = document.querySelector("#fold-dial");
+    back.hidden = !!ownMark;
+    dial.hidden = !!ownTune;
+    var vv = window.visualViewport;
+    var y = vv ? vv.offsetTop : 0;
+    var top = "calc(env(safe-area-inset-top, 0px) + " + (8 + Math.round(y)) + "px)";
+    [back, dial, red].forEach(function (el) { el.style.top = top; });
+    var bar = document.querySelector(".lab-top, #ohd, header.top, .wn");
+    if (bar) {
+      var b = bar.getBoundingClientRect();
+      if (b.height > 8 && b.bottom > 8 && b.bottom < innerHeight * 0.5) {
+        var below = Math.round(b.bottom + 8 + y) + "px";
+        [back, dial, red].forEach(function (el) { if (!el.hidden) el.style.top = below; });
+      }
+    }
+  }
+  place();
+  addEventListener("resize", place);
+  if (window.visualViewport) {
+    visualViewport.addEventListener("resize", place);
+    visualViewport.addEventListener("scroll", place);
+  }
+  document.querySelectorAll("iframe").forEach(function (f) { f.addEventListener("load", function () { apply(); place(); }); });
+  setTimeout(place, 400);
 
   addEventListener("keydown", function (e) {
     if (e.key !== "Escape") return;

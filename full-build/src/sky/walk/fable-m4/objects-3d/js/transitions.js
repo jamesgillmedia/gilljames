@@ -7,6 +7,8 @@
    tween the camera x from view.specX(from) to view.specX(to) while both specimens cross-fade, with no change to nav.js.
    Nothing here depends on the layers. */
 export async function dissolve(view, from, to, stop, onSwitch) {
+  var reduce=false;try{reduce=matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
+  if(reduce){view.place(to, stop||0);if(onSwitch)onSwitch();await view.fade(to,1,0);return}
   await view.fade(from, 0, 420);
   view.place(to, stop || 0); if (onSwitch) onSwitch();
   await view.fade(to, 1, 520);

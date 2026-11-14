@@ -346,7 +346,7 @@ function onKey(e){
   }
   if(!bioOn||bioExit)return;
   if(e.target&&/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName))return;
-  if(e.key==='Escape'){e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();stepBack(true)}
+  if(e.key==='Escape'){e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();if(bioOn&&bioLv>1){stepBack(true);return}if(window.GJ&&GJ.hub){location.href=GJ.hub;return}stepBack(true)}
   else if(e.type==='keydown'&&e.key==='ArrowRight'){e.preventDefault();goDeeper(true)}
   else if(e.type==='keydown'&&e.key==='ArrowLeft'){e.preventDefault();stepBack(true)}
 }

@@ -512,7 +512,7 @@ addEventListener('wheel',function(e){if(!openL||!e.ctrlKey||host.contains(e.targ
 /* keys: Esc = out one level; Enter/Space on the sky = the second press; arrows move the selection */
 addEventListener('keydown',function(e){if(e.defaultPrevented)return;var k=e.key;if(MK&&k!=='Tab'){skipMark();return}
   if(k==='Escape'){if(window.__work&&__work.fsGuard&&__work.fsGuard())return;if(openL&&openL.L===window.__reel)return; /* the reel's own Esc calls out() */
-    e.preventDefault();out();return}
+    e.preventDefault();if(out()===false&&window.GJ&&GJ.hub)location.href=GJ.hub;return}
   if(openL)return;var tgt=e.target;if(tgt&&tgt.closest&&tgt.closest('input,textarea,select'))return;
   if((k==='Enter'||k===' ')&&(tgt===document.body||tgt===cv||tgt===host)){e.preventDefault();if(sel)press(sel.k,sel.w||null,true);return}
   if(k==='+'||k==='='){e.preventDefault();inTo(deeperT())}else if(k==='-'||k==='_'){e.preventDefault();out()}

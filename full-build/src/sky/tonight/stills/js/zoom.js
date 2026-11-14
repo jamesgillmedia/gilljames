@@ -227,7 +227,7 @@ document.addEventListener('keydown',function(e){
   var k=e.key,c=[vw/2,(vh+TOP)/2];
   if(k==='+'||k==='='){fly((c[0]-tx)/s,(c[1]-ty)/s,s*1.8,300)}
   else if(k==='-'||k==='_'){stepOut()}
-  else if(k==='0'||k==='Escape'){stopMotion();home()}
+  else if(k==='0'){stopMotion();home()}else if(k==='Escape'){stopMotion();if(s<=minS*1.08&&window.GJ&&GJ.hub){location.href=GJ.hub;return}home()}
   else if(k===' '||k==='Enter'){if(focus){startMotion(focus.film,focus.frame);e.preventDefault()}}
   else if(k.indexOf('Arrow')===0){
     var d=120;tx+=k==='ArrowLeft'?d:k==='ArrowRight'?-d:0;ty+=k==='ArrowUp'?d:k==='ArrowDown'?-d:0;

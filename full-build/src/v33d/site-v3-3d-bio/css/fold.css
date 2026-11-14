@@ -179,3 +179,5 @@ html[data-gj-c="red"] body #markmenu input[type=range]::-webkit-slider-runnable-
 html[data-gj-c="red"] .night{box-shadow:inset 0 0 120px rgba(40,4,4,.55)}
 /* never: film stills, photographs, object images, the player, the slides keep true colour and full brightness */
 html[data-gj-c="red"] .vis img,html[data-gj-c="red"] .imm .frame,html[data-gj-c="red"] #film-slides img,html[data-gj-c="red"] .se-face{filter:none!important;opacity:1!important}
+
+html,body,#cv,canvas,#fold-scope,#spaces,#layers{-webkit-user-select:none;user-select:none}

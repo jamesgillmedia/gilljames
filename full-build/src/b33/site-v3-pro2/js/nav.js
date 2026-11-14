@@ -45,7 +45,7 @@ btn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();
 addEventListener('keydown',function(e){if(e.key!=='Escape'||e.defaultPrevented)return;var s=state();
   if(window.__soundOv&&__soundOv.isOpen()){e.preventDefault();__soundOv.back();return}
   var R=window.__reel&&__reel.state&&__reel.state();if(R&&R.on){e.preventDefault();__reel.close();return}
-  if(s.mode==='sky'&&s.back){e.preventDefault();back()}});
+  if(s.mode==='sky'){e.preventDefault();if(!back()&&window.GJ&&GJ.hub)location.href=GJ.hub;return}});
 ['scroll','resize','popstate','hashchange','click','keyup','touchend','pointerup'].forEach(function(n){addEventListener(n,ui,{passive:true})});
 if('MutationObserver' in window){var mo=new MutationObserver(ui);mo.observe(D,{attributes:true,attributeFilter:['class']});
   if(imm)mo.observe(imm,{attributes:true,attributeFilter:['hidden','class']});if(sheet){mo.observe(sheet,{attributes:true,attributeFilter:['hidden']});var sc=$('.crumb',sheet);if(sc)mo.observe(sc,{childList:true,characterData:true,subtree:true})}}

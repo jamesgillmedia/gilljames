@@ -593,7 +593,7 @@ function onKey(e){
   if(e.target.closest&&e.target.closest('#dbg'))return;
   var k=e.key;
   if(k==='ArrowUp'||k==='ArrowRight'||k==='+'||k===' '||k==='Enter'){e.preventDefault();firstTouch();T=nextStage(T);rate=3.4;touchAct=1;lastTouchT=performance.now()}
-  else if(k==='ArrowDown'||k==='ArrowLeft'||k==='-'||k==='Backspace'||k==='Escape'){e.preventDefault();stepBack()}
+  else if(k==='Escape'){e.preventDefault();if(T<=0.02&&window.GJ&&GJ.hub){location.href=GJ.hub;return}stepBack()}else if(k==='ArrowDown'||k==='ArrowLeft'||k==='-'||k==='Backspace'){e.preventDefault();stepBack()}
 }
 
 /* ---------- frame ---------- */

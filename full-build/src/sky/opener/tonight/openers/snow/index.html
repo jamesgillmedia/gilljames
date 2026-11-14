@@ -29,6 +29,7 @@ html,body{height:100%;background:#04070b;color:#e9eef5;font:300 calc(13px*var(--
 /* hide the GJDBG corner tab always. ?debug=1 (html.debug) may still open the sheet silently — no tab. */
 #dbg .tab{display:none!important;pointer-events:none!important;opacity:0!important;width:0!important;height:0!important;overflow:hidden}
 html:not(.debug) #dbg{display:none!important;pointer-events:none!important}
+html.gj-nomoon .jmoon,html.gj-nomoon .jmoon-streak{opacity:0!important;visibility:hidden!important}
 
 /* native ambience: photo-lab safelight-family pill + room-light dimmer, winter palette, corner card */
 .ambui{position:fixed;z-index:8;left:max(10px,env(safe-area-inset-left));bottom:max(12px,env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:flex-start;gap:8px;pointer-events:none;max-width:min(320px,calc(100vw - 20px))}
@@ -738,7 +739,7 @@ function onKey(e){
   if(e.target.closest&&(e.target.closest('#dbg')||e.target.closest('#ambui')))return;
   var k=e.key;
   if(k==='ArrowUp'||k==='ArrowRight'||k==='+'||k===' '||k==='Enter'){e.preventDefault();firstTouch();T=nextStage(T);rate=3.4;touchAct=1;lastTouchT=performance.now()}
-  else if(k==='ArrowDown'||k==='ArrowLeft'||k==='-'||k==='Backspace'||k==='Escape'){e.preventDefault();stepBack()}
+  else if(k==='Escape'){e.preventDefault();if(T<=0.02){try{var top=window.parent;if(top&&top!==window&&top.GJ&&top.GJ.hub){top.location.href=new URL(top.GJ.hub,top.location.href).href;return}}catch(err){}if(window.GJ&&GJ.hub){location.href=GJ.hub;return}}stepBack()}else if(k==='ArrowDown'||k==='ArrowLeft'||k==='-'||k==='Backspace'){e.preventDefault();stepBack()}
 }
 
 /* ---------- frame ---------- */

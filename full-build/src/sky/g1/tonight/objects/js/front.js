@@ -243,7 +243,7 @@
   front.addEventListener('pointerdown', function (e) { ptr = at(e); down = { x: e.clientX, y: e.clientY, t: Date.now() }; moved = false; tick() });
   front.addEventListener('pointermove', function (e) { if (e.pointerType === 'mouse' || down) { ptr = at(e); if (down && Math.hypot(e.clientX - down.x, e.clientY - down.y) > 8) moved = true; tick() } });
   function lift(e) { if (down && caseLike() && moved) { var dx = e.clientX - down.x; if (Math.abs(dx) > 40) { cur = Math.max(0, Math.min(els.length - 1, cur + (dx < 0 ? 1 : -1))); layout() } }
-    down = null; if (e.pointerType !== 'mouse') ptr = null; tick(); setTimeout(function () { moved = false }, 0) }
+    down = null; if (e.pointerType !== 'mouse') ptr = null; tick(); var onMark = e.target && e.target.closest && e.target.closest('#omark,#gj-back'); if (onMark) moved = false; else setTimeout(function () { moved = false }, 0) }
   front.addEventListener('pointerup', lift); front.addEventListener('pointercancel', lift);
   front.addEventListener('pointerleave', function () { ptr = null; tick() });
   /* B: a tap on a case further back brings it forward; a tap on the one in front opens it */
@@ -253,14 +253,24 @@
   addEventListener('resize', function () { layout(true) });
 
   /* ---------- the mark: one tap to this room's FAR (the front stage); tapped there, back to the star in the sky ---------- */
-  function toSky() { if (window.TN_HANDOFF) TN_HANDOFF.out(); if (history.length > 1) { history.back(); return } location.href = new URL('../fable-m4/', location.href).pathname + '#/' }
+  function toSky() { if (window.TN_HANDOFF) TN_HANDOFF.out(); if (window.GJ && GJ.hub) { location.href = GJ.hub; return } var sky = new URL('../fable-m4/', location.href); location.href = (sky.protocol === 'about:' ? '../fable-m4/' : sky.pathname) + '#/' }
   function atFront() { return document.body.classList.contains('at-board') && !document.body.classList.contains('at-detail') && boardEl.scrollTop < 40 }
   function toFront() { var o = window.__objc; if (document.body.classList.contains('at-detail')) { history.back(); return }
     if (o && o.S && o.S.lv !== 'board') { o.toBoard(); setTimeout(function () { boardEl.scrollTo({ top: 0 }) }, 700); return } boardEl.scrollTo({ top: 0, behavior: 'smooth' }) }
-  $('omark').addEventListener('click', function (e) {
+  function markAct(e) {
     e.preventDefault(); e.stopPropagation(); if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+    moved = false;
     if (window.GJ_MARKMENU && GJ_MARKMENU.open) { GJ_MARKMENU.show(false); return }
     if (atFront()) toSky(); else toFront();
+  }
+  var markTap = 0;
+  $('omark').addEventListener('pointerup', function (e) {
+    if (e.pointerType === 'mouse' || !(e.target.closest && e.target.closest('#omark'))) return;
+    moved = false; markTap = Date.now(); markAct(e);
+  }, true);
+  $('omark').addEventListener('click', function (e) {
+    if (Date.now() - markTap < 500) { e.preventDefault(); e.stopPropagation(); return }
+    markAct(e);
   }, true);
   /* Esc at the front, with nothing open: out to the star you came from (one level out). Inside, Esc still rises one layer. */
   addEventListener('keydown', function (e) { if (e.key === 'Escape' && atFront() && !e.defaultPrevented) { var o = window.__objc; if (o && o.S && o.S.lv === 'board') { e.stopImmediatePropagation(); e.preventDefault(); toSky() } } }, true);

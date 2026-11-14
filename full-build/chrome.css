@@ -44,3 +44,8 @@ html.gj-nowater .water, html.gj-nowater #water { opacity: 0 !important; }
   #gj-drawer { transition: none; }
 }
 body.gj-hub #gj-back { display: none; }
+#gj-back, #gj-dial, #gj-red { touch-action: manipulation; -webkit-user-select: none; user-select: none; }
+/* red mode is the room's own red light. Photographs and video are never filtered. */
+html.rm, html.rm body { background-color: #060304; }
+html.rm img, html.rm video { filter: none !important; }
+html.gj-nomoon .jmoon, html.gj-nomoon #jmoon, html.gj-nomoon .jmoon-streak { opacity: 0 !important; visibility: hidden !important; }

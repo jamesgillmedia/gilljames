@@ -4,10 +4,12 @@
  Tiles decode only while at least half on screen, capped (3 on a phone, 6 otherwise).
  Loops are muted and have no audio track. Horizon uses AV1, then VP9, then H.264.
  Posters sit on a dark plate and the picture fades in once decoded.
- Reduce Motion keeps the same strip and the same loops playing. Gill's standard is the same output.
+ Reduce Motion holds the poster: the loops do not play.
  The full-length player files are not here; the 720p hero loop stands in. */
 (function(){
 'use strict';
+var RM=false;try{RM=matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
+function motionPlay(v){if(RM){try{v.pause()}catch(err){}v.classList.add('is-poster');return null}return v.play()}
 /* Document-relative prefix for tonight/media/film/, so /gill-sky/ and a site root both resolve. */
 function relDir(fromHref,toHref){
   var from=new URL(fromHref),to=new URL(toHref);
@@ -152,7 +154,7 @@ function tryPlay(v){
   function go(){
     if(!playing.has(v))return;
     if(paused){playing.delete(v);return}
-    var p=v.play();
+    var p=motionPlay(v);
     if(p&&p.catch)p.catch(function(){v.classList.add("is-poster")});
   }
   if(v.readyState>=2)go();
@@ -333,7 +335,7 @@ function dress(v,slug,opts){
   v.addEventListener("playing",show);
   try{v.load()}catch(e){}
   if((opts.play||playingNow)&&!paused){
-    var p=v.play();if(p&&p.catch)p.catch(function(){});
+    var p=motionPlay(v);if(p&&p.catch)p.catch(function(){});
   }
 }
 var stripKick=0;
@@ -345,7 +347,7 @@ function kickStrip(){
   if(!v.paused&&v.currentTime>0.05){stripKick=1;return}
   if(stripKick>2)return;
   stripKick++;
-  var p=v.play();
+  var p=motionPlay(v);
   if(p&&p.catch)p.catch(function(){});
 }
 function dressStrip(){
@@ -391,7 +393,7 @@ function setPaused(on,quiet){
   }else{
     allLoops().forEach(function(v){
       if(v.closest&&v.closest("#gj-tiles"))return;
-      var p=v.play();if(p&&p.catch)p.catch(function(){});
+      var p=motionPlay(v);if(p&&p.catch)p.catch(function(){});
     });
     reconcile();
   }

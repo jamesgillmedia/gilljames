@@ -6,6 +6,7 @@
 (function(){
 'use strict';
 var Q = new URLSearchParams(location.search);
+var RM=false;try{RM=matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
 var PROOF = true;
 var PRO2 = 'media/pro2/';
 var REELB = PRO2 + 'reel/';
@@ -397,6 +398,7 @@ function sp(x,y){var c=cam();return [(x-c.x)*c.s+W/2,(y-c.y)*c.s+H/2]}
 function wp(x,y){var c=cam();return [(x-W/2)/c.s+c.x,(y-H/2)/c.s+c.y]}
 
 function stepSprings(dt){
+  if(RM){lxS.x=lxS.t;lxS.v=0;lyS.x=lyS.t;lyS.v=0;cxS.x=cxS.t;cxS.v=0;cyS.x=cyS.t;cyS.v=0;csS.x=csS.t;csS.v=0;bxS.x=bxS.t;bxS.v=0;pxS.x=pxS.t;pxS.v=0;scr.x=scr.t;scr.v=0}
   if(!drag){sstep(lxS,dt);sstep(lyS,dt)}
   sstep(cxS,dt);sstep(cyS,dt);sstep(csS,dt);sstep(bxS,dt);sstep(pxS,dt);
   if(!drag||cur.lv<1)sstep(scr,dt);
@@ -406,6 +408,7 @@ function stepSprings(dt){
   if(bxS.t===0&&bloom<.02&&pxS.t===0&&pbloom<.02)bloomK=null;
 }
 function arriveAt(st,instant){
+  if(RM)instant=true;
   var to=camFor(st);
   var player=st.lv===2&&st.id&&byId[st.id]&&byId[st.id].kind==='player';
   var b1=(st.lv>=1&&st.k&&st.k!=='progress'&&!player)?1:0;
@@ -455,8 +458,8 @@ function washImgs(k){
 
 function frame(t){
   var dt=Math.min(.05,(t-(lastT||t))/1000);lastT=t;
-  if(phase==='fly'&&!OP.on){flyU=clamp((t-flyT)/(1680*tk('fade')),0,1);if(flyU>=1){phase='land';landI=0;landT=t;showLand();setChrome();if(window.GJ_DEPTH&&GJ_DEPTH.hush)GJ_DEPTH.hush()}}
-  if(phase==='land'&&!OP.on&&Q.get('land')!=='1'&&t-landT>3600)nextLand();
+  if(phase==='fly'&&!OP.on){flyU=RM?1:clamp((t-flyT)/(1680*tk('fade')),0,1);if(flyU>=1){phase='land';landI=0;landT=t;showLand();setChrome();if(window.GJ_DEPTH&&GJ_DEPTH.hush)GJ_DEPTH.hush()}}
+  if(!RM&&phase==='land'&&!OP.on&&Q.get('land')!=='1'&&t-landT>3600)nextLand();
   if(OP.used)opLayers(dt);
   stepSprings(dt);depthStep(dt);if(playing)listen();
   if(CHIMES.length)chStep(dt);

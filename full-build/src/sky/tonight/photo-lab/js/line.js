@@ -1,7 +1,6 @@
 /* Photo lab · Horizon: the night sky, the drying line, rippling reflections, rings on the water (Nov 13, 2026 pass,
    built toward Sketch's calibre frames, decision 4 = B: a dark night sky, black water, no silver shelf, prints never graded).
-   - A few real prints hang on a line across the top of the sky, pegged at the top. When the horizon moves (drag, wheel,
-     keys) the line sways a little and settles; nothing moves on its own after that. Tap a print to stand it on the horizon.
+   - The top thumbnail strip is not on this shelf. The night sky, the water and the rings stay.
    - The reflections in the water ripple softly; a touch on the water sends out a ring from that point.
    - The photographs are shown as they are: no filter, tint or grade on any print or on the standing photograph.
    Dev-only variants (../_tn/variants.js): A prints on a line (default) · B camera back first (Gill's Nov 11 DSLR back screen:
@@ -22,48 +21,11 @@ function drawSky(){var W=innerWidth,H=innerHeight,HY=LAB.horizon.hy(),d=Math.min
   var s=11;function r(){s=(s*16807)%2147483647;return s/2147483647}
   for(var i=0;i<Math.round(W*HY/2600);i++){var x=r()*W,y=r()*HY*.96,a=(.06+r()*.3)*(1-y/HY*.5),rr=.35+r()*.7;g.fillStyle='rgba(225,230,240,'+a.toFixed(2)+')';g.beginPath();g.arc(x,y,rr,0,6.283);g.fill()}}
 
-/* ---------- the drying line ---------- */
-var line=document.createElement('div');line.id='dline';line.setAttribute('aria-label','prints drying on a line: tap one to stand it on the horizon');
-var svg=document.createElementNS(NS,'svg');svg.setAttribute('class','dl-svg');svg.setAttribute('aria-hidden','true');var path=document.createElementNS(NS,'path');svg.appendChild(path);line.appendChild(svg);
-sky.appendChild(line);
-var PR=[],y0=0,sag=0,bob=0,bobV=0,W=0,ph=0;
-function pick(n){var L=LAB.horizon.list(),out=[];if(!L.length)return out;for(var k=0;k<n;k++){out.push(L[Math.min(L.length-1,Math.round((k+.5)*L.length/n))])}return out}
-var warmed={};
-function shot(p){var src=LAB.th(p);var im=warmed[src];if(im)return im;
-  im=new Image();im.alt='';im.decoding='async';im.fetchPriority='high';im.src=src;warmed[src]=im;return im}
-function warmLine(){var L=LAB.horizon.list(),n=innerWidth<500?5:innerWidth<900?6:8;if(!L.length)return;
-  for(var k=0;k<n;k++)shot(L[Math.min(L.length-1,Math.round((k+.5)*L.length/n))])}
-warmLine();
-function build(){PR.forEach(function(p){p.el.remove()});PR=[];W=innerWidth;var n=W<500?5:W<900?6:8;
-  var hb=bar?bar.getBoundingClientRect().bottom:50;y0=Math.round(hb+(W<620?12:18));ph=W<620?54:W<1100?70:82;sag=W<620?10:16;
-  pick(n).forEach(function(p,k){var el=document.createElement('button');el.type='button';el.className='dlp';el.setAttribute('aria-label','photograph '+LAB.num(p)+': stand it on the horizon');
-    var h=ph,w=Math.max(ph*.62,Math.min(ph*1.35,ph*p.w/p.h));el.style.width=w+'px';el.style.height=h+'px';el.style.marginLeft=(-w/2)+'px';
-    var im=shot(p);if(im.parentNode)im.parentNode.removeChild(im);
-    var show=function(){el.classList.add('in')};
-    if(im.complete&&im.naturalWidth)show();
-    else if(im.decode)im.decode().then(show,function(){im.addEventListener('load',show,{once:true});im.addEventListener('error',show,{once:true})});
-    else{im.addEventListener('load',show,{once:true});im.addEventListener('error',show,{once:true})}
-    el.appendChild(im);el.appendChild(document.createElement('i'));
-    el.addEventListener('click',function(e){e.stopPropagation();var i=LAB.horizon.indexOf(p);if(i>=0)LAB.horizon.go(i);kick(.6)});
-    el.addEventListener('pointerdown',function(e){e.stopPropagation()});
-    line.appendChild(el);PR.push({el:el,p:p,x:W*(k+.5)/n,th:((k%2?1:-1)*(.9+k*.13)),v:0,ph:.7+((k*37)%10)/14})});
-  svg.setAttribute('width',W);svg.setAttribute('height',y0+sag+30);paintLine();}
-function yAt(x){var u=2*x/W-1;return y0+(sag+bob)*(1-u*u)}
-function paintLine(){var d='M-10 '+yAt(-10).toFixed(1);for(var x=0;x<=W+10;x+=W/24)d+=' L'+x.toFixed(1)+' '+yAt(x).toFixed(1);path.setAttribute('d',d);
-  PR.forEach(function(q){q.el.style.transform='translate('+q.x.toFixed(1)+'px,'+(yAt(q.x)-3).toFixed(1)+'px) rotate('+q.th.toFixed(2)+'deg)'})}
-LAB.lineBottom=function(){return y0?y0+sag+ph+8:0};
-/* sway: each print is a damped pendulum about its peg; the line bobs with them */
-var raf=0,last=null,lastT=0;
-function kick(a){PR.forEach(function(q,k){q.v+=a*14*q.ph*(k%2?1:-1)});bobV+=a*3;if(!raf)raf=requestAnimationFrame(step)}
-function step(t){raf=0;var dt=Math.min(.25,lastT?(t-lastT)/1000:.016);lastT=t;var live=false;
-  var fp=LAB.horizon.fpos();if(last!=null){var dv=fp-last;if(Math.abs(dv)>2e-3){var kv=Math.max(-1.2,Math.min(1.2,dv));PR.forEach(function(q){q.v+=kv*-40*q.ph});bobV+=Math.abs(kv)*4}}last=fp;
-  /* fixed 1/120 s sub-steps, so the sway looks and settles the same at any frame rate */
-  for(var n=Math.max(1,Math.round(dt*120)),h=dt/n,j=0;j<n;j++){PR.forEach(function(q){q.v+=(-110*q.th-9*q.v)*h;q.th+=q.v*h;if(q.th>8){q.th=8;q.v=0}else if(q.th<-8){q.th=-8;q.v=0}});
-    bobV+=(-120*bob-10*bobV)*h;bob+=bobV*h}
-  PR.forEach(function(q){if(Math.abs(q.th)>.03||Math.abs(q.v)>.05)live=true});if(Math.abs(bob)>.05||Math.abs(bobV)>.05)live=true;
-  paintLine();if(live)raf=requestAnimationFrame(step);else lastT=0}
-/* follow the horizon: any move of the standing print reaches the line */
-(function watch(){var p0=LAB.horizon.fpos();setInterval(function(){var p=LAB.horizon.fpos();if(Math.abs(p-p0)>1e-3&&!raf){last=p0;raf=requestAnimationFrame(step)}p0=p},120)})();
+/* The top thumbnail strip is not on this shelf. Stars, the water and the rings stay. */
+var PR=[];
+LAB.lineBottom=function(){return 0};
+function build(){}
+function kick(){}
 
 /* ---------- reflections ripple ---------- */
 var fs=document.createElementNS(NS,'svg');fs.setAttribute('width','0');fs.setAttribute('height','0');fs.setAttribute('aria-hidden','true');fs.style.position='absolute';
