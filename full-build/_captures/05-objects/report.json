@@ -1,0 +1,114 @@
+[
+ {
+  "device": "desktop",
+  "path": "src/sky/objects-3d/index.html",
+  "shot": "desktop-src_sky_objects-3d_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/sky/g1/tonight/objects/index.html?dev=1&v=G1",
+  "shot": "desktop-src_sky_g1_tonight_objects_index.html?dev=1&v=G1.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "objects-room/index.html",
+  "shot": "desktop-objects-room_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/sky/o5/tonight/objects/index.html",
+  "shot": "desktop-src_sky_o5_tonight_objects_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/sky/player/tonight/fable-m4/objects-3d/index.html",
+  "shot": "desktop-src_sky_player_tonight_fable-m4_objects-3d_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/sky/player/tonight/fable-m4/versions/objects-c/index.html",
+  "shot": "desktop-src_sky_player_tonight_fable-m4_versions_objects-c_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/sky/r/u4-opus-m4/_sketch/objects/index.html",
+  "shot": "desktop-src_sky_r_u4-opus-m4__sketch_objects_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "desktop",
+  "path": "src/sky/player/tonight/fable-m4/objects/joio/index.html",
+  "shot": "desktop-src_sky_player_tonight_fable-m4_objects_joio_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/sky/objects-3d/index.html",
+  "shot": "phone-src_sky_objects-3d_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/sky/g1/tonight/objects/index.html?dev=1&v=G1",
+  "shot": "phone-src_sky_g1_tonight_objects_index.html?dev=1&v=G1.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "objects-room/index.html",
+  "shot": "phone-objects-room_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/sky/o5/tonight/objects/index.html",
+  "shot": "phone-src_sky_o5_tonight_objects_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/sky/player/tonight/fable-m4/objects-3d/index.html",
+  "shot": "phone-src_sky_player_tonight_fable-m4_objects-3d_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/sky/player/tonight/fable-m4/versions/objects-c/index.html",
+  "shot": "phone-src_sky_player_tonight_fable-m4_versions_objects-c_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/sky/r/u4-opus-m4/_sketch/objects/index.html",
+  "shot": "phone-src_sky_r_u4-opus-m4__sketch_objects_index.html.png",
+  "errors": [],
+  "failed": []
+ },
+ {
+  "device": "phone",
+  "path": "src/sky/player/tonight/fable-m4/objects/joio/index.html",
+  "shot": "phone-src_sky_player_tonight_fable-m4_objects_joio_index.html.png",
+  "errors": [],
+  "failed": []
+ }
+]
