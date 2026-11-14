@@ -10,3 +10,4 @@ One line each time a milestone is pushed to `preview-full-build-v1`.
 - 06-sound — `3901af2f` — Song stars, night sound, Lost Coffee A and B, and the in-play sound visualizers through v3 pro. The pro player now reaches the sketch’s song files. A drag clip on the song stars. Lost Coffee B’s lost-in-time request aborts; the file is on disk.
 - 07-about — `f3001d73` — About with the moon, the site-v3 about, and the calculator bio. The glitch files and the calculator clip now sit where that page already looked. A short clip of the bio.
 - sheets — `4a91460d` — A labeled contact sheet at the top of each milestone, and a timestamped frame sheet beside each motion clip.
+- tools — `4e3aa9d0` — Red mode, safelight, the NV3 dial and zoom, the light scale, reframe, the Horizon dial, view buttons, scrub rail, pinch index, and the toggles. Each one is a before-and-after sheet at the top of the review board.
