@@ -1,0 +1,65 @@
+/* camera-dial.css · the camera logic dial (prototype, Nov 14 2026, local only).
+   Out of the box it is the site's side dial: same 34x120 smoked-glass tab, arc + ticks + dot + vertical label, same
+   open tilt (translateX(-2px) perspective(200px) rotateY(-24deg)) on the same .5s --fold-ease, copied from
+   gilljames preview-v33d-fold 58a8e2be site-v3-3d/css/fold.css (#fold-dial). It sits on the same right edge, one slot
+   below the TUNE dial. The panel unfolds out of the dial exactly like the tune drawer (drawer.css, same SHA):
+   .62s cubic-bezier(.22,.7,.2,1) in, .5s cubic-bezier(.5,0,.75,.3) +.08s fold-up, planes staggered 38ms / 22ms.
+   Colours are neutral greys / warm-white ink only (no red ring, no colour cast). Red mode (html[data-gj-c=red]) follows
+   the site's --gd-ink token like #fold-dial does. */
+:root{--fold-ease:cubic-bezier(.22,.7,.2,1)}
+#cam-dial{position:fixed;right:0;top:50%;z-index:61;width:34px;height:120px;margin-top:76px;padding:0;
+ border:1px solid rgba(var(--gd-ink,232,228,220),.2);border-right:0;border-radius:16px 0 0 16px;background:rgba(5,6,7,.54);
+ -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:-4px 6px 22px rgba(0,0,0,.46),inset 0 1px 0 rgba(232,228,220,.08);
+ cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:none;color:inherit;
+ transition:transform .5s var(--fold-ease),opacity .3s linear}
+#cam-dial[data-slot="solo"]{margin-top:-60px}
+#cam-dial svg{position:absolute;right:2px;top:0;width:30px;height:120px;overflow:visible}
+#cam-dial .fd-arc{fill:none;stroke:rgba(var(--gd-ink,232,228,220),.62);stroke-width:1.1}
+#cam-dial .fd-tick{stroke:rgba(var(--gd-ink,232,228,220),.65);stroke-width:1}
+#cam-dial .fd-dot{fill:#e8e4dc}
+#cam-dial .fd-lab{font:400 7px "Julius Sans One",Poppins,sans-serif;letter-spacing:.2em;fill:rgba(var(--gd-ink,232,228,220),.88)}
+html.cd-open #cam-dial{transform:translateX(-2px) perspective(200px) rotateY(-24deg)}
+html.cd-open #cam-dial .fd-arc{stroke:rgba(var(--gd-ink,232,228,220),.8)}
+html.fold-cover #cam-dial{opacity:0;pointer-events:none}
+html[data-gj-c="red"] #cam-dial{background:rgba(12,3,4,.68);border-color:rgba(var(--gj-red-ink,140,30,28),.36)}
+#cam-dial:focus-visible{outline:1px solid rgba(232,228,220,.6);outline-offset:2px}
+
+/* ---- the panel: comes out of the camera dial (right edge), like #markmenu comes out of #fold-dial ---- */
+#cam-panel{position:fixed;z-index:60;left:auto;right:calc(34px + env(safe-area-inset-right,0px));
+ top:max(calc(54px + env(safe-area-inset-top,0px)),calc(50% - 46vh));
+ width:min(300px,calc(100vw - 72px - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px)));
+ max-height:calc(100dvh - 80px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));overflow:auto;scrollbar-width:none;
+ box-sizing:border-box;padding:14px 16px 16px 18px;color:#e8e4dc;letter-spacing:.04em;
+ background:rgba(5,6,7,.56);border:1px solid rgba(232,228,220,.16);border-radius:14px;
+ -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 18px 44px rgba(0,0,0,.52),inset 0 1px 0 rgba(232,228,220,.08);
+ perspective:900px;perspective-origin:var(--ox,100%) var(--oy,50%);opacity:0;transition:opacity .34s linear}
+#cam-panel::-webkit-scrollbar{display:none}
+#cam-panel[hidden]{display:none}
+#cam-panel.cd-in{opacity:1}
+#cam-panel.cd-folding{opacity:0;transition:opacity .4s linear .2s;pointer-events:none}
+#cam-panel .cd-3d{position:relative;transform-style:preserve-3d;transform-origin:var(--ox,100%) var(--oy,50%);
+ transform:translateZ(-60px) scale(.12) rotateY(-64deg);transition:transform .62s var(--fold-ease)}
+#cam-panel.cd-in .cd-3d{transform:rotateX(calc(var(--py,0) * -3deg)) rotateY(calc(var(--px,0) * 4deg))}
+#cam-panel.cd-folding .cd-3d{transition:transform .5s cubic-bezier(.5,0,.75,.3) .08s}
+#cam-panel.cd-held .cd-3d{transition:none}
+#cam-panel .cd-3d>*{position:relative;transform-origin:50% 0;transform:translateY(-6px) rotateX(-88deg);opacity:0;
+ transition:transform .56s var(--fold-ease) calc(var(--i,0) * 38ms),opacity .3s linear calc(var(--i,0) * 38ms)}
+#cam-panel.cd-in .cd-3d>*{transform:translateZ(var(--z,0px));opacity:1}
+#cam-panel.cd-folding .cd-3d>*{transition:transform .38s cubic-bezier(.5,0,.75,.3) calc((var(--n,8) - var(--i,0)) * 22ms),opacity .26s linear calc((var(--n,8) - var(--i,0)) * 22ms)}
+#cam-panel h3{margin:0 0 6px;font:400 9px "Julius Sans One",Poppins,sans-serif;letter-spacing:.24em;color:rgba(232,228,220,.55);display:flex;justify-content:space-between}
+#cam-panel h3 span{color:#e8e4dc;letter-spacing:.14em}
+#cam-panel .cd-orb{display:block;width:100%;aspect-ratio:1/1;touch-action:none;cursor:grab;-webkit-user-select:none;user-select:none}
+#cam-panel .cd-orb.grab{cursor:grabbing}
+#cam-panel .cd-rows{margin:4px 0 0;padding:0;list-style:none}
+#cam-panel .cd-row{display:flex;align-items:center;min-height:36px;gap:6px;border-top:1px solid rgba(232,228,220,.06)}
+#cam-panel .cd-row b{flex:0 0 58px;font:400 8px "Julius Sans One",Poppins,sans-serif;letter-spacing:.2em;color:rgba(232,228,220,.5);font-weight:400}
+#cam-panel .cd-row.f b{color:#e8e4dc}
+#cam-panel .cd-opts{display:flex;flex-wrap:wrap;gap:2px}
+#cam-panel .cd-opts button{appearance:none;background:none;border:0;padding:8px 6px;min-height:32px;font:300 11px/1 Poppins,sans-serif;letter-spacing:.04em;color:rgba(232,228,220,.5);cursor:pointer;-webkit-tap-highlight-color:transparent}
+#cam-panel .cd-opts button.on{color:#e8e4dc;box-shadow:inset 0 -1px 0 #e8e4dc}
+#cam-panel .cd-hint{margin:8px 0 0;font:300 10px/1.4 Poppins,sans-serif;color:rgba(232,228,220,.42)}
+html[data-gj-c="red"] #cam-panel{background:rgba(12,3,4,.68)}
+@media (prefers-reduced-motion:reduce){
+ #cam-dial,html.cd-open #cam-dial{transition:none;transform:none}
+ #cam-panel .cd-3d,#cam-panel.cd-in .cd-3d,#cam-panel .cd-3d>*,#cam-panel.cd-in .cd-3d>*{transform:none!important;transition:opacity .2s linear!important}
+ #cam-panel.cd-folding{transition:opacity .2s linear}}

@@ -51,7 +51,7 @@ addEventListener('hashchange',settle);settle();
   /* touch-only ripples: only on open water, where nothing opens */
   addEventListener('pointerdown',function(e){
     if(e.pointerType!=='touch'||rm()||D.classList.contains('fold-deep'))return;
-    if(e.target.closest('a,button,input,label,.ch,.dock,.top,#markmenu,#fold-dial,.sheet,.imm,#film-slides'))return;
+    if(e.target.closest('a,button,input,label,.ch,.dock,.top,#markmenu,#fold-dial,#cam-dial,#cam-panel,.sheet,.imm,#film-slides'))return;
     [0,1].forEach(function(i){var r=document.createElement('i');r.className='fold-ripple'+(i?' r2':'');r.style.left=e.clientX+'px';r.style.top=e.clientY+'px';document.body.appendChild(r);setTimeout(function(){r.remove()},1900)});
   },{passive:true});
 })();

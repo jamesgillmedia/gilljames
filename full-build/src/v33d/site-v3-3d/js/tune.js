@@ -284,9 +284,9 @@ function build(){
   function letGo(){if(!HOLD&&!(menu&&menu.classList.contains('mm-peek')))return;HOLD=false;if(menu)menu.classList.remove('mm-peek');if(ACT){ACT.classList.remove('mm-act');ACT=null}if(window.GJ_GHOST)GJ_GHOST.release()}
   ['pointerup','pointercancel','touchend','touchcancel'].forEach(function(n){addEventListener(n,letGo,true)});addEventListener('blur',letGo);
   addEventListener('keydown',function(e){if(open&&e.key==='Escape'){e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();show(false)}},true);
-  document.addEventListener('pointerdown',function(e){if(open&&!e.target.closest('#markmenu,.gj-mark,#fold-dial')){SWALLOW=Date.now()+700;show(false)}},true);
+  document.addEventListener('pointerdown',function(e){if(open&&!e.target.closest('#markmenu,.gj-mark,#fold-dial,#cam-dial')){SWALLOW=Date.now()+700;show(false)}},true);
   addEventListener('pointerup',function(){if(SWALLOW)setTimeout(function(){SWALLOW=0},380)},true);
-  document.addEventListener('click',function(e){if(SWALLOW&&Date.now()<SWALLOW&&!e.target.closest('#markmenu,.gj-mark,#fold-dial')){SWALLOW=0;e.stopPropagation();e.preventDefault()}},true);
+  document.addEventListener('click',function(e){if(SWALLOW&&Date.now()<SWALLOW&&!e.target.closest('#markmenu,.gj-mark,#fold-dial,#cam-dial')){SWALLOW=0;e.stopPropagation();e.preventDefault()}},true);
 }
 
 document.addEventListener('click',function(e){
