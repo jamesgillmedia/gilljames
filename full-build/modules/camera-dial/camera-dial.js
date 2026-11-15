@@ -101,9 +101,9 @@ addEventListener('keydown',function(e){if(!open)return;
   if(e.key==='ArrowUp'||e.key==='ArrowDown'){e.preventDefault();FOCUS=RINGS[clamp(ix+(e.key==='ArrowUp'?1:-1),0,RINGS.length-1)].k;paintRows();kick()}
   else if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();var r=RINGS[ix],j=r.opts.findIndex(function(o){return o[0]===VAL[r.k]});
     choose(r.k,r.opts[clamp(j+(e.key==='ArrowRight'?1:-1),0,r.opts.length-1)][0])}},true);
-document.addEventListener('pointerdown',function(e){if(open&&!e.target.closest('#cam-panel,#cam-dial')){SWALLOW=Date.now()+700;var toTune=e.target.closest&&e.target.closest('#fold-dial');show(false,toTune?{replace:1}:null)}},true);
+document.addEventListener('pointerdown',function(e){if(open&&!e.target.closest('#cam-panel,#cam-dial')){SWALLOW=Date.now()+700;var toTune=e.target.closest&&e.target.closest('#fold-dial,#gj-dial');show(false,toTune?{replace:1}:null)}},true);
 addEventListener('pointerup',function(){if(SWALLOW)setTimeout(function(){SWALLOW=0},380)},true);
-document.addEventListener('click',function(e){if(SWALLOW&&Date.now()<SWALLOW&&!e.target.closest('#cam-panel,#cam-dial,#fold-dial')){/* a tap on the TUNE dial is not swallowed: one tap switches dials */SWALLOW=0;e.stopPropagation();e.preventDefault()}},true);
+document.addEventListener('click',function(e){if(SWALLOW&&Date.now()<SWALLOW&&!e.target.closest('#cam-panel,#cam-dial,#fold-dial,#gj-dial')){/* a tap on the TUNE dial is not swallowed: one tap switches dials */SWALLOW=0;e.stopPropagation();e.preventDefault()}},true);
 /* the tune dial opening folds this one away (one dial out at a time) */
 new MutationObserver(function(){if(open&&D.classList.contains('mm-open'))show(false,{replace:1})}).observe(D,{attributes:true,attributeFilter:['class']});
 /* registered before the calculator bio's Escape, so a keyup cannot step #about back to #sky after the camera has closed */

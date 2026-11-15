@@ -102,3 +102,8 @@
 .ambx.sk-glass{--ambx-fill:rgba(255,201,138,.85);--ambx-rest:rgba(220,232,240,.22)}
 .ambx .cl span:first-child{width:var(--ambx-lw,84px)}
 .ambx.op-ctl{--ambx-bottom:calc(46px + env(safe-area-inset-bottom,0px));--ambx-lw:96px}
+
+/* ambience on/off switch beside the pill (gj.amb.on): same switch and LED as the plate's own switches, 44px touch */
+.ambx-on{height:32px;min-height:32px;min-width:52px;margin:6px 0 6px 6px;padding:0 11px 0 10px;justify-content:center;border-radius:16px;vertical-align:top}
+.ambx-on::before{content:"";position:absolute;inset:-7px -4px}
+.ambx-off .ambx-tg i{opacity:.3;box-shadow:none}

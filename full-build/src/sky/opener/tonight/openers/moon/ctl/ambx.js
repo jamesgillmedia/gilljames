@@ -4,6 +4,11 @@
    Nothing here moves on its own; it only answers the fingers. Reduce Motion changes nothing. */
 (function(){
   var LS='gj.amb.';
+  /* ambience on/off, one switch for every room (gj.amb.on, default on). Off drives each slider's room effect to its off value
+   (s.off, else its minimum; 'keep' leaves a non-ambience slider alone); the sliders keep their own settings and on restores them. Not on the bio plate (that is the glitch, not ambience). */
+  var AON=(function(){try{return localStorage.getItem('gj.amb.on')!=='0'}catch(e){return true}})(),AONF=[];
+  function setOn(on,nosave){AON=!!on;if(!nosave){try{localStorage.setItem('gj.amb.on',AON?'1':'0')}catch(e){}}AONF.forEach(function(f){f()})}
+  addEventListener('storage',function(e){if(e.key==='gj.amb.on'){var v=null;try{v=localStorage.getItem('gj.amb.on')}catch(_){}setOn(v!=='0',true)}});
   function rd(key,d,min,max){try{var s=localStorage.getItem(key);if(s==null||s==='')return d;var v=+s;return isFinite(v)?Math.max(min,Math.min(max,v)):d}catch(e){return d}}
   function wr(key,v){try{localStorage.setItem(key,String(v))}catch(e){}}
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
@@ -16,6 +21,13 @@
     root.innerHTML='<button type="button" class="ambx-tg" aria-expanded="false" aria-controls="'+pid+'" aria-label="'+esc(o.aria||'room controls: light, atmosphere and switches')+'"><i aria-hidden="true"></i>'+esc(o.title||'controls')+'</button>'+
       '<div class="ambx-p" id="'+pid+'" role="group" aria-label="'+esc(o.aria||'room controls')+'" hidden></div>';
     var tg=root.firstChild,p=root.lastChild,rows={};
+    var amb=o.amb!==false&&room!=='bio',onb=null;
+    if(amb){onb=document.createElement('button');onb.type='button';onb.className='ambx-sw ambx-on';onb.innerHTML='<i class="led" aria-hidden="true"></i><span></span>';root.insertBefore(onb,p);
+      onb.addEventListener('click',function(){setOn(!AON);try{if(navigator.vibrate)navigator.vibrate(6)}catch(e){}});
+      AONF.push(function(){S.forEach(function(s){if(!s.type&&val[s.k]!=null&&s.apply)s.apply(eff(s,val[s.k]))});paintOn()})}
+    function paintOn(){if(!onb)return;onb.classList.toggle('on',AON);onb.setAttribute('aria-pressed',String(AON));onb.lastChild.textContent=AON?'on':'off';
+      onb.setAttribute('aria-label',AON?'ambience on: tap to turn the room\'s glow, haze and stars off':'ambience off: tap to turn it back on');root.classList.toggle('ambx-off',!AON)}
+    function eff(s,v){return (!amb||AON||s.off==='keep')?v:(s.off!=null?s.off:s.min)}
     var swRow=null;
     S.forEach(function(s){
       if(s.type==='sec'){swRow=null;var h=document.createElement('div');h.className='ambx-sec';h.textContent=s.label;p.appendChild(h);rows['sec:'+s.label]={lab:h,sec:s};return}
@@ -41,6 +53,7 @@
         var span=s.max-s.min,det=s.detent!=null?s.detent:span*.025;
         if(Math.abs(v-s.def)<det&&v!==s.def){v=s.def;inp.value=String(v)}
         var side=v<s.def?-1:v>s.def?1:0;if(side!==lastSide&&(side===0||lastSide===0)){try{if(navigator.vibrate)navigator.vibrate(6)}catch(e){}}lastSide=side;
+        if(amb&&!AON)setOn(true);
         set(s,v,true);
       });
       /* double tap the name: back to this room's own setting */
@@ -58,7 +71,7 @@
       r.inp.setAttribute('aria-valuetext',(s.fmt?s.fmt(v):Math.round(v)+(s.unit==null?'%':s.unit)))}
     function set(s,v,save){v=Math.max(s.min,Math.min(s.max,+v));val[s.k]=v;
       if(save){if(s.write)s.write(v);else wr(keyOf(room,s),v)}
-      paint(s,v);if(s.apply)s.apply(v);lit()}
+      paint(s,v);if(s.apply)s.apply(eff(s,v));lit()}
     function load(s){return s.read?s.read():rd(keyOf(room,s),s.def,s.min,s.max)}
     function lit(){var a=0,n=0;S.forEach(function(s){if(s.type||(s.show&&!s.show()))return;n++;a+=Math.min(1,val[s.k]/(s.def||1))});root.style.setProperty('--ambx-lit',n?(a/n).toFixed(2):'1')}
     function refresh(){
@@ -80,9 +93,9 @@
     });
     root.addEventListener('keydown',function(e){e.stopPropagation();if(e.key==='Escape'){open(false);tg.focus()}});
     (o.mount||document.body).appendChild(root);
-    refresh();
+    refresh();paintOn();
     var api={el:root,refresh:refresh,sync:function(){if(!p.hidden)refresh();else{S.forEach(function(s){if(!s.type)set(s,load(s),false)})}},open:open,get:function(k){return val[k]},set:function(k,v){var s=S.filter(function(x){return x.k===k})[0];if(s)set(s,v,true)},isOpen:function(){return !p.hidden}};
     return api;
   }
-  window.AMBX={create:create,read:read,key:function(room,k,scope){return LS+room+'.'+(scope?scope+'.':'')+k}};
+  window.AMBX={create:create,read:read,on:function(){return AON},setOn:function(v){setOn(v)},key:function(room,k,scope){return LS+room+'.'+(scope?scope+'.':'')+k}};
 })();

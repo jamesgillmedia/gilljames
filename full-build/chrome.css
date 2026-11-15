@@ -1,51 +1,234 @@
-/* Shared wayfinding for the full-build preview. Quiet, never a grade on pictures. */
+/* Shared wayfinding for the full-build preview. Quiet, never a grade on pictures.
+
+   Tune (Nov 14): not a panel. It is a small 3D object that unfolds out of the Mark: rows on planes at different depths
+   (--z), turned out on the site's easing (cubic-bezier(.22,.7,.2,1), about .28 s), leaning a little with the pointer, and
+   folding back into the Mark in about .24 s, well under 400 ms. Reduce Motion: a plain fade to the same final state. The same in every room.
+   Chrome is compact: 32px on a desktop pointer, the same look inside a 44px hit area on touch.
+   Active = warm white #e8e4dc. Never mint, with one exception: the red-mode dot, which lights mint while the safelight is on. */
 @font-face{font-family:Syl;font-weight:700;font-display:swap;src:url(fonts/noto-canadian-aboriginal-subset.woff2) format("woff2");unicode-range:U+1400-167F}
+:root{
+  --gj-ink:232,228,220;            /* warm white, the active colour */
+  --gj-line:200,225,255;           /* hairlines */
+  --gj-ground:6,10,18;
+  --gj-ease:cubic-bezier(.22,.7,.2,1);
+  --gj-fold:cubic-bezier(.5,0,.75,.3);
+  --gj-s:32px;                     /* what a control looks like */
+  --gj-hit:32px;                   /* what a finger can hit */
+  --gj-top:calc(env(safe-area-inset-top, 0px) + 8px);
+}
+@media (pointer:coarse){:root{--gj-hit:44px;--gj-top:calc(env(safe-area-inset-top, 0px) + 4px)}}
+/* the safelight: everything the chrome draws is red */
+html.rm{--gj-ink:255,138,114;--gj-line:255,92,78;--gj-ground:14,4,5}
+
 html.gj-nomoon .moon, html.gj-nomoon #moon, html.gj-nomoon [data-moon]{opacity:0!important}
+
+/* ---------- the three shared controls: the Mark, the + that opens Tune beside it, the red-mode dot ---------- */
 #gj-back, #gj-red, #gj-dial {
-  position: fixed; z-index: 2147483000;
-  font: 300 13px Poppins, system-ui, sans-serif;
-  color: #e6edf0; background: rgba(6,10,18,.62);
-  border: 1px solid rgba(200,225,255,.22);
-  border-radius: 22px; min-height: 44px; min-width: 44px;
-  cursor: pointer; text-decoration: none;
+  position: fixed; z-index: 2147483000; top: var(--gj-top); box-sizing: border-box;
+  height: var(--gj-hit); min-width: var(--gj-hit); margin: 0; padding: 0;
+  font: 300 12px/1 Poppins, system-ui, sans-serif; letter-spacing: .04em;
+  color: rgb(var(--gj-ink)); background: none; border: 0; border-radius: 0;
+  cursor: pointer; text-decoration: none; -webkit-tap-highlight-color: transparent;
   display: inline-flex; align-items: center; justify-content: center;
+  touch-action: manipulation; -webkit-user-select: none; user-select: none;
 }
-#gj-back { top: calc(env(safe-area-inset-top) + 8px); left: 8px; padding: 0 12px; gap: 6px; }
-#gj-back b { font: 700 18px Syl, "Noto Sans Canadian Aboriginal", sans-serif; font-weight: 700; }
-#gj-red, #gj-dial { top: calc(env(safe-area-inset-top) + 8px); }
-#gj-red { right: 8px; width: 44px; padding: 0; }
-#gj-red i { width: 10px; height: 10px; border-radius: 50%; background: #c9d3d6; display: block; }
-html.rm #gj-red i { background: #c23b3b; }
-#gj-dial { right: 58px; padding: 0 12px; letter-spacing: .08em; }
+/* the visible pill is drawn inside the hit area, so a 44px touch target still looks 32px */
+#gj-back::before, #gj-red::before, #gj-dial::before {
+  content: ""; position: absolute; z-index: -1; left: 0; right: 0; top: 50%; height: var(--gj-s); margin-top: calc(var(--gj-s) / -2);
+  background: rgba(var(--gj-ground),.58); border: 1px solid rgba(var(--gj-line),.2); border-radius: 16px; box-sizing: border-box;
+  transition: border-color .25s linear, background-color .25s linear;
+}
+#gj-back { left: 8px; padding: 0 10px 0 9px; gap: 5px; }
+#gj-back b { font: 700 16px/1 Syl, "Noto Sans Canadian Aboriginal", sans-serif; display: inline-block; transform-origin: 50% 60%; }
+#gj-red { right: 8px; width: var(--gj-hit); }
+#gj-red::before { left: 50%; right: auto; width: var(--gj-s); margin-left: calc(var(--gj-s) / -2); }
+#gj-red i { width: 8px; height: 8px; border-radius: 50%; background: rgba(var(--gj-ink),.8); display: block; transition: background-color .25s linear, box-shadow .25s linear; }
+/* the one thing that is not red in the safelight: the dot itself, lit mint, so you can tell it is on */
+html.rm #gj-red i { background: #55DAA1; box-shadow: 0 0 7px 1px rgba(85,218,161,.7); }
+/* Tune's handle: a + beside the Mark. It turns to a × while Tune is out. */
+#gj-dial { left: 62px; width: var(--gj-hit); font: 400 19px/1 "Julius Sans One", Poppins, sans-serif; letter-spacing: 0; }
+#gj-dial::before { left: 50%; right: auto; width: var(--gj-s); margin-left: calc(var(--gj-s) / -2); background: none; border-color: transparent; }
+#gj-dial span { display: block; transition: transform .28s var(--gj-ease); transform-origin: 50% 54%; }
+#gj-dial[aria-expanded="true"] span { transform: rotate(45deg); }
+#gj-dial[aria-expanded="true"]::before { border-color: rgba(var(--gj-ink),.34); }
+#gj-dial .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+@media (hover:hover) {
+  #gj-dial:hover::before { border-color: rgba(var(--gj-ink),.45); background: rgba(var(--gj-ground),.4); }
+}
+#gj-dial:active::before { border-color: rgba(var(--gj-ink),.6); background: rgba(var(--gj-ground),.55); }
+/* first-view "tune" chip, under the +, dismissed on the first open. Never mint. */
+#gj-tune-hint {
+  position: fixed; z-index: 2147483000; left: 62px; top: calc(var(--gj-top) + var(--gj-hit) + 2px);
+  padding: 4px 8px; margin: 0; pointer-events: none;
+  font: 400 10px/1 "Julius Sans One", Poppins, sans-serif; letter-spacing: .16em; text-transform: lowercase;
+  color: rgb(var(--gj-ink)); background: rgba(var(--gj-ground),.78);
+  border: 1px solid rgba(var(--gj-line),.28); border-radius: 12px;
+  opacity: 0; visibility: hidden; transition: opacity .2s linear, visibility 0s linear .2s;
+}
+#gj-tune-hint.on { opacity: 1; visibility: visible; transition: opacity .2s linear, visibility 0s; }
+#gj-tune-hint[hidden], html.gj-tune #gj-tune-hint { opacity: 0; visibility: hidden; }
+#gj-back:focus-visible::before, #gj-dial:focus-visible::before, #gj-red:focus-visible::before { border-color: rgba(var(--gj-ink),.8); }
+#gj-back:focus-visible, #gj-dial:focus-visible, #gj-red:focus-visible { outline: none; }
+#gj-back[hidden], #gj-dial[hidden] { display: none; }
+/* #gj-back is mounted on <html> (93b5bce), so body.gj-hub #gj-back never matches. */
+body.gj-hub #gj-back, body.gj-hub ~ #gj-back, html:has(body.gj-hub) #gj-back { display: none; }
+
+/* the Mark turns in 3D as Tune comes out of it, and turns back as Tune folds in */
+#gj-back b, body.gj-hub #bar .sig, [data-gj-mark] { transition: transform .28s var(--gj-ease), text-shadow .28s linear; }
+html.gj-tune #gj-back b, html.gj-tune body.gj-hub #bar .sig, html.gj-tune [data-gj-mark] {
+  transform: perspective(160px) rotateY(-34deg) rotateX(18deg) translateZ(6px); text-shadow: 0 0 10px rgba(var(--gj-ink),.55);
+}
+
+/* ---------- Tune: the object ---------- */
 #gj-drawer {
-  position: fixed; z-index: 2147483000; top: 0; right: 0; bottom: 0; width: min(360px, 100vw);
-  background: rgba(6,10,16,.88); color: #e6edf0;
-  border-left: 1px solid rgba(200,225,255,.16);
-  transform: translateX(104%); transition: transform .35s ease;
-  overflow: auto; -webkit-overflow-scrolling: touch;
-  padding: calc(env(safe-area-inset-top) + 64px) 16px calc(env(safe-area-inset-bottom) + 24px);
-  font: 300 13px/1.4 Poppins, system-ui, sans-serif;
+  position: fixed; z-index: 2147482990; left: 8px; top: 48px; box-sizing: border-box;
+  width: min(292px, calc(100vw - 16px)); max-height: calc(100vh - 60px); max-height: calc(100dvh - 60px);
+  overflow: hidden auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  padding: 10px 14px 18px 18px; background: none; border: 0;
+  color: rgb(var(--gj-ink)); font: 300 11px/1.35 Poppins, system-ui, sans-serif; letter-spacing: .1em;
+  perspective: 900px; perspective-origin: var(--ox, 30px) var(--oy, -20px);
+  opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .16s linear, visibility 0s linear .28s;
+  text-shadow: 0 0 2px rgb(var(--gj-ground)), 0 0 8px rgb(var(--gj-ground)), 0 0 16px rgb(var(--gj-ground));
 }
-#gj-drawer.on { transform: none; }
-#gj-drawer h2 { margin: 18px 0 8px; font: 400 11px "Julius Sans One", sans-serif; letter-spacing: .14em; text-transform: uppercase; color: #9eb0b6; }
-#gj-drawer label.row, #gj-drawer a.row {
-  display: flex; justify-content: space-between; align-items: center; gap: 10px;
-  min-height: 40px; color: inherit; text-decoration: none;
-  border-bottom: 1px solid rgba(200,225,255,.08);
+#gj-drawer::-webkit-scrollbar { display: none; }
+#gj-drawer.on { opacity: 1; visibility: visible; transition: opacity .16s linear, visibility 0s; }
+#gj-drawer.folding { opacity: 0; visibility: visible; transition: opacity .2s linear, visibility 0s linear .28s; }
+/* a soft ground only as wide as the words, feathered at the edge, so Tune reads over a busy room without becoming a card.
+   It is part of the object: it unfolds and folds with the planes. */
+#gj-drawer .gj-3d::after {
+  content: ""; position: absolute; z-index: -1; inset: 2px -2px 0 -6px; border-radius: 20px; pointer-events: none;
+  background: rgba(var(--gj-ground),.84); box-shadow: 0 0 22px 16px rgba(var(--gj-ground),.84);
+  transform: translateZ(-16px);
 }
-#gj-drawer a.row:hover, #gj-drawer a.row:focus-visible { color: #55DAA1; }
-#gj-drawer select, #gj-drawer button.tog {
-  font: inherit; color: #e6edf0; background: transparent;
-  border: 1px solid rgba(200,225,255,.25); border-radius: 14px; min-height: 32px; padding: 0 8px;
+/* the boxes let taps through; the planes take them. (A flat box in front of planes at a negative --z once swallowed every
+   tap below the third row. Nothing here can do that: no box ever takes a tap.) */
+#gj-drawer .gj-3d, #gj-drawer .gj-plate { pointer-events: none; }
+#gj-drawer.on .gj-pl { pointer-events: auto; }
+#gj-drawer .gj-3d {
+  position: relative; transform-style: preserve-3d; transform-origin: var(--ox, 30px) var(--oy, -20px);
+  transform: translateZ(-80px) scale(.16) rotateX(-58deg) rotateY(22deg);
+  transition: transform .28s var(--gj-ease);
 }
+#gj-drawer.on .gj-3d { transform: rotateX(calc(var(--py, 0) * -3deg)) rotateY(calc(var(--px, 0) * 4deg)); }
+#gj-drawer.folding .gj-3d { transition: transform .24s var(--gj-fold); }
+#gj-drawer .gj-plate { transform-style: preserve-3d; }
+#gj-drawer .gj-pl {
+  position: relative; transform-origin: 50% 50%;
+  transform: translateY(-6px) rotateX(-88deg); opacity: 0;
+  transition: transform .26s var(--gj-ease) calc(var(--d, 0) * 8ms), opacity .18s linear calc(var(--d, 0) * 8ms);
+}
+#gj-drawer.on .gj-pl { transform: translateZ(var(--z, 0px)); opacity: 1; }
+#gj-drawer.folding .gj-pl { transition: transform .22s var(--gj-fold) calc((9 - var(--d, 0)) * 6ms), opacity .16s linear calc((9 - var(--d, 0)) * 6ms); }
+/* a thread falls from the Mark; every row hangs on it as a small star */
+#gj-drawer .gj-3d::before { content: ""; position: absolute; left: -9px; top: -8px; bottom: 6px; width: 1px;
+  background: linear-gradient(rgba(var(--gj-ink),.5), rgba(var(--gj-ink),.08) 85%, rgba(var(--gj-ink),0)); }
+#gj-drawer .row::before { content: ""; position: absolute; left: -10.5px; top: 50%; width: 3px; height: 3px; margin-top: -1.5px; border-radius: 50%;
+  background: rgb(var(--gj-ink)); box-shadow: 0 0 6px rgba(var(--gj-ink),.8); }
+#gj-drawer h2::before { content: ""; position: absolute; left: -11.5px; top: 50%; width: 5px; height: 5px; margin-top: -2.5px; border-radius: 50%;
+  background: rgb(var(--gj-ink)); box-shadow: 0 0 10px rgba(var(--gj-ink),.9); }
+
+#gj-drawer h2 { margin: 10px 0 2px; padding: 0; font: 400 9px/1.6 "Julius Sans One", Poppins, sans-serif; letter-spacing: .24em; text-transform: uppercase; color: rgba(var(--gj-ink),.55); }
+#gj-drawer h2:first-child { margin-top: 0; }
+#gj-drawer h2.gj-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+#gj-tune-close {
+  all: unset; cursor: pointer; box-sizing: border-box;
+  width: var(--gj-s); height: var(--gj-s); min-width: var(--gj-s);
+  display: inline-flex; align-items: center; justify-content: center;
+  font: 400 18px/1 "Julius Sans One", Poppins, sans-serif; letter-spacing: 0; text-transform: none;
+  color: rgb(var(--gj-ink)); -webkit-tap-highlight-color: transparent;
+}
+#gj-tune-close:hover, #gj-tune-close:focus-visible { color: rgb(var(--gj-ink)); }
+#gj-tune-close:focus-visible { outline: 1px solid rgba(var(--gj-ink),.7); outline-offset: 2px; }
+#gj-drawer h2 button { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; min-height: var(--gj-s); }
+#gj-drawer h2 button[aria-expanded="true"] { color: rgb(var(--gj-ink)); }
+#gj-drawer h2 button em { font-style: normal; letter-spacing: .1em; color: rgba(var(--gj-ink),.42); }
+#gj-drawer .row {
+  display: flex; align-items: center; justify-content: space-between; gap: 6px 12px; flex-wrap: wrap;
+  min-height: var(--gj-s); padding: 0; margin: 0; color: rgba(var(--gj-ink),.82); text-decoration: none; border: 0;
+}
+#gj-drawer .row > span:first-child { flex: 0 0 auto; text-transform: lowercase; }
+/* a choice with long words sits under its name, the way the m4 drawer sets a segment */
+#gj-drawer .row.stack { flex-direction: column; align-items: flex-start; justify-content: center; gap: 0; padding: 5px 0 1px; }
+#gj-drawer .row.stack > span:first-child { line-height: 1.5; }
+#gj-drawer .row.stack .seg { margin-left: 0; justify-content: flex-start; gap: 0 14px; }
+#gj-drawer .row.stack::before { top: 13px; }
+#gj-drawer .seg { display: inline-flex; flex-wrap: wrap; justify-content: flex-end; gap: 0 12px; margin-left: auto; }
+/* a choice is a word; the chosen word is warm white with a hairline under it */
+#gj-drawer .seg button, #gj-drawer button.tog {
+  all: unset; box-sizing: border-box; cursor: pointer; min-height: var(--gj-s); min-width: 26px; padding: 0 1px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font: 300 10.5px/1 Poppins, system-ui, sans-serif; letter-spacing: .1em; color: rgba(var(--gj-ink),.46);
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+}
+#gj-drawer .seg button[aria-checked="true"], #gj-drawer button.tog[aria-pressed="true"] { color: rgb(var(--gj-ink)); box-shadow: inset 0 -9px 0 -8px rgb(var(--gj-ink)); }
+#gj-drawer .seg button:hover, #gj-drawer button.tog:hover, #gj-drawer a.row:hover { color: rgb(var(--gj-ink)); }
+#gj-drawer .seg button:focus-visible, #gj-drawer button.tog:focus-visible, #gj-drawer a.row:focus-visible, #gj-drawer h2 button:focus-visible { outline: 1px solid rgba(var(--gj-ink),.7); outline-offset: 2px; }
+#gj-drawer a.row { min-height: 28px; font-size: 10.5px; color: rgba(var(--gj-ink),.72); }
+#gj-drawer a.row span:last-child { font: 400 8px/1 "Julius Sans One", Poppins, sans-serif; letter-spacing: .2em; color: rgba(var(--gj-ink),.4); }
+#gj-drawer #gj-rooms[hidden] { display: none; }
+#gj-drawer #gj-onward { margin: 6px 0 0; min-height: var(--gj-s); display: flex; align-items: center; }
+#gj-drawer #gj-onward a { color: rgb(var(--gj-ink)); text-decoration: none; min-height: var(--gj-s); display: inline-flex; align-items: center; }
+#gj-drawer #gj-pins { margin: 8px 0 0; display: flex; flex-wrap: wrap; gap: 0 16px; min-height: var(--gj-s); align-items: center; }
+#gj-drawer #gj-pins a { color: rgb(var(--gj-ink)); text-decoration: none; letter-spacing: .14em; min-height: var(--gj-s); display: inline-flex; align-items: center; }
+#gj-drawer #gj-pins a:hover, #gj-drawer #gj-pins a:focus-visible { color: rgb(var(--gj-ink)); }
+#gj-drawer #gj-pins a:focus-visible { outline: 1px solid rgba(var(--gj-ink),.7); outline-offset: 2px; }
+#gj-drawer #gj-beyond { margin-top: 2px; }
+/* sliders: a hairline and a small mark, never a chunky native control */
+#gj-drawer input[type=range] { -webkit-appearance: none; appearance: none; background: none; flex: 1 1 90px; min-width: 80px; height: var(--gj-s); margin: 0; accent-color: rgb(var(--gj-ink)); }
+#gj-drawer input[type=range]::-webkit-slider-runnable-track { height: 1px; background: rgba(var(--gj-ink),.3); border: 0; }
+#gj-drawer input[type=range]::-moz-range-track { height: 1px; background: rgba(var(--gj-ink),.3); border: 0; }
+#gj-drawer input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 9px; height: 9px; margin-top: -4px; border-radius: 50%; background: rgb(var(--gj-ink)); border: 0; }
+#gj-drawer input[type=range]::-moz-range-thumb { width: 9px; height: 9px; border-radius: 50%; background: rgb(var(--gj-ink)); border: 0; }
+#gj-drawer output { flex: 0 0 26px; text-align: right; font-variant-numeric: tabular-nums; color: rgba(var(--gj-ink),.62); }
+/* while a slider is held, Tune steps aside so you can see what it is changing: only that slider's hairline and thumb stay, faint */
+#gj-drawer.peek .gj-pl, #gj-drawer.peek .gj-3d::before, #gj-drawer.peek .gj-3d::after { opacity: 0 !important; transition: opacity .12s linear !important; }
+#gj-drawer.peek .gj-pl.act { opacity: 1 !important; }
+#gj-drawer.peek .gj-pl.act > * { opacity: 0; }
+#gj-drawer.peek .gj-pl.act > input[type=range] { opacity: .18; }
+#gj-drawer.peek .gj-pl.act::before { opacity: 0; }
+
+/* ---------- the safelight's lamp edge: a 10px warm band at the screen edges, never over a picture's middle ---------- */
+#gj-safe { position: fixed; inset: 0; z-index: 2147482000; pointer-events: none; opacity: 0; transition: opacity .45s ease;
+  background: linear-gradient(to right, rgba(255,92,40,.72), rgba(255,92,40,0) 10px) left/10px 100% no-repeat,
+    linear-gradient(to left, rgba(255,92,40,.72), rgba(255,92,40,0) 10px) right/10px 100% no-repeat,
+    linear-gradient(to bottom, rgba(255,92,40,.72), rgba(255,92,40,0) 10px) top/100% 10px no-repeat,
+    linear-gradient(to top, rgba(255,92,40,.72), rgba(255,92,40,0) 10px) bottom/100% 10px no-repeat; }
+html.rm #gj-safe { opacity: 1; }
+
+/* ---------- the hub's own bar, brought to the same compact size and the same colours ---------- */
+body.gj-hub #bar { gap: 6px; padding: var(--gj-top) calc(var(--gj-hit) + 14px) 6px 8px; font-size: 12px; }
+body.gj-hub #bar button, body.gj-hub #bar a { position: relative; min-height: var(--gj-hit); min-width: var(--gj-hit); padding: 0 11px; background: none; border-color: transparent; border-radius: 16px; color: rgb(var(--gj-ink)); letter-spacing: .04em; }
+body.gj-hub #bar button::before, body.gj-hub #bar a::before { content: ""; position: absolute; z-index: -1; left: 0; right: 0; top: 50%; height: var(--gj-s); margin-top: calc(var(--gj-s) / -2);
+  box-sizing: border-box; background: rgba(var(--gj-ground),.55); border: 1px solid rgba(var(--gj-line),.18); border-radius: 16px; }
+body.gj-hub #bar .sig { font: 700 17px/1 Syl, sans-serif; padding: 0 10px; margin-right: var(--gj-hit); }
+body.gj-hub #bar button:focus-visible { outline: none; }
+body.gj-hub #bar button:focus-visible::before, body.gj-hub #bar a:focus-visible::before { border-color: rgba(var(--gj-ink),.8); }
+body.gj-hub #bar button[aria-pressed="true"] { color: rgb(var(--gj-ink)); }
+body.gj-hub #bar button[aria-pressed="true"]::before { border-color: rgba(var(--gj-ink),.7); }
+body.gj-hub #where { font-size: 11px; color: rgba(var(--gj-ink),.72); }
+body.gj-hub #hint { padding: 6px 12px; font-size: 11px; color: rgba(var(--gj-ink),.72); border-color: rgba(var(--gj-line),.14); background: rgba(var(--gj-ground),.6); }
+body.gj-hub #board .bn button:focus-visible { outline-color: rgb(var(--gj-ink)); }
+/* on a narrow screen the Mark already goes up one level, so the bar does not also carry "‹ out" */
+@media (max-width: 560px) { body.gj-hub #bar #out { display: none; } body.gj-hub #bar { gap: 2px; } }
+
 html.gj-noreflect .refl, html.gj-noreflect .reflection, html.gj-noreflect [data-reflect] { opacity: 0 !important; visibility: hidden !important; }
 html.gj-nowater .water, html.gj-nowater #water { opacity: 0 !important; }
-@media (prefers-reduced-motion: reduce) {
-  #gj-drawer { transition: none; }
-}
-body.gj-hub #gj-back { display: none; }
-#gj-back, #gj-dial, #gj-red { touch-action: manipulation; -webkit-user-select: none; user-select: none; }
-/* red mode is the room's own red light. Photographs and video are never filtered. */
+html.gj-nomoon .jmoon, html.gj-nomoon #jmoon, html.gj-nomoon .jmoon-streak { opacity: 0 !important; visibility: hidden !important; }
+
+/* ---------- red mode is the room's own red light. Photographs and video are never filtered. ---------- */
 html.rm, html.rm body { background-color: #060304; }
 html.rm img, html.rm video { filter: none !important; }
-html.gj-nomoon .jmoon, html.gj-nomoon #jmoon, html.gj-nomoon .jmoon-streak { opacity: 0 !important; visibility: hidden !important; }
+html.rm body.gj-hub #board { background: rgba(10,3,4,.975); color: #ff8a72; }
+html.rm body.gj-hub #board h2, html.rm body.gj-hub #board .br { color: #ffb09e !important; }
+html.rm body.gj-hub #board .bf p, html.rm body.gj-hub #board .bm, html.rm body.gj-hub #board .bc, html.rm body.gj-hub #board .bn button { color: #ff8a72 !important; border-color: rgba(255,92,78,.28) !important; }
+html.rm body.gj-hub #board .bp img, html.rm body.gj-hub #board .bs img { background: #120506; }
+
+/* Reduce Motion: no unfold, no lean, no turn. A plain fade to the same final state. */
+@media (prefers-reduced-motion: reduce) {
+  #gj-drawer .gj-3d, #gj-drawer.on .gj-3d, #gj-drawer.folding .gj-3d { transform: none !important; transition: none !important; }
+  #gj-drawer .gj-pl, #gj-drawer.on .gj-pl, #gj-drawer.folding .gj-pl { transform: translateZ(var(--z, 0px)) !important; opacity: 1 !important; transition: none !important; }
+  #gj-drawer, #gj-drawer.folding { transition: opacity .14s linear, visibility 0s linear .16s; }
+  #gj-drawer.on { transition: opacity .14s linear, visibility 0s; }
+  #gj-dial span, #gj-back b, body.gj-hub #bar .sig, [data-gj-mark] { transition: none !important; }
+  html.gj-tune #gj-back b, html.gj-tune body.gj-hub #bar .sig, html.gj-tune [data-gj-mark] { transform: none; }
+}

@@ -3,15 +3,17 @@
 @font-face{font-family:Syl;font-weight:700;font-display:block;src:url(fonts/noto-canadian-aboriginal-subset.woff2) format("woff2");unicode-range:U+1400-167F}
 html,body{margin:0;height:100%;background:#04060c;color:#e6edf0;overflow:hidden;overscroll-behavior:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
 #c{position:fixed;inset:0;width:100%;height:100%;touch-action:none;display:block}
-#bar{position:fixed;left:0;right:0;top:0;display:flex;align-items:center;gap:8px;padding:calc(env(safe-area-inset-top) + 8px) 12px 8px;pointer-events:none;font:300 13px Poppins,system-ui,sans-serif}
+#bar{position:fixed;left:0;right:0;top:0;display:flex;align-items:center;gap:var(--gj-gap,8px);box-sizing:border-box;padding:calc(env(safe-area-inset-top) + var(--gj-edge,12px)) calc(var(--gj-tray-w,84px) + var(--gj-edge,12px) + var(--gj-gap,8px)) 8px var(--gj-edge,12px);pointer-events:none;font:300 12px Poppins,system-ui,sans-serif}
 #bar>*{pointer-events:auto}
 #bar .sp{flex:1;pointer-events:none}
-#bar button,#bar a{font:inherit;color:#e6edf0;background:rgba(6,10,18,.55);border:1px solid rgba(200,225,255,.18);border-radius:22px;min-height:44px;min-width:44px;padding:0 14px;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center}
-#bar button:focus-visible{outline:2px solid #55DAA1;outline-offset:2px}
-#bar .sig{font:700 20px Syl,sans-serif;letter-spacing:.02em;padding:0 12px}
-#bar button[aria-pressed="true"]{border-color:#55DAA1;color:#55DAA1}
-#where{font:400 12px "Julius Sans One",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#c9d3d6;pointer-events:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:48vw}
-#hint{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 14px);transform:translateX(-50%);margin:0;padding:8px 14px;border-radius:18px;background:rgba(6,10,18,.6);border:1px solid rgba(200,225,255,.14);font:300 12px Poppins,sans-serif;color:#c9d3d6;white-space:nowrap;pointer-events:none;transition:opacity .6s}
+#bar button,#bar a{position:relative;box-sizing:border-box;font:inherit;letter-spacing:.04em;color:#e6edf0;background:rgba(6,10,18,.55);border:1px solid rgba(200,225,255,.18);border-radius:16px;height:var(--gj-b,32px);min-height:0;min-width:var(--gj-b,32px);padding:0 11px;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;touch-action:manipulation}
+#bar button::after,#bar a::after{content:"";position:absolute;inset:calc(-1 * var(--gj-hit,6px))}
+#bar button[hidden],#bar a[hidden]{display:none}
+#bar button:focus-visible,#bar a:focus-visible{outline:2px solid #f1e4c8;outline-offset:2px}
+#bar .sig{font:700 16px/1 Syl,sans-serif;letter-spacing:.02em;padding:0 9px}
+#bar button[aria-pressed="true"]{border-color:rgba(241,228,200,.55);color:#f1e4c8}
+#where{flex:0 1 auto;min-width:0;font:400 11px "Julius Sans One",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#c9d3d6;pointer-events:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:48vw}
+#hint{position:fixed;left:12px;right:12px;width:fit-content;bottom:calc(env(safe-area-inset-bottom) + 14px);margin:0 auto;padding:7px 14px;border-radius:16px;box-sizing:border-box;max-width:calc(100vw - 24px);text-align:center;background:rgba(6,10,18,.6);border:1px solid rgba(200,225,255,.14);font:300 12px/1.35 Poppins,sans-serif;color:#c9d3d6;white-space:normal;pointer-events:none;transition:opacity .6s}
 #hint.gone{opacity:0}
 
 /* film board (dot -> board -> deeper detail) */
@@ -19,7 +21,7 @@ html,body{margin:0;height:100%;background:#04060c;color:#e6edf0;overflow:hidden;
 #board.on{opacity:1;transform:none}
 #board[hidden]{display:none}
 #bar{z-index:6}
-#board .bw{max-width:1100px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 68px) 16px 96px;display:grid;grid-template-columns:1fr;gap:14px}
+#board .bw{max-width:1100px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 60px) 16px 84px;display:grid;grid-template-columns:1fr;gap:14px}
 #board .bp{margin:0}
 #board .bp img{display:block;width:100%;height:auto;border-radius:6px;background:#0b0f18}
 #board h2{margin:0 0 4px;font:400 17px/1.3 "Julius Sans One",sans-serif;letter-spacing:.06em}
@@ -33,8 +35,9 @@ html,body{margin:0;height:100%;background:#04060c;color:#e6edf0;overflow:hidden;
 #board .bs img{display:block;width:100%;aspect-ratio:var(--ar,1.78);object-fit:cover;border-radius:4px;background:#0b0f18}
 #board.masked .bw{min-height:60vh;align-content:center;text-align:center}
 #board .bn{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:space-between;gap:10px;padding:10px 12px calc(env(safe-area-inset-bottom) + 10px);background:linear-gradient(rgba(4,6,12,0),rgba(4,6,12,.9) 40%)}
-#board .bn button{font:300 13px Poppins,sans-serif;color:#e6edf0;background:rgba(6,10,18,.75);border:1px solid rgba(200,225,255,.22);border-radius:22px;min-height:44px;padding:0 18px;cursor:pointer;white-space:nowrap}
-#board .bn button:focus-visible{outline:2px solid #55DAA1;outline-offset:2px}
+#board .bn button{position:relative;font:300 12px Poppins,sans-serif;color:#e6edf0;background:rgba(6,10,18,.75);border:1px solid rgba(200,225,255,.22);border-radius:16px;height:var(--gj-b,32px);min-height:0;padding:0 14px;cursor:pointer;white-space:nowrap}
+#board .bn button::after{content:"";position:absolute;inset:calc(-1 * var(--gj-hit,6px))}
+#board .bn button:focus-visible{outline:2px solid #f1e4c8;outline-offset:2px}
 #board .bn button[hidden]{display:none}
 /* landscape / desktop: picture left, facts right, strip under the picture */
 #board.side .bw{grid-template-columns:minmax(0,1.55fr) minmax(220px,1fr);grid-template-areas:"p f" "s f";align-items:start;padding-top:64px;column-gap:22px}
@@ -42,3 +45,18 @@ html,body{margin:0;height:100%;background:#04060c;color:#e6edf0;overflow:hidden;
 #board.side .bp img{max-height:calc(100vh - 64px - 150px);width:auto;max-width:100%}
 #board.side.masked .bw{grid-template-columns:1fr;grid-template-areas:"f"}
 #board:focus{outline:none}
+
+/* ---------- one-build: safelight on the hub. Everything is red; the field's own stars are redrawn red by blend.js.
+   Photographs on the board and inside the constellation are never filtered. ---------- */
+html.rm #bar button,html.rm #bar a{color:#ff8a72;background:rgba(22,5,5,.72);border-color:rgba(255,92,78,.42)}
+html.rm #bar button[aria-pressed="true"]{color:#ffb3a3;border-color:rgba(255,120,100,.75)}
+html.rm #where{color:#e0786a}
+html.rm #hint{color:#e0786a;background:rgba(22,5,5,.66);border-color:rgba(255,92,78,.28)}
+html.rm #board{background:rgba(10,2,2,.975);color:#ff9a86}
+html.rm #board .bf p,html.rm #board .br,html.rm #board .bc{color:#e88a7a!important}
+html.rm #board .bm{color:#c26a5e!important}
+html.rm #board .bc{border-top-color:rgba(255,92,78,.18)}
+html.rm #board .bn{background:linear-gradient(rgba(10,2,2,0),rgba(10,2,2,.9) 40%)}
+html.rm #board .bn button{color:#ff8a72;background:rgba(22,5,5,.8);border-color:rgba(255,92,78,.42)}
+html.rm #bar button:focus-visible,html.rm #bar a:focus-visible,html.rm #board .bn button:focus-visible{outline-color:#ff8a72}
+@media (max-width:480px){#hint{font-size:11px}}

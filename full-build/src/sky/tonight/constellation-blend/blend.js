@@ -73,6 +73,16 @@ function proj(x,y,z,o){var k=Math.pow(zf(),(z-1)*.38),s=cam.s*k;o=o||[0,0,0];
 function toWorld(px,py){return [cam.x+(px-W/2)/cam.s,cam.y+(py-H/2)/cam.s]}
 function zoomAt(px,py,ns){ns=clamp(ns,S0*.7,SMAX*1.15);var a=toWorld(px,py);cam.s=ns;var b=toWorld(px,py);cam.x+=a[0]-b[0];cam.y+=a[1]-b[1];clampPan()}
 function clampPan(){var m=60/cam.s+40;cam.x=clamp(cam.x,BOX[0]-m,BOX[2]+m);cam.y=clamp(cam.y,BOX[1]-m,BOX[3]+m)}
+/* one-finger pan inside a zoomed constellation (Gill, Nov 14; old todo "allow panning at tile level of constellation zoom"):
+   the finger moves the sky 1:1 as soon as you are in at all (it used to only start past 1.12x and reach full at 1.8x, so a
+   freshly opened constellation hardly moved). Past the edge it gives with resistance and springs back on release, the opener's
+   swirl-and-spring feel; the fling (inertia) carries on as before. The 6px start threshold and the tap thresholds are unchanged. */
+function panK(){return sstep(1.0,1.08,zf())}
+function panBy(dx,dy){var m=60/cam.s+40,x0=BOX[0]-m,x1=BOX[2]+m,y0=BOX[1]-m,y1=BOX[3]+m;
+  function rub(v,d,a,b){var n=v+d;if(n<a&&d<0)n=v+d*(v<a?.3:1);if(n>b&&d>0)n=v+d*(v>b?.3:1);return n}
+  cam.x=rub(cam.x,dx,x0,x1);cam.y=rub(cam.y,dy,y0,y1);var ox=60/cam.s+80/cam.s;cam.x=clamp(cam.x,x0-ox,x1+ox);cam.y=clamp(cam.y,y0-ox,y1+ox)}
+function springPan(dt){var m=60/cam.s+40,tx=clamp(cam.x,BOX[0]-m,BOX[2]+m),ty=clamp(cam.y,BOX[1]-m,BOX[3]+m);if(tx===cam.x&&ty===cam.y)return;
+  var k=1-Math.exp(-dt*9);cam.x+=(tx-cam.x)*k;cam.y+=(ty-cam.y)*k;if(Math.abs(tx-cam.x)*cam.s<.3&&Math.abs(ty-cam.y)*cam.s<.3){cam.x=tx;cam.y=ty}motion=Math.max(motion,.5)}
 function glideTo(tx,ty,ts,ms){firstTouch();ts=clamp(ts,S0,SMAX);glide={x0:cam.x,y0:cam.y,s0:cam.s,x1:tx,y1:ty,s1:ts,t0:now(),ms:ms||950}}
 function stepGlide(t){var G=glide,p=clamp((t-G.t0)/G.ms,0,1),e=p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2;
   var s=G.s0*Math.pow(G.s1/G.s0,e),k=Math.abs(G.s1-G.s0)<1e-9?e:(s-G.s0)/(G.s1-G.s0);cam.s=s;cam.x=lerp(G.x0,G.x1,k);cam.y=lerp(G.y0,G.y1,k);
@@ -96,7 +106,7 @@ cv.addEventListener('pointermove',function(e){var p=PT.get(e.pointerId);
   if(gLock)return;
   if(drag&&drag.id===e.pointerId){drag.moved+=Math.abs(dx)+Math.abs(dy);if(drag.moved<6)return;
     var t=now(),dt=Math.max(8,t-drag.lt);drag.lt=t;drag.vx=lerp(drag.vx,dx/dt,.4);drag.vy=lerp(drag.vy,dy/dt,.4);
-    var pan=sstep(1.12,1.8,zf());cam.x-=dx*pan/cam.s;cam.y-=dy*pan/cam.s;clampPan();
+    var pan=panK();if(pan>0)panBy(-dx*pan/cam.s,-dy*pan/cam.s);
     /* the look-around (sketch-3d's one-finger drag): layers slide apart by depth while you drag, then settle flat */
     T.tx=clamp(T.tx+dx*.5,-70,70);T.ty=clamp(T.ty+dy*.5,-70,70);motion=1}});
 function up(e){var p=PT.get(e.pointerId);if(!p)return;PT.delete(e.pointerId);
@@ -106,7 +116,7 @@ function up(e){var p=PT.get(e.pointerId);if(!p)return;PT.delete(e.pointerId);
   if(drag&&drag.id===e.pointerId){var dur=now()-p.t0;
     var touch=e.pointerType==='touch'||e.pointerType==='pen'||!!(window.matchMedia&&matchMedia('(pointer:coarse)').matches&&e.pointerType!=='mouse');
     if(drag.moved<(touch?24:10)&&dur<(touch?520:350))tap(e.clientX,e.clientY,touch);
-    else if(zf()>1.12){fling(drag.vx*sstep(1.12,1.8,zf()),drag.vy*sstep(1.12,1.8,zf()))}
+    else if(panK()>0){fling(drag.vx*panK(),drag.vy*panK())}
     drag=null;if(!tiltOn){T.tx=0;T.ty=0}}}
 cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
 cv.addEventListener('pointerleave',function(e){if(e.pointerType==='mouse'&&!tiltOn&&!PT.size){T.tx=0;T.ty=0}});
@@ -216,7 +226,9 @@ BD.addEventListener('wheel',function(e){if(!e.ctrlKey)return;e.preventDefault();
 function bootHash(){var m=/^#film\/(.+)$/.exec(location.hash);if(!m)return;var w=filmBySlug(decodeURIComponent(m[1]));if(!w)return;
   /* direct link: put the field under it so Back lands on the dot */
   var h=location.hash;history.replaceState(null,'',location.pathname+location.search);history.pushState({b:w.slug},'',h);pushed=true;firstTouch();openBoard(w,false,true)}
-document.getElementById('home').addEventListener('click',function(){chipOff();if(BOARD){hideBoard();if(pushed){pushed=false;history.replaceState(null,'',location.pathname+location.search)}}home()});
+/* the mark: out to the whole sky; pressed at the whole sky (where it did nothing), it switches the darkroom red light on and off (_tn/redroom.js) */
+function atHome(){if(BOARD||glide||FL)return false;var c=fitCam();return Math.abs(cam.s/c.s-1)<.04&&Math.hypot(cam.x-c.x,cam.y-c.y)*cam.s<24}
+document.getElementById('home').addEventListener('click',function(){chipOff();if(atHome()&&window.TN_RED){TN_RED.toggle();return}if(BOARD){hideBoard();if(pushed){pushed=false;history.replaceState(null,'',location.pathname+location.search)}}home()});
 document.getElementById('out').addEventListener('click',outOne);
 /* optional device tilt (asks the phone first; off until pressed) */
 var TB=document.getElementById('tilt');
@@ -331,6 +343,7 @@ var lastWhere='';function updateWhere(c,z){if(BOARD)return;var s='field';
 var last=now();
 function frame(t){requestAnimationFrame(frame);var dt=Math.min(.05,(t-last)/1000);last=t;
   if(glide)stepGlide(t);
+  if(!drag&&!pinch&&!FL&&!glide)springPan(dt);
   if(FL){var k=Math.exp(-dt*4.5);cam.x-=FL.vx*1000*dt/cam.s;cam.y-=FL.vy*1000*dt/cam.s;FL.vx*=k;FL.vy*=k;clampPan();if(Math.hypot(FL.vx,FL.vy)<.02)FL=null;motion=Math.max(motion,.6)}
   /* tilt spring: critically damped, settles flat in ~0.6 s after you let go */
   var wv=9;['x','y'].forEach(function(a){var tg=a==='x'?T.tx:T.ty,v=a==='x'?'vx':'vy',e=T[a]-tg,kk=Math.exp(-wv*dt),c=T[v]+wv*e;T[a]=tg+(e+c*dt)*kk;T[v]=(T[v]-wv*c*dt)*kk});

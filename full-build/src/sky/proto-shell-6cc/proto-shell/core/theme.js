@@ -35,8 +35,8 @@ function build(){
    shows a photograph or a film (MODSKIP): the calculator's photo face, its sides, display wall and glitch canvas, the moon grid. Built only while Red is on. */
 var RED=[255,68,87],MODSKIP=/\.ac3-(face|bevel|side|floor|wall|back)\b|#glitch|#grain|#calc\b|#moons/,modSheet=null;
 function keep(r,g,b){
-  if(Math.abs(r-85)<45&&Math.abs(g-218)<40&&Math.abs(b-161)<45)return true;      /* mint, new work */
-  if(g>=180&&g>r+8&&g>b+25)return true;                                           /* mint lit states (#e7f6c8 …) */
+  /* one-build: no mint carve-out in Red (safelight rule: the only non-red thing is the shared red-mode dot) */
+  if(r===86&&g===219&&b===162)return true;                                          /* the shared red-mode dot (chrome.css --gj-dot-on) */
   if(r>=240&&g>=80&&g<=110&&b<=60)return true;                                    /* the safelight's orange */
   return false}
 function mapRGB(r,g,b){if(keep(r,g,b))return [r,g,b];var Y=(.2126*r+.7152*g+.0722*b)/255,k=Math.pow(Y,.85);if(Y<.25)k*=Math.pow(Y/.25,1.2); /* the dark ground falls to true black; only lines, text and light stay */

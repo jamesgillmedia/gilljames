@@ -11,7 +11,7 @@
     where:function(){var v=dn();return 'forest garden · '+(v<.28?'night':v<.7?'dusk':'day')},
     sliders:[
       {type:'sec',label:'sky'},
-      {k:'day',label:'day–night',min:0,max:100,def:0,detent:0,aria:'day to night',fmt:function(v){return v<28?'night':v<70?'dusk':'day'},
+      {k:'day',label:'day–night',min:0,max:100,def:0,off:'keep',detent:0,aria:'day to night',fmt:function(v){return v<28?'night':v<70?'dusk':'day'},
         read:function(){return Math.round(dn()*100)},
         write:function(v){if(window.__se)window.__se.setDay(v/100,true);else try{localStorage.setItem(DN,String(v/100))}catch(e){}}},
       {k:'star',label:'stars',min:0,max:200,def:100,aria:'star brightness (night)',apply:function(v){A.star=v/100}},

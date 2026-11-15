@@ -124,7 +124,7 @@ html,body{touch-action:pan-x pan-y;-webkit-text-size-adjust:100%}#world,#world *
 /* site-v4 surface: moonwater under the far sky (the same hero), fading as the camera leaves FAR. */
 .w-water{position:absolute;inset:0;pointer-events:none;opacity:var(--wash,0);background:
   linear-gradient(180deg,rgba(3,6,10,.42),rgba(3,6,10,.62) 48%,rgba(3,6,10,.88)),
-  url("../../../site-v3-pro2/img/hero/water-1600.webp") center 30%/cover no-repeat}
+  url("../../../../b33/site-v3-pro2/img/hero/water-1600.webp") center 30%/cover no-repeat}
 .w-water::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,10,20,.28),rgba(1,5,12,.55));opacity:calc(1 - var(--wash,0))}
 @media (prefers-reduced-motion:reduce){.w-water{transition:none}}
 canvas.wdust{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}

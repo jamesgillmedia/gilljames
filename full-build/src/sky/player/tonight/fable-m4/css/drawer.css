@@ -154,3 +154,15 @@ html.gj-bar #proof{visibility:hidden}
  #tgplayer.tg-from,#tgplayer.tg-shrink{animation:none}
 }
 #safelight{z-index:55}
+
+/* the safelight edge in rooms and the opener (no sky.css there): the same 10px warm band at the screen edges, never over a photograph's middle */
+body>#safelight,[data-tn-room] #safelight{position:fixed;inset:0;pointer-events:none;
+  background:linear-gradient(to right,rgba(255,92,40,calc(var(--safe,0)*.85)),rgba(255,92,40,0) 10px) left/10px 100% no-repeat,
+    linear-gradient(to left,rgba(255,92,40,calc(var(--safe,0)*.85)),rgba(255,92,40,0) 10px) right/10px 100% no-repeat,
+    linear-gradient(to bottom,rgba(255,92,40,calc(var(--safe,0)*.85)),rgba(255,92,40,0) 10px) top/100% 10px no-repeat,
+    linear-gradient(to top,rgba(255,92,40,calc(var(--safe,0)*.85)),rgba(255,92,40,0) 10px) bottom/100% 10px no-repeat}
+body>#safelight[hidden],[data-tn-room] #safelight[hidden]{display:none}
+/* hits: the unfolding planes sit at translateZ(-6px) from the 4th one down, behind the flat .mm-3d/.mm-plate boxes, so those boxes took every
+   tap and only the first rows ("here") answered. The boxes let taps through to their planes; the planes take them. */
+#markmenu .mm-3d,#markmenu .mm-plate{pointer-events:none}
+#markmenu .mm-3d>nav,#markmenu .mm-plate>*{pointer-events:auto}

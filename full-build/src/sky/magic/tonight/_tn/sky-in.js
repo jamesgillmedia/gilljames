@@ -3,7 +3,8 @@
  straight on into that cluster inside the 4:45 constellation: the camera keeps going, no list page, no hub.
  A tap (or click) on a cluster's name only shows its name and a quiet "open ›" (R2/R8); a tap anywhere else is the ripple.
  Desktop: a wheel-in at the settled sky is the same zoom from the pointer; keys: Enter or + go in, ← → pick a name, Esc clears.
- The ᑕᐣᓯ settles this sky (its whole sky) and never leaves it. Nothing moves on its own; there is no Reduce Motion branch,
+ The ᑕᐣᓯ settles this sky (its whole sky) and never leaves it; pressed again once the sky has settled, it switches the darkroom red
+ light (the Photo lab safelight, _tn/redroom.js) on, and again off. It never tints a photograph. Nothing moves on its own; there is no Reduce Motion branch,
  so the end state is the same with it on. The page that loads this sets data-tn-root (path to tonight/). */
 (function(){
   var s=document.currentScript,root=(s&&s.getAttribute('data-tn-root'))||'../../';
@@ -71,10 +72,14 @@
       if(k==='Enter'||k==='+'||k==='='){e.preventDefault();e.stopPropagation();go(sel>=0?names()[sel].k:'');return}
       if(k==='ArrowRight'||k==='ArrowLeft'){e.preventDefault();e.stopPropagation();if(!n)return;var i=sel<0?(k==='ArrowRight'?0:n-1):(sel+(k==='ArrowRight'?1:n-1))%n;chipOn(i);return}
       if(k==='Escape'&&sel>=0){e.preventDefault();e.stopPropagation();chipOff()}},true);
-    /* the mark: this sky is home (K12). It settles the sky in one move and never leaves the page. */
+    /* the mark: this sky is home (K12). It settles the sky in one move and never leaves the page. At the settled sky (where it used to do
+       nothing) it is the darkroom's switch: red light on, and off again (Gill, Nov 14) */
+    (function(){if(window.TN_RED)return;var sc=document.createElement('script');sc.src=root+'_tn/redroom.js';document.head.appendChild(sc)})();
     var m=document.querySelector('#hud .sig,a.sig');
     if(m){m.setAttribute('href','./');m.removeAttribute('target');m.setAttribute('aria-label','the whole sky');
-      m.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();chipOff();O.go(1)},true);
+      m.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();chipOff();
+        if((+O.T||0)>=1&&(+O.P||0)>=.97&&window.TN_RED){TN_RED.toggle();return}
+        O.go(1)},true);
       ['pointerdown','touchstart','mousedown'].forEach(function(t){m.addEventListener(t,function(e){e.stopPropagation()},{passive:true,capture:true})})}
     addEventListener('resize',chipOff);
     addEventListener('pageshow',function(e){if(e.persisted){going=false;document.documentElement.classList.remove('tn-going')}});

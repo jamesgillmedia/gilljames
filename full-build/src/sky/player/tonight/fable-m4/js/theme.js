@@ -9,14 +9,14 @@
    (bottom left) toggles; the tune menu's pinned globals carry the same choice. Reduce Motion: nothing here animates. */
 (function(w){
 'use strict';
-var KEY='gj.theme',EXEMPT={photo:1},root=document.documentElement,RED=/\/player\//.test(location.pathname)?[255,176,184]:[255,68,87]; /* Red's ink: crimson-rose (hue 354), clear of the Safelight's amber (14). The sound player's page uses a lighter rose: the player is the brightest ink in Red */
+var KEY='gj.theme',EXEMPT={photo:1},root=document.documentElement,RED=/\/fable-m4\/player\//.test(location.pathname)?[255,176,184]:[255,68,87]; /* Red's ink: crimson-rose (hue 354), clear of the Safelight's amber (14). The sound player's page uses a lighter rose: the player is the brightest ink in Red */
 var RAW=false,pref='night',eff='night',room=null,hooks=[],built=false,sheet=null,btn=null,C={};
 function lsGet(){try{return localStorage.getItem(KEY)}catch(e){return null}}
 function lsSet(v){try{localStorage.setItem(KEY,v)}catch(e){}}
 (function(){var q=/(?:^|[?&])theme=(night|red)(?:&|$)/.exec(location.search),v=q?q[1]:lsGet();if(q)lsSet(q[1]);pref=v==='red'?'red':'night';eff=pref})();
 function keep(r,g,b){
-  if(Math.abs(r-85)<45&&Math.abs(g-218)<40&&Math.abs(b-161)<45)return true;      /* mint, new work */
-  if(g>=180&&g>r+8&&g>b+25)return true;                                           /* mint lit states (#e7f6c8 …) */
+  /* one-build: no mint carve-out in Red (safelight rule: the only non-red thing is the shared red-mode dot) */
+  if(r===86&&g===219&&b===162)return true;                                          /* the shared red-mode dot (chrome.css --gj-dot-on) */
   if(r>=240&&g>=80&&g<=110&&b<=60)return true;                                    /* the safelight's orange */
   if(r>=250&&g>=140&&g<=215&&b>=150&&b<=225&&b>=g-12)return true;                 /* the player's own light rose: already Red, never mapped twice */
   return false}
@@ -80,7 +80,7 @@ function build(){
   sheet._el.textContent=out.join('\n');built=true}
 function apply(force){
   /* the sound player and its waveform stay at Night luminance: Red must never dim them */
-  var playerPage=/\/player\//.test(location.pathname);
+  var playerPage=/\/fable-m4\/player\//.test(location.pathname);
   var e=(pref==='red'&&!(room&&EXEMPT[room])&&!playerPage)?'red':'night';if(e===eff&&!force&&root.getAttribute('data-theme')===e)return;
   eff=e;if(e==='red'&&document.readyState!=='loading'&&!built)build();
   root.setAttribute('data-theme',eff);

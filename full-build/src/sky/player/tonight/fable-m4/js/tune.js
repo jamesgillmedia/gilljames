@@ -93,6 +93,13 @@ var DECS=[
   {k:'open',n:'3 · opening one film',o:[['mixed','board straight · map reveal'],['player','straight to the page'],['reveal','tile reveal always'],['old','old: tap, tap again']]},
   {k:'photo',n:'4 · photo',o:[['B','B · dark, night sky'],['A','A · silver shelf']]}
 ];
+/* rooms and the opener have no sky.js: the globals still need somewhere to live, so a small saved-only GJ_DEC with the sky's own keys and
+   defaults (gj.dec.*) stands in. Motion, snap and ripples are kept for the sky; the safelight edge shows here too. */
+if(!window.GJ_DEC){(function(){var DEF={film:'snap',mark:'fusion',open:'mixed',photo:'B',motion:100,snapAt:34,ripples:1,safelight:0,safeK:60};
+  function g(k){var v=null;try{v=localStorage.getItem('gj.dec.'+k)}catch(e){}return v==null?DEF[k]:(typeof DEF[k]==='number'?+v:v)}
+  window.GJ_DEC={local:true,defaults:function(){return JSON.parse(JSON.stringify(DEF))},get:g,
+    set:function(k,v){if(!(k in DEF))return;try{localStorage.setItem('gj.dec.'+k,String(v))}catch(e){}},
+    reset:function(){Object.keys(DEF).forEach(function(k){try{localStorage.removeItem('gj.dec.'+k)}catch(e){}})}}})()}
 function D2(){return window.GJ_DEC||null}
 function rowFromSpec(s){
   if(s&&s.get&&s.apply)return s;
@@ -219,6 +226,8 @@ function build(){
     if(cf){CFOCUS=cf.getAttribute('data-cfocus');paint();return}
     var vb2=e.target.closest('[data-var]');
     if(vb2&&window.GJ_VAR){GJ_VAR.set(vb2.getAttribute('data-var-room'),vb2.getAttribute('data-var'));paint();return}
+    var ab=e.target.closest('[data-amb]');
+    if(ab){wr('gj.amb.on',ab.getAttribute('data-amb'));poke('gj.amb.on');paint();return}
     var db=e.target.closest('[data-dec]');
     if(db&&D2()){D2().set(db.getAttribute('data-dec'),db.getAttribute('data-v'));safelight();paint();return}
   });
@@ -353,6 +362,9 @@ function paint(){
   h+='<div class="mm-seg"><b>safelight (warm edge glow)</b><span><button type="button" role="radio" aria-checked="'+(sl===0)+'" data-dec="safelight" data-v="0">off</button><button type="button" role="radio" aria-checked="'+(sl===1)+'" data-dec="safelight" data-v="1">on</button></span></div>';
   h+='<label><span>safelight strength</span><input type="range" min="0" max="100" step="1" value="'+sk+'" data-dec-r="safeK" aria-label="safelight strength, 0 to 1"><output>'+(sk/100).toFixed(2)+'</output></label>';
   h+='<div class="mm-seg"><b>ripples (water)</b><span><button type="button" role="radio" aria-checked="'+(rv===1)+'" data-dec="ripples" data-v="1">on</button><button type="button" role="radio" aria-checked="'+(rv===0)+'" data-dec="ripples" data-v="0">off</button></span></div>';
+  /* ambience on/off (gj.amb.on, default on): the opener's snow, mist, reflection and moon glow, and the Objects and Forest Garden rooms' glow, haze and stars */
+  var ao=rd('gj.amb.on',1)!==0;
+  h+='<div class="mm-seg"><b>ambience (snow, mist, glow, haze, stars)</b><span><button type="button" role="radio" aria-checked="'+ao+'" data-amb="1">on</button><button type="button" role="radio" aria-checked="'+(!ao)+'" data-amb="0">off</button></span></div>';
   h+='</section>';
   h+='<p class="mm-foot"><span class="mm-resets"><button type="button" class="mm-reset mm-reset-room">reset '+here+'</button><button type="button" class="mm-reset">reset all</button></span></p>';
   pl.innerHTML=h;planes();

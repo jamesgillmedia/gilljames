@@ -1,0 +1,10 @@
+/* About · bio · the Stop flashing switch (gj.noflash): the plate switch with an LED, quiet, under the right-edge layer dots */
+#bioflash{position:fixed;z-index:8;display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 12px 0 10px;border:1px solid rgba(220,232,240,.18);border-radius:22px;
+  background:rgba(4,7,11,.62);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#cfd6da;font:300 9.5px/1 Poppins,system-ui,sans-serif;letter-spacing:.12em;text-transform:lowercase;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;writing-mode:vertical-rl;min-width:44px;padding:12px 0}
+#bioflash[hidden]{display:none}
+#bioflash .led{flex:none;width:6px;height:6px;border-radius:50%;background:#2a3036;box-shadow:inset 0 1px 1px rgba(0,0,0,.6)}
+#bioflash.on{color:#e8e4dc;border-color:rgba(232,228,220,.5)}
+#bioflash.on .led{background:#e8e4dc;box-shadow:0 0 6px 1px rgba(232,228,220,.75)}
+#bioflash:focus-visible{outline:1px solid rgba(232,228,220,.8);outline-offset:2px}
+html[data-theme=red] #bioflash.on .led{background:#ff5c28;box-shadow:0 0 6px 1px rgba(255,92,40,.7)}
