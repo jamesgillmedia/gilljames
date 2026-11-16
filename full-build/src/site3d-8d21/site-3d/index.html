@@ -25,6 +25,14 @@ html,body{margin:0;height:100%;background:#04060c;color:#cfd8e6;overflow:hidden;
 #vw .l{color:#bff5df;font-size:13px;letter-spacing:.08em;text-decoration:none;padding:8px 14px;border:1px solid rgba(191,245,223,.4);border-radius:16px}
 #vw .l[hidden]{display:none}
 #vw .x{position:absolute;right:10px;top:max(8px,env(safe-area-inset-top));font:300 30px/1 Poppins,sans-serif;color:#cfd8e6;background:none;border:0;padding:8px 12px;cursor:pointer}
+/* safelight (Nov 15): the room's own words and marks go red with red mode. The viewer's photographs and clips are not touched. */
+html.rm body,html.rm #site,html.rm #fb a,html.rm #vw .x{color:var(--gj-red-ink,#ff4457)}
+html.rm #home,html.rm #vw .l{color:var(--gj-red-ink,#ff4457);border-color:rgba(var(--gj-red-rgb,255,68,87),.4);background:rgba(8,2,3,.5)}
+html.rm #site{border-color:rgba(var(--gj-red-rgb,255,68,87),.25);background:rgba(8,2,3,.4)}
+html.rm #vw{background:rgba(6,3,4,.94)}
+html.rm #mm{border-color:rgba(var(--gj-red-rgb,255,68,87),.25);background:rgba(8,2,3,.6)}
+html.rm #mm i{background:rgba(var(--gj-red-rgb,255,68,87),.42)}html.rm #mm i.on{background:var(--gj-red-ink,#ff4457)}
+html.rm #mm b{background:var(--gj-red-ink,#ff4457);box-shadow:0 0 8px var(--gj-red-ink,#ff4457)}
 </style>
 </head><body>
 <canvas id="c" aria-label="a 3d sky of gill james's chapters: film, photo, objects, sound, about, list"></canvas>

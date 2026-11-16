@@ -22,7 +22,7 @@
         {type:'sec',label:'air'},
         {k:'haze',label:'haze',min:0,max:250,def:100,aria:'haze in the dark between rings',apply:function(v){A.haze=v/100;O.apply()}},
         {k:'stars',label:'stars',min:0,max:200,def:100,aria:'far stars',apply:function(v){A.star=v/100;O.apply()}},
-        {k:'lamp',label:'lamp',min:20,max:160,def:100,aria:'the lamp on the 3D cup',apply:function(v){A.lamp=v/100;O.apply()}}
+        {k:'lamp',label:'lamp',min:20,max:160,def:100,off:'keep',aria:'the lamp on the 3D cup',apply:function(v){A.lamp=v/100;O.apply()}}
       ],
       onReset:function(){R.forEach(function(r,i){A.Rk[i]=1;try{localStorage.removeItem(AMBX.key(ROOM,'ring',r.id))}catch(e){}});O.apply()}});
     document.addEventListener('obj:state',function(){setTimeout(C.refresh,0)});
