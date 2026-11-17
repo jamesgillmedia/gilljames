@@ -28,17 +28,20 @@ LAB.hint=function(t,ms){var h=LAB.$('.lab-hint');if(!h){h=LAB.el('div','lab-hint
 /* ---------- leave the room (slow veil, then go) ---------- */
 LAB.leave=function(href){var v=LAB.$('.veil')||document.body.appendChild(LAB.el('div','veil'));void v.offsetWidth;v.classList.add('on');setTimeout(function(){location.href=href},760)};
 window.addEventListener('pageshow',function(e){var v=LAB.$('.veil');if(v)v.classList.remove('on')});
-/* ---------- layers: each deeper place is a history entry, so phone back / pinch-out / Esc all rise one place ---------- */
+/* ---------- layers: the walk in from the sky is the only history entry.
+   Sheet, line, day and lab steps replace that entry, so one browser Back leaves the room.
+   The mark, pinch and Esc still rise one place, in memory, without adding history. (gill-sky c3f07b98, brought across) ---------- */
 var stack=[];
+function writeLab(){try{history.replaceState({lab:stack.length,photo:1},'')}catch(e){}}
 LAB.layer={
-  push:function(name,leave){stack.push({name:name,leave:leave});try{history.pushState({lab:stack.length},'')}catch(e){}LAB.layer.changed()},
+  push:function(name,leave){stack.push({name:name,leave:leave});writeLab();LAB.layer.changed()},
   depth:function(){return stack.length},
   top:function(){return stack.length?stack[stack.length-1].name:''},
-  back:function(){if(stack.length){history.back()}else LAB.leave(ROOT)},
-  unwind:function(){var n=stack.length;if(!n)return;while(stack.length){var s=stack.pop();try{s.leave&&s.leave()}catch(x){console.warn(x)}}LAB.layer.changed();try{history.go(-n)}catch(e){}},
+  back:function(){if(!stack.length){LAB.leave(ROOT);return}var s=stack.pop();try{s.leave&&s.leave()}catch(x){console.warn(x)}writeLab();LAB.layer.changed()},
+  unwind:function(){var n=stack.length;if(!n)return;while(stack.length){var s=stack.pop();try{s.leave&&s.leave()}catch(x){console.warn(x)}}writeLab();LAB.layer.changed()},
   changed:function(){document.dispatchEvent(new CustomEvent('lab:layer',{detail:LAB.layer.top()}))}
 };
-window.addEventListener('popstate',function(e){var d=(e.state&&e.state.lab)||0;var any=false;while(stack.length>d){var s=stack.pop();any=true;try{s.leave&&s.leave()}catch(x){console.warn(x)}}if(any)LAB.layer.changed()});
+window.addEventListener('popstate',function(e){var d=(e.state&&typeof e.state.lab==='number')?e.state.lab:0;var any=false;while(stack.length>d){var s=stack.pop();any=true;try{s.leave&&s.leave()}catch(x){console.warn(x)}}if(any)LAB.layer.changed()});
 /* ---------- one level per pinch gesture (touch), or trackpad pinch (ctrl+wheel) ---------- */
 var gcool=0;
 function fire(fn,x,y){var n=Date.now();if(n<gcool||!fn)return;gcool=n+850;fn(x,y)}

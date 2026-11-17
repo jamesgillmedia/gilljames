@@ -154,3 +154,24 @@ html.gj-bar #proof{visibility:hidden}
  #tgplayer.tg-from,#tgplayer.tg-shrink{animation:none}
 }
 #safelight{z-index:55}
+/* rebuild port 2 · the visible close: the hire card's × (44px, 18px glyph), at the end of the menu's top row. The row keeps its height. */
+#markmenu nav .mm-x{margin:-6px -12px -6px auto;min-width:44px;min-height:44px;padding:0;justify-content:center;font:300 18px/1 Poppins,sans-serif;letter-spacing:0;color:rgba(232,228,220,.62)}
+@media (hover:hover){#markmenu nav .mm-x:hover{color:#e8e4dc}}
+/* rebuild port 2 · taps: from the 4th plane down the unfolded planes sit behind their own flat boxes (translateZ below 0), so the boxes
+   took every tap and only the first rows answered. The boxes let taps through to the planes; the planes take them. Nothing moves. */
+#markmenu .mm-3d,#markmenu .mm-plate{pointer-events:none}
+#markmenu .mm-3d>nav,#markmenu .mm-plate>*{pointer-events:auto}
+/* rebuild: in Red the lit red-mode dot is the one mint thing on the screen (m4's own mint, #55DAA1) */
+html.rm[data-theme] #gj-red#gj-red i{background:#55DAA1;box-shadow:0 0 7px 1px rgba(85,218,161,.7)}
+
+/* red-mode colour dial (crimson | rose): same segmented row as safelight, 44px tap targets. No warm white. */
+html{--gj-red-ink:#ff4457}
+html[data-red-tone=rose]{--gj-red-ink:#ffb0b8}
+#markmenu .mm-redtone button{min-width:44px;min-height:44px;padding:0 10px;box-sizing:border-box;-webkit-appearance:none;appearance:none}
+/* brief 1115 · the navigation rows (gj.nav, crescent moon, mark density, depth): Tune's own segmented row, 44px tap targets */
+#markmenu .mm-gjrow button{min-width:44px;min-height:44px;padding:0 10px;box-sizing:border-box;-webkit-appearance:none;appearance:none}
+#markmenu .mm-gjrow span{flex-wrap:wrap}
+/* next brief §6 · Tune taller than its box: the last line fades while there is more below */
+#markmenu.mm-more{-webkit-mask-image:linear-gradient(#000 calc(100% - 44px),transparent);mask-image:linear-gradient(#000 calc(100% - 44px),transparent)}
+/* sky.css hardcodes the checked chip to #ff4457 under Red; follow the chosen ink so rose is coherent */
+html[data-theme=red] body #markmenu .mm-seg button[aria-checked=true]{color:#000;background:var(--gj-red-ink);border-color:transparent}

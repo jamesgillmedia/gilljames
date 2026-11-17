@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#0a0b0d">
+<meta name="robots" content="noindex">
 <title>archive index · gill</title>
 <link rel="icon" href="data:,">
 <link rel="preload" href="data/index.json" as="fetch" crossorigin>
@@ -20,6 +21,10 @@
 <header class="top">
   <h1 class="brand">archive&nbsp;index</h1>
   <p class="count" id="count"></p>
+  <form class="search" id="search" role="search" aria-label="Search the archive" autocomplete="off">
+    <span class="sw"><input type="search" id="sq" placeholder="search" aria-label="Search by film, light, colour or motion" enterkeyhint="search" autocapitalize="off" autocorrect="off" spellcheck="false"></span>
+    <span class="sn" id="sqn" aria-live="polite"></span><button type="button" class="sx" id="sqx" aria-label="Clear the search" hidden>&#215;</button>
+  </form>
   <nav class="modes" aria-label="Order">
     <button type="button" data-mode="film" aria-pressed="true">by film</button>
     <button type="button" data-mode="all" aria-pressed="false">continuous</button>
@@ -56,6 +61,8 @@
   </div>
 </div>
 
+<video id="vclip" muted playsinline loop preload="none" aria-hidden="true"></video>
+<script src="js/search.js"></script>
 <script src="js/beyond.js"></script>
 <script src="js/beyonddial.js"></script>
 <script src="js/constellation.js"></script>

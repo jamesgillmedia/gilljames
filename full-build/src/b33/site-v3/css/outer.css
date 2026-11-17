@@ -1,0 +1,13 @@
+/* Site V3 as the outer layer (Pack 1116 §3). The framed sky at "The Sky" is the Pro 2 cluster; flying in opens the full fable-m4 sky. */
+.portal canvas.p2f{display:block;width:100%;height:min(52dvh,380px);touch-action:pan-y}
+#v3fly{position:fixed;inset:0;z-index:900;background:#03050a;pointer-events:auto;touch-action:none}
+#v3fly canvas{position:absolute;inset:0;width:100%;height:100%}
+#v3fly[hidden]{display:none}
+/* red mode: the water is atmosphere, so it goes red with everything else (as on the smoked-glass arrival). The glyphs' own tints follow.
+   Photographs, stills and video are never filtered: chrome.css keeps them at filter:none. */
+html.rm .backdrop{filter:grayscale(1) sepia(1) saturate(5.5) hue-rotate(-38deg) brightness(.55) contrast(1.05)}
+html.rm .glyph{--t:var(--gj-red-rgb,255,68,87)!important;--lt:var(--gj-red-rgb,255,68,87)!important}
+html.rm #v3fly{background:#030101}
+html.rm .portal{background:#030101}
+/* chrome.css gives body an opaque red-black in red mode, which sat over the water (the backdrop is z-index:-1) and hid it. The ground stays on html. */
+html.rm body.home-p{background-color:transparent}

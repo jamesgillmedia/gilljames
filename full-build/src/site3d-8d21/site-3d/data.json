@@ -8,6 +8,24 @@
 "ca": 1.7777777777777777,
 "cards": [
 {
+"t": "One With the Devil",
+"m": "short · 2015",
+"src": "../../sky/player/tonight/fable-m4/media/owtd/stills/09_landscape.jpg",
+"big": "../../sky/player/tonight/fable-m4/media/owtd/stills/09_landscape.jpg",
+"w": 2.35,
+"h": 1,
+"clip": "../../sky/player/tonight/fable-m4/media/owtd/one-with-the-devil-clip.mp4",
+"v": "../../sky/player/tonight/fable-m4/media/owtd/one-with-the-devil-clip.mp4"
+},
+{
+"t": "Demo Reel",
+"m": "201 shots · a moving filmstrip",
+"src": "../../sky/player/tonight/fable-m4/media/pro2/reel/a/001.webp",
+"big": "../../sky/player/tonight/fable-m4/media/pro2/reel/a/001.webp",
+"w": 2.4,
+"h": 1
+},
+{
 "t": "Reel 2026",
 "m": "reel · 01:13",
 "src": "../site-v3/media/reel/poster-960.jpg",
@@ -35,6 +53,8 @@
 "big": "../site-v3/img/films/02-720.webp",
 "w": 16,
 "h": 9,
+"clip": "../site-v3/media/sc/02.mp4",
+"v": "../site-v3/media/sc/02.mp4",
 "url": "https://vimeo.com/321571712"
 },
 {
@@ -936,7 +956,7 @@
 {
 "t": "Gill James",
 "m": "Cinematographer + Artist + Spatial Designer",
-"body": "Cinematographer + Artist + Spatial Designer\nI'm Gill James (he/him), a Crəə-Métis artist with roots in Norway House Cree Nation. I live in Vancouver.\nAfter graduating from UBC Film Production in 2014, building on a design and advertising background from OCAD, I spent more than a decade as a cinematographer and producer. My cinematography on One With the Devil won a Canadian Society of Cinematographers Award and the Leo Award for Best Cinematography in a Short Drama (2015), with further Leo nominations for Arc (2015) and Backward Fall (2014). As producer of Backward Fall, I also shared in its Leo Award for Best Production (2014).\nAfter more than a decade as a cinematographer, I make objects, spaces, light and sound as one practice. I created Spirit Eye of skwácháýs, a public art concept recognized with Best Public Art Concept and Council's Choice within the BIDC Public Art Intensive in 2025. I'm developing a yellow cedar piece staged with light, sound and film. I make music as Mothers Moniker and Lost Coffee.\nOutside the studio, I do trail stewardship. Time on the trails shapes how I think about place, material and light."
+"body": "Cinematographer + Artist + Spatial Designer\nI'm Gill James (he/him), a Cree-Métis artist. I live in Vancouver.\nAfter graduating from UBC Film Production in 2014, building on a design and advertising background from OCAD, I spent more than a decade as a cinematographer and producer. My cinematography on One With the Devil won a Canadian Society of Cinematographers Award and the Leo Award for Best Cinematography in a Short Drama (2015), with further Leo nominations for Arc (2015) and Backward Fall (2014). As producer of Backward Fall, I also shared in its Leo Award for Best Production (2014).\nAfter more than a decade as a cinematographer, I make objects, spaces, light and sound as one practice. I created Spirit Eye of skwácháýs, a public art concept recognized with Best Public Art Concept and Council's Choice within the BIDC Public Art Intensive in 2025. I'm developing a yellow cedar piece staged with light, sound and film. I make music as Mothers Moniker and Lost Coffee.\nOutside the studio, I do trail stewardship. Time on the trails shapes how I think about place, material and light."
 },
 {
 "t": "imjamesgill@gmail.com",

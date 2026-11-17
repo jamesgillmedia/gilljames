@@ -830,18 +830,21 @@ if(document.fonts&&document.fonts.load){Promise.all([document.fonts.load('300 40
     var SW=AMBX.key(R,'snow');
     function snowOn(){try{var s=localStorage.getItem(SW);return s==null?true:s==='1'}catch(e){return true}}
     if(!/[?&]sw=/.test(location.search)&&!snowOn())GJDBG.setVal('sw','0');
-    var C=AMBX.create({room:R,title:'sky',cls:'op-ctl',aria:'sky controls: snow, star flash, glow, scatter, text size',where:function(){return 'opener'},
+    /* rebuild port 5: the snow on the water and the mist follow the one ambience switch. The saved snow choice is kept and comes back with it. */
+    function ambFollow(on){if(!/[?&]sw=/.test(location.search))GJDBG.setVal('sw',on&&snowOn()?'1':'0');if(GJDBG.fogLevel)GJDBG.fogLevel(on?1:0);if(window.__ctl)__ctl.refresh()}
+    var C=AMBX.create({room:R,onAmb:ambFollow,title:'sky',cls:'op-ctl',aria:'sky controls: snow, star flash, glow, scatter, text size',where:function(){return 'opener'},
       sliders:[
         {type:'sec',label:'water'},
         {type:'sw',k:'snow',label:'snow on water',get:function(){return GJDBG.val('sw')==='1'},toggle:function(){var on=GJDBG.val('sw')!=='1';GJDBG.setVal('sw',on?'1':'0');try{localStorage.setItem(SW,on?'1':'0')}catch(e){}}},
         {type:'sec',label:'sky'},
         {k:'sf',label:'star flash',min:0,max:100,def:0,aria:'star flash',apply:function(v){GJDBG.setVal('sf',v)}},
         {k:'af',label:'glow pulse',min:0,max:100,def:0,aria:'ambient glow pulse',apply:function(v){GJDBG.setVal('af',v)}},
-        {k:'sc',label:'scatter',min:0,max:200,def:100,aria:'how far the stars scatter from your touch',apply:function(v){GJDBG.setVal('sc',v)}},
+        {k:'sc',label:'scatter',min:0,max:200,def:100,off:'keep',aria:'how far the stars scatter from your touch',apply:function(v){GJDBG.setVal('sc',v)}},
         {type:'sec',label:'reading'},
-        {k:'txt',label:'text size',min:70,max:160,def:100,aria:'text size',apply:function(v){GJDBG.setVal('txt',v)}}
+        {k:'txt',label:'text size',min:70,max:160,def:100,off:'keep',aria:'text size',apply:function(v){GJDBG.setVal('txt',v)}}
       ]});
     window.__ctl=C;
+    if(AMBX.on&&!AMBX.on())ambFollow(false);
   }
   setTimeout(go,0);
 })();

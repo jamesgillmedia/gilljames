@@ -76,3 +76,53 @@ html.js .sketch{display:block}
 .songsel{outline:1.5px solid #e8e4dc;outline-offset:3px;box-shadow:0 0 14px rgba(232,228,220,.45)}
 #songtitle{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:30;max-width:calc(100vw - 48px);padding:8px 14px;border-radius:999px;background:rgba(6,12,20,.9);border:1px solid rgba(232,228,220,.55);color:#e8e4dc;font:300 12px Poppins,sans-serif;letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0;pointer-events:none;transition:opacity .25s linear}
 #songtitle.on{opacity:1}
+/* red mode (Pack 1116): every colour above, mapped to the same light on the red ink by the sky's own rule (js/theme.js). Crimson, then rose.
+   Photographs, stills and video are not colours and are not touched. Night: nothing here applies. */
+html.rm{--bg:rgba(1,0,0,1);--ink:rgba(251,67,86,1);--dim:rgba(240,64,82,1);--meta:rgba(224,60,76,1);--mint:rgba(246,66,84,1);--line:rgba(255,68,87,0.14)}
+html.rm body{background:radial-gradient(1px 1px at 12% 18%,rgba(255,68,87,1),transparent),radial-gradient(1px 1px at 70% 8%,rgba(255,68,87,1),transparent), radial-gradient(ellipse at 50% 0,rgba(25,7,9,1),var(--bg) 70%) fixed}
+html.rm .top{background:linear-gradient(rgba(1,0,0,0.941),rgba(1,0,0,0))}
+html.rm .sig{text-shadow:1px 0 rgba(223,59,76,0.7),-1px 0 rgba(55,15,19,0.55)}
+html.rm .hero{background:rgba(0,0,0,1)}
+html.rm .hero img,html.rm .hero video{background:rgba(0,0,0,1)}
+html.rm .frame239{background:rgba(0,0,0,1)}
+html.rm .frames img{background:rgba(11,3,4,1)}
+html.rm .works img{background:rgba(14,4,5,1)}
+html.rm .joio video,html.rm .joio img{background:rgba(0,0,0,1)}
+html.rm .sketch{background:linear-gradient(180deg,rgba(5,1,2,0.55),rgba(1,0,0,0.94));border:1px solid rgba(255,68,87,0.14)}
+html.rm .sketch .play{border:1px solid rgba(255,68,87,0.18);background:rgba(255,68,87,0.06);color:rgba(251,67,86,1)}
+html.rm .sketch .l1{color:rgba(240,64,82,1)}
+html.rm .sketch .l1 b{color:rgba(251,67,86,1)}
+html.rm .sketch .time{color:rgba(251,67,86,1)}
+html.rm .sketch .cl{color:rgba(252,67,86,1)}
+html.rm .sketch .cl input::-webkit-slider-runnable-track{background:linear-gradient(90deg,rgba(246,66,84,0.75) var(--p),rgba(247,66,84,0.28) var(--p))}
+html.rm .sketch .cl input::-moz-range-track{background:rgba(247,66,84,0.28)}
+html.rm .sketch .cl input::-moz-range-progress{background:rgba(246,66,84,0.75)}
+html.rm .sketch .cl input::-webkit-slider-thumb{background:rgba(246,66,84,1);box-shadow:0 0 6px rgba(246,66,84,0.45)}
+html.rm .sketch .cl input::-moz-range-thumb{background:rgba(246,66,84,1);box-shadow:0 0 6px rgba(246,66,84,0.45)}
+html.rm .sketch .cl input:focus-visible{outline:1px solid rgba(246,66,84,0.8)}
+html.rm .songsel{outline:1.5px solid rgba(246,66,84,1);box-shadow:0 0 14px rgba(246,66,84,0.45)}
+html.rm #songtitle{background:rgba(3,1,1,0.9);border:1px solid rgba(246,66,84,0.55);color:rgba(246,66,84,1)}
+html.rm[data-red-tone=rose]{--bg:rgba(1,1,1,1);--ink:rgba(251,173,181,1);--dim:rgba(240,166,173,1);--meta:rgba(224,155,162,1);--mint:rgba(246,170,178,1);--line:rgba(255,176,184,0.14)}
+html.rm[data-red-tone=rose] body{background:radial-gradient(1px 1px at 12% 18%,rgba(255,176,184,1),transparent),radial-gradient(1px 1px at 70% 8%,rgba(255,176,184,1),transparent), radial-gradient(ellipse at 50% 0,rgba(25,17,18,1),var(--bg) 70%) fixed}
+html.rm[data-red-tone=rose] .top{background:linear-gradient(rgba(1,1,1,0.941),rgba(1,1,1,0))}
+html.rm[data-red-tone=rose] .sig{text-shadow:1px 0 rgba(223,154,161,0.7),-1px 0 rgba(55,38,40,0.55)}
+html.rm[data-red-tone=rose] .hero{background:rgba(0,0,0,1)}
+html.rm[data-red-tone=rose] .hero img,html.rm[data-red-tone=rose] .hero video{background:rgba(0,0,0,1)}
+html.rm[data-red-tone=rose] .frame239{background:rgba(0,0,0,1)}
+html.rm[data-red-tone=rose] .frames img{background:rgba(11,7,8,1)}
+html.rm[data-red-tone=rose] .works img{background:rgba(14,10,10,1)}
+html.rm[data-red-tone=rose] .joio video,html.rm[data-red-tone=rose] .joio img{background:rgba(0,0,0,1)}
+html.rm[data-red-tone=rose] .sketch{background:linear-gradient(180deg,rgba(5,3,4,0.55),rgba(1,0,0,0.94));border:1px solid rgba(255,176,184,0.14)}
+html.rm[data-red-tone=rose] .sketch .play{border:1px solid rgba(255,176,184,0.18);background:rgba(255,176,184,0.06);color:rgba(251,173,181,1)}
+html.rm[data-red-tone=rose] .sketch .l1{color:rgba(240,166,173,1)}
+html.rm[data-red-tone=rose] .sketch .l1 b{color:rgba(251,173,181,1)}
+html.rm[data-red-tone=rose] .sketch .time{color:rgba(251,173,181,1)}
+html.rm[data-red-tone=rose] .sketch .cl{color:rgba(252,174,182,1)}
+html.rm[data-red-tone=rose] .sketch .cl input::-webkit-slider-runnable-track{background:linear-gradient(90deg,rgba(246,170,178,0.75) var(--p),rgba(247,170,178,0.28) var(--p))}
+html.rm[data-red-tone=rose] .sketch .cl input::-moz-range-track{background:rgba(247,170,178,0.28)}
+html.rm[data-red-tone=rose] .sketch .cl input::-moz-range-progress{background:rgba(246,170,178,0.75)}
+html.rm[data-red-tone=rose] .sketch .cl input::-webkit-slider-thumb{background:rgba(246,170,178,1);box-shadow:0 0 6px rgba(246,170,178,0.45)}
+html.rm[data-red-tone=rose] .sketch .cl input::-moz-range-thumb{background:rgba(246,170,178,1);box-shadow:0 0 6px rgba(246,170,178,0.45)}
+html.rm[data-red-tone=rose] .sketch .cl input:focus-visible{outline:1px solid rgba(246,170,178,0.8)}
+html.rm[data-red-tone=rose] .songsel{outline:1.5px solid rgba(246,170,178,1);box-shadow:0 0 14px rgba(246,170,178,0.45)}
+html.rm[data-red-tone=rose] #songtitle{background:rgba(3,2,3,0.9);border:1px solid rgba(246,170,178,0.55);color:rgba(246,170,178,1)}
