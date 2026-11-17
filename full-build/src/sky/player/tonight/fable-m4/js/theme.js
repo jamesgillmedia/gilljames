@@ -9,14 +9,23 @@
    (bottom left) toggles; the tune menu's pinned globals carry the same choice. Reduce Motion: nothing here animates. */
 (function(w){
 'use strict';
-var KEY='gj.theme',EXEMPT={photo:1},root=document.documentElement,RED=/\/player\//.test(location.pathname)?[255,176,184]:[255,68,87]; /* Red's ink: crimson-rose (hue 354), clear of the Safelight's amber (14). The sound player's page uses a lighter rose: the player is the brightest ink in Red */
+var KEY='gj.theme',TONEKEY='gj.red.tone',EXEMPT={photo:1},root=document.documentElement;
+var TONES={crimson:[255,68,87],rose:[255,176,184]}; /* crimson #FF4457 · pale rose #FFB0B8 (f3237da's red-mode sky tone). Hue 354, clear of the Safelight's amber (14). */
+function playerPage(){return /\/fable-m4\/player\//.test(location.pathname)}
+function lsTone(){try{return localStorage.getItem(TONEKEY)==='rose'?'rose':'crimson'}catch(e){return 'crimson'}}
+function ink(t){return playerPage()?TONES.rose.slice():(TONES[t]||TONES.crimson).slice()} /* the sound player's page stays the lighter rose: the player is the brightest ink in Red and must not dim */
+function inkHex(t){var c=ink(t);return '#'+c.map(function(n){return ('0'+Math.round(n).toString(16)).slice(-2)}).join('')}
+function paintInk(){root.style.setProperty('--gj-red-ink',inkHex(tone));root.setAttribute('data-red-tone',tone)}
+var tone=lsTone(),RED=ink(tone);paintInk();
 var RAW=false,pref='night',eff='night',room=null,hooks=[],built=false,sheet=null,btn=null,C={};
 function lsGet(){try{return localStorage.getItem(KEY)}catch(e){return null}}
 function lsSet(v){try{localStorage.setItem(KEY,v)}catch(e){}}
-(function(){var q=/(?:^|[?&])theme=(night|red)(?:&|$)/.exec(location.search),v=q?q[1]:lsGet();if(q)lsSet(q[1]);pref=v==='red'?'red':'night';eff=pref})();
+(function(){var q=/(?:^|[?&])theme=(night|red)(?:&|$)/.exec(location.search),v=q?q[1]:lsGet();if(q)lsSet(q[1]);
+  /* rebuild: one red mode. The shared dot's own key (gj-red) is the same switch; where it has been set, it is the choice */
+  if(!q){var sh=null;try{sh=localStorage.getItem('gj-red')}catch(e){}if(sh==='1')v='red';else if(sh==='0')v='night'}
+  pref=v==='red'?'red':'night';eff=pref;lsSet(pref);try{localStorage.setItem('gj-red',pref==='red'?'1':'0')}catch(e){}})();
 function keep(r,g,b){
-  if(Math.abs(r-85)<45&&Math.abs(g-218)<40&&Math.abs(b-161)<45)return true;      /* mint, new work */
-  if(g>=180&&g>r+8&&g>b+25)return true;                                           /* mint lit states (#e7f6c8 …) */
+  if(r===85&&g===218&&b===161)return true;                                        /* rebuild: the red-mode dot (#55DAA1) is the only mint in Red */
   if(r>=240&&g>=80&&g<=110&&b<=60)return true;                                    /* the safelight's orange */
   if(r>=250&&g>=140&&g<=215&&b>=150&&b<=225&&b>=g-12)return true;                 /* the player's own light rose: already Red, never mapped twice */
   return false}
@@ -80,17 +89,22 @@ function build(){
   sheet._el.textContent=out.join('\n');built=true}
 function apply(force){
   /* the sound player and its waveform stay at Night luminance: Red must never dim them */
-  var playerPage=/\/player\//.test(location.pathname);
-  var e=(pref==='red'&&!(room&&EXEMPT[room])&&!playerPage)?'red':'night';if(e===eff&&!force&&root.getAttribute('data-theme')===e)return;
+  var e=(pref==='red'&&!(room&&EXEMPT[room])&&!playerPage())?'red':'night';  /* rebuild: the player's own page only */if(e===eff&&!force&&root.getAttribute('data-theme')===e)return;
   eff=e;if(e==='red'&&document.readyState!=='loading'&&!built)build();
-  root.setAttribute('data-theme',eff);
+  root.setAttribute('data-theme',eff);paintInk();
   var m=document.querySelector('meta[name=theme-color]');if(m){if(!C.tc)C.tc=m.getAttribute('content');m.setAttribute('content',e==='red'?'#000':C.tc)}
   label();hooks.forEach(function(f){f('theme',eff)})}
 function label(){if(!btn)return;var to=pref==='red'?'night':'red';btn.setAttribute('aria-label','colour mode: '+pref+(EXEMPT[room]?' (this room keeps its own look)':'')+'. switch to '+to);btn.title=pref+' · switch to '+to}
-var T={get pref(){return pref},get eff(){return eff},get room(){return room},pal:{name:'night'},
+function setTone(v){v=v==='rose'?'rose':'crimson';if(v===tone&&RED[0]===ink(v)[0]&&RED[1]===ink(v)[1]&&RED[2]===ink(v)[2])return;tone=v;try{localStorage.setItem(TONEKEY,v)}catch(e){}
+  RED=ink(tone);CACHE={};PRE={};built=false;paintInk();
+  if(eff==='red'&&document.readyState!=='loading')build();
+  hooks.forEach(function(f){f('theme',eff);f('tone',tone)})}
+var T={get pref(){return pref},get eff(){return eff},get room(){return room},get tone(){return tone},pal:{name:'night'},
+  tones:TONES,
   exempt:function(k){return !!EXEMPT[k]},
   map:function(s){return eff==='red'?mapStr(s):s},
   set:function(v){v=v==='red'?'red':'night';if(v===pref)return;pref=v;lsSet(v);apply(true);label();hooks.forEach(function(f){f('pref',pref)})},
+  setTone:setTone,
   toggle:function(){T.set(pref==='red'?'night':'red')},
   setRoom:function(k){k=k||null;if(k===room)return;room=k;apply();label()},
   adjust:function(){},adjInfo:null,
@@ -99,11 +113,18 @@ var T={get pref(){return pref},get eff(){return eff},get room(){return room},pal
     btn.addEventListener('click',function(e){e.stopPropagation();T.toggle()});btn.addEventListener('pointerdown',function(e){e.stopPropagation()});
     document.body.appendChild(btn);label()}};
 w.GJ_THEME=T;
-root.setAttribute('data-theme',eff);
+/* rebuild: one tap on either dot turns the whole sky. The shared dot announces itself with gj-tog; this theme answers, and
+   tells the shared dot when its own ring button (or Tune) made the change. */
+addEventListener('gj-tog',function(e){var d=e.detail;if(!d||d.k!=='gj-red')return;T.set(d.v==='1'?'red':'night');apply(true)});
+T.on(function(what){if(what!=='pref')return;var on=pref==='red'?'1':'0';
+  try{if(w.GJ&&GJ.set){if(GJ.get('gj-red','0')!==on)GJ.set('gj-red',on)}else localStorage.setItem('gj-red',on)}catch(e){}});
+root.setAttribute('data-theme',eff);paintInk();
 function ready(){if(eff==='red'&&!built)build();T.mount();
   setInterval(function(){var c=w.__u1&&w.__u1.cur;T.setRoom(c&&c.lv>=1?c.k:null)},300);
   /* the sound player and any frame share the choice through localStorage */
-  addEventListener('storage',function(e){if(e.key===KEY){var v=e.newValue==='red'?'red':'night';if(v!==pref){pref=v;apply(true);label();hooks.forEach(function(f){f('pref',pref)})}}});
+  addEventListener('storage',function(e){
+    if(e.key===KEY){var v=e.newValue==='red'?'red':'night';if(v!==pref){pref=v;apply(true);label();hooks.forEach(function(f){f('pref',pref)})}}
+    if(e.key===TONEKEY){var t=e.newValue==='rose'?'rose':'crimson';if(t!==tone)setTone(t)}});
   /* sheets that arrive late */
   addEventListener('load',function(){if(eff==='red')build()})}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ready);else ready();

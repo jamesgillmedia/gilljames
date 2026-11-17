@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" data-pinch-world><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Gill James · ᑕᐣᓯ · the world</title>
+<link rel="icon" href="../site-3d/img/favicon-32.png">
+<style>
+/* the world, option C (Pack 1117) · the motion test. The page around the canvas: where you are, the level dots, the star home, one hint. */
+@font-face{font-family:Julius;src:url(../site-3d/fonts/julius-sans-one.woff2) format('woff2');font-display:swap}
+@font-face{font-family:Poppins;font-weight:300;src:url(../site-3d/fonts/poppins-300.woff2) format('woff2');font-display:swap}
+html,body{margin:0;height:100%;background:#04060c;color:#e6edf0;overflow:hidden;font-family:Poppins,system-ui,sans-serif;font-weight:300;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+#c{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
+#where{position:fixed;left:0;right:0;padding:0 130px 0 88px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;top:calc(env(safe-area-inset-top,0px) + 23px);text-align:center;z-index:2;pointer-events:none;font:400 12px/1 Julius,sans-serif;letter-spacing:.22em;text-transform:uppercase;opacity:.82}
+/* the levels: sky, map, room, work. The lit one is where you are; a tap on one above it rises to it. (The Loupe takes this place later.) */
+#lv{position:fixed;right:calc(env(safe-area-inset-right,0px) + 6px);bottom:calc(env(safe-area-inset-bottom,0px) + 18px);z-index:3;display:flex;flex-direction:column;align-items:center;gap:0;padding:4px 0}
+#lv i{width:44px;height:26px;display:grid;place-items:center;cursor:pointer;font-style:normal}
+#lv i::before{content:"";width:6px;height:6px;border-radius:50%;background:rgba(230,237,240,.3);transition:background .4s,box-shadow .4s,transform .4s}
+#lv i.on::before{background:#e6edf0;box-shadow:0 0 9px rgba(230,237,240,.9);transform:scale(1.35)}
+#lv i span{position:absolute;right:40px;font:300 9px/1 Poppins,sans-serif;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;opacity:0;transition:opacity .4s;pointer-events:none}
+#lv i.on span{opacity:.62}
+/* a small star always marks the way back to the sky */
+#hs{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 10px);transform:translateX(-50%);z-index:3;min-width:88px;height:44px;padding:0 14px;border:0;background:none;color:#e6edf0;font:300 9px/1 Poppins,sans-serif;letter-spacing:.2em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:9px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .7s}
+#hs.on{opacity:.78;pointer-events:auto}
+#hs b{width:7px;height:7px;border-radius:50%;background:#e6edf0;box-shadow:0 0 10px 2px rgba(190,215,255,.75),0 0 22px 6px rgba(120,160,230,.35)}
+#hs:focus-visible,#lv i:focus-visible{outline:1px solid rgba(230,237,240,.55);outline-offset:-6px;border-radius:12px}
+/* the one hint, first visit only */
+#tip{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 74px);margin:0;text-align:center;z-index:2;pointer-events:none;font:300 10px/1.5 Poppins,sans-serif;letter-spacing:.2em;text-transform:uppercase;opacity:0;transition:opacity 1.6s}
+#tip.in{opacity:.6}#tip.off{opacity:0}#tip[hidden]{display:none}
+#fb{display:none;position:fixed;inset:0;align-items:center;justify-content:center;flex-direction:column;gap:14px;text-align:center;padding:24px}
+#fb a{color:#e6edf0;font-family:Julius,sans-serif;letter-spacing:.2em;font-size:18px}
+.nogl #fb{display:flex}.nogl #c,.nogl #where,.nogl #lv,.nogl #hs,.nogl #tip{display:none}
+#vw{position:fixed;inset:0;z-index:5;background:rgba(4,6,12,.94);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;touch-action:none}
+#vw[hidden]{display:none}#vw .m img,#vw .m video{width:100vw;max-height:78vh;object-fit:contain;display:block;background:#000}
+#vw .m p{white-space:pre-line;text-align:center;font-size:15px;line-height:1.7;letter-spacing:.04em;padding:0 24px;max-height:70vh;overflow:auto;margin:0}
+#vw .c{font-size:12px;letter-spacing:.1em;opacity:.7;text-align:center;padding:0 16px}
+#vw .l{color:#e6edf0;font-size:13px;letter-spacing:.08em;text-decoration:none;padding:0 16px;min-height:44px;display:inline-flex;align-items:center;border:1px solid rgba(200,225,255,.3);border-radius:22px}
+#vw .l[hidden]{display:none}
+#vw .x{position:absolute;right:calc(env(safe-area-inset-right,0px) + 8px);top:calc(env(safe-area-inset-top,0px) + 60px);width:44px;height:44px;font:300 28px/1 Poppins,sans-serif;color:#e6edf0;background:none;border:0;cursor:pointer}
+/* red mode: the page's own words and marks go red with the world. Photographs and clips in the viewer are not touched. */
+html.rm body,html.rm #fb a,html.rm #vw .x,html.rm #hs{color:var(--gj-red-ink,#ff4457)}
+html.rm #vw .l{color:var(--gj-red-ink,#ff4457);border-color:rgba(var(--gj-red-rgb,255,68,87),.4)}
+html.rm #vw{background:rgba(6,3,4,.94)}
+html.rm #lv i::before{background:rgba(var(--gj-red-rgb,255,68,87),.34)}html.rm #lv i.on::before{background:var(--gj-red-ink,#ff4457);box-shadow:0 0 9px rgba(var(--gj-red-rgb,255,68,87),.9)}
+html.rm #hs b{background:var(--gj-red-ink,#ff4457);box-shadow:0 0 10px 2px rgba(var(--gj-red-rgb,255,68,87),.7),0 0 22px 6px rgba(var(--gj-red-rgb,255,68,87),.3)}
+@media (prefers-reduced-motion:reduce){#lv i::before,#hs,#tip{transition:none}}
+</style>
+</head><body>
+<canvas id="c" aria-label="one world: under the sky, the map of the five rooms (film, photo, objects, sound, about), and each room's board"></canvas>
+<div id="where" aria-live="polite">the sky</div>
+<nav id="lv" aria-label="where you are: sky, map, room, work"><i role="button" tabindex="0" aria-label="the sky"><span>sky</span></i><i role="button" tabindex="0" aria-label="the map"><span>map</span></i><i role="button" tabindex="0" aria-label="the room"><span>room</span></i><i role="button" tabindex="0" aria-label="the work"><span>work</span></i></nav>
+<button id="hs" type="button" aria-label="back to the sky"><b></b>the sky</button>
+<p id="tip" hidden>pinch to travel</p>
+<div id="vw" hidden><button class="x" aria-label="close">×</button><div class="m"></div><div class="c"></div><a class="l" hidden target="_blank" rel="noopener"></a></div>
+<div id="hint" hidden></div>
+<div id="fb"><a href="../site-3d/">gill james</a><span style="font-size:12px;opacity:.6">this needs WebGL · the film room ›</span></div>
+<script>
+(function(){try{var c=document.createElement('canvas');if(!(c.getContext('webgl2')||c.getContext('webgl')))throw 0}catch(e){document.documentElement.className='nogl'}})();
+</script>
+<script>if(document.documentElement.className!=="nogl"){var s=document.createElement("script");s.type="module";s.src="main.js";document.body.appendChild(s)}</script>
+<link rel="stylesheet" href="../../../chrome.css"><script src="../../../chrome.js" data-hub="../../../index.html" data-rooms="../../../rooms.json"></script></body></html>

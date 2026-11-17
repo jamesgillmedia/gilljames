@@ -1,0 +1,7 @@
+/* fable-m4 · Tune on light smoked glass (Pack 1116 §4). A PROVISIONAL default: Gill has not picked between see-through, light and heavy.
+   The glass is the arrival's own (the side dial and the ghost arc's plate: #04070b at about half strength, a 12px blur behind it).
+   It is drawn with a background and shadows only, so not one row or control moves. html.tg-clear (Tune: "Tune backing · see-through") is the
+   drawer exactly as it was. In safelight the glass is darkroom red. */
+html:not(.tg-clear) #markmenu.dv-A{background:rgba(4,7,11,.54);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-radius:16px;
+  box-shadow:0 0 0 1px rgba(232,228,220,.14),0 12px 36px rgba(0,0,0,.44),inset 0 1px 0 rgba(232,228,220,.07)}
+html.rm:not(.tg-clear) #markmenu.dv-A{background:rgba(12,3,4,.7);box-shadow:0 0 0 1px rgba(var(--gj-red-rgb,255,68,87),.3),0 12px 36px rgba(0,0,0,.5),inset 0 1px 0 rgba(var(--gj-red-rgb,255,68,87),.08)}

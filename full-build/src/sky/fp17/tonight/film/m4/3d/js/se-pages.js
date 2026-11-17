@@ -46,7 +46,7 @@ export const PAGES = [
 "n": 4,
 "h": "gill james",
 "p": [
-"a cinematographer and visual artist of mixed Cree (Kinosao Sipi/Norway House Crəə Nation) Métis and Canadian heritage. Based the Coast Salish territory of the xʷməθkʷəy̓əm, Skwxwú7mesh, səlilwətaɬ Gill holds gratitude and deep respect to the land and its ancestral caretakers. Renowned for evocative cinematography, experimental folk music and tactile, innovative applied arts that fuses fine arts and design with his love of coffee and food."
+"a cinematographer and visual artist of mixed Cree Métis and Canadian heritage. Based the Coast Salish territory of the xʷməθkʷəy̓əm, Skwxwú7mesh, səlilwətaɬ Gill holds gratitude and deep respect to the land and its ancestral caretakers. Renowned for evocative cinematography, experimental folk music and tactile, innovative applied arts that fuses fine arts and design with his love of coffee and food."
 ],
 "img": [
 [

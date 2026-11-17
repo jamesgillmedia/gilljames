@@ -1,0 +1,12 @@
+/* fable-m4 · Pack 1117 · the top bar keeps clear of the three shared pills (‹ ᑕᐣᓯ at the left; tune and the red dot at the right).
+   The pill is the Mark. The bar's own ᑕᐣᓯ and its own ‹ sat under the pill (covered, so they could not be tapped) and smeared its glyphs:
+   they step aside. The chips and HIRE / LIST / CONTACT get their own space: beside the pills where there is room, and on their own row
+   under the pills on a phone. Nothing is restyled; only where things sit. Without the pills (html.gj-pills not set) the bar is as it was. */
+html.gj-pills #bar{padding-left:calc(83px + var(--sl));padding-right:calc(125px + var(--sr))}
+html.gj-pills #bar #crumb .sig,html.gj-pills #bar #back{display:none}
+@media (max-width:619px){
+ html.gj-pills #bar{flex-wrap:wrap;row-gap:6px;align-content:flex-start}
+ html.gj-pills #bar #crumb,html.gj-pills.deep #bar #crumb{flex:1 1 100%;min-height:44px;text-align:left}
+ html.gj-pills #bar .chips{margin-left:-75px}
+ html.gj-pills #bar .nav{margin-left:auto;margin-right:-117px}
+}

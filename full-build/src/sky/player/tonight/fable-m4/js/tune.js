@@ -135,13 +135,14 @@ function isOff(id){var R=roomById(id);return !!(R&&R.off)}
 var PTR=null,HOLD=false,kbT=0,unfoldT=0,CFOCUS=null;
 var MARK='#crumb .sig,#omark,.lab-top .sig,[data-tn-mark]';
 function markEl(){return document.querySelector(MARK)}
-function dial(){return window.GJ_DIAL||window.GJ_GHOST||null}
+function dial(){return (window.GJ_SG&&GJ_SG.on()&&window.GJ_GHOST60&&window.GJ_SGDIAL)||window.GJ_DIAL||window.GJ_GHOST||null}
 /* the ghost dial is every slider's default feedback: while a slider is held the whole drawer hides
    and the arc shows the value at a free screen edge. dial.js adds gd-away only when the arc can sit;
    a held slider hides the drawer either way. Do not clear gd-away here. */
 function ghost(r,info){
   var d=dial();if(!d||!menu)return;
   var b=r.getBoundingClientRect(),p=HOLD&&PTR?PTR:{x:b.left+b.width/2,y:b.top+b.height/2};info.x=p.x;info.y=p.y;
+  var sgd=window.GJ_SG&&GJ_SG.on()&&document.getElementById('fold-dial');if(sgd&&!sgd.hidden){var sq=sgd.getBoundingClientRect();if(sq.width)info.side={r:sq.left>innerWidth/2,y:sq.top+sq.height/2}}
   d.update(info);
   if(HOLD)menu.classList.add('gd-away');
   if(!HOLD){clearTimeout(kbT);kbT=setTimeout(function(){d.release()},400)}
@@ -186,11 +187,11 @@ function safelight(){
   var on=G&&+G.get('safelight')===1,k=G?Math.max(0,Math.min(100,+G.get('safeK')))/100:0.6;
   el.hidden=!on;el.style.setProperty('--safe',on?String(k):'0');
 }
-function outside(e){return !e.target.closest('#markmenu,'+MARK+',#marktune,.mm-tune-btn')}
+function outside(e){return !e.target.closest('#markmenu,'+MARK+',#marktune,.mm-tune-btn,#gj-dial,#fold-dial')}
 function build(){
   menu=document.createElement('div');menu.id='markmenu';menu.hidden=true;menu.setAttribute('role','dialog');menu.setAttribute('aria-label','the mark menu');
   menu.className='dv-'+DV;
-  menu.innerHTML='<div class="mm-3d"><nav class="mm-top"><a data-href="fable-m4/list/" href="list/">list</a><a data-href="fable-m4/contact/" href="contact/">contact</a><button type="button" class="mm-tune" aria-expanded="false">tune</button></nav>'+
+  menu.innerHTML='<div class="mm-3d"><nav class="mm-top"><a data-href="fable-m4/list/" href="list/">list</a><a data-href="fable-m4/contact/" href="contact/">contact</a><button type="button" class="mm-tune" aria-expanded="false">tune</button><button type="button" class="mm-x" aria-label="close">×</button></nav>'+
     '<nav class="mm-rooms" aria-label="rooms"><button type="button" data-go="sky">sky</button><button type="button" data-go="film">film</button><button type="button" data-go="sound">sound</button><a data-href="objects/" data-room="objects" href="../objects/">objects</a><a data-href="spaces/forest-garden/" data-room="spaces" href="../spaces/forest-garden/">spaces</a></nav>'+
     '<div class="mm-plate" hidden></div></div>';
   document.body.appendChild(menu);
@@ -205,12 +206,17 @@ function build(){
     if(b){goRoom(b.getAttribute('data-go'));return}
     var vb=e.target.closest('[data-snd-var]');
     if(vb){setSndVar(vb.getAttribute('data-snd-var'));paint();return}
+    if(e.target.closest('.mm-x')){show(false);return}   /* rebuild port 2: the visible × */
     if(e.target.closest('.mm-tune')){tuneOn=!tuneOn;paint();return}
     if(e.target.closest('.mm-all')){allOn=!allOn;paint();return}
     if(e.target.closest('.mm-reset-room')){resetRoom();return}
     if(e.target.closest('.mm-reset')){reset();return}
     var tb2=e.target.closest('[data-theme-set]');
     if(tb2&&window.GJ_THEME){GJ_THEME.set(tb2.getAttribute('data-theme-set'));paint();return}
+    var fsb=e.target.closest('button[data-fs-set]');
+    if(fsb&&window.GJ&&GJ.fs){GJ.fs.set(fsb.getAttribute('data-fs-set')==='1');paint();return}
+    var rtb=e.target.closest('button[data-red-tone]');
+    if(rtb&&window.GJ_THEME&&GJ_THEME.setTone){GJ_THEME.setTone(rtb.getAttribute('data-red-tone'));paint();return}
     var sb=e.target.closest('[data-seg-k]');
     if(sb){var srow=findRow(sb.getAttribute('data-seg-k'));if(srow)srow.apply(sb.getAttribute('data-v'),true);paint();return}
     var dvb=e.target.closest('[data-drawer]');
@@ -219,6 +225,12 @@ function build(){
     if(cf){CFOCUS=cf.getAttribute('data-cfocus');paint();return}
     var vb2=e.target.closest('[data-var]');
     if(vb2&&window.GJ_VAR){GJ_VAR.set(vb2.getAttribute('data-var-room'),vb2.getAttribute('data-var'));paint();return}
+    var gk=e.target.closest('[data-gj-k]');   /* brief 1115: the site switches (the shared chrome's own setter, so every room hears it) */
+    if(gk){var gkk=gk.getAttribute('data-gj-k'),gkv=gk.getAttribute('data-v');
+      if(window.GJ&&GJ.set)GJ.set(gkk,gkv);else{wr(gkk,gkv);try{window.dispatchEvent(new CustomEvent('gj-tog',{detail:{k:gkk,v:gkv}}))}catch(x){}}
+      paint();return}
+    var ab=e.target.closest('[data-amb]');   /* rebuild port 5: the one ambience switch */
+    if(ab){wr('gj.amb.on',ab.getAttribute('data-amb'));poke('gj.amb.on');paint();return}
     var db=e.target.closest('[data-dec]');
     if(db&&D2()){D2().set(db.getAttribute('data-dec'),db.getAttribute('data-v'));safelight();paint();return}
   });
@@ -269,12 +281,22 @@ function build(){
   /* a touch outside closes the drawer and is only that: the following click never reaches the room */
   var SWALLOW=0;
   var NAVK={ArrowLeft:1,ArrowRight:1,ArrowUp:1,ArrowDown:1,PageUp:1,PageDown:1,Home:1,End:1};
+  /* next brief §6: a Tune taller than its box scrolls instead of closing (wheel over it; PageUp/PageDown/Home/End) */
+  function tall(){return menu&&menu.scrollHeight-menu.clientHeight>1}
+  function overMenu(e){var r=menu.getBoundingClientRect();return e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom}
+  function more(){if(!menu)return;menu.classList.toggle('mm-more',open&&menu.scrollHeight-menu.clientHeight-menu.scrollTop>4)}
+  menu.addEventListener('scroll',more,{passive:true});window.__gjTuneMore=more;
+  var PAGEK={PageUp:-1,PageDown:1,Home:-99,End:99};
   addEventListener('keydown',function(e){
+    if(open&&PAGEK[e.key]&&tall()){e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+      menu.scrollTop+=PAGEK[e.key]*menu.clientHeight*.85;more();return}
     if(!open||!(e.key==='Escape'||NAVK[e.key]))return;
     e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();show(false);
   },true);
   addEventListener('wheel',function(e){
     if(!open)return;
+    if(tall()&&overMenu(e)){e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+      menu.scrollTop+=e.deltaY*(e.deltaMode===1?32:e.deltaMode===2?menu.clientHeight:1);more();return}
     e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();show(false);
   },{capture:true,passive:false});
   document.addEventListener('pointerdown',function(e){if(open&&outside(e)){SWALLOW=Date.now()+1500;window.__gjNavSwallow=SWALLOW;show(false)}},true);
@@ -345,14 +367,36 @@ function paint(){
   var mot=G?G.get('motion'):100,snap=G?G.get('snapAt'):34,sl=G?+G.get('safelight'):0,sk=G?+G.get('safeK'):60,rv=G?+G.get('ripples'):1;
   if(devDrawer()){h+='<section class="mm-devsec"><h3>dev</h3><p class="mm-devnote">archived · drawer '+DV+' · public stays A</p><div class="mm-seg"><b>drawer</b><span role="radiogroup" aria-label="drawer">';
     [['A','A · constellation'],['B','B · contact strip'],['C','C · ghost']].forEach(function(o){h+='<button type="button" role="radio" aria-checked="'+(DV===o[0])+'" data-drawer="'+o[0]+'">'+o[1]+'</button>'});h+='</span></div></section>'}
+  /* brief 1115 · navigation: gj.nav (graph: ‹ ᑕᐣᓯ opens the map of the site; tree: it goes to the field, as before),
+     then the three site switches the field's list keeps: crescent moon, mark density, depth. Same keys, same defaults, same words. */
+  h+='<section class="mm-site"><h3>navigation</h3>';
+  [['gj.nav','navigation <em>\u2039 \u1455\u1423\u14ef opens the map, or goes to the field</em>','graph',[['graph','graph'],['tree','tree']]],
+   ['gj-tog-moon','crescent moon','1',[['1','on'],['0','off']]],
+   ['gj-tog-density','mark density','sparse',[['sparse','fewer stars'],['spread','spread'],['shallow','shallow'],['sketch','220 stars']]],
+   ['gj-tog-depth','depth','rest',[['rest','flat, then 3D'],['flat','stay flat'],['hold','hold the depth']]],
+   ['gj.arrival','arrival <em>the first screen</em>','smoke',[['smoke','smoked glass'],['crescent','crescent']]],
+   ['gj.sidedial','side dial <em>on the smoked-glass arrival</em>','1',[['1','on'],['0','off']]],
+   ['gj.tune.glass','Tune backing <em>how this drawer sits on the sky</em>','smoke',[['smoke','smoked glass'],['clear','see-through']]]].forEach(function(r){
+    var cv=null;try{cv=localStorage.getItem(r[0])}catch(e){}if(cv==null)cv=r[2];
+    h+='<div class="mm-seg mm-gjrow"><b>'+r[1]+'</b><span role="radiogroup" aria-label="'+r[1].replace(/ <em>.*$/,'')+'">';
+    r[3].forEach(function(o){h+='<button type="button" role="radio" aria-checked="'+(cv===o[0])+'" data-gj-k="'+r[0]+'" data-v="'+o[0]+'">'+o[1]+'</button>'});
+    h+='</span></div>'});
+  h+='</section>';
   h+='<section class="mm-globals"><h3>globals</h3>';
   var TH=window.GJ_THEME,tp=TH?TH.pref:'night';
   if(TH)h+='<div class="mm-seg mm-theme"><b>colour mode'+(TH.exempt(here)?' <em>this room keeps its own look</em>':'')+'</b><span role="radiogroup" aria-label="colour mode"><button type="button" role="radio" aria-checked="'+(tp==='night')+'" data-theme-set="night">night</button><button type="button" role="radio" aria-checked="'+(tp==='red')+'" data-theme-set="red">red</button></span></div>';
   h+='<label><span>motion</span><input type="range" min="0" max="200" step="1" value="'+mot+'" data-dec-r="motion" aria-label="motion"><output>'+mot+'</output></label>';
   h+='<label><span>snap threshold</span><input type="range" min="15" max="70" step="1" value="'+snap+'" data-dec-r="snapAt" aria-label="snap threshold"><output>'+snap+'</output></label>';
   h+='<div class="mm-seg"><b>safelight (warm edge glow)</b><span><button type="button" role="radio" aria-checked="'+(sl===0)+'" data-dec="safelight" data-v="0">off</button><button type="button" role="radio" aria-checked="'+(sl===1)+'" data-dec="safelight" data-v="1">on</button></span></div>';
+  var tn=(window.GJ_THEME&&GJ_THEME.tone)||'crimson';
+  h+='<div class="mm-seg mm-redtone"><b>red mode colour</b><span role="radiogroup" aria-label="red mode colour"><button type="button" role="radio" aria-checked="'+(tn==='crimson')+'" data-red-tone="crimson">crimson</button><button type="button" role="radio" aria-checked="'+(tn==='rose')+'" data-red-tone="rose">rose</button></span></div>';
+  var fsv=!!(window.GJ&&GJ.fs&&GJ.fs.on());
+  h+='<div class="mm-seg mm-gjrow mm-fs"><b>full safelight <em>photos and film go red too \u00b7 or hold the dot</em></b><span role="radiogroup" aria-label="full safelight"><button type="button" role="radio" aria-checked="'+(!fsv)+'" data-fs-set="0">off</button><button type="button" role="radio" aria-checked="'+fsv+'" data-fs-set="1">on</button></span></div>';
   h+='<label><span>safelight strength</span><input type="range" min="0" max="100" step="1" value="'+sk+'" data-dec-r="safeK" aria-label="safelight strength, 0 to 1"><output>'+(sk/100).toFixed(2)+'</output></label>';
   h+='<div class="mm-seg"><b>ripples (water)</b><span><button type="button" role="radio" aria-checked="'+(rv===1)+'" data-dec="ripples" data-v="1">on</button><button type="button" role="radio" aria-checked="'+(rv===0)+'" data-dec="ripples" data-v="0">off</button></span></div>';
+  /* rebuild port 5 · ambience on/off (gj.amb.on, default on): the rooms' snow, mist, glow, haze and stars follow this one switch */
+  var ao=rd('gj.amb.on',1)!==0;
+  h+='<div class="mm-seg"><b>ambience (snow, mist, glow, haze, stars)</b><span><button type="button" role="radio" aria-checked="'+ao+'" data-amb="1">on</button><button type="button" role="radio" aria-checked="'+(!ao)+'" data-amb="0">off</button></span></div>';
   h+='</section>';
   h+='<p class="mm-foot"><span class="mm-resets"><button type="button" class="mm-reset mm-reset-room">reset '+here+'</button><button type="button" class="mm-reset">reset all</button></span></p>';
   pl.innerHTML=h;planes();
@@ -382,9 +426,10 @@ function reset(){
 function show(on){
   if(!menu)build();
   var was=open;open=!!on;
-  [].forEach.call(document.querySelectorAll('#marktune,.mm-tune-btn'),function(b){b.setAttribute('aria-expanded',open?'true':'false')});
+  [].forEach.call(document.querySelectorAll('#marktune,.mm-tune-btn,#gj-dial'),function(b){b.setAttribute('aria-expanded',open?'true':'false')});
   var s=markEl();if(s&&s.hasAttribute('aria-expanded'))s.setAttribute('aria-expanded',open?'true':'false');
   document.documentElement.classList.toggle('mm-open',open);
+  if(window.__gjTuneMore)setTimeout(window.__gjTuneMore,60);
   clearTimeout(foldT);
   if(open){
     menu.classList.remove('mm-in','mm-folding');menu.hidden=false;paint();origin();
@@ -453,8 +498,20 @@ function armTune(){
   });
 }
 var tuneN=0;(function tuneWait(){armTune();if(++tuneN<40)setTimeout(tuneWait,100)})();
-window.GJ_MARKMENU={toggle:function(){show(!open)},show:show,get open(){return open},
+/* rebuild port 2: the word "tune" at the top right is the discoverable trigger. One tap opens this Tune with its sliders
+   already showing; the same tap closes it. It used to open a second, differently styled panel (the hub's toggle list). */
+document.addEventListener('click',function(e){
+  var d=e.target&&e.target.closest&&e.target.closest('#gj-dial');if(!d)return;
+  e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+  if(open){show(false);return}
+  tuneOn=true;show(true);
+},true);
+window.GJ_MARKMENU={toggle:function(){show(!open)},show:show,get open(){return open},tune:function(){tuneOn=true;show(true)},
   variant:addVariant,
   context:function(){return ctx()},
   rooms:function(){return ROOMS.map(function(R){return {id:R.id,rows:R.rows.map(function(r){return r.label})}})}};
 })();
+
+/* Pack 1116 · Tune backing: light smoked glass unless "see-through" is chosen (gj.tune.glass). */
+(function(){function tg(){var v=null;try{v=localStorage.getItem('gj.tune.glass')}catch(e){}document.documentElement.classList.toggle('tg-clear',v==='clear')}
+tg();addEventListener('gj-tog',function(e){if(e.detail&&e.detail.k==='gj.tune.glass')tg()});addEventListener('storage',function(e){if(e.key==='gj.tune.glass')tg()})})();

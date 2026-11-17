@@ -15,7 +15,6 @@ html.gj-nomoon .moon, html.gj-nomoon #moon, html.gj-nomoon [data-moon]{opacity:0
 #gj-red, #gj-dial { top: calc(env(safe-area-inset-top) + 8px); }
 #gj-red { right: 8px; width: 44px; padding: 0; }
 #gj-red i { width: 10px; height: 10px; border-radius: 50%; background: #c9d3d6; display: block; }
-html.rm #gj-red i { background: #c23b3b; }
 #gj-dial { right: 58px; padding: 0 12px; letter-spacing: .08em; }
 #gj-drawer {
   position: fixed; z-index: 2147483000; top: 0; right: 0; bottom: 0; width: min(360px, 100vw);
@@ -49,3 +48,34 @@ body.gj-hub #gj-back { display: none; }
 html.rm, html.rm body { background-color: #060304; }
 html.rm img, html.rm video { filter: none !important; }
 html.gj-nomoon .jmoon, html.gj-nomoon #jmoon, html.gj-nomoon .jmoon-streak { opacity: 0 !important; visibility: hidden !important; }
+/* safelight (Nov 15): in red mode everything is red and the lit dot is the one mint thing (#55DAA1).
+   The red is the tone dial's: gj.red.tone, crimson #FF4457 by default or rose #FFB0B8 (chrome.js writes data-red-tone). */
+html { --gj-red-ink: #ff4457; --gj-red-rgb: 255,68,87; }
+html[data-red-tone=rose] { --gj-red-ink: #ffb0b8; --gj-red-rgb: 255,176,184; }
+html.rm #gj-back, html.rm #gj-dial, html.rm #gj-red { color: var(--gj-red-ink); background: rgba(8,2,3,.62); border-color: rgba(var(--gj-red-rgb),.3); }
+html.rm #gj-red i { background: #55DAA1; box-shadow: 0 0 7px 1px rgba(85,218,161,.7); }
+/* the Mark brightens on pause or record (Nov 15): one quiet lift over 0.9 s, then it rests there. No pulse, no blink, nothing loops. */
+#gj-back { transition: text-shadow .9s ease, box-shadow .9s ease, border-color .9s ease; }
+html.gj-hold #gj-back { border-color: rgba(230,237,240,.5); text-shadow: 0 0 10px rgba(230,237,240,.75), 0 0 22px rgba(230,237,240,.3); box-shadow: 0 0 18px rgba(230,237,240,.14); }
+html.rm.gj-hold #gj-back { border-color: rgba(var(--gj-red-rgb),.62); text-shadow: 0 0 10px rgba(var(--gj-red-rgb),.85), 0 0 22px rgba(var(--gj-red-rgb),.35); box-shadow: 0 0 18px rgba(var(--gj-red-rgb),.18); }
+@media (prefers-reduced-motion: reduce) { #gj-back { transition-duration: .9s; } }
+html.rm #gj-drawer { color: var(--gj-red-ink); background: rgba(8,2,3,.9); border-left-color: rgba(var(--gj-red-rgb),.2); }
+html.rm #gj-drawer h2 { color: rgba(var(--gj-red-rgb),.6); }
+html.rm #gj-drawer label.row, html.rm #gj-drawer a.row { border-bottom-color: rgba(var(--gj-red-rgb),.1); }
+html.rm #gj-drawer a.row:hover, html.rm #gj-drawer a.row:focus-visible { color: var(--gj-red-ink); text-decoration: underline; }
+html.rm #gj-drawer select, html.rm #gj-drawer button.tog { color: var(--gj-red-ink); border-color: rgba(var(--gj-red-rgb),.3); }
+
+/* full safelight (Pack 1116, Gill 16 Nov): the second step of red mode. Red mode itself is unchanged.
+   A long-press on the dot, or the Tune row, lays three display-only layers over the page so photographs and film read red too:
+   a slight dim, the red light (luminosity kept, hue and saturation the light's), then a warm pass that tips the brightest detail to orange.
+   Nothing is filtered at the element and no file is touched: take the layers away and every pixel is as it was (html.rm img/video stay filter:none).
+   The three pills sit above the layers, so the lit dot stays the one mint thing; their detail is crimson with an orange hairline. */
+.gj-fsl { position: fixed; inset: 0; z-index: 2147482990; pointer-events: none; display: none; }
+html.rm.fs .gj-fsl { display: block; }
+/* the layers' colours and blend modes are set on the elements by chrome.js (fsLayers), so no room's theme can remap them */
+html.rm.fs #gj-back, html.rm.fs #gj-dial, html.rm.fs #gj-red { color: var(--gj-red-ink); background: rgba(10,2,2,.72); border-color: rgba(255,106,44,.6); }
+html.rm.fs #gj-red { box-shadow: 0 0 0 1px rgba(var(--gj-red-rgb),.38), 0 0 16px rgba(255,106,44,.24); }
+html.rm.fs #gj-drawer { border-left-color: rgba(255,106,44,.4); }
+#gj-red { -webkit-touch-callout: none; }
+#gj-red.gj-holding { box-shadow: 0 0 0 6px rgba(255,68,87,.2); transition: box-shadow .5s ease-out; }
+@media print { .gj-fsl { display: none !important; } }

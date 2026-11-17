@@ -104,7 +104,7 @@
     if (on){ if(!ui) build(); ui.style.display=''; document.documentElement.style.touchAction='none'; upd(); }
     else { if(ui){ ui.style.display='none'; hl.style.display='none'; } sel=null; document.documentElement.style.touchAction=''; }
   }
-  var hold=null; function holdStart(e){ if(e.touches.length===2){ var a=[e.touches[0].clientX,e.touches[0].clientY,e.touches[1].clientX,e.touches[1].clientY];
+  var hold=null; function holdStart(e){ if(document.documentElement.hasAttribute('data-pinch-world')) return; if(e.touches.length===2){ var a=[e.touches[0].clientX,e.touches[0].clientY,e.touches[1].clientX,e.touches[1].clientY];
       clearTimeout(hold&&hold.t); hold={a:a,t:setTimeout(function(){ hold=null; toggle(!active); },1000)}; } else if(hold){ clearTimeout(hold.t); hold=null; } }
   function holdMove(e){ if(!hold||e.touches.length!==2) return; var b=[e.touches[0].clientX,e.touches[0].clientY,e.touches[1].clientX,e.touches[1].clientY];
     for(var i=0;i<4;i++) if(Math.abs(b[i]-hold.a[i])>14){ clearTimeout(hold.t); hold=null; return; } }

@@ -149,6 +149,10 @@ function nextHtml(work){
   return next?'<div class="fp-next"><p class="fp-lab">featured</p><div class="fp-cards">'+next+'</div></div>':'';
 }
 /* The player's chrome, shared by every film and by the Demo Reel: title block, then (below the fold) stills, credits and awards, then featured. */
+/* next brief §3: the film itself plays in Scope (cut rail, scrub, 2.39 to full screen). One step from here, one Back to return. */
+var SCOPE_NOFILE=["hike", "reel-24"];
+function scopeStep(work){var s=work&&work.slug;if(!s||work.id==='film/demo-reel'&&false)return '';
+  return '<p class="fp-go"><a class="fp-scope" href="film/'+esc(s)+'/'+(SCOPE_NOFILE.indexOf(s)<0?'?play=1':'')+'">'+(SCOPE_NOFILE.indexOf(s)<0?'\u25B6 play film':'film page \u203A')+'</a></p>'}
 function shell(el,work,o){
   var p=parts(work.title);
   if(work.id==='film/weird-kid')p={pre:'Chris Malinchak and Kiesza',name:'Weird Kid'};
@@ -156,7 +160,7 @@ function shell(el,work,o){
     '<div class="fp-main"><div class="fp-stage"><div class="fp-spill" aria-hidden="true"></div>'+
       '<div class="heroframe fp-frame" style="background-color:#04070b;'+(o.first?'background-image:url(\''+esc(o.first)+'\');background-size:cover;background-position:center':'')+'">'+(o.heroInner||'')+'</div>'+
       '<div class="fp-bar" aria-hidden="true"><i></i></div>'+
-      '<div class="fp-railhost"></div>'+(o.strip||'')+'</div>'+
+      '<div class="fp-railhost"></div>'+(o.strip||'')+scopeStep(work)+'</div>'+
     '<div class="fp-meta">'+(p.pre?'<small class="fp-pre">'+esc(p.pre)+'</small>':'')+'<h3 class="fp-t">'+esc(p.name)+'</h3>'+
       (roleLine(work)?'<p class="fp-r">'+esc(roleLine(work))+'</p>':'')+'</div></div>'+
     (o.wall||'')+infoHtml(work)+nextHtml(work)+'</div>';
@@ -330,8 +334,10 @@ function mountBar(){
   BAR.setAttribute('aria-label','To Go, Lost Coffee');
   var c=document.createElement('canvas');c.width=168;c.height=22;c.setAttribute('aria-hidden','true');
   var g=c.getContext('2d'),peaks=[0.413,0.602,0.426,0.446,0.753,0.682,0.753,0.928,0.841,1,0.92,0.898,0.997,0.89,0.929,0.994,0.908,0.843];
-  g.fillStyle='#e8e4dc';
-  peaks.forEach(function(p,i){var x=4+i*9,h=Math.max(2,p*16);g.beginPath();g.arc(x,18-h,1.15,0,6.283);g.fill();if(p>.45){g.beginPath();g.arc(x,18-h*.55,1,0,6.283);g.fill()}});
+  function wave(){var H=document.documentElement,rm=H.classList.contains('rm'),rr=H.getAttribute('data-red-tone')==='rose'?'255,176,184':'255,68,87';
+    g.clearRect(0,0,c.width,c.height);g.fillStyle=rm?'rgb('+rr+')':'#e8e4dc';
+    peaks.forEach(function(p,i){var x=4+i*9,h=Math.max(2,p*16);g.beginPath();g.arc(x,18-h,1.15,0,6.283);g.fill();if(p>.45){g.beginPath();g.arc(x,18-h*.55,1,0,6.283);g.fill()}});}
+  wave();try{new MutationObserver(wave).observe(document.documentElement,{attributes:true,attributeFilter:['class','data-red-tone']})}catch(e){}
   var s=document.createElement('span');s.textContent='To Go · Lost Coffee';
   BAR.appendChild(c);BAR.appendChild(s);
   BAR.addEventListener('pointerdown',function(e){

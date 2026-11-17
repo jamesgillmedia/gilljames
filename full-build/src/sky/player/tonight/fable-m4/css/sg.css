@@ -1,0 +1,81 @@
+/* fable-m4 · the smoked-glass arrival (Pack 1116 §1, option c). Ported by hand from gilljames 58a8e2b, site-v3-3d/?arrival=v1:
+   the Moonwater backdrop and the arrival's own rules from site-v3 css/v3.css, the moon on the water, the dotted Mark, the touch ripples and the
+   side dial from site-v3-3d css/fold.css. Everything is scoped to #sga and #fold-dial, so nothing in the m4 sky is restyled. */
+html.sg-pref #moon,html.sg-pref #path,html.sg-pref #horizon,html.sg-pref #poem,html.sg-pref #dive{display:none!important}   /* the crescent opener steps aside while smoked glass is the opener */
+#sga{--cy:rgba(10,189,240,.45);--rd:rgba(254,1,1,.45);--sg-ink:#e8e4dc;--sg-dim:#c9d3d6;--ease:cubic-bezier(.2,.8,.2,1);--tx:0;--ty:0;
+  position:fixed;inset:0;z-index:56;overflow:hidden;background:#04070b;color:#eef3f5;font:300 14px/1.4 Poppins,"Syl",system-ui,sans-serif;-webkit-font-smoothing:antialiased;
+  touch-action:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;opacity:1;transition:opacity .8s linear}
+#sga[hidden]{display:none}
+#sga.out{opacity:0;pointer-events:none}
+#sga .backdrop{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:#04070b;transform:translate3d(calc(var(--tx) * -9px),calc(var(--ty) * -7px),0) scale(1.03);will-change:transform}
+#sga .backdrop img,#sga .backdrop canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%}
+#sga .backdrop canvas{opacity:0;transition:opacity .9s}
+#sga .backdrop canvas.on{opacity:1}
+#sga .bd-hole{position:absolute;z-index:3;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;transform:scale(0);
+  background:radial-gradient(circle,#0a1424 0,#050a14 62%,rgba(5,10,20,0) 70%);box-shadow:0 0 0 1px rgba(190,220,245,.55),0 0 24px rgba(190,220,245,.35);transition:transform .62s cubic-bezier(.5,0,.75,0),opacity .45s}
+#sga .bd-hole.open{transform:scale(260)}
+#sga .bd-flash{position:absolute;z-index:4;width:160px;height:160px;margin:-80px 0 0 -80px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(10,189,240,.55),rgba(10,189,240,.18) 40%,rgba(10,189,240,0) 70%);animation:sg-flash .6s ease-out forwards}
+@keyframes sg-flash{from{opacity:1;transform:scale(.3)}to{opacity:0;transform:scale(1.4)}}
+#sga #fold-moon{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:1;transition:opacity .8s linear}
+#sga.sunk #fold-moon{opacity:0}
+#sga #fold-moon .fm-disc{position:absolute;right:13%;top:9%;width:clamp(46px,11vw,96px);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 38% 36%,#f4f1ea 0,#e8e4dc 38%,#cfcac0 70%,#a9a59c 100%);
+  box-shadow:0 0 30px 6px rgba(232,228,220,.22),0 0 120px 30px rgba(232,228,220,.08);
+  transform:translate3d(calc(var(--tx) * -14px),calc(var(--ty) * -10px),0)}
+#sga #fold-moon .fm-path{position:absolute;right:calc(13% - 40px);width:calc(clamp(46px,11vw,96px) + 80px);top:46%;bottom:0;
+  background:repeating-linear-gradient(180deg,rgba(232,228,220,.0) 0 5px,rgba(232,228,220,.16) 5px 6px,rgba(232,228,220,0) 6px 13px);
+  -webkit-mask-image:radial-gradient(ellipse 50% 70% at 50% 30%,#000 0,transparent 100%);mask-image:radial-gradient(ellipse 50% 70% at 50% 30%,#000 0,transparent 100%);
+  animation:sg-shim 5.6s ease-in-out infinite alternate;transform:translate3d(calc(var(--tx) * -6px),0,0)}
+@keyframes sg-shim{from{background-position:0 0;opacity:.75}to{background-position:0 26px;opacity:1}}
+#sga .sg-main{position:absolute;inset:0;z-index:2;padding:calc(54px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px))}
+#sga .sg-in{max-width:1100px;margin:0 auto}
+#sga .intro{transform:translate3d(calc(var(--tx) * 4px),calc(var(--ty) * 3px),0);transform-origin:0 0}
+#sga .intro.fit{transform:scale(var(--fit,1))}
+#sga #sg-mark{display:block;margin:0 0 14px -6px;padding:0;border:0;background:none;border-radius:14px;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;color:inherit}
+#sga #sg-mark:focus-visible{outline:1px solid rgba(232,228,220,.6);outline-offset:4px}
+#sga #fold-mark{display:block;width:min(74vw,380px);height:auto;aspect-ratio:2.2/1;pointer-events:none}
+#sga .id{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px}
+#sga .name{margin:0;font:400 26px/1.1 "Julius Sans One",sans-serif;letter-spacing:.06em;color:var(--sg-ink);text-transform:uppercase;transform:rotate(-3deg);transform-origin:left center;text-shadow:2px 2px 0 var(--cy),-2px -2px 0 var(--rd)}
+#sga .id .sg-moon{width:64px;height:64px;flex:none;margin:-8px 0;border-radius:50%;visibility:hidden}
+#sga .roles{margin:4px 0 6px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sg-dim)}
+#sga .sg-poem{margin:0 0 6px;padding:0;font-size:13px;line-height:1.32;text-shadow:0 1px 2px #04070b,0 0 14px rgba(4,7,11,.9)}
+#sga .sg-poem span{display:block;will-change:opacity}
+#sga .sg-poem span:nth-child(-n+3){font-size:clamp(20px,5.4vw,30px);line-height:1.22;letter-spacing:.04em;color:var(--sg-ink)}
+#sga .sg-poem span:nth-child(n+4){font-size:13px;line-height:1.6;color:rgba(232,228,220,.62)}
+#sga .sg-poem span:nth-child(4){margin-top:12px}
+#sga .hint{display:table;margin:4px 0 8px;padding:3px 8px;border-radius:8px;background:rgba(3,7,12,.58);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sg-dim);opacity:.7}
+#sga .intro .name,#sga .intro .roles,#sga .intro .sg-poem,#sga .intro .hint,#sga #sg-mark{transition:opacity .5s var(--ease),filter .5s var(--ease)}
+#sga .intro.melt .name,#sga .intro.melt .roles,#sga .intro.melt .sg-poem,#sga .intro.melt .hint,#sga .intro.melt #sg-mark{opacity:0;filter:blur(8px)}
+@media (min-width:700px){#sga .sg-main{padding-left:max(28px,env(safe-area-inset-left,0px));padding-right:max(28px,env(safe-area-inset-right,0px))}}
+@media (min-width:1000px) and (min-height:501px){#sga .intro{max-width:560px}}
+.fold-ripple{position:fixed;left:0;top:0;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;pointer-events:none;z-index:57;
+  border:1px solid rgba(232,228,220,.55);transform:scale(1,.36);animation:fold-rip 1.5s cubic-bezier(.2,.6,.3,1) forwards}
+.fold-ripple.r2{animation-delay:.16s;opacity:0}
+@keyframes fold-rip{0%{opacity:.9;width:10px;height:10px;margin:-5px 0 0 -5px}100%{opacity:0;width:180px;height:180px;margin:-90px 0 0 -90px}}
+/* the side dial: the tune instrument on the right edge */
+#fold-dial{position:fixed;right:0;top:50%;z-index:61;width:34px;height:120px;margin-top:-60px;padding:0;border:1px solid rgba(232,228,220,.2);border-right:0;border-radius:16px 0 0 16px;background:rgba(4,7,11,.54);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:-4px 6px 22px rgba(0,0,0,.46),inset 0 1px 0 rgba(232,228,220,.08);cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:none;
+  transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .3s linear}
+#fold-dial[hidden]{display:none}
+#fold-dial::before{content:"";position:absolute;left:-10px;right:0;top:0;bottom:0}   /* a 44px target for a 34px instrument */
+#fold-dial svg{position:absolute;right:2px;top:0;width:30px;height:120px;overflow:visible}
+#fold-dial .fd-arc{fill:none;stroke:rgba(232,228,220,.62);stroke-width:1.1}
+#fold-dial .fd-tick{stroke:rgba(232,228,220,.65);stroke-width:1}
+#fold-dial .fd-dot{fill:#e8e4dc}
+#fold-dial .fd-lab{font:400 7px "Julius Sans One",Poppins,sans-serif;letter-spacing:.2em;fill:rgba(232,228,220,.88)}
+html.mm-open #fold-dial{transform:translateX(-2px) perspective(200px) rotateY(-24deg)}
+html.mm-open #fold-dial .fd-arc{stroke:rgba(232,228,220,.8)}
+#fold-dial.out{opacity:0;pointer-events:none}
+/* safelight: everything on the arrival goes red, the water and the moon included (they are the atmosphere, not a work) */
+html.rm #sga{--cy:rgba(var(--gj-red-rgb,255,68,87),.0);--rd:rgba(var(--gj-red-rgb,255,68,87),.0);--sg-ink:rgb(var(--gj-red-rgb,255,68,87));--sg-dim:rgba(var(--gj-red-rgb,255,68,87),.78);color:rgb(var(--gj-red-rgb,255,68,87))}
+html.rm #sga .sg-poem span:nth-child(n+4){color:rgba(var(--gj-red-rgb,255,68,87),.66)}
+html.rm #sga .backdrop{filter:grayscale(1) sepia(1) saturate(5.5) hue-rotate(-38deg) brightness(.55) contrast(1.05)}   /* display only: the file is not touched */
+html.rm #sga .bd-flash{background:radial-gradient(circle,rgba(var(--gj-red-rgb,255,68,87),.5),rgba(var(--gj-red-rgb,255,68,87),.16) 40%,rgba(var(--gj-red-rgb,255,68,87),0) 70%)}
+html.rm #sga .bd-hole{background:radial-gradient(circle,#140406 0,#0a0203 62%,rgba(10,2,3,0) 70%);box-shadow:0 0 0 1px rgba(var(--gj-red-rgb,255,68,87),.55),0 0 24px rgba(var(--gj-red-rgb,255,68,87),.35)}
+html.rm .fold-ripple{border-color:rgba(var(--gj-red-rgb,255,68,87),.55)}
+html.rm #fold-dial{background:rgba(12,3,4,.68);border-color:rgba(var(--gj-red-rgb,255,68,87),.36)}
+html.rm #fold-dial .fd-arc,html.rm #fold-dial .fd-tick{stroke:rgba(var(--gj-red-rgb,255,68,87),.7)}
+html.rm #fold-dial .fd-dot{fill:rgb(var(--gj-red-rgb,255,68,87))}
+html.rm #fold-dial .fd-lab{fill:rgba(var(--gj-red-rgb,255,68,87),.9)}
+@media (prefers-reduced-motion:reduce){#sga,#sga .backdrop,#sga .intro,#fold-dial,html.mm-open #fold-dial{transition:none!important;transform:none!important}#sga #fold-moon .fm-path{animation:none}.fold-ripple,#sga .bd-flash{display:none}}
+#ghostdial .gd-bg{fill:rgba(4,7,11,.52);stroke:rgba(var(--gd-ink),.18);stroke-width:1}
+html.rm #ghostdial .gd-bg{fill:rgba(12,3,4,.66);stroke:rgba(var(--gd-ink),.32)}

@@ -7,8 +7,15 @@
 <meta name="theme-color" content="#04070b">
 <style>html,body{margin:0;background:#04070b}</style>
 <!-- about-1113: About is the magic sky's own About room (fable-m4 #about/bio): the bio calculator in 2D / 3D, the seven layers,
-     the moon grid, Red, the tune menu, the Safelight and the ghost dial all live there. This page only hands over (query kept, e.g. ?theme=red). -->
-<script>location.replace('../../fable-m4/'+location.search+'#about/bio')</script>
+     the moon grid, Red, the tune menu, the Safelight and the ghost dial all live there. This page only hands over (query kept, e.g. ?theme=red).
+     rebuild port 4: it handed over to ../../fable-m4/, which is not in the full build (404). It hands over to the sky this build has
+     (the address graph.js keeps for "bio"; nothing is probed). It also passes on whether its visitor came from inside the site,
+     so the bio opens as one step and Back returns to the page they came from. -->
+<script>(function(){
+  var B='../../../player/tonight/fable-m4/',tail=location.search+'#about/bio';
+  try{var r=document.referrer?new URL(document.referrer):null;sessionStorage.setItem('gj.from',r&&r.origin===location.origin&&history.length>1?'in':'out')}catch(e){}
+  location.replace(B+tail);
+})()</script>
 </head>
-<body><noscript><a href="../../fable-m4/#about/bio" style="color:#e8e4dc">about</a></noscript><link rel="stylesheet" href="../../../../../chrome.css"><script src="../../../../../chrome.js" data-hub="../../../../../index.html" data-rooms="../../../../../rooms.json"></script></body>
+<body><noscript><a href="../../../player/tonight/fable-m4/#about/bio" style="color:#e8e4dc">about</a></noscript><link rel="stylesheet" href="../../../../../chrome.css"><script src="../../../../../chrome.js" data-hub="../../../../../index.html" data-rooms="../../../../../rooms.json"></script></body>
 </html>

@@ -1,0 +1,37 @@
+/* The Mark player · m4 (js/markplayer.js). The room's own chrome is m4's: Julius Sans One labels, Tune's round-ended switches at 44px,
+   the hire card's ×. The rail and the 2.39 frame are Scope's (css/scope.css). The ring is the arrival's (.water .rip in sky.css). */
+#mkp{position:fixed;inset:0;z-index:2147480000;background:#04070b;color:#e6edf0;opacity:0;transition:opacity .4s ease;outline:0;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;--mk:230,237,240}
+#mkp[hidden]{display:none}#mkp.on{opacity:1}
+html.rm #mkp{background:#040102;--mk:var(--gj-red-rgb,255,68,87)}
+#mkp canvas{position:absolute;inset:0;display:block}
+#mkp .mk-water{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+#mkp .mk-t{position:absolute;left:14px;top:calc(env(safe-area-inset-top,0px) + 60px);margin:0;height:44px;display:flex;align-items:center;font:400 10px/1 "Julius Sans One",Poppins,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:rgba(var(--mk),.55);pointer-events:none}
+#mkp .mk-x{position:absolute;right:8px;top:calc(env(safe-area-inset-top,0px) + 60px);width:44px;height:44px;margin:0;padding:0;border:0;background:none;color:rgba(var(--mk),.62);font:300 18px/1 Poppins,sans-serif;cursor:pointer;-webkit-appearance:none;appearance:none}
+#mkp .mk-opts{position:absolute;left:0;right:0;top:calc(env(safe-area-inset-top,0px) + 100px);display:flex;justify-content:center;gap:6px;transition:opacity .3s;pointer-events:none}
+#mkp .mk-opts button{pointer-events:auto}
+#mkp .mk-opts button{box-sizing:border-box;min-width:44px;min-height:44px;margin:0;padding:0 14px;border:1px solid rgba(var(--mk),.22);border-radius:999px;background:rgba(4,7,11,.35);color:rgba(var(--mk),.72);font:300 10px/1 Poppins,sans-serif;letter-spacing:.03em;cursor:pointer;-webkit-appearance:none;appearance:none}
+#mkp .mk-opts button[aria-checked=true]{color:#04070b;background:rgb(var(--mk));border-color:transparent}
+#mkp .mk-rail{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 10px);margin:0;padding:0 calc(10px + env(safe-area-inset-right,0px)) 0 calc(10px + env(safe-area-inset-left,0px));max-width:1100px;margin-left:auto;margin-right:auto;transition:opacity .3s}
+#mkp .mk-rail .sc-lab{min-height:36px}
+/* the 2.39 frame a frame grows into, and Scope's chrome under it */
+#mkp .mk-stage{position:absolute;left:50%;transform:translateX(-50%);aspect-ratio:2.39/1;pointer-events:none;opacity:0}
+#mkp .mk-frame{position:absolute;left:50%;top:50%;translate:-50% -50%;width:100%;height:100%;overflow:hidden;background:#000;cursor:pointer}
+#mkp .mk-frame>img,#mkp .mk-frame>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+#mkp .mk-sc{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 8px);padding:0 calc(10px + env(safe-area-inset-right,0px)) 0 calc(10px + env(safe-area-inset-left,0px));max-width:1100px;margin:0 auto;opacity:0;pointer-events:none;transition:opacity .35s}
+#mkp.mk-clip .mk-stage{opacity:1;pointer-events:auto}
+#mkp.mk-clip .mk-sc{opacity:1;pointer-events:auto}
+#mkp.mk-going .mk-opts,#mkp.mk-going .mk-rail{opacity:0;pointer-events:none}
+#mkp canvas{transition:opacity .5s}#mkp.mk-clip canvas{opacity:0}
+/* Scope's full screen from inside the room */
+#mkp.sfull .mk-stage{position:fixed;inset:0;left:0;top:0!important;width:auto!important;transform:none;aspect-ratio:auto;z-index:3;background:#000}
+#mkp.sfull .mk-sc{position:fixed;z-index:4;bottom:0;max-width:none;padding-top:18px;padding-bottom:calc(6px + env(safe-area-inset-bottom,0px));background:linear-gradient(transparent,rgba(0,0,0,.72) 30%,rgba(0,0,0,.85))}
+#mkp.sfull .scope .sc-strip{display:none}#mkp.sfull.calm .mk-sc{opacity:0;pointer-events:none}
+#mkp.sfull .mk-t,#mkp.sfull .mk-x{display:none}
+html.mk-on #markmenu{z-index:2147480500}
+@media (max-width:520px){#mkp .mk-opts button{padding:0 11px}}
+@media (prefers-reduced-motion:reduce){#mkp{transition:none}}
+/* Scope inside the room shows its own play / pause and full-screen buttons, as on a film page */
+#mkp .scope.own .sc-pp,#mkp .scope.own .sc-fs{display:inline-grid}
+#mkp .scope.silent [data-s=snd]{display:none}
+/* safelight: the chosen drawing's switch is a red fill (said twice, for the shared red mode and for m4's own) */
+html.rm #mkp .mk-opts button[aria-checked=true],html[data-theme=red] #mkp .mk-opts button[aria-checked=true]{background:var(--gj-red-ink,#ff4457);color:#000;border-color:transparent}
