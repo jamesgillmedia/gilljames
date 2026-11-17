@@ -13,8 +13,9 @@ html.gj-nomoon .moon, html.gj-nomoon #moon, html.gj-nomoon [data-moon]{opacity:0
 #gj-back { top: calc(env(safe-area-inset-top) + 8px); left: 8px; padding: 0 12px; gap: 6px; }
 #gj-back b { font: 700 18px Syl, "Noto Sans Canadian Aboriginal", sans-serif; font-weight: 700; }
 #gj-red, #gj-dial { top: calc(env(safe-area-inset-top) + 8px); }
-#gj-red { right: 8px; width: 44px; padding: 0; }
-#gj-red i { width: 10px; height: 10px; border-radius: 50%; background: #c9d3d6; display: block; }
+#gj-red { top: calc(env(safe-area-inset-top) + 14px); right: 14px; box-sizing: border-box; width: 32px; height: 32px; min-width: 32px; min-height: 32px; padding: 0; }
+#gj-red::before { content: ""; position: absolute; top: -7px; right: -7px; bottom: -7px; left: -7px; }
+#gj-red i { width: 8px; height: 8px; border-radius: 50%; background: #c9d3d6; display: block; }
 #gj-dial { right: 58px; padding: 0 12px; letter-spacing: .08em; }
 #gj-drawer {
   position: fixed; z-index: 2147483000; top: 0; right: 0; bottom: 0; width: min(360px, 100vw);
