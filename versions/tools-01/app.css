@@ -1,0 +1,176 @@
+/* tools: phone prototype of the Master shell and the Safelight room.
+   Every value here is the site's own. The source is named beside each block, relative to the 16 Nov 2026 return's full-build/.
+   m4 = src/sky/player/tonight/fable-m4/ */
+
+/* type: m4/css/page.css L2-4. The three files are the site's. */
+@font-face{font-family:Poppins;font-weight:200;font-display:swap;src:url(fonts/poppins-200.woff2) format("woff2")}
+@font-face{font-family:Poppins;font-weight:300;font-display:swap;src:url(fonts/poppins-300.woff2) format("woff2")}
+@font-face{font-family:"Julius Sans One";font-weight:400;font-display:swap;src:url(fonts/julius-sans-one.woff2) format("woff2")}
+
+/* ink and ground: m4/css/page.css L5. --mint is the warm paper ink, never the green dot. */
+:root{
+  --bg:#04070b; --ink:#eef3f5; --dim:#c9d3d6; --meta:#93a1a6; --mint:#e8e4dc; --mint-rgb:232,228,220;
+  --line:rgba(255,255,255,.14);
+  --rule:rgba(200,225,255,.08);            /* chrome.css L33 */
+  --hair:rgba(200,225,255,.22);            /* chrome.css L8 */
+  --horizon:rgba(255,255,255,.45);         /* m4/css/sky.css L37 */
+  --gj-red-ink:#ff4457; --gj-red-rgb:255,68,87;      /* chrome.css L53 */
+  --st:env(safe-area-inset-top,0px); --sb:env(safe-area-inset-bottom,0px);
+}
+html[data-red-tone=rose]{--gj-red-ink:#ffb0b8;--gj-red-rgb:255,176,184}      /* chrome.css L54 */
+/* red mode: m4/css/page.css L81 (crimson) and L105 (rose); the page ground is chrome.css L48 */
+html.rm{--bg:#060304;--ink:rgba(251,67,86,1);--dim:rgba(240,64,82,1);--meta:rgba(224,60,76,1);--mint:rgba(246,66,84,1);--mint-rgb:246,66,84;
+  --line:rgba(255,68,87,.14);--rule:rgba(var(--gj-red-rgb),.1);--hair:rgba(var(--gj-red-rgb),.3);--horizon:rgba(var(--gj-red-rgb),.45)}
+html.rm[data-red-tone=rose]{--ink:rgba(251,173,181,1);--dim:rgba(240,166,173,1);--meta:rgba(224,155,162,1);--mint:rgba(246,170,178,1);--mint-rgb:246,170,178;--line:rgba(255,176,184,.14)}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;overflow:hidden;background:var(--bg);color:var(--ink);
+  font:300 14px/1.45 Poppins,system-ui,sans-serif;                            /* m4/css/sky.css L9 */
+  -webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-user-select:none;user-select:none}
+.sr{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:1.5px solid var(--mint);outline-offset:3px}             /* the site's selected outline, page.css L76 */
+
+/* the sky: stage wash m4/css/sky.css L16-17; the red page is page.css L82 (and L106 for rose) without its two css dots: the canvas draws the stars */
+#stage{position:fixed;inset:0;background-color:var(--bg);
+  background-image:radial-gradient(120% 80% at 50% 42%,#121c2e 0%,#070d18 52%,#04070b 100%)}
+html.rm #stage{background-image:radial-gradient(ellipse at 50% 0,rgba(25,7,9,1),var(--bg) 70%)}
+html.rm[data-red-tone=rose] #stage{background-image:radial-gradient(ellipse at 50% 0,rgba(25,17,18,1),var(--bg) 70%)}
+#cv{position:fixed;inset:0;width:100%;height:100%;display:block;pointer-events:none}
+/* horizon: m4/css/sky.css L36-38 */
+.horizon{position:fixed;left:8%;right:8%;top:61%;height:1px;pointer-events:none;opacity:.7;
+  background:linear-gradient(90deg,transparent,var(--horizon),transparent)}
+html.v-watch .horizon{display:none}
+
+.view{position:absolute;inset:0;display:none}
+html.v-sky #v-sky,html.v-watch #v-watch,html.v-safelight #v-safelight{display:block}
+
+/* ---- sky home ---- */
+/* title: Julius, tracked like the site signature, without the chromatic fringe (sky.css L49 is for his name only) */
+.title{position:absolute;left:0;right:0;top:14%;margin:-8px 0 0;padding-left:.18em;text-align:center;
+  font:400 16px/1 "Julius Sans One",sans-serif;letter-spacing:.18em;text-transform:lowercase;color:var(--ink)}
+.lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.lines line{stroke:var(--line);stroke-opacity:.62;stroke-width:1;vector-effect:non-scaling-stroke}
+/* a room: a small paper-ink disc with a quiet glow, its name under it. The control is 44 x 44. */
+.node{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;padding:0;border:0;background:none;color:var(--dim);border-radius:22px}
+.node i{position:absolute;left:50%;top:50%;width:5px;height:5px;margin:-2.5px 0 0 -2.5px;border-radius:50%;
+  background:var(--mint);box-shadow:0 0 6px 1px rgba(var(--mint-rgb),.42)}
+/* room names: Poppins 300 10px .16em uppercase, the role of FILM / PHOTO / SOUND on the site sky (m4/css/scope.css L39) */
+.node span{position:absolute;left:50%;top:calc(50% + 12px);transform:translateX(-50%);padding-left:.16em;white-space:nowrap;
+  font:300 10px/1 Poppins,sans-serif;letter-spacing:.16em;text-transform:uppercase}
+.node.later{opacity:.55}                                                       /* not built yet: visible, dim, name stays */
+.cap{position:absolute;left:0;right:0;bottom:calc(var(--sb) + 62px);margin:0;text-align:center;pointer-events:none;
+  font:300 10px/1.3 Poppins,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--meta);
+  opacity:0;transition:opacity .25s linear}                                    /* fade: page.css L77 */
+.cap.on{opacity:1}
+/* foot: m4/css/sky.css L55 (10px, .14em) in --dim */
+.foot{position:absolute;left:50%;bottom:calc(var(--sb) + 15px);transform:translateX(-50%);min-height:44px;padding:0 16px 0 calc(16px + .14em);
+  border:0;background:none;white-space:nowrap;border-radius:22px;
+  font:300 10px/1 Poppins,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+
+/* ---- watch pairing: the drawer's language on the sky (chrome.css L26-33; heading page.css L37) ---- */
+#v-watch{padding-top:calc(var(--st) + 85px);overflow:auto;-webkit-overflow-scrolling:touch}
+.h{margin:0 16px;font:400 13px/1 "Julius Sans One",sans-serif;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
+.err{margin:10px 16px 0;font:300 12px/1.35 Poppins,sans-serif;color:var(--meta)}
+.rows{list-style:none;margin:17px 16px 0;padding:0}
+.rows li{display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:40px;
+  border-bottom:1px solid var(--rule);font:300 13px/1.4 Poppins,sans-serif;color:var(--ink)}
+.rows li b{font-weight:300;font-size:11px;letter-spacing:.08em;color:var(--meta);white-space:nowrap}
+.note{margin:14px 16px 0;font:300 12px/1.35 Poppins,sans-serif;letter-spacing:.04em;color:var(--meta)}
+.act{margin:22px 16px calc(var(--sb) + 24px)}
+/* a pill is the chrome's own: chrome.css L4-12 */
+.pill{min-height:44px;padding:0 18px;border-radius:22px;border:1px solid var(--hair);
+  background:rgba(6,10,18,.62);color:#e6edf0;font:300 13px Poppins,system-ui,sans-serif}
+html.rm .pill{color:var(--gj-red-ink);background:rgba(8,2,3,.62)}
+
+/* ---- the Safelight room ---- */
+/* its face sits above the Full Safelight layers, like the pills */
+#sl{position:fixed;left:0;right:0;top:49.6%;transform:translateY(-50%);z-index:2147482995;display:none;text-align:center;pointer-events:none}
+html.v-safelight #sl{display:block}
+html.tune #sl{visibility:hidden}                                              /* Tune is glass: the room's face steps back while it is open */
+/* timer: Poppins 200, 30px, .08em; fixed cells so the figures do not shuffle */
+.timer{font:200 30px/1 Poppins,sans-serif;letter-spacing:.08em;color:var(--ink);padding-left:.08em;white-space:nowrap}
+.timer span{display:inline-block;width:.62em;text-align:center}
+.timer span.c{width:.3em}
+/* title: Julius 18px .18em lowercase (page.css L37); under a running time it is the Mark-title size, 11px .2em (m4/css/markplayer.css L8) */
+.name{margin:0;padding-left:.18em;font:400 18px/1 "Julius Sans One",sans-serif;letter-spacing:.18em;text-transform:lowercase;color:var(--ink)}
+.timer:not([hidden]) + .name{margin-top:11px;padding-left:.2em;font-size:11px;letter-spacing:.2em}
+#arcs{position:absolute;left:50%;top:50%;width:300px;height:300px;margin:-150px 0 0 -150px;display:none;overflow:visible}
+#arcs path{fill:none;stroke-width:1;stroke-linecap:round;vector-effect:non-scaling-stroke}
+/* Full Safelight in this room: it is a work light, so the ground is lit. The ground is the page ink at about a third strength;
+   the three layers (chrome.js L19) turn that into the red. No red is painted here. The wash is the stage's own shape, not a flat fill. */
+html.rm.fs.v-safelight #stage{background-color:#000;
+  background-image:radial-gradient(120% 80% at 50% 46%,rgba(238,243,245,.38) 0%,rgba(238,243,245,.31) 52%,rgba(238,243,245,.25) 100%)}
+html.rm.fs.v-safelight .horizon{display:none}
+html.rm.fs.v-safelight .timer{color:#ffb0b8;font-weight:300}                                   /* the rose ink (chrome.css L54): the one red-family ink that reads on a lit ground */
+html.rm.fs.v-safelight .name{color:#ff6a2c}                                    /* the Full Safelight hairline orange (chrome.css L76) */
+html.rm.fs.v-safelight #arcs{display:block}
+html.rm.fs.v-safelight #arcs .a1{stroke:rgba(255,106,44,.6)}
+html.rm.fs.v-safelight #arcs .a2{stroke:rgba(255,106,44,.3)}
+
+/* ---- chrome: chrome.css L4-18, as on the site ---- */
+#gj-back,#gj-red,#gj-dial{
+  position:fixed;z-index:2147483000;
+  font:300 13px Poppins,system-ui,sans-serif;
+  color:#e6edf0;background:rgba(6,10,18,.62);
+  border:1px solid rgba(200,225,255,.22);
+  border-radius:22px;min-height:44px;min-width:44px;
+  cursor:pointer;text-decoration:none;
+  display:inline-flex;align-items:center;justify-content:center;
+  touch-action:manipulation;-webkit-user-select:none;user-select:none}
+#gj-back{top:calc(var(--st) + 8px);left:8px;padding:0 12px;gap:6px}
+/* the way back is a word, not the monogram: the archive's wordmark type (archive.css L69-71) */
+#gj-back b{font:400 12px/1 "Julius Sans One",sans-serif;letter-spacing:.2em;text-transform:lowercase;padding-top:1px}
+html.v-sky #gj-back{display:none}                                              /* chrome.css L44: no way back on the hub itself */
+#gj-red,#gj-dial{top:calc(var(--st) + 8px)}
+#gj-red{right:8px;width:44px;padding:0;-webkit-touch-callout:none}
+#gj-red i{width:10px;height:10px;border-radius:50%;background:#c9d3d6;display:block}
+#gj-dial{right:58px;padding:0 12px;letter-spacing:.08em}
+/* drawer: chrome.css L19-38 */
+#gj-drawer{
+  position:fixed;z-index:2147482999;       /* under the three pills, so the dot and Tune stay in reach; over the layers and the room's face */top:0;right:0;bottom:0;width:min(360px,100vw);
+  background:rgba(6,10,16,.88);color:#e6edf0;
+  border-left:1px solid rgba(200,225,255,.16);
+  transform:translateX(104%);transition:transform .35s ease;visibility:hidden;
+  overflow:auto;-webkit-overflow-scrolling:touch;
+  padding:calc(var(--st) + 64px) 16px calc(var(--sb) + 24px);
+  font:300 13px/1.4 Poppins,system-ui,sans-serif}
+#gj-drawer.on{transform:none;visibility:visible}
+#gj-drawer h2{margin:18px 0 8px;font:400 11px "Julius Sans One",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#9eb0b6}
+#gj-drawer label.row,#gj-drawer a.row{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  min-height:44px;color:inherit;text-decoration:none;
+  border-bottom:1px solid rgba(200,225,255,.08)}
+/* the site lights a drawer link mint at night (chrome.css L35). Here the dot is the only mint, so a link underlines instead. */
+#gj-drawer a.row:hover,#gj-drawer a.row:focus-visible{text-decoration:underline}
+#gj-drawer button.tog,#gj-drawer input{
+  font:inherit;color:#e6edf0;background:transparent;
+  border:1px solid rgba(200,225,255,.25);border-radius:14px;min-height:32px;padding:0 10px}
+#gj-drawer button.tog{position:relative}
+#gj-drawer button.tog::after{content:"";position:absolute;inset:-6px 0}        /* the pill is 32 high, the touch target 44 */
+#gj-drawer input{width:150px;text-align:right}
+#gj-drawer .num{font:400 12px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em}   /* tabular time: page.css L61 */
+#gj-drawer .v{color:#9eb0b6;font-size:11px;letter-spacing:.08em}
+#gj-drawer [hidden]{display:none!important}
+/* red mode: chrome.css L47-66. In red mode everything is red and the lit dot is the one mint thing. */
+html.rm #gj-back,html.rm #gj-dial,html.rm #gj-red{color:var(--gj-red-ink);background:rgba(8,2,3,.62);border-color:rgba(var(--gj-red-rgb),.3)}
+html.rm #gj-red i{background:#55DAA1;box-shadow:0 0 7px 1px rgba(85,218,161,.7)}
+html.rm #gj-drawer{color:var(--gj-red-ink);background:rgba(8,2,3,.9);border-left-color:rgba(var(--gj-red-rgb),.2)}
+html.rm #gj-drawer h2{color:rgba(var(--gj-red-rgb),.6)}
+html.rm #gj-drawer label.row,html.rm #gj-drawer a.row{border-bottom-color:rgba(var(--gj-red-rgb),.1)}
+html.rm #gj-drawer button.tog,html.rm #gj-drawer input{color:var(--gj-red-ink);border-color:rgba(var(--gj-red-rgb),.3)}
+html.rm #gj-drawer .v{color:rgba(var(--gj-red-rgb),.6)}
+html.rm img,html.rm video{filter:none!important}                               /* chrome.css L49: photographs and video are never filtered */
+/* full safelight: chrome.css L68-80. Three display-only layers; their colours and blend modes are set on the elements by app.js. */
+.gj-fsl{position:fixed;inset:0;z-index:2147482990;pointer-events:none;display:none}
+html.rm.fs .gj-fsl{display:block}
+html.rm.fs #gj-back,html.rm.fs #gj-dial,html.rm.fs #gj-red{color:var(--gj-red-ink);background:rgba(10,2,2,.72);border-color:rgba(255,106,44,.6)}
+html.rm.fs #gj-red{box-shadow:0 0 0 1px rgba(var(--gj-red-rgb),.38),0 0 16px rgba(255,106,44,.24)}
+html.rm.fs #gj-drawer{border-left-color:rgba(255,106,44,.4)}
+#gj-red.gj-holding{box-shadow:0 0 0 6px rgba(255,68,87,.2);transition:box-shadow .5s ease-out}
+
+/* reduced motion: chrome.css L42-43, and the same for the app's own setting */
+@media (prefers-reduced-motion:reduce){#gj-drawer,.cap{transition:none}}
+html.rmo #gj-drawer,html.rmo .cap{transition:none}
+@media print{.gj-fsl{display:none!important}}

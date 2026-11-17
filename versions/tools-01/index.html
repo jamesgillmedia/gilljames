@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#04070b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png">
+<title>tools</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<!-- Phone prototype of the Master shell and the Safelight room. Concept only: not published, not a shipping app.
+     Tokens and chrome are the site's own (chrome.css, page.css, sky.css of the 16 Nov 2026 return). No watch: a web page cannot pair one. -->
+<div id="stage" aria-hidden="true"></div>
+<canvas id="cv" aria-hidden="true"></canvas>
+<div class="horizon" aria-hidden="true"></div>
+
+<main id="v-sky" class="view" aria-label="tools">
+  <h1 class="title">tools</h1>
+  <svg class="lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg>
+  <nav id="rooms" aria-label="rooms"></nav>
+  <p id="cap" class="cap" aria-hidden="true"></p>
+  <button id="foot" class="foot" type="button"></button>
+</main>
+
+<main id="v-watch" class="view" aria-label="watch pairing">
+  <h2 class="h">Watch</h2>
+  <p id="werr" class="err" hidden></p>
+  <ul id="wrows" class="rows"></ul>
+  <p class="note">One red mode. One Full Safelight.<br>Held on the phone, followed on the watch.</p>
+  <p class="act"><button id="wopen" class="pill" type="button">Open Watch app</button></p>
+</main>
+
+<main id="v-safelight" class="view" aria-label="safelight"></main>
+
+<!-- the Safelight room's own face: it sits above the Full Safelight layers, like the pills, so the time can be read on the lit ground -->
+<div id="sl" aria-hidden="false">
+  <svg id="arcs" viewBox="-150 -150 300 300" aria-hidden="true">
+    <path class="a1" d=""/><path class="a2" d=""/>
+  </svg>
+  <div id="timer" class="timer" role="timer" aria-live="off" aria-label="timer" hidden></div>
+  <h1 id="slname" class="name">safelight</h1>
+</div>
+
+<button id="gj-back" type="button" aria-label="back to the tools sky"><span aria-hidden="true">‹</span> <b>tools</b></button>
+<button id="gj-dial" type="button" aria-expanded="false" aria-controls="gj-drawer">tune</button>
+<button id="gj-red" type="button" aria-pressed="false" aria-label="Red mode, off"><i></i></button>
+
+<aside id="gj-drawer" aria-label="tune" aria-hidden="true">
+  <h2>light</h2>
+  <label class="row"><span>Red mode</span><button class="tog" id="t-red" type="button"></button></label>
+  <label class="row"><span>Full Safelight</span><button class="tog" id="t-fs" type="button"></button></label>
+  <label class="row"><span>Red tone</span><button class="tog" id="t-tone" type="button"></button></label>
+  <h2>safelight timer</h2>
+  <label class="row"><span id="t-time" class="num">00:00:00</span><button class="tog" id="t-timer" type="button"></button></label>
+  <label class="row" id="t-reset-row"><span>Clear the time</span><button class="tog" id="t-reset" type="button">clear</button></label>
+  <h2>sky</h2>
+  <label class="row"><span>Stars</span><button class="tog" id="t-stars" type="button"></button></label>
+  <label class="row"><span>Reduced motion</span><button class="tog" id="t-motion" type="button"></button></label>
+  <h2>golden hour</h2>
+  <label class="row"><span>Default place</span><input id="t-place" type="text" maxlength="40" autocomplete="off" spellcheck="false" aria-label="default place for Golden Hour"></label>
+  <h2>watch</h2>
+  <a class="row" id="t-watch" href="#/watch"><span>Watch pairing</span><span id="t-watch-v" class="v"></span></a>
+</aside>
+
+<p id="say" class="sr" role="status" aria-live="polite"></p>
+
+<script src="store.js"></script>
+<script src="sky.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
