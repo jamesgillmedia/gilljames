@@ -84,6 +84,11 @@ function boot(d){
       if(it.in_progress)progress.push(it);else c.skyItems.push(it);
     });
   });
+  /* Pack A: a film that is off the site for now is set aside here. It is on no board and in no list and cannot be opened; in the
+     constellation its place stays, as a bare star, so every other film is exactly where it was. */
+  Object.keys(CH).forEach(function(k){var c=CH[k],off=function(x){return x.chapter==='film'&&OFFPATH.indexOf(x.slug)>=0};c.ghosts=[];
+    c.skyItems.forEach(function(x,i){if(!off(x))return;var nx=null;for(var j=i+1;j<c.skyItems.length;j++)if(!off(c.skyItems[j])){nx=c.skyItems[j];break}x.off=1;c.ghosts.push({it:x,before:nx})});
+    if(!c.ghosts.length)return;c.skyItems=c.skyItems.filter(function(x){return !off(x)});c.items=c.items.filter(function(x){return !off(x)});c.ghosts.forEach(function(q){delete byId[q.it.id]})});
   /* In progress sits by the mark: the carve, the three boards, and the Lost Coffee songs. */
   if(byId['sound/to-go']&&progress.indexOf(byId['sound/to-go'])<0)progress.push(byId['sound/to-go']);
   d.tracks.forEach(function(t){
@@ -263,7 +268,8 @@ function drawField(fa){
 }
 
 function placeChapter(c){
-  var S=SH[c.k],items=c.skyItems,cw=c.k==='photo'||c.k==='objects'?60:74,chh=c.k==='photo'||c.k==='objects'?78:56;
+  var S=SH[c.k],items=c.skyItems.slice(),cw=c.k==='photo'||c.k==='objects'?60:74,chh=c.k==='photo'||c.k==='objects'?78:56;
+  (c.ghosts||[]).forEach(function(q){var at=q.before?items.indexOf(q.before):-1;if(at<0)items.push(q.it);else items.splice(at,0,q.it)});   /* Pack A: places held for films that are off the site */
   if(c.k==='about'){cw=120;chh=40}
   var n=Math.max(items.length,1),A=Math.max(n*cw*chh*1.35,380*190),q=PORT?.92:.5;
   var bw=Math.sqrt(A/q),bh=bw*q;if(c.k==='about')bw=Math.max(bw,PORT?300:420);
@@ -273,7 +279,7 @@ function placeChapter(c){
   var list=items.slice().sort(function(a,b){return (b.isNew-a.isNew)||(a.i-b.i)});
   var placed=[],ii=0;c.node=[];
   function ok(x,y){for(var i=0;i<placed.length;i++){var p=placed[i];if(Math.abs(p.ox-x)<cw*.92&&Math.abs(p.oy-y)<chh*.92)return false}return true}
-  order.forEach(function(p){if(ii>=list.length)return;if(ok(p.ox,p.oy)){var it=list[ii++];it.ox=p.ox;it.oy=p.oy;it.b=p.b;it.sh=1;placed.push(it);c.node[p.i]=it}});
+  order.forEach(function(p){if(ii>=list.length)return;if(ok(p.ox,p.oy)){var it=list[ii++];it.ox=p.ox;it.oy=p.oy;it.b=p.b;it.sh=1;placed.push(it);if(!it.off)c.node[p.i]=it}});
   var cand=[];
   for(var r=-8;r<=8;r++)for(var qq=-8;qq<=8;qq++){var x=(qq+((r&1)?.5:0))*cw,y=r*chh;cand.push({x:x,y:y,d:Math.pow(x/(bw/2),2)+Math.pow(y/(bh/2),2)})}
   cand.sort(function(a,b){return a.d-b.d});
@@ -435,7 +441,7 @@ function arriveAt(st,instant){
   }
   if(RM)instant=true;
   if(st&&st.k==='film'&&st.lv===1&&!st.b&&!st.cards&&dec('film')==='board'){st.b=1;if(st!==cur&&cur.k==='film'&&cur.lv===1)cur.b=1}
-  if(st&&st.k==='photo'&&st.lv===1&&st.b&&dec('photo')==='A'){location.href='../photo-lab/';return}
+  if(st&&st.k==='photo'&&st.lv===1&&st.b&&dec('photo')==='A'){location.href=(window.GJ&&GJ.graph&&GJ.graph.url('photo-lab'))||'../photo-lab/';return}
   var to=camFor(st);
   var fb=(st.k==='film'&&((st.lv===1&&st.b)||st.lv>=2))?1:0;
   if(!FSCRUB)aim(fsnS,fb,instant);
@@ -1764,6 +1770,7 @@ function bind(){
       e.stopPropagation();
       var jump=b.getAttribute('data-jump');
       if(jump==='poem'){go({lv:2,k:'about',id:'about/poem'});return}
+      if(jump==='bio'){go({lv:2,k:'about',id:'about/bio'});return}   /* rebuild port 4: one step into the bio room; Back is one step out */
       if(jump==='joio'){go({lv:2,k:'objects',id:'objects/joio'});return}
       var k=b.getAttribute('data-ch');if(k)go({lv:1,k:k,id:null});
     });
@@ -1870,7 +1877,7 @@ function songTapOpens(im){
   return false;
 }
 function onPtrDown(e){
-  if(e.target&&e.target.closest&&e.target.closest('#gjdbg'))return;
+  if(e.target&&e.target.closest&&e.target.closest('#gjdbg,#mkp,#gj-map,#fam'))return;   /* a layer over the sky: the sky does not hear its pinches */
   if(filmSnapBusy())armSwallow();
   if(e.pointerType==='mouse'&&!e.buttons)return;
   PT[e.pointerId]={x:e.clientX,y:e.clientY};
@@ -2469,8 +2476,8 @@ function back(){
   if(phase==='arrive'||phase==='fly'){dive();return}
   if(cur.lv===0&&!bioOn){
     if(phase==='sky'){
-      if(document.referrer)history.back();
-      else location.assign('../hub/');
+      /* rebuild port 1: the sky is the floor. One step back only to a page of this site (the field is on the map: graph.js) */
+      if(cameFromInside())history.back();
     }
     return;
   }
@@ -2486,7 +2493,7 @@ function stepOut(){
 var STEP=0,BTOUCH=null,PEND=null;
 function snap(c){return {lv:c.lv,k:c.k,id:c.id,b:c.b?1:0,cards:c.cards?1:0}}
 function onBoard(){return cur.lv>=2||(cur.lv===1&&(!!cur.b||cur.k==='progress'))}
-function pushStep(){STEP++;HL[STEP]=levelOf(cur);history.pushState({u1:1,cur:snap(cur),n:STEP},'',hashOf(cur))}
+function pushStep(){STEP++;HL[STEP]=levelOf(cur);saveHL();history.pushState({u1:1,cur:snap(cur),n:STEP},'',hashOf(cur))}
 /* One source of truth for the level: 0 sky, 1 chapter (MID), 2 board, 3 work. The crumb and the rail both read it. */
 var HL={};
 function levelOf(c){
@@ -2974,8 +2981,24 @@ function decide(){
   var forceArrive=Q.get('arrive')==='1';
   var forceSky=Q.get('sky')==='1'||Q.get('arrive')==='0';
   var forceLand=Q.get('land')==='1';
+  /* rebuild port 1: a return (browser Back, a reload) lands on the entry it left. Restore that place. Laying the ladder again
+     turned that entry into a second sky (one Back press that did nothing) and dropped the pages ahead of it. */
+  var hs=history.state;
+  if(hs&&hs.u1&&hs.cur){
+    if(hs.mm){try{history.back()}catch(e){}}   /* the entry Tune added while it was open: step off it, same place */
+    STEP=hs.n||0;HL=loadHL();HL[STEP]=levelOf(hs.cur);
+    cur={lv:hs.cur.lv,k:hs.cur.k,id:hs.cur.id,b:hs.cur.b?1:0,cards:hs.cur.cards?1:0};
+    if(window.GJ_DEPTH)GJ_DEPTH.sync(cur,depthApi());
+    if(cur.lv>0){enterSky(true);return}
+    deep=false;
+  }
   if(deep){
-    var st=parseHash(hash);seed(st);enterSky(true);return;
+    var st=parseHash(hash);
+    /* from outside, the ladder is laid so Back climbs to the sky and never drops off the site mid-path. From another page
+       of this site it is one step in, so Back returns to that page. */
+    if(cameFromInside()){cur={lv:st.lv,k:st.k,id:st.id,b:st.b?1:0,cards:st.cards?1:0};STEP=0;HL={};HL[0]=levelOf(cur);saveHL();if(window.GJ_DEPTH)GJ_DEPTH.sync(cur,depthApi())}
+    else seed(st);
+    enterSky(true);return;
   }
   if(forceSky){cur={lv:0,k:null,id:null};enterSky(true);return}
   if(forceLand){phase='land';landI=0;landT=now()+1e9;showLand();return}
@@ -2998,6 +3021,20 @@ function parseHash(h){
   var card=CH[b[0]].items.filter(function(it){return it.slug===b[1]})[0]||byId[b[0]+'/'+b[1]]||byId[b[0]+'/track/'+b[1]];
   return {lv:card?2:1,k:b[0],id:card?card.id:null};
 }
+/* rebuild port 1: the level of each history step survives a reload (this tab only), so the crumb can still jump */
+function saveHL(){try{sessionStorage.setItem('gj.hl',JSON.stringify(HL))}catch(e){}}
+function loadHL(){try{var o=JSON.parse(sessionStorage.getItem('gj.hl')||'{}');return o&&typeof o==='object'?o:{}}catch(e){return {}}}
+/* this site = the build this sky sits in (…/full-build/), or the tonight folder when the sky stands alone */
+function siteRoot(){var m=/^(.*\/full-build\/)/.exec(location.pathname);if(m)return m[1];try{return new URL('../',location.href).pathname}catch(e){return '/'}}
+var FROMIN=null;
+function cameFromInside(){
+  if(FROMIN!==null)return FROMIN;
+  var said=null;try{said=sessionStorage.getItem('gj.from');sessionStorage.removeItem('gj.from')}catch(e){}   /* a hand-over page (the bio room's address) passes this on */
+  if(said==='out')return FROMIN=false;
+  try{if(history.length<2)return FROMIN=false;if(said==='in')return FROMIN=true;if(!document.referrer)return FROMIN=false;var r=new URL(document.referrer);
+    return FROMIN=(r.origin===location.origin&&r.pathname.indexOf(siteRoot())===0&&r.pathname!==location.pathname)}catch(e){return FROMIN=false}
+}
+/* the hub this sky used to fall back to: only if it is really there (it is not in the full build) */
 function seed(st){
   var chain=[{lv:0,k:null,id:null}];
   if(st.lv>=1&&st.k!=='progress')chain.push({lv:1,k:st.k,id:null,b:0});
@@ -3007,7 +3044,7 @@ function seed(st){
   HL={};HL[0]=0;
   history.replaceState({u1:1,cur:chain[0],n:0},'',hashOf(chain[0]));
   for(var i=1;i<chain.length;i++){HL[i]=levelOf(chain[i]);history.pushState({u1:1,cur:chain[i],n:i},'',hashOf(chain[i]))}
-  STEP=chain.length-1;
+  STEP=chain.length-1;saveHL();
   cur=chain[chain.length-1];
   if(window.GJ_DEPTH)GJ_DEPTH.sync(cur,depthApi());
 }
@@ -3168,6 +3205,10 @@ function armToGo(){
     e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();shrinkToGo();
   },true);
 }
+/* next brief §1 · the Mark player reuses the sky's own touch and chime. Exported as they are; nothing above is changed. */
+window.GJ_SKYFX={note:noteTouch,glowing:function(){return !!glow},glowOn:function(G){var k=g;g=G;try{drawGlow()}finally{g=k}},ripple:rippleAt,chime:chime,PENT:PENT,strokes:function(){return STROKES},dpr:function(){return DPR}};
+/* Pack A: these films stay off the site for now (see boot and placeChapter). data.json itself is not changed. */
+var OFFPATH=["hike", "reel-24"];
 fetch('data.json').then(function(r){return r.json()}).then(boot).catch(function(err){
   var w=$('where');if(w)w.textContent='could not read the works';
   console.error(err);

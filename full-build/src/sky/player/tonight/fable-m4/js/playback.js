@@ -32,7 +32,7 @@ var LOOP = {
   "reel-2026":{mp4:"../../../../../v33d/site-v3/media/reel/reel-v7-720.mp4",poster:"../media/v3/media/reel/poster-960.jpg"},
   "cinematography-demo-reel-2025":{mp4:"../../../../../v33d/site-v3/media/reel/reel-v7-720.mp4",poster:"../media/pro2/img/films/01-720.webp"},
   "one-with-the-devil":{mp4:"../../../../tonight/stills/media/proxies/one-with-the-devil.mp4",poster:"../media/owtd/stills/09_landscape.jpg"},
-  "celebraciones":{poster:"../media/pro2/frames/02/00.webp"},
+  "celebraciones":{mp4:"../media/films/celebraciones/film-720.mp4",poster:"../media/pro2/frames/02/00.webp"},
   "stay-gold":{mp4:"../../../../../v33d/site-v3/media/films/03/film-720.mp4",poster:"../../../../../v33d/site-v3/media/films/03/poster.jpg"},
   "legends":{mp4:"../../../../../v33d/site-v3/media/films/04/film-720.mp4",poster:"../../../../../v33d/site-v3/media/films/04/poster.jpg"},
   "drift":{mp4:"../../../../../v33d/site-v3/media/films/05/film-720.mp4",poster:"../../../../../v33d/site-v3/media/films/05/poster.jpg"},

@@ -37,6 +37,7 @@
     var redOn = get("gj-red", "0") === "1";
     var root = document.documentElement;
     root.classList.toggle("rm", redOn);
+    root.setAttribute("data-red-tone", get("gj.red.tone", "crimson") === "rose" ? "rose" : "crimson");   /* the red-mode colour dial reaches every room */
     root.classList.toggle("gj-noreflect", get("gj-tog-reflect", "1") !== "1");
     root.classList.toggle("gj-nowater", get("gj-tog-water", "1") !== "1");
     root.classList.toggle("gj-nomoon", get("gj-tog-moon", "1") !== "1");
@@ -84,14 +85,22 @@
   document.documentElement.appendChild(back);
   /* a sideways swipe can swallow the click that follows it; a still pointerup on the mark still leaves */
   (function () {
-    var tap = null;
+    var tap = null, at = 0;
+    /* graph.js: the Mark opens the map of the site (and closes it). One tap is one turn, whichever event brings it. */
+    function map(e) {
+      var G = window.GJ && window.GJ.graph;
+      if (!G || !G.on()) return false;
+      if (e) e.preventDefault();
+      if (Date.now() - at > 400) { at = Date.now(); G.toggle(); }
+      return true;
+    }
     back.addEventListener("pointerdown", function (e) { tap = { x: e.clientX, y: e.clientY, clicked: false }; });
-    back.addEventListener("click", function () { if (tap) tap.clicked = true; });
+    back.addEventListener("click", function (e) { if (tap) tap.clicked = true; map(e); });
     back.addEventListener("pointerup", function (e) {
       if (!tap) return;
       var d = tap; tap = null;
       if (Math.hypot(e.clientX - d.x, e.clientY - d.y) > 12) return;
-      setTimeout(function () { if (!d.clicked) location.href = back.href; }, 80);
+      setTimeout(function () { if (!d.clicked && !map()) location.href = back.href; }, 80);
     });
   })();
 
@@ -209,6 +218,15 @@
 
   apply();
   window.GJ = window.GJ || {};
+  /* the Mark brightens, once and quietly, while something is paused or being recorded (Nov 15). A room says so with GJ.hold(key, on). */
+  var HOLD = {};
+  function hold(k, on) { if (on) HOLD[k] = 1; else delete HOLD[k]; document.documentElement.classList.toggle("gj-hold", Object.keys(HOLD).length > 0); }
+  function playHold() { hold("play", !!(window.GJ_PLAY && window.GJ_PLAY.paused)); }
+  window.addEventListener("gjpause", playHold); setTimeout(playHold, 900);
+  if (/[?&]rec\b/.test(location.search)) hold("rec", true);
+  (function () { var au = document.getElementById("au"); if (!au || !au.addEventListener) return;      /* the sound player's song */
+    au.addEventListener("pause", function () { hold("song", au.currentTime > 0 && !au.ended); }); au.addEventListener("play", function () { hold("song", false); }); })();
+  window.GJ.hold = hold;
   window.GJ.get = get;
   window.GJ.set = set;
   window.GJ.hub = HUB;
@@ -216,5 +234,7 @@
     var rf = document.createElement("script");
     rf.src = new URL("js/reframe.js", s.src).href;
     document.body.appendChild(rf);
+    var gr = document.createElement("script"); gr.src = new URL("graph.js", s.src).href;   /* the site as a graph: the room table and the map */
+    document.body.appendChild(gr);
   }
 })();

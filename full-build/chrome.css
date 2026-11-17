@@ -49,3 +49,19 @@ body.gj-hub #gj-back { display: none; }
 html.rm, html.rm body { background-color: #060304; }
 html.rm img, html.rm video { filter: none !important; }
 html.gj-nomoon .jmoon, html.gj-nomoon #jmoon, html.gj-nomoon .jmoon-streak { opacity: 0 !important; visibility: hidden !important; }
+/* safelight (Nov 15): in red mode everything is red and the lit dot is the one mint thing (#55DAA1).
+   The red is the tone dial's: gj.red.tone, crimson #FF4457 by default or rose #FFB0B8 (chrome.js writes data-red-tone). */
+html { --gj-red-ink: #ff4457; --gj-red-rgb: 255,68,87; }
+html[data-red-tone=rose] { --gj-red-ink: #ffb0b8; --gj-red-rgb: 255,176,184; }
+html.rm #gj-back, html.rm #gj-dial, html.rm #gj-red { color: var(--gj-red-ink); background: rgba(8,2,3,.62); border-color: rgba(var(--gj-red-rgb),.3); }
+html.rm #gj-red i { background: #55DAA1; box-shadow: 0 0 7px 1px rgba(85,218,161,.7); }
+/* the Mark brightens on pause or record (Nov 15): one quiet lift over 0.9 s, then it rests there. No pulse, no blink, nothing loops. */
+#gj-back { transition: text-shadow .9s ease, box-shadow .9s ease, border-color .9s ease; }
+html.gj-hold #gj-back { border-color: rgba(230,237,240,.5); text-shadow: 0 0 10px rgba(230,237,240,.75), 0 0 22px rgba(230,237,240,.3); box-shadow: 0 0 18px rgba(230,237,240,.14); }
+html.rm.gj-hold #gj-back { border-color: rgba(var(--gj-red-rgb),.62); text-shadow: 0 0 10px rgba(var(--gj-red-rgb),.85), 0 0 22px rgba(var(--gj-red-rgb),.35); box-shadow: 0 0 18px rgba(var(--gj-red-rgb),.18); }
+@media (prefers-reduced-motion: reduce) { #gj-back { transition-duration: .9s; } }
+html.rm #gj-drawer { color: var(--gj-red-ink); background: rgba(8,2,3,.9); border-left-color: rgba(var(--gj-red-rgb),.2); }
+html.rm #gj-drawer h2 { color: rgba(var(--gj-red-rgb),.6); }
+html.rm #gj-drawer label.row, html.rm #gj-drawer a.row { border-bottom-color: rgba(var(--gj-red-rgb),.1); }
+html.rm #gj-drawer a.row:hover, html.rm #gj-drawer a.row:focus-visible { color: var(--gj-red-ink); text-decoration: underline; }
+html.rm #gj-drawer select, html.rm #gj-drawer button.tog { color: var(--gj-red-ink); border-color: rgba(var(--gj-red-rgb),.3); }

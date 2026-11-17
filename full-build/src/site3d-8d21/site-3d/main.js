@@ -18,7 +18,7 @@ const HOME=[0,30,46],HOMEP=-.3;/* see everything: a little above, looking down t
 const yaw=S(0,W_REL),pitch=S(HOMEP,W_REL),roll=S(0,11);
 const P=[S(HOME[0],W_FLY),S(HOME[1],W_FLY),S(HOME[2],W_FLY)];
 /* ---------- stars (as sketch-3d) ---------- */
-const U={uT:{value:0},uTw:{value:RM?0:1},uPx:{value:1}};
+const U={uT:{value:0},uTw:{value:RM?0:1},uPx:{value:1},uRed:{value:0},uInk:{value:new THREE.Vector3(1,.267,.341)}};   /* uRed, uInk: safelight (below) */
 function starField(n){const g=new THREE.BufferGeometry(),p=new Float32Array(n*3),ph=new Float32Array(n),sz=new Float32Array(n),col=new Float32Array(n*3);
   for(let i=0;i<n;i++){const z=80-Math.random()*520,r=8+Math.pow(Math.random(),.7)*150,a=Math.random()*6.283;
     p[i*3]=Math.cos(a)*r;p[i*3+1]=Math.sin(a)*r*.75;p[i*3+2]=z;ph[i]=Math.random();
@@ -32,15 +32,15 @@ function starField(n){const g=new THREE.BufferGeometry(),p=new Float32Array(n*3)
       float tw=1.+uTw*.5*sin(uT*(1.1+aPh*2.3)+aPh*60.)*step(.55,fract(aPh*7.));
       gl_PointSize=clamp(aSz*uPx*tw*170./d,1.2,30.);
       vA=1.7*exp(-d*.0048)*smoothstep(.5,6.,d)*(.7+.3*tw);vC=aCol;gl_Position=projectionMatrix*mv;}`,
-    fragmentShader:`varying float vA;varying vec3 vC;void main(){float r=length(gl_PointCoord-.5);float a=smoothstep(.5,.0,r);a*=a;gl_FragColor=vec4(vC*a*vA,1.);}`});
+    fragmentShader:`uniform float uRed;uniform vec3 uInk;varying float vA;varying vec3 vC;void main(){float r=length(gl_PointCoord-.5);float a=smoothstep(.5,.0,r);a*=a;vec3 c=mix(vC,uInk*dot(vC,vec3(.3,.5,.2)),uRed);gl_FragColor=vec4(c*a*vA,1.);}`});
   return new THREE.Points(g,m)}
 const NSTAR=innerWidth<700?2600:4200;scene.add(starField(NSTAR));
 function glowTex(){const c=document.createElement('canvas');c.width=c.height=128;const x=c.getContext('2d'),g=x.createRadialGradient(64,64,0,64,64,64);
   g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(.25,'rgba(255,255,255,.35)');g.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=g;x.fillRect(0,0,128,128);
   const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t}
 const GT=glowTex();
-[[-60,30,-200,0x27407a,160],[70,-20,-320,0x4a2a6a,200],[10,-40,-90,0x173c4a,120]].forEach(n=>{const s=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:n[3],transparent:true,opacity:.22,depthWrite:false,blending:THREE.AdditiveBlending,fog:false}));
-  s.position.set(n[0],n[1],n[2]);s.scale.set(n[4],n[4],1);scene.add(s)});
+const NEB=[];[[-60,30,-200,0x27407a,160],[70,-20,-320,0x4a2a6a,200],[10,-40,-90,0x173c4a,120]].forEach(n=>{const s=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:n[3],transparent:true,opacity:.22,depthWrite:false,blending:THREE.AdditiveBlending,fog:false}));
+  s.position.set(n[0],n[1],n[2]);s.scale.set(n[4],n[4],1);s.userData.c=n[3];NEB.push(s);scene.add(s)});
 /* ---------- chapters: closer together than sketch-3d (34 apart, small zig-zag) ---------- */
 const POS=[[-9,4,-22],[9,-4,-56],[-9,4,-90],[9,-4,-124],[-9,4,-158],[9,-4,-192]];
 const CH=[];let data;
@@ -172,6 +172,14 @@ function pick(x,y){let best=null,bd=80;CH.forEach(C=>{tmp.copy(C.c).project(cam)
   if(d<bd+Math.min(120,1600/Math.max(1,C.dist))){bd=d;best=C}});return best}
 function tap(x,y,now){if(now-lastTap<360){clearTimeout(tapTimer);lastTap=0;pullBack();return}lastTap=now;
   tapTimer=setTimeout(()=>{if(ON&&boardPoint(ON,x,y)){const it=itemAt(ON,x,y);if(it)openV(it.userData.cd,it);return}const C=pick(x,y);if(C)glideTo(C)},RM?220:300)}
+/* Pack A: films that stay off the site for now (SCOPE_NOFILE) are left out of the room, and the room's own counts follow.
+   data.json is not changed. */
+function offPath(d){const film=d.find(c=>c.k==='film');if(!film)return d;const gone=film.cards.filter(x=>SCOPE_NOFILE.indexOf(SCOPE_FILM[x.t])>=0);if(!gone.length)return d;
+  film.cards=film.cards.filter(x=>gone.indexOf(x)<0);const n=film.cards.length,was=film.ct;film.ct=n+' films';
+  const less=(s,word,k)=>k?s.replace(new RegExp('(\\d+)( '+word+')'),(m,a,b)=>(a-k)+b):s;
+  film.sum=less(less(film.sum||'','commercial',gone.filter(x=>/commercial/.test(x.m||'')).length),'reels',gone.filter(x=>/reel/.test(x.m||'')).length);
+  d.forEach(c=>(c.cards||[]).forEach(x=>{if(x.go==='film'&&x.m===was)x.m=film.ct}));return d}
+const SCOPE_FILM={"Reel 2026":"reel-2026","Gill Cinematography Demo Reel 2025":"cinematography-demo-reel-2025","Coca-Cola · Celebraciones":"celebraciones","AXE · Stay Gold":"stay-gold","BMW Legends":"legends","BMW · Drift":"drift","AXE · Golden Moment [Dir. Cut]":"golden-moment-directors-cut","Cover With Love · Isabelle · Band-Aid":"cover-with-love-isabelle","Big Brothers Big Sisters of Canada · No Place Like Home":"no-place-like-home","Yara · The Smell Needs To Go":"the-smell-needs-to-go","A&W Brew Bar: Coffee Teaser":"brew-bar-coffee-teaser","Explorers · Huggies":"explorers","Sun Kissed · John Frieda":"sun-kissed","Hey Ocean! · Sleepwalker":"sleepwalker","REEL ‘24":"reel-24","Allan Rayman · Repeat":"repeat-feat-jessie-reyez","Flower Crown · Claritin":"flower-crown","Backward Fall":"backward-fall","Arc'teryx S18":"s18","Old Man Canyon · Back to the Start":"back-to-the-start","Lets Grow Good Together · Brand Film":"lets-grow-good-together","Chris Malinchak and Kiesza · 'Weird Kid'":"weird-kid","ALLAN RAYMAN · VERONA'S OBSESSION":"veronas-obsession","19 Crimes x Malamen · Obedience Gets You Nowhere":"obedience-gets-you-nowhere","Wild Leaf · Fire · IG (4x5)":"fire","Modern Man · Braun":"modern-man","Old Man Canyon · Phantoms & Friends":"phantoms-and-friends","Summer Is Here · Shock Top":"summer-is-here","Eat Well · Westin Hotels & Resorts":"eat-well","Buddy Time: Grandpa's Story · LEGO · 15s cut":"buddy-time-grandpas-story","Wild Leaf · Hike · IG (4x5)":"hike","Wild Leaf · Canoe · IG (4x5)":"canoe","Mandie":"mandie","BONSAI · Just The Beginning":"just-the-beginning","Mansions · Ltl Dstryr":"ltl-dstryr","FIAT · Journeys x Todd":"journeys-x-todd"},SCOPE_NOFILE=["hike", "reel-24"];   /* generated: film room title -> m4 film page; films with no local file yet */
 function openV(cd,t){if(cd.go){const C=CH.find(c=>c.d.k===cd.go);if(C)glideTo(C);return}
   const M=VW.querySelector('.m'),L=VW.querySelector('.l');M.innerHTML='';
   if(cd.v){const v=document.createElement('video');v.muted=true;v.loop=true;v.autoplay=true;v.playsInline=true;v.setAttribute('playsinline','');v.controls=true;v.src=cd.v;
@@ -179,7 +187,11 @@ function openV(cd,t){if(cd.go){const C=CH.find(c=>c.d.k===cd.go);if(C)glideTo(C)
   else if(cd.big||cd.src){const im=document.createElement('img');im.alt=cd.t||'';im.src=cd.big||cd.src;M.appendChild(im)}
   else if(cd.body){const p=document.createElement('p');p.textContent=cd.body;M.appendChild(p)}
   VW.querySelector('.c').textContent=cd.t+(cd.m?' · '+cd.m:'');
-  const href=cd.url||cd.href;L.hidden=!href;if(href){L.href=href;L.textContent=cd.lk||'watch the film ↗';if(/^\.\.\//.test(href)||/^mailto:/.test(href))L.removeAttribute('target');else L.target='_blank'}
+  /* next brief §3: a film plays in the site's own Scope player, never on a host. The card's Vimeo / YouTube address stays in data.json as a
+     hidden source only; it is never a link. The action opens this film's Scope page (one page visit: Back returns here). */
+  const slug=SCOPE_FILM[cd.t],G=window.GJ&&GJ.graph,host=/vimeo\.com|youtu\.?be/i.test(cd.url||'');
+  const href=slug?((G&&G.film&&G.film(slug))||new URL('../../sky/player/tonight/fable-m4/film/'+slug+'/',location.href).href)+(SCOPE_NOFILE.indexOf(slug)<0?'?play=1':''):host?'':(cd.url||cd.href);
+  L.hidden=!href;if(href){L.href=href;L.textContent=slug?(SCOPE_NOFILE.indexOf(slug)<0?'▶ play film':'film page ›'):(cd.lk||'open ›');if(slug||/^\.\.\//.test(href)||/^mailto:/.test(href))L.removeAttribute('target');else L.target='_blank'}
   VW.hidden=false;log('view',cd.t)}
 function closeV(){if(VW.hidden)return;VW.hidden=true;VW.querySelector('.m').innerHTML='';
   /* back out of the work: you land on the board again, its clip still moving in its tile */
@@ -239,7 +251,22 @@ window.__s3={st:()=>({yaw:yaw.x,pitch:pitch.x,pos:P.map(s=>s.x),posT:P.map(s=>s.
   item:(k,j)=>{const C=CH.find(c=>c.d.k===k),t=C.tiles[j];tmp.copy(t.position);t.localToWorld(tmp.set(0,0,0));tmp.project(cam);return[(tmp.x+1)/2*innerWidth,(1-tmp.y)/2*innerHeight]},
   screen:k=>{const C=CH.find(c=>c.d.k===k);tmp.copy(C.c).project(cam);return[(tmp.x+1)/2*innerWidth,(1-tmp.y)/2*innerHeight,tmp.z]}};
 addEventListener('resize',resize);resize();
-Promise.all([fetch('data.json').then(r=>r.json()),document.fonts.load('84px Julius'),document.fonts.load('40px Poppins')]).then(a=>{data=a[0];build();requestAnimationFrame(frame)})
+/* ---------- safelight (Nov 15): in red mode this room is red too: the sky, the stars, the lines, the words.
+   Photographs and clips are never tinted: a tile that shows a picture is left alone, only its empty placeholder changes.
+   The red is the tone dial's (gj.red.tone: crimson #FF4457, or rose #FFB0B8). Night values are the ones the room was built with. ---------- */
+function safelight(){const on=document.documentElement.classList.contains('rm');let rose=false;try{rose=localStorage.getItem('gj.red.tone')==='rose'}catch(e){}
+  const ink=on?(rose?0xffb0b8:0xff4457):0xffffff,sky=on?0x060304:0x04060c;
+  R.setClearColor(sky,1);scene.fog.color.set(sky);
+  U.uRed.value=on?1:0;U.uInk.value.set((ink>>16&255)/255,(ink>>8&255)/255,(ink&255)/255);
+  NEB.forEach((s,i)=>s.material.color.set(on?[0x5a121c,0x47101f,0x3a0d12][i]:s.userData.c));
+  CH.forEach(C=>{C.st.forEach(s=>s.material.color.set(on?ink:0xdfe9ff));C.lines.material.color.set(on?ink:0x8fb0e0);C.edge.material.color.set(on?ink:0xcfd8e6);
+    C.frame.material.color.set(on?0x0c0506:0x080c16);C.lab.material.color.set(ink);C.inf.material.color.set(ink);
+    C.inner.children.forEach(m=>{const cd=m.userData&&m.userData.cd;
+      if(cd&&cd.src){if(!m.userData.img&&!m.userData.vt)m.material.color.set(on?0x1c0a0d:0x141c2c)}
+      else m.material.color.set(ink)})})}
+addEventListener('gj-tog',e=>{const k=e.detail&&e.detail.k;if(k==='gj-red'||k==='gj.red.tone')safelight()});
+addEventListener('storage',e=>{if(e.key==='gj-red'||e.key==='gj.red.tone')setTimeout(safelight,60)});
+Promise.all([fetch('data.json').then(r=>r.json()),document.fonts.load('84px Julius'),document.fonts.load('40px Poppins')]).then(a=>{data=offPath(a[0]);build();safelight();requestAnimationFrame(frame)})
   .catch(e=>{console.warn(e);html.className='nogl'});
 /* ---------- mini map: a dot per chapter, mint you; tap a dot to glide there ---------- */
 const MPS=document.createElement('style');MPS.textContent='#mm{position:fixed;right:14px;bottom:max(14px,env(safe-area-inset-bottom));width:84px;height:84px;border-radius:50%;border:1px solid rgba(143,245,210,.25);background:rgba(4,7,11,.6);z-index:20}#mm i{position:absolute;width:10px;height:10px;margin:-5px;border-radius:50%;background:#56707a;cursor:pointer}#mm i.on{background:#cfd8e6}#mm b{position:absolute;width:7px;height:7px;margin:-3.5px;border-radius:50%;background:#8ff5d2;box-shadow:0 0 8px #8ff5d2;pointer-events:none}';

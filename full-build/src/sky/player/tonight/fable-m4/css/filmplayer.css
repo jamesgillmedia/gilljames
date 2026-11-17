@@ -34,6 +34,12 @@
 .fp-strip button.on{opacity:1;outline-color:#e8e4dc}
 .fp-strip img{width:100%;height:auto;object-fit:cover;display:block;opacity:1;filter:none}
 .fp-meta{width:min(100%,1180px);margin:14px auto 0;text-align:left}
+/* next brief §3 · the step into Scope: m4's own chip (cool ink, 44px), in the top right corner of the picture so nothing under it moves */
+.fp-stage{position:relative}
+.fp-go{position:absolute;z-index:6;right:8px;top:8px;margin:0}
+.fp-scope{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border:1px solid rgba(230,237,240,.26);border-radius:22px;background:rgba(4,7,11,.55);color:#e6edf0;text-decoration:none;
+ font:300 11px/1 Poppins,sans-serif;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+@media (hover:hover){.fp-scope:hover{border-color:rgba(230,237,240,.6)}}
 #layer .sheet.film.fp .fp-meta *{text-align:left}
 .fp-pre{display:block;font:300 11px Poppins,sans-serif;letter-spacing:.04em;color:rgba(232,228,220,.62);margin:0 0 2px}
 .fp-t{font:400 clamp(20px,5.4vw,30px) "Julius Sans One",Poppins,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#e8e4dc;margin:0;line-height:1.15}
