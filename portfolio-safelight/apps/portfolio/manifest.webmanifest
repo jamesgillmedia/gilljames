@@ -1,0 +1,2 @@
+{ "name": "Gill James", "short_name": "Gill James", "start_url": "./index.html", "scope": "../../", "display": "standalone", "background_color": "#04070b", "theme_color": "#04070b",
+  "icons": [{ "src": "../../icons/mark-180.png", "sizes": "180x180", "type": "image/png" }] }
